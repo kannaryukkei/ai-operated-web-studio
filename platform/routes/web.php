@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\WorkspaceController;
 use App\Http\Controllers\ClientInvitationController;
+use App\Http\Controllers\ProjectIntakeController;
 use App\Http\Controllers\WorkspacePageController;
 use Illuminate\Support\Facades\Route;
 
