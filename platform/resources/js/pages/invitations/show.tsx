@@ -25,6 +25,7 @@ export default function InvitationShow({
         password: '',
         password_confirmation: '',
         existing_account: existingUser ? '1' : '',
+        email: '',
     });
 
     function submit(event: FormEvent) {
