@@ -1,0 +1,28 @@
+# Local secrets and environment files
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Local database and uploads
+*.sqlite
+*.sqlite3
+/platform/database/*.sqlite
+/platform/database/*.sqlite3
+/platform/storage/app/private/*
+!/platform/storage/app/private/.gitignore
+
+# Dependencies and generated assets
+/platform/vendor/
+/platform/node_modules/
+/platform/public/build/
+/platform/public/hot
+/platform/bootstrap/cache/*.php
+
+# Local editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
