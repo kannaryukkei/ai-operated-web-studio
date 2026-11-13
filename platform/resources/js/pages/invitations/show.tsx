@@ -46,7 +46,10 @@ export default function InvitationShow({
                     <div className="min-w-0">
                         <p className="font-medium">{businessName}</p>
                         <p className="text-sm text-muted-foreground">
-                            {membershipRole === 'owner' ? 'Account owner' : 'Member'} · {email}
+                            {membershipRole === 'owner'
+                                ? 'Account owner'
+                                : 'Member'}{' '}
+                            · {email}
                         </p>
                     </div>
                 </div>
@@ -54,29 +57,90 @@ export default function InvitationShow({
                 {existingUser && !canAccept ? (
                     <div className="space-y-3">
                         <p className="text-sm text-muted-foreground">
-                            An account already exists for this email. Log in with that account, then reopen this invitation link.
+                            An account already exists for this email. Log in
+                            with that account, then reopen this invitation link.
                         </p>
                         <Button asChild className="w-full">
                             <Link href="/login">Log in to continue</Link>
                         </Button>
                     </div>
                 ) : (
-                    <form onSubmit={submit} className="flex flex-col gap-4">
+                    <form
+                        onSubmit={submit}
+                        className="flex flex-col gap-4"
+                    >
                         {!existingUser && (
                             <>
                                 <div className="grid gap-2">
-                                    <label htmlFor="name" className="text-sm font-medium">Your name</label>
-                                    <Input id="name" value={form.data.name} onChange={(event) => form.setData('name', event.target.value)} required />
-                                    {form.errors.name && <p className="text-xs text-destructive">{form.errors.name}</p>}
+                                    <label
+                                        htmlFor="name"
+                                        className="text-sm font-medium"
+                                    >
+                                        Your name
+                                    </label>
+                                    <Input
+                                        id="name"
+                                        value={form.data.name}
+                                        onChange={(event) =>
+                                            form.setData(
+                                                'name',
+                                                event.target.value,
+                                            )
+                                        }
+                                        required
+                                    />
+                                    {form.errors.name && (
+                                        <p className="text-xs text-destructive">
+                                            {form.errors.name}
+                                        </p>
+                                    )}
                                 </div>
                                 <div className="grid gap-2">
-                                    <label htmlFor="password" className="text-sm font-medium">Create password</label>
-                                    <Input id="password" type="password" value={form.data.password} onChange={(event) => form.setData('password', event.target.value)} required />
-                                    {form.errors.password && <p className="text-xs text-destructive">{form.errors.password}</p>}
+                                    <label
+                                        htmlFor="password"
+                                        className="text-sm font-medium"
+                                    >
+                                        Create password
+                                    </label>
+                                    <Input
+                                        id="password"
+                                        type="password"
+                                        value={form.data.password}
+                                        onChange={(event) =>
+                                            form.setData(
+                                                'password',
+                                                event.target.value,
+                                            )
+                                        }
+                                        required
+                                    />
+                                    {form.errors.password && (
+                                        <p className="text-xs text-destructive">
+                                            {form.errors.password}
+                                        </p>
+                                    )}
                                 </div>
                                 <div className="grid gap-2">
-                                    <label htmlFor="password_confirmation" className="text-sm font-medium">Confirm password</label>
-                                    <Input id="password_confirmation" type="password" value={form.data.password_confirmation} onChange={(event) => form.setData('password_confirmation', event.target.value)} required />
+                                    <label
+                                        htmlFor="password_confirmation"
+                                        className="text-sm font-medium"
+                                    >
+                                        Confirm password
+                                    </label>
+                                    <Input
+                                        id="password_confirmation"
+                                        type="password"
+                                        value={
+                                            form.data.password_confirmation
+                                        }
+                                        onChange={(event) =>
+                                            form.setData(
+                                                'password_confirmation',
+                                                event.target.value,
+                                            )
+                                        }
+                                        required
+                                    />
                                 </div>
                             </>
                         )}
@@ -88,9 +152,19 @@ export default function InvitationShow({
                             </div>
                         )}
 
-                        {form.errors.email && <p className="text-xs text-destructive">{form.errors.email}</p>}
-                        <Button type="submit" className="w-full" disabled={form.processing}>
-                            {form.processing ? 'Joining...' : 'Accept invitation'}
+                        {form.errors.email && (
+                            <p className="text-xs text-destructive">
+                                {form.errors.email}
+                            </p>
+                        )}
+                        <Button
+                            type="submit"
+                            className="w-full"
+                            disabled={form.processing}
+                        >
+                            {form.processing
+                                ? 'Joining...'
+                                : 'Accept invitation'}
                         </Button>
                     </form>
                 )}
