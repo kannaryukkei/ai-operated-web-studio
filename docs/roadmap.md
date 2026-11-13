@@ -23,25 +23,25 @@
 
 **Exit:** Studio can create a client/project; invited client can log in and only see their own project.
 
-## Phase 2 — Guided onboarding and discovery AI
+## Phase 2 — Guided onboarding and API-free discovery
 - Client business intake wizard.
 - Save/resume intake.
-- Intake snapshot/versioning.
-- AI discovery agent using Laravel AI SDK.
-- Structured output validation.
-- Queued AI run with visible status.
-- Studio review and approve/request-changes.
-- Activity log.
+- Immutable intake snapshot/versioning.
+- Studio-only discovery workspace.
+- Generate a repeatable prompt from the submitted intake snapshot.
+- Run the prompt in an external AI application.
+- Validate and save structured JSON output.
+- Show the saved brief to studio staff.
 
-**Exit:** The first end-to-end AI stage is real, asynchronous, durable, testable, and approval-gated.
+**Exit:** A real client intake can produce a durable, validated discovery brief without API credentials or API spending. Studio review remains a human decision.
 
 ## Phase 3 — Scope, proposal, content planning
-- Qualification and tier recommendation.
-- Scope and exclusion draft.
+- Reusable skills and prompts for qualification, tier recommendation, scope, and exclusions.
 - Proposal draft and commercial approval.
-- Content map, website copy, FAQ, SEO draft.
+- Content map, website copy, FAQ, and SEO draft using external AI tools.
 - Client-facing content review.
 - Revision/change request classification.
+- Consider API automation only after manual delivery proves the workflow and costs can be funded.
 
 **Exit:** Client can approve the website plan before design/build begins.
 
@@ -58,7 +58,7 @@
 - Versioned Starter/Business/Custom blueprint registry.
 - GitHub App integration with least-privilege permissions.
 - Create isolated client repository/branch.
-- AI builder works through pull requests.
+- Coding agents work through reviewed pull requests; the operator can run them through existing AI coding tools without an app-owned model API.
 - Build and browser QA.
 - Preview URL and revision workflow.
 
@@ -84,4 +84,4 @@
 **Exit:** Post-launch support becomes a repeatable service.
 
 ## Scope discipline
-Only build the current phase. Do not introduce billing, multi-agency tenancy, a generic website builder, microservices, or advanced agent autonomy before the vertical slice proves the need.
+Only build what is needed to deliver a real client website reliably. Do not introduce API billing, provider SDKs, queue infrastructure for AI, multi-agency tenancy, a generic website builder, microservices, or advanced agent autonomy before real client work proves the need.
