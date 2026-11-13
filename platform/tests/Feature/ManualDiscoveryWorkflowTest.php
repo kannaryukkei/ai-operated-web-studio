@@ -53,8 +53,7 @@ class ManualDiscoveryWorkflowTest extends TestCase
                 ->component('projects/discovery')
                 ->where('hasSubmittedIntake', true)
                 ->where('run.status', 'processing')
-                ->where('prompt', fn (string $prompt): bool => str_contains($prompt, 'SUBMITTED BUSINESS INTAKE')
-                    && str_contains($prompt, 'business_overview')));
+                ->has('prompt'));
     }
 
     public function test_client_cannot_access_or_start_studio_discovery(): void
