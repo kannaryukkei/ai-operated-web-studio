@@ -1,16 +1,28 @@
 <?php
 
 use App\Http\Controllers\Api\V1\WorkspaceController;
+use App\Http\Controllers\ClientInvitationController;
 use App\Http\Controllers\WorkspacePageController;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
+
+Route::get('invitations/{token}', [ClientInvitationController::class, 'show'])
+    ->middleware('throttle:20,1')
+    ->name('invitations.show');
+Route::post('invitations/{token}/accept', [ClientInvitationController::class, 'accept'])
+    ->middleware('throttle:10,1')
+    ->name('invitations.accept');
 
 Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::get('dashboard', [WorkspacePageController::class, 'dashboard'])->name('dashboard');
 
     Route::get('clients', [WorkspacePageController::class, 'clients'])->name('clients.index');
     Route::post('clients', [WorkspacePageController::class, 'storeClient'])->name('clients.store');
+    Route::post('clients/{clientAccount}/invitations', [ClientInvitationController::class, 'store'])
+        ->name('clients.invitations.store');
+    Route::delete('clients/{clientAccount}/invitations/{invitation}', [ClientInvitationController::class, 'revoke'])
+        ->name('clients.invitations.revoke');
 
     Route::get('projects', [WorkspacePageController::class, 'projects'])->name('projects.index');
     Route::post('projects', [WorkspacePageController::class, 'storeProject'])->name('projects.store');
