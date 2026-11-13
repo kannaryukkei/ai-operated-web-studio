@@ -46,6 +46,12 @@ class Project extends Model
         return $this->hasMany(ProjectIntake::class);
     }
 
+    /** @return HasMany<DiscoveryRun, $this> */
+    public function discoveryRuns(): HasMany
+    {
+        return $this->hasMany(DiscoveryRun::class);
+    }
+
     /** @return BelongsToMany<User, $this> */
     public function members(): BelongsToMany
     {

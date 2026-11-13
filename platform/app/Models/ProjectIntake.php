@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 #[Fillable([
@@ -40,5 +41,11 @@ class ProjectIntake extends Model
     public function submitter(): BelongsTo
     {
         return $this->belongsTo(User::class, 'submitted_by');
+    }
+
+    /** @return HasMany<DiscoveryRun, $this> */
+    public function discoveryRuns(): HasMany
+    {
+        return $this->hasMany(DiscoveryRun::class, 'project_intake_id');
     }
 }
