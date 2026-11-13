@@ -1,16 +1,16 @@
 <?php
 
-namespace App\\Http\\Controllers;
+namespace App\Http\Controllers;
 
-use App\\Models\\ClientAccount;
-use App\\Models\\Project;
-use Illuminate\\Database\\Eloquent\\Builder;
-use Illuminate\\Http\\RedirectResponse;
-use Illuminate\\Http\\Request;
-use Illuminate\\Support\\Facades\\Gate;
-use Illuminate\\Support\\Str;
-use Inertia\\Inertia;
-use Inertia\\Response;
+use App\Models\ClientAccount;
+use App\Models\Project;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class WorkspacePageController extends Controller
 {
