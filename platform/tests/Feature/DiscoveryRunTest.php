@@ -6,7 +6,6 @@ use App\Actions\Discovery\CreateDiscoveryRun;
 use App\Enums\DiscoveryRunStatus;
 use App\Enums\UserRole;
 use App\Models\ClientAccount;
-use App\Models\DiscoveryRun;
 use App\Models\Project;
 use App\Models\ProjectIntake;
 use App\Models\User;
@@ -111,13 +110,16 @@ class DiscoveryRunTest extends TestCase
             'slug' => 'discovery-client-'.$creator->getKey(),
         ]);
 
-        return Project::create([
+        $project = new Project([
             'client_account_id' => $account->getKey(),
-            'created_by' => $creator->getKey(),
             'product_tier' => 'starter',
             'status' => 'onboarding',
             'name' => 'Discovery project',
         ]);
+        $project->created_by = $creator->getKey();
+        $project->save();
+
+        return $project;
     }
 
     /**
