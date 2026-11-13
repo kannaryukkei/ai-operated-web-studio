@@ -1,8 +1,8 @@
 <?php
 
-use App\\Http\\Controllers\\WorkspacePageController;
-use App\\Http\\Controllers\\Api\\V1\\WorkspaceController;
-use Illuminate\\Support\\Facades\\Route;
+use App\Http\Controllers\WorkspacePageController;
+use App\Http\Controllers\Api\V1\WorkspaceController;
+use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
 
