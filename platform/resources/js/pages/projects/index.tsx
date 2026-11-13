@@ -263,12 +263,22 @@ export default function ProjectsIndex({
                                             project.status}
                                     </span>
                                 </span>
-                                <Link
-                                    href={`/projects/${project.id}/intake`}
-                                    className="text-xs font-medium text-primary hover:underline"
-                                >
-                                    Open intake
-                                </Link>
+                                <div className="flex flex-wrap gap-3">
+                                    <Link
+                                        href={`/projects/${project.id}/intake`}
+                                        className="text-xs font-medium text-primary hover:underline"
+                                    >
+                                        Open intake
+                                    </Link>
+                                    {isStudio && (
+                                        <Link
+                                            href={`/projects/${project.id}/discovery`}
+                                            className="text-xs font-medium text-primary hover:underline"
+                                        >
+                                            Discovery workspace
+                                        </Link>
+                                    )}
+                                </div>
                             </div>
                         ))}
                     </div>
