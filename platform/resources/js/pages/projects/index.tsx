@@ -233,10 +233,11 @@ export default function ProjectsIndex({
                     </Card>
                 ) : (
                     <div className="overflow-hidden rounded-xl border">
-                        <div className="grid grid-cols-[minmax(0,1fr)_minmax(110px,150px)_minmax(100px,130px)] gap-3 bg-muted/50 px-4 py-3 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                        <div className="grid grid-cols-[minmax(0,1fr)_minmax(90px,120px)_minmax(90px,110px)_minmax(90px,110px)] gap-3 bg-muted/50 px-4 py-3 text-xs font-medium tracking-wide text-muted-foreground uppercase">
                             <span>Project</span>
                             <span>Package</span>
                             <span>Status</span>
+                            <span>Workspace</span>
                         </div>
                         {projects.data.map((project) => (
                             <div
@@ -261,6 +262,9 @@ export default function ProjectsIndex({
                                             project.status}
                                     </span>
                                 </span>
+                                <Link href={`/projects/${project.id}/intake`} className="text-xs font-medium text-primary hover:underline">
+                                    Open intake
+                                </Link>
                             </div>
                         ))}
                     </div>
