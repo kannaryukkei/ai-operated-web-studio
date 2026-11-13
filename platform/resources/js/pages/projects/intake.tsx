@@ -2,12 +2,7 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { ArrowLeft, CheckCircle2, Save } from 'lucide-react';
 import type { FormEvent } from 'react';
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 
 type IntakePayload = {
