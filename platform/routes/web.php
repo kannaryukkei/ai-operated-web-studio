@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\WorkspaceController;
 use App\Http\Controllers\ClientInvitationController;
+use App\Http\Controllers\ProjectIntakeController;
 use App\Http\Controllers\WorkspacePageController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,9 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
 
     Route::get('projects', [WorkspacePageController::class, 'projects'])->name('projects.index');
     Route::post('projects', [WorkspacePageController::class, 'storeProject'])->name('projects.store');
+    Route::get('projects/{project}/intake', [ProjectIntakeController::class, 'show'])->name('projects.intake.show');
+    Route::patch('projects/{project}/intake', [ProjectIntakeController::class, 'save'])->name('projects.intake.save');
+    Route::post('projects/{project}/intake/submit', [ProjectIntakeController::class, 'submit'])->name('projects.intake.submit');
 
     Route::prefix('api/v1')->name('api.v1.')->group(function (): void {
         Route::get('client-accounts', [WorkspaceController::class, 'clientAccounts'])

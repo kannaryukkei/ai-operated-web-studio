@@ -233,15 +233,16 @@ export default function ProjectsIndex({
                     </Card>
                 ) : (
                     <div className="overflow-hidden rounded-xl border">
-                        <div className="grid grid-cols-[minmax(0,1fr)_minmax(110px,150px)_minmax(100px,130px)] gap-3 bg-muted/50 px-4 py-3 text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                            <span>Project</span>
-                            <span>Package</span>
-                            <span>Status</span>
+                        <div className="grid grid-cols-1 gap-3 bg-muted/50 px-4 py-3 text-xs font-medium tracking-wide text-muted-foreground uppercase md:grid-cols-[minmax(0,1fr)_minmax(90px,120px)_minmax(90px,110px)_minmax(90px,110px)]">
+                            <span className="hidden md:block">Project</span>
+                            <span className="hidden md:block">Package</span>
+                            <span className="hidden md:block">Status</span>
+                            <span className="hidden md:block">Workspace</span>
                         </div>
                         {projects.data.map((project) => (
                             <div
                                 key={project.id}
-                                className="grid grid-cols-[minmax(0,1fr)_minmax(110px,150px)_minmax(100px,130px)] items-center gap-3 border-t px-4 py-4 text-sm"
+                                className="grid grid-cols-1 items-center gap-2 border-t px-4 py-4 text-sm md:grid-cols-[minmax(0,1fr)_minmax(90px,120px)_minmax(90px,110px)_minmax(90px,110px)] md:gap-3"
                             >
                                 <div className="min-w-0">
                                     <p className="truncate font-medium">
@@ -252,7 +253,8 @@ export default function ProjectsIndex({
                                         {project.current_stage || 'Not started'}
                                     </p>
                                 </div>
-                                <span className="text-muted-foreground capitalize">
+                                <span className="text-xs text-muted-foreground capitalize md:text-sm">
+                                    <span className="md:hidden">Package: </span>
                                     {project.product_tier}
                                 </span>
                                 <span>
@@ -261,6 +263,12 @@ export default function ProjectsIndex({
                                             project.status}
                                     </span>
                                 </span>
+                                <Link
+                                    href={`/projects/${project.id}/intake`}
+                                    className="text-xs font-medium text-primary hover:underline"
+                                >
+                                    Open intake
+                                </Link>
                             </div>
                         ))}
                     </div>

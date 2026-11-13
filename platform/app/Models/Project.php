@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
     'client_account_id',
@@ -37,6 +38,12 @@ class Project extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /** @return HasMany<ProjectIntake, $this> */
+    public function intakes(): HasMany
+    {
+        return $this->hasMany(ProjectIntake::class);
     }
 
     /** @return BelongsToMany<User, $this> */
