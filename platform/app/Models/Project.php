@@ -27,16 +27,19 @@ class Project extends Model
         ];
     }
 
+    /** @return BelongsTo<ClientAccount, $this> */
     public function clientAccount(): BelongsTo
     {
         return $this->belongsTo(ClientAccount::class);
     }
 
+    /** @return BelongsTo<User, $this> */
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    /** @return BelongsToMany<User, $this> */
     public function members(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'project_members')
