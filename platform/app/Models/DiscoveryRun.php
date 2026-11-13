@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
+ * @property int $project_id
+ * @property int $project_intake_id
+ * @property int|null $requested_by
+ * @property int $intake_version
+ * @property string|null $failure_reason
  * @property array<string, mixed> $input_snapshot
  * @property array<string, mixed>|null $result
  * @property DiscoveryRunStatus $status
