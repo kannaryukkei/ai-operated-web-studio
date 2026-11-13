@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\\Http\\Controllers\\Api\\V1;
 
-use App\Http\Controllers\Controller;
-use App\Models\ClientAccount;
-use App\Models\Project;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
+use App\\Http\\Controllers\\Controller;
+use App\\Models\\ClientAccount;
+use App\\Models\\Project;
+use App\\Models\\User;
+use Illuminate\\Database\\Eloquent\\Builder;
+use Illuminate\\Http\\JsonResponse;
+use Illuminate\\Http\\Request;
+use Illuminate\\Support\\Facades\\Gate;
+use Illuminate\\Support\\Str;
 
 class WorkspaceController extends Controller
 {
@@ -70,7 +70,7 @@ class WorkspaceController extends Controller
         Gate::authorize('view', $clientAccount);
 
         $clientAccount->load([
-            'projects' => fn (Builder $query) => $query->latest(),
+            'projects' => fn ($query) => $query->latest(),
         ]);
 
         return response()->json(['data' => $clientAccount]);
