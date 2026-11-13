@@ -154,7 +154,7 @@ class ManualDiscoveryController extends Controller
         $input = json_encode(
             $inputSnapshot,
             JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE,
-        );
+        ) ?: '{}';
 
         return <<<PROMPT
 You are the Discovery Strategist for a professional website studio.
