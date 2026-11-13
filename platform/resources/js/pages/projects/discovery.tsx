@@ -1,5 +1,11 @@
 import { Head, Link, useForm } from '@inertiajs/react';
-import { ArrowLeft, CheckCircle2, Clipboard, Play, RotateCcw } from 'lucide-react';
+import {
+    ArrowLeft,
+    CheckCircle2,
+    Clipboard,
+    Play,
+    RotateCcw,
+} from 'lucide-react';
 import { useState, type FormEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -112,7 +118,13 @@ export default function ProjectDiscovery({
                             </p>
                             <div>
                                 <Button asChild variant="outline">
-                                    <Link href={'/projects/' + project.id + '/intake'}>
+                                    <Link
+                                        href={
+                                            '/projects/' +
+                                            project.id +
+                                            '/intake'
+                                        }
+                                    >
                                         Open business intake
                                     </Link>
                                 </Button>
@@ -133,7 +145,8 @@ export default function ProjectDiscovery({
                                 </div>
                                 <p className="text-sm text-muted-foreground">
                                     {run
-                                        ? 'Using submitted intake version ' + run.intakeVersion
+                                        ? 'Using submitted intake version ' +
+                                          run.intakeVersion
                                         : 'The latest submitted intake is ready to use.'}
                                 </p>
                             </CardHeader>
@@ -219,19 +232,26 @@ export default function ProjectDiscovery({
                                             <textarea
                                                 id="result_json"
                                                 rows={16}
-                                                value={resultForm.data.result_json}
+                                                value={
+                                                    resultForm.data.result_json
+                                                }
                                                 onChange={(event) =>
                                                     resultForm.setData(
                                                         'result_json',
                                                         event.target.value,
                                                     )
                                                 }
-                                                placeholder={'{\n  "business_summary": "...",\n  "primary_audience": ["..."]\n}'}
+                                                placeholder={
+                                                    '{\n  "business_summary": "...",\n  "primary_audience": ["..."]\n}'
+                                                }
                                                 className="w-full rounded-md border border-input bg-background px-3 py-2 font-mono text-xs leading-5 outline-none focus-visible:ring-2 focus-visible:ring-ring"
                                             />
                                             {resultForm.errors.result_json && (
                                                 <p className="text-sm text-destructive">
-                                                    {resultForm.errors.result_json}
+                                                    {
+                                                        resultForm.errors
+                                                            .result_json
+                                                    }
                                                 </p>
                                             )}
                                             <div>
@@ -263,7 +283,7 @@ export default function ProjectDiscovery({
                                 </CardHeader>
                                 <CardContent className="flex flex-col gap-4">
                                     <div>
-                                        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                        <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
                                             Business summary
                                         </p>
                                         <p className="mt-1 text-sm">
@@ -272,7 +292,7 @@ export default function ProjectDiscovery({
                                     </div>
                                     <div className="grid gap-4 md:grid-cols-2">
                                         <div>
-                                            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                            <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
                                                 Recommended package
                                             </p>
                                             <p className="mt-1 text-sm capitalize">
@@ -280,7 +300,7 @@ export default function ProjectDiscovery({
                                             </p>
                                         </div>
                                         <div>
-                                            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                            <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
                                                 Primary conversion
                                             </p>
                                             <p className="mt-1 text-sm">
@@ -289,7 +309,7 @@ export default function ProjectDiscovery({
                                         </div>
                                     </div>
                                     <div>
-                                        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                        <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
                                             Suggested next step
                                         </p>
                                         <p className="mt-1 text-sm">
@@ -301,7 +321,11 @@ export default function ProjectDiscovery({
                                             View complete structured brief
                                         </summary>
                                         <pre className="mt-3 overflow-x-auto rounded-md bg-muted/40 p-3 text-xs leading-5">
-                                            {JSON.stringify(run.result, null, 2)}
+                                            {JSON.stringify(
+                                                run.result,
+                                                null,
+                                                2,
+                                            )}
                                         </pre>
                                     </details>
                                 </CardContent>
