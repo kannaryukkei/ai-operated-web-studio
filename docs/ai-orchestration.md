@@ -2,9 +2,9 @@
 
 ## 1. Core rule
 
-AI performs tasks; Laravel owns the workflow.
+Laravel owns project state and approvals. AI may assist with repeatable work, but it does not need to run inside the platform.
 
-Agents do not decide canonical project status, bypass approvals, or execute unrestricted tools. Laravel schedules jobs, passes the minimum approved context, validates structured results, stores artifacts, updates state, and determines the next eligible action.
+**MVP execution model:** Laravel creates a discovery run from a submitted intake snapshot, prepares a prompt, and validates the structured result pasted back by the studio operator. ChatGPT, Claude, or another AI application performs the model work outside the platform. Provider APIs and queued agent execution are future optimizations, not MVP requirements.
 
 ## 2. Agent roster
 
@@ -21,39 +21,29 @@ Agents do not decide canonical project status, bypass approvals, or execute unre
 | Revision Analyst | Classify client feedback and plan in-scope changes | Revision plan |
 | Release Assistant | Prepare launch and handover | Release/handover pack |
 
-Start with Intake Guide + Qualification + Discovery Strategist only. Other agents are future stages.
+Start with a reusable Discovery Strategist prompt operated through an external AI application. Other skills are added only when a real delivery workflow needs them.
 
-## 3. Orchestration lifecycle
+## 3. MVP discovery handoff
 
 ```text
-Project event
+Client submits intake
     |
-Create workflow_run + workflow_steps
+Laravel snapshots the submitted version
     |
-Queue eligible step
+Create persisted discovery run
     |
-Load approved project context
+Generate a reusable prompt from that snapshot
     |
-Create ai_run record
+Operator runs prompt in ChatGPT / Claude
     |
-Call agent with scoped tools
+Operator pastes JSON result into the platform
     |
-Validate structured output
+Laravel validates and saves the result
     |
-Persist output artifact + usage + tool logs
-    |
-Update workflow_step state
-    |
-Does next step require human approval?
-    | yes                         | no
-Create approval request           Queue next eligible step
-    |                              |
-Wait for explicit decision        Continue workflow
-    |
-Approved -> continue
-Changes requested -> revise / rerun approved step
-Rejected -> pause / close / escalate
+Studio reviews and decides the next step
 ```
+
+The advanced agent/queue lifecycle below is a future option. Do not implement it until manual delivery demonstrates a real bottleneck and there is budget for provider usage.
 
 ## 4. Workflow state
 
@@ -82,17 +72,14 @@ Use an explicit transition service. Invalid transitions must be rejected and rec
 
 ## 5. Reliability requirements
 
-- Persist every run and step before dispatching a job.
-- Jobs must be idempotent; use a stable step/run identifier and idempotency key.
-- Retry only transient errors, with a bounded attempt count and backoff.
-- Distinguish retryable provider/network errors from validation or policy failures.
-- Support cancel, pause, resume, and safe retry.
-- Never repeat irreversible tool actions on a retry without checking whether the action already occurred.
-- Store provider/model, prompt version, input hash, structured output, safe logs, usage, timestamps, and error summary.
-- Keep project context snapshots versioned; do not let a changed client brief silently rewrite the context of a run already executing.
-- Use queued workers for long AI tasks.
+For the current manual workflow:
+- Persist the discovery run before the operator starts external AI work.
+- Keep the run tied to an immutable submitted-intake snapshot and version.
+- Validate required fields before marking the run completed.
+- Keep the result and its source intake version available after refresh.
+- Restrict discovery workspaces to studio staff.
 
-Laravel queues support asynchronous jobs, chaining, and batching. Use those capabilities with persisted workflow records rather than treating a queue chain as the only source of truth: https://laravel.com/framework/docs/13.x/queues.
+For a future provider-integrated workflow, add bounded retries, idempotent jobs, provider error classification, usage tracking, and queue workers only when those capabilities are needed.
 
 ## 6. Structured outputs
 
@@ -149,6 +136,6 @@ Do not display hidden chain-of-thought. Display concise rationale and evidence, 
 
 ## 9. Provider abstraction
 
-Use Laravel AI SDK as the initial implementation, but wrap it behind an application-owned AI gateway/agent contract. Store provider and model per run. This keeps project/workflow logic independent of a single model vendor and supports mock agents in tests.
+Do not install or require a model SDK for the API-free MVP. If paid API integration is justified later, place it behind an application-owned provider interface so project workflows remain independent of a single model vendor.
 
-AI provider credentials are server-side environment secrets. ChatGPT subscription access is not itself an API credential; production AI calls require a separately configured provider/API account and budget.
+An application subscription and a provider API account are separate products. This MVP deliberately uses the AI application's normal interface, so no provider API credential or API budget is needed.
