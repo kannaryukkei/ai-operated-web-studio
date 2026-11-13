@@ -61,5 +61,10 @@ jobs:
       - name: Build frontend
         run: npm run build
 
+      - name: Diagnose Pint formatting
+        run: |
+          vendor/bin/pint app/Http/Controllers/ProjectIntakeController.php
+          git diff -- app/Http/Controllers/ProjectIntakeController.php
+
       - name: Run CI checks
         run: composer ci:check
