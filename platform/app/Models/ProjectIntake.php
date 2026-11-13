@@ -14,6 +14,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'status',
     'submitted_at',
 ])]
+/**
+ * @property array<string, mixed> $payload
+ * @property \Illuminate\Support\Carbon|null $submitted_at
+ */
 class ProjectIntake extends Model
 {
     protected function casts(): array
