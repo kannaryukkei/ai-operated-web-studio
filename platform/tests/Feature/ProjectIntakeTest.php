@@ -82,7 +82,7 @@ class ProjectIntakeTest extends TestCase
         $this->assertSame('Updated industry', ProjectIntake::query()
             ->where('project_id', $project->getKey())
             ->where('version', 2)
-            ->value('payload')['industry']);
+            ->firstOrFail()->payload['industry']);
     }
 
     public function test_submission_requires_core_business_information(): void
