@@ -242,7 +242,7 @@ export default function ProjectsIndex({
                         {projects.data.map((project) => (
                             <div
                                 key={project.id}
-                                className="grid grid-cols-[minmax(0,1fr)_minmax(110px,150px)_minmax(100px,130px)] items-center gap-3 border-t px-4 py-4 text-sm"
+                                className="grid grid-cols-[minmax(0,1fr)_minmax(90px,120px)_minmax(90px,110px)_minmax(90px,110px)] items-center gap-3 border-t px-4 py-4 text-sm"
                             >
                                 <div className="min-w-0">
                                     <p className="truncate font-medium">
