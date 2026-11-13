@@ -4,7 +4,7 @@ An AI-powered website production platform that guides clients from onboarding to
 
 ## Product vision
 
-Clients should be able to enter a guided workspace, explain their business and goals, choose an appropriate website package, review project progress, provide feedback, and approve deliverables. AI agents perform the repeatable research, strategy, content, design, development, QA, documentation, and revision work. The studio owner retains authority over commercial decisions, scope, factual claims, and production release.
+Clients enter a guided workspace, explain their business and goals, review project progress, provide feedback, and approve deliverables. The studio uses reusable AI skills and prompts through external AI applications for repeatable research, strategy, content, design, development, and QA. The studio owner retains authority over commercial decisions, scope, factual claims, and production release.
 
 The platform is the production engine. Website templates and client deliverables remain separate from this application.
 
@@ -12,8 +12,8 @@ The platform is the production engine. Website templates and client deliverables
 
 - **Backend:** Laravel 13 monolith.
 - **Client and studio UI:** React + Inertia, TypeScript, Tailwind, shadcn/ui via the official Laravel React starter kit.
-- **AI layer:** Laravel AI SDK, behind an application-owned provider/agent interface.
-- **Workflow execution:** persisted workflow runs and steps, orchestrated through Laravel queued jobs and events.
+- **AI workflow:** API-free first. The platform prepares structured prompts and stores results produced in ChatGPT, Claude, or another external AI application. Provider API integration is optional later.
+- **Workflow execution:** persisted project records and discovery runs; manual handoffs first, queues only when a proven bottleneck justifies them.
 - **Database:** SQLite for local bootstrap; PostgreSQL target for production.
 - **Files:** local storage in development; private object storage in production.
 - **Website source:** separate GitHub repository per client website, created from versioned product blueprints.
@@ -29,7 +29,7 @@ The platform is the production engine. Website templates and client deliverables
 
 ## Current status
 
-Repository initialized with product, architecture, workflow, data model, security, and roadmap documents. The Laravel application scaffold has not yet been generated.
+Laravel 13 platform foundation, client/project management, invitation-based access, versioned client intake, persisted discovery runs, and the API-free manual discovery workspace are implemented. The current product is an AI-assisted web studio operating system, not a fully autonomous AI SaaS.
 
 ## Start here
 
@@ -52,6 +52,6 @@ Repository initialized with product, architecture, workflow, data model, securit
 1. [Bootstrap Laravel 13 React application](https://github.com/kannaryukkei/ai-operated-web-studio/issues/1)
 2. [Identity, client accounts, and project authorization](https://github.com/kannaryukkei/ai-operated-web-studio/issues/2)
 3. [Studio dashboard and client portal shell](https://github.com/kannaryukkei/ai-operated-web-studio/issues/3)
-4. [Client intake and persisted AI discovery workflow](https://github.com/kannaryukkei/ai-operated-web-studio/issues/4)
+4. [Client intake and API-free manual discovery workflow](https://github.com/kannaryukkei/ai-operated-web-studio/issues/4)
 
 The repository currently contains architecture and implementation planning. The Laravel application scaffold is the next implementation action.
