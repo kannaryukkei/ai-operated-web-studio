@@ -72,7 +72,7 @@ class ProjectIntakeController extends Controller
             $lockedProject = Project::query()->whereKey($project->getKey())->lockForUpdate()->firstOrFail();
             $intake = $this->currentDraft($lockedProject);
 
-            if (! $intake) {
+            if (!$intake) {
                 $intake = new ProjectIntake([
                     'project_id' => $lockedProject->getKey(),
                     'version' => ((int) $lockedProject->intakes()->max('version')) + 1,
