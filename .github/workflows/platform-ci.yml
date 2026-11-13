@@ -61,8 +61,5 @@ jobs:
       - name: Build frontend
         run: npm run build
 
-      - name: Temporary formatter diagnostic
-        run: |
-          npm run check:fix
-          git diff -- resources/js/pages/projects/discovery.tsx
-          git diff --exit-code -- resources/js/pages/projects/discovery.tsx
+      - name: Run CI checks
+        run: composer ci:check
