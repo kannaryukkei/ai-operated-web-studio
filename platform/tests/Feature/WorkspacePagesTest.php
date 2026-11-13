@@ -7,7 +7,6 @@ use App\Models\ClientAccount;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class WorkspacePagesTest extends TestCase
