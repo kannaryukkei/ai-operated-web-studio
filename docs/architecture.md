@@ -44,15 +44,15 @@ Client Browser                         Studio Browser
 - React + Inertia + TypeScript + Tailwind + shadcn/ui.
 - Laravel Fortify authentication provided by the starter kit.
 - SQLite for local bootstrap; PostgreSQL as the production database target.
-- Laravel queues for asynchronous work.
-- Laravel AI SDK behind application-owned interfaces.
+- Laravel queues and provider SDKs are optional future integrations, not MVP prerequisites.
+- Initial AI work happens in external AI applications through structured prompts and manual result handoff.
 
 The official Laravel 13 React starter kit uses React 19, TypeScript, Inertia 3, Tailwind 4, and shadcn/ui. Laravel 13 introduces a first-party AI SDK for text generation, agents/tool calling, embeddings, audio, images, and vector-store integrations. References: https://laravel.com/framework/docs/13.x/starter-kits and https://laravel.com/framework/docs/13.x/releases.
 
 ### Why one application first
 Client portal, studio dashboard, project records, approvals, AI orchestration, and artifact management share the same project state and authorization model. Keeping them in one deployable application reduces operational complexity while the workflow is still evolving.
 
-Separate workers may process queued AI jobs, but they remain part of the same application codebase.
+Future provider-backed jobs may use separate workers, but the current MVP does not need an AI queue worker or model API.
 
 ## 3. Application modules
 
@@ -100,9 +100,7 @@ Avoid creating a service or package for every module. Organize by business capab
 
 The AI layer must not own canonical project state. Laravel owns state, permissions, approvals, task scheduling, artifacts, and audit records. Agents receive a scoped context and return validated structured output. Laravel validates, stores, and decides what happens next.
 
-Use Laravel queued jobs for long-running generation and tool work. Use persisted workflow runs and steps to resume, retry, and inspect execution. Laravel supports queue jobs, chaining, and batching: https://laravel.com/framework/docs/13.x/queues.
-
-Do not make a whole website build a single long-running HTTP request or one unobservable agent loop.
+The MVP uses persisted discovery runs and manual handoffs to external AI applications. Do not add an AI SDK, provider credentials, queued model calls, or long-running agent loops until actual client delivery demonstrates the need. Website coding can be performed by existing AI coding tools against a separate client repository, with human review of changes.
 
 ## 6. Website production boundary
 
@@ -138,10 +136,10 @@ The website blueprint directory may initially hold version metadata and links to
 
 ## 8. Environment strategy
 
-- Local development: Laravel Herd, SQLite, local filesystem, queue database/sync for development.
-- Early testing: one hosted application + managed PostgreSQL + private object storage + queued worker.
-- Production: application server, PostgreSQL, Redis or managed queue as workload justifies, private object storage, scheduled worker, monitoring.
-- AI provider keys and GitHub app credentials are server-side secrets and never sent to the browser.
+- Local development: Laravel Herd, SQLite, local filesystem.
+- Early testing: one hosted application + managed PostgreSQL + private object storage.
+- Production: application server, PostgreSQL, private object storage, monitoring; add Redis/managed queues only when workload justifies them.
+- Any future AI provider keys and GitHub app credentials are server-side secrets and never sent to the browser.
 
 Avoid choosing expensive infrastructure before usage and workload are known.
 
