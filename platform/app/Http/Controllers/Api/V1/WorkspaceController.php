@@ -85,7 +85,9 @@ class WorkspaceController extends Controller
             'membership_role' => ['required', 'in:owner,member'],
         ]);
 
-        $clientUser = User::query()->findOrFail($validated['user_id']);
+        $clientUser = User::query()
+            ->whereKey($validated['user_id'])
+            ->firstOrFail();
 
         if (! $clientUser->isClient()) {
             return response()->json([
