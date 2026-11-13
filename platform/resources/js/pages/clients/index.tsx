@@ -42,9 +42,7 @@ function InviteMember({ client }: { client: Client }) {
             <Input
                 type="email"
                 value={form.data.email}
-                onChange={(event) =>
-                    form.setData('email', event.target.value)
-                }
+                onChange={(event) => form.setData('email', event.target.value)}
                 placeholder="client@example.com"
                 required
             />
@@ -67,7 +65,9 @@ function InviteMember({ client }: { client: Client }) {
                 size="sm"
                 disabled={form.processing}
             >
-                {form.processing ? 'Creating link...' : 'Create invitation link'}
+                {form.processing
+                    ? 'Creating link...'
+                    : 'Create invitation link'}
             </Button>
         </form>
     );

@@ -65,10 +65,7 @@ export default function InvitationShow({
                         </Button>
                     </div>
                 ) : (
-                    <form
-                        onSubmit={submit}
-                        className="flex flex-col gap-4"
-                    >
+                    <form onSubmit={submit} className="flex flex-col gap-4">
                         {!existingUser && (
                             <>
                                 <div className="grid gap-2">
@@ -130,9 +127,7 @@ export default function InvitationShow({
                                     <Input
                                         id="password_confirmation"
                                         type="password"
-                                        value={
-                                            form.data.password_confirmation
-                                        }
+                                        value={form.data.password_confirmation}
                                         onChange={(event) =>
                                             form.setData(
                                                 'password_confirmation',
