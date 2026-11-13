@@ -62,6 +62,7 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
         return $this->role === UserRole::Client;
     }
 
+    /** @return BelongsToMany<ClientAccount, $this> */
     public function clientAccounts(): BelongsToMany
     {
         return $this->belongsToMany(ClientAccount::class)
@@ -69,6 +70,7 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
             ->withTimestamps();
     }
 
+    /** @return BelongsToMany<Project, $this> */
     public function projects(): BelongsToMany
     {
         return $this->belongsToMany(Project::class, 'project_members')
