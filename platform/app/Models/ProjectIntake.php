@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 #[Fillable([
     'project_id',
@@ -15,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 ])]
 /**
  * @property array<string, mixed> $payload
- * @property \Illuminate\Support\Carbon|null $submitted_at
+ * @property Carbon|null $submitted_at
  */
 class ProjectIntake extends Model
 {
@@ -28,14 +30,14 @@ class ProjectIntake extends Model
         ];
     }
 
-    /** @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Project, $this> */
-    public function project(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    /** @return BelongsTo<Project, $this> */
+    public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
     }
 
-    /** @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User, $this> */
-    public function submitter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    /** @return BelongsTo<User, $this> */
+    public function submitter(): BelongsTo
     {
         return $this->belongsTo(User::class, 'submitted_by');
     }
