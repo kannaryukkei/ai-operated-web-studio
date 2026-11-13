@@ -54,7 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
 
     public function isStudioStaff(): bool
     {
-        return $this->role->isStudio();
+        return $this->role?->isStudio() ?? false;
     }
 
     public function isClient(): bool
