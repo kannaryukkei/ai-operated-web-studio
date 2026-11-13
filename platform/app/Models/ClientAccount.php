@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 ])]
 class ClientAccount extends Model
 {
+    /** @return BelongsToMany<User, $this> */
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class)
@@ -26,6 +27,7 @@ class ClientAccount extends Model
             ->withTimestamps();
     }
 
+    /** @return HasMany<Project, $this> */
     public function projects(): HasMany
     {
         return $this->hasMany(Project::class);
