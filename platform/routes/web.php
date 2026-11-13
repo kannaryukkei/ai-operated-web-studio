@@ -1,12 +1,19 @@
 <?php
 
-use App\Http\Controllers\Api\V1\WorkspaceController;
-use Illuminate\Support\Facades\Route;
+use App\\Http\\Controllers\\WorkspacePageController;
+use App\\Http\\Controllers\\Api\\V1\\WorkspaceController;
+use Illuminate\\Support\\Facades\\Route;
 
 Route::inertia('/', 'welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function (): void {
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
+    Route::get('dashboard', [WorkspacePageController::class, 'dashboard'])->name('dashboard');
+
+    Route::get('clients', [WorkspacePageController::class, 'clients'])->name('clients.index');
+    Route::post('clients', [WorkspacePageController::class, 'storeClient'])->name('clients.store');
+
+    Route::get('projects', [WorkspacePageController::class, 'projects'])->name('projects.index');
+    Route::post('projects', [WorkspacePageController::class, 'storeProject'])->name('projects.store');
 
     Route::prefix('api/v1')->name('api.v1.')->group(function (): void {
         Route::get('client-accounts', [WorkspaceController::class, 'clientAccounts'])
