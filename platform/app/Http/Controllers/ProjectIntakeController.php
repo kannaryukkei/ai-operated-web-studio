@@ -43,7 +43,7 @@ class ProjectIntakeController extends Controller
             ->first()
             ?? $project->intakes()->latest('version')->first();
 
-        $submittedAt = $intake?->getAttribute('submitted_at');
+        $submittedAt = $intake === null ? null : $intake->getAttribute('submitted_at');
 
         return Inertia::render('projects/intake', [
             'project' => [
@@ -94,7 +94,7 @@ class ProjectIntakeController extends Controller
         $validated = $request->validate($this->rules(true));
 
         DB::transaction(function () use ($project, $request, $validated): void {
-            $lockedProject = Project::query()->lockForUpdate()->findOrFail($project->getKey());
+            $lockedProject = Project::query()->whereKey($project->getKey())->lockForUpdate()->firstOrFail();
             $intake = $this->currentDraft($lockedProject);
 
             if (! $intake) {
