@@ -73,6 +73,7 @@ class WorkspacePageController extends Controller
         return Inertia::render('clients/index', [
             'clients' => $clients,
             'isStudio' => $user->isStudioStaff(),
+            'invitationUrl' => session('invitation_url'),
         ]);
     }
 
