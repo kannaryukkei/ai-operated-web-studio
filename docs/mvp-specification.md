@@ -2,7 +2,7 @@
 
 ## 1. MVP goal
 
-Prove that a client can enter the platform, complete a guided intake, receive an AI-generated discovery brief, and review it while the studio owner manages the project and approves the next step.
+Prove that a client can complete a guided intake and that the studio can turn the submitted intake into a validated discovery brief using an external AI application, without requiring an API key. The studio owner reviews the brief and controls the next step.
 
 This is the foundation for all later AI website-production stages.
 
@@ -27,7 +27,7 @@ Do not add public self-registration in the first cut unless it is needed. Invita
 - Guided intake form covering business, audience, services, goals, current presence, assets, desired action, and requested capabilities.
 - Save progress and resume later.
 - File references / asset upload can be deferred to the next slice if necessary.
-- Intake can be conversational later; start with structured input plus an AI follow-up summary.
+- Keep the first intake structured. Any AI follow-up work can be done through the manual discovery workflow.
 
 ### C. Project management
 - Studio creates a project and assigns a client.
@@ -36,18 +36,19 @@ Do not add public self-registration in the first cut unless it is needed. Invita
 - Store proposal/scope status separately from AI stage status.
 - Record next action, owner, and dependency.
 
-### D. AI Discovery Brief
-- Run an AI agent against an approved intake snapshot.
-- Return structured output: business summary, audience, website goal, customer journey, suggested tier fit, key questions, missing inputs, risk flags, and suggested next step.
-- Save model/provider/prompt version, structured result, token usage/cost if available, status, and errors.
-- Client can suggest corrections.
-- Studio owner can approve or return the brief.
+### D. API-Free Discovery Brief
+- Create a discovery run from the latest submitted intake snapshot.
+- Generate a repeatable prompt from that immutable snapshot.
+- The studio operator runs the prompt in ChatGPT, Claude, or another external AI application.
+- Paste the returned JSON into the platform; validate its required fields and save the structured result.
+- Show the run status and saved discovery brief to studio staff.
+- Studio review and client approval are separate steps; AI output is not automatically approved.
 
 ### E. Studio dashboard
 - Project list grouped by status.
 - Project detail with client profile, intake, AI runs, brief, activity, approval status.
-- AI run panel with queued/running/completed/failed state.
-- Approve / request changes actions.
+- Discovery run panel with processing/completed status.
+- Approve / request changes actions can follow after the manual discovery loop is validated.
 
 ### F. Audit
 - Record project creation, intake changes, AI run lifecycle, artifact creation, approval, rejection, and status changes.
@@ -70,10 +71,10 @@ These will follow only after the first vertical slice is stable.
 - Studio user can authenticate and create a client/project.
 - Client can authenticate and complete/save an intake.
 - Client cannot access any other client's project by guessing IDs or URLs.
-- Studio can trigger an AI discovery run.
-- AI work runs asynchronously and survives a browser refresh.
-- Structured AI output is validated and saved.
-- Failed jobs show an actionable status and can be retried safely.
+- Studio can start a discovery run from a submitted intake snapshot.
+- Studio can copy a prompt, run it in an external AI application, and paste the response.
+- Structured output is validated and saved; the run survives a browser refresh.
+- No model API key, API billing, queue worker, or AI SDK is required for the MVP.
 - Client can see the approved brief, not hidden internal reasoning.
 - Studio can approve or request corrections.
 - Every important state transition appears in the activity history.
@@ -86,10 +87,10 @@ These will follow only after the first vertical slice is stable.
 3. Client fills out the business intake.
 4. Client submits it.
 5. Studio sees the new intake.
-6. Studio triggers AI discovery.
-7. Dashboard shows the run as queued/running/completed.
-8. AI brief appears with missing questions and scope risk flags.
+6. Studio opens the Discovery workspace and prepares a prompt.
+7. Studio runs the prompt in ChatGPT or Claude.
+8. Studio pastes the JSON result; the platform validates and saves the brief.
 9. Studio reviews and approves.
 10. Client sees approved brief and next step.
 
-A mock/fake AI provider may be used in automated tests. Real provider usage requires separately configured API credentials and budget.
+Automated tests use deterministic sample JSON and never call a model provider. Real provider/API integration is explicitly optional and should be funded from validated revenue.
