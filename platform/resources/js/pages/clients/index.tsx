@@ -1,5 +1,5 @@
 import { Head, Link, useForm } from '@inertiajs/react';
-import { Building2, Plus } from 'lucide-react';
+import { Building2, Plus, UserPlus } from 'lucide-react';
 import type { FormEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -23,12 +23,64 @@ type Paginator<T> = {
     total: number;
 };
 
+function InviteMember({ client }: { client: Client }) {
+    const form = useForm({ email: '', membership_role: 'member' });
+
+    function submit(event: FormEvent) {
+        event.preventDefault();
+        form.post(`/clients/${client.id}/invitations`, {
+            onSuccess: () => form.reset(),
+        });
+    }
+
+    return (
+        <form onSubmit={submit} className="space-y-2 border-t pt-4">
+            <div className="flex items-center gap-2 text-sm font-medium">
+                <UserPlus className="size-4" />
+                Invite client member
+            </div>
+            <Input
+                type="email"
+                value={form.data.email}
+                onChange={(event) => form.setData('email', event.target.value)}
+                placeholder="client@example.com"
+                required
+            />
+            {form.errors.email && (
+                <p className="text-xs text-destructive">{form.errors.email}</p>
+            )}
+            <select
+                className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
+                value={form.data.membership_role}
+                onChange={(event) =>
+                    form.setData('membership_role', event.target.value)
+                }
+            >
+                <option value="member">Member</option>
+                <option value="owner">Account owner</option>
+            </select>
+            <Button
+                type="submit"
+                variant="outline"
+                size="sm"
+                disabled={form.processing}
+            >
+                {form.processing
+                    ? 'Creating link...'
+                    : 'Create invitation link'}
+            </Button>
+        </form>
+    );
+}
+
 export default function ClientsIndex({
     clients,
     isStudio,
+    invitationUrl,
 }: {
     clients: Paginator<Client>;
     isStudio: boolean;
+    invitationUrl?: string | null;
 }) {
     const form = useForm({
         business_name: '',
@@ -59,7 +111,7 @@ export default function ClientsIndex({
                             Clients
                         </h1>
                         <p className="mt-1 text-sm text-muted-foreground">
-                            Manage client organizations and their website
+                            Manage client organizations, members, and website
                             projects.
                         </p>
                     </div>
@@ -67,6 +119,28 @@ export default function ClientsIndex({
                         {clients.total} client accounts
                     </div>
                 </div>
+
+                {invitationUrl && (
+                    <Card>
+                        <CardContent className="space-y-2 pt-5">
+                            <p className="text-sm font-medium">
+                                Invitation link created
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                                Share this link directly with the invited
+                                person. It expires in 7 days. No email is sent
+                                automatically.
+                            </p>
+                            <Input
+                                readOnly
+                                value={invitationUrl}
+                                onFocus={(event) =>
+                                    event.currentTarget.select()
+                                }
+                            />
+                        </CardContent>
+                    </Card>
+                )}
 
                 {isStudio && (
                     <Card>
@@ -84,10 +158,10 @@ export default function ClientsIndex({
                                     </label>
                                     <Input
                                         value={form.data.business_name}
-                                        onChange={(e) =>
+                                        onChange={(event) =>
                                             form.setData(
                                                 'business_name',
-                                                e.target.value,
+                                                event.target.value,
                                             )
                                         }
                                         placeholder="e.g. Zacks Detailing"
@@ -104,10 +178,10 @@ export default function ClientsIndex({
                                     </label>
                                     <Input
                                         value={form.data.business_category}
-                                        onChange={(e) =>
+                                        onChange={(event) =>
                                             form.setData(
                                                 'business_category',
-                                                e.target.value,
+                                                event.target.value,
                                             )
                                         }
                                         placeholder="Automotive services"
@@ -119,10 +193,10 @@ export default function ClientsIndex({
                                     </label>
                                     <Input
                                         value={form.data.website}
-                                        onChange={(e) =>
+                                        onChange={(event) =>
                                             form.setData(
                                                 'website',
-                                                e.target.value,
+                                                event.target.value,
                                             )
                                         }
                                         placeholder="https://"
@@ -139,10 +213,10 @@ export default function ClientsIndex({
                                     </label>
                                     <Input
                                         value={form.data.contact_name}
-                                        onChange={(e) =>
+                                        onChange={(event) =>
                                             form.setData(
                                                 'contact_name',
-                                                e.target.value,
+                                                event.target.value,
                                             )
                                         }
                                         placeholder="Contact person"
@@ -155,10 +229,10 @@ export default function ClientsIndex({
                                     <Input
                                         type="email"
                                         value={form.data.contact_email}
-                                        onChange={(e) =>
+                                        onChange={(event) =>
                                             form.setData(
                                                 'contact_email',
-                                                e.target.value,
+                                                event.target.value,
                                             )
                                         }
                                         placeholder="name@business.com"
@@ -175,10 +249,10 @@ export default function ClientsIndex({
                                     </label>
                                     <Input
                                         value={form.data.contact_phone}
-                                        onChange={(e) =>
+                                        onChange={(event) =>
                                             form.setData(
                                                 'contact_phone',
-                                                e.target.value,
+                                                event.target.value,
                                             )
                                         }
                                         placeholder="+62..."
@@ -259,11 +333,15 @@ export default function ClientsIndex({
                                             </a>
                                         )}
                                     </div>
+                                    {isStudio && (
+                                        <InviteMember client={client} />
+                                    )}
                                 </CardContent>
                             </Card>
                         ))}
                     </div>
                 )}
+
                 {clients.last_page > 1 && (
                     <div className="flex flex-wrap gap-2">
                         {clients.links.map((link, index) =>
