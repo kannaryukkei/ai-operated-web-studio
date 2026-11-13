@@ -13,6 +13,13 @@ class WorkspacePagesTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withoutVite();
+    }
+
     public function test_studio_can_open_workspace_pages_and_create_a_client_account(): void
     {
         $studio = $this->createUser(UserRole::StudioOwner);
