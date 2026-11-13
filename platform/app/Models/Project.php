@@ -39,6 +39,12 @@ class Project extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    /** @return HasMany<ProjectIntake, $this> */
+    public function intakes(): HasMany
+    {
+        return $this->hasMany(ProjectIntake::class);
+    }
+
     /** @return BelongsToMany<User, $this> */
     public function members(): BelongsToMany
     {
