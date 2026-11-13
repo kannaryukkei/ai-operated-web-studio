@@ -21,10 +21,11 @@ class WorkspacePageController extends Controller
         $user = $request->user();
         $projects = Project::query()
             ->with('clientAccount:id,business_name')
-            ->when(! $user->isStudioStaff(), fn (Builder $query) => $query->whereHas(
-                'clientAccount.users',
-                fn (Builder $members) => $members->whereKey($user->getKey()),
-            )->orWhereHas('members', fn (Builder $members) => $members->whereKey($user->getKey())))
+            ->when(! $user->isStudioStaff(), fn (Builder $query) => $query->where(
+                fn (Builder $visible) => $visible
+                    ->whereHas('clientAccount.users', fn (Builder $members) => $members->whereKey($user->getKey()))
+                    ->orWhereHas('members', fn (Builder $members) => $members->whereKey($user->getKey())),
+            ))
             ->latest()
             ->limit(6)
             ->get();
@@ -36,10 +37,11 @@ class WorkspacePageController extends Controller
             ));
 
         $projectQuery = Project::query()
-            ->when(! $user->isStudioStaff(), fn (Builder $query) => $query->whereHas(
-                'clientAccount.users',
-                fn (Builder $members) => $members->whereKey($user->getKey()),
-            )->orWhereHas('members', fn (Builder $members) => $members->whereKey($user->getKey())));
+            ->when(! $user->isStudioStaff(), fn (Builder $query) => $query->where(
+                fn (Builder $visible) => $visible
+                    ->whereHas('clientAccount.users', fn (Builder $members) => $members->whereKey($user->getKey()))
+                    ->orWhereHas('members', fn (Builder $members) => $members->whereKey($user->getKey())),
+            ));
 
         return Inertia::render('dashboard', [
             'stats' => [
