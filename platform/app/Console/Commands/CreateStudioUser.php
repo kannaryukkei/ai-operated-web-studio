@@ -57,10 +57,17 @@ class CreateStudioUser extends Command
             'name' => $name,
             'email' => $email,
             'password' => $password,
-            'email_verified_at' => now(),
         ]);
 
-        $user->forceFill(['role' => $role])->save();
+        $attributes = ['role' => $role];
+
+        // The first studio user must be able to sign in before outbound mail
+        // is configured. Client accounts remain pending email verification.
+        if ($role->isStudio()) {
+            $attributes['email_verified_at'] = now();
+        }
+
+        $user->forceFill($attributes)->save();
 
         $this->info("Created {$role->value} user: {$user->email}");
 
