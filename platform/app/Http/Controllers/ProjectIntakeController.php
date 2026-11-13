@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\ProjectIntake;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -42,6 +43,8 @@ class ProjectIntakeController extends Controller
             ->first()
             ?? $project->intakes()->latest('version')->first();
 
+        $submittedAt = $intake?->getAttribute('submitted_at');
+
         return Inertia::render('projects/intake', [
             'project' => [
                 'id' => $project->getKey(),
@@ -52,7 +55,7 @@ class ProjectIntakeController extends Controller
                 'version' => $intake?->version,
                 'status' => $intake?->status,
                 'payload' => $intake ? $intake->payload : [],
-                'submittedAt' => $intake?->submitted_at?->toISOString(),
+                'submittedAt' => $submittedAt instanceof Carbon ? $submittedAt->toISOString() : null,
             ],
             'canEdit' => Gate::allows('update', $project),
         ]);
@@ -66,7 +69,7 @@ class ProjectIntakeController extends Controller
 
         DB::transaction(function () use ($project, $validated): void {
             /** @var Project $lockedProject */
-            $lockedProject = Project::query()->lockForUpdate()->findOrFail($project->getKey());
+            $lockedProject = Project::query()->whereKey($project->getKey())->lockForUpdate()->firstOrFail();
             $intake = $this->currentDraft($lockedProject);
 
             if (! $intake) {
