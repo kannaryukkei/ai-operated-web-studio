@@ -51,7 +51,7 @@ class ProjectIntakeController extends Controller
             'intake' => [
                 'version' => $intake?->version,
                 'status' => $intake?->status,
-                'payload' => $intake?->payload ?? [],
+                'payload' => $intake ? $intake->payload : [],
                 'submittedAt' => $intake?->submitted_at?->toISOString(),
             ],
             'canEdit' => Gate::allows('update', $project),
@@ -65,6 +65,7 @@ class ProjectIntakeController extends Controller
         $validated = $request->validate($this->rules());
 
         DB::transaction(function () use ($project, $validated): void {
+            /** @var Project $lockedProject */
             $lockedProject = Project::query()->lockForUpdate()->findOrFail($project->getKey());
             $intake = $this->currentDraft($lockedProject);
 
