@@ -33,6 +33,7 @@ Repository initialized with product, architecture, workflow, data model, securit
 
 ## Start here
 
+- `docs/local-bootstrap.md` — next hands-on step to generate the Laravel application under `platform/`.
 - `docs/product-brief.md`
 - `docs/architecture.md`
 - `docs/mvp-specification.md`
@@ -45,3 +46,12 @@ Repository initialized with product, architecture, workflow, data model, securit
 ## Product boundary
 
 `web-studio-template-kit` remains the separate portfolio and website-blueprint repository. This repository owns the platform that coordinates production; it must not absorb the Starter, Business, or Custom demo websites into its application source.
+
+## Initial implementation queue
+
+1. [Bootstrap Laravel 13 React application](https://github.com/kannaryukkei/ai-operated-web-studio/issues/1)
+2. [Identity, client accounts, and project authorization](https://github.com/kannaryukkei/ai-operated-web-studio/issues/2)
+3. [Studio dashboard and client portal shell](https://github.com/kannaryukkei/ai-operated-web-studio/issues/3)
+4. [Client intake and persisted AI discovery workflow](https://github.com/kannaryukkei/ai-operated-web-studio/issues/4)
+
+The repository currently contains architecture and implementation planning. The Laravel application scaffold is the next implementation action.
