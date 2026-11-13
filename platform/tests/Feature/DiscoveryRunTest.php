@@ -123,7 +123,7 @@ class DiscoveryRunTest extends TestCase
     }
 
     /**
-     * @param array<string, mixed> $payload
+     * @param  array<string, mixed>  $payload
      */
     private function createIntake(Project $project, int $version, string $status, array $payload): ProjectIntake
     {
