@@ -4,7 +4,7 @@
 
 An AI-powered web production platform that guides a client through the complete website project lifecycle while orchestrating the studio's internal delivery work.
 
-The client experiences a guided consultation and project portal. The studio experiences an AI-assisted operations dashboard. AI agents execute repeatable work and hand off decisions at defined approval gates.
+The client experiences a guided project portal. The studio uses a lightweight operations workspace plus reusable AI skills and prompts in external AI applications. The operator transfers structured outputs into the platform and retains control at defined approval gates.
 
 This is initially an internal platform for one web studio and its clients, not a public multi-agency SaaS product.
 
@@ -15,7 +15,7 @@ A website project normally involves fragmented communication, repeated briefing,
 The platform should turn this into a repeatable workflow with:
 - One source of truth for every project.
 - Guided client input instead of unstructured back-and-forth.
-- Stage-specific AI work with predictable outputs.
+- Repeatable AI-assisted work with predictable, validated outputs, even when the AI runs outside the platform.
 - Visible project status and approvals.
 - Automated validation and traceable revisions.
 - A reusable website production engine for Starter, Business, and Custom.
@@ -40,12 +40,13 @@ The platform should turn this into a repeatable workflow with:
 - Approves external communication and production releases.
 - Reviews cost, quality, and delivery metrics.
 
-### AI agents
-- Qualify and structure client information.
-- Produce discovery, content, design, and implementation artifacts.
-- Execute scoped website work.
+### AI tools and coding agents
+- Help qualify and structure client information.
+- Produce discovery, content, design, and implementation drafts.
+- Assist with scoped website work through existing coding tools.
 - Test, diagnose, and fix in-scope defects.
 - Prepare client communications, approval packs, release notes, and handover materials.
+- They may be used through their normal applications; the platform does not need to own an API integration in the MVP.
 
 ## 4. Product promise
 
@@ -68,7 +69,7 @@ The platform should read a versioned product definition / blueprint for each tie
 A real client can:
 1. Access a private client portal.
 2. Complete a guided intake about their business and website goal.
-3. Receive an AI-generated discovery summary / brief.
+3. Receive a discovery brief prepared with an external AI application and saved in the platform.
 4. Review and correct the brief.
 5. See the studio's proposed next step and project status.
 
@@ -78,7 +79,7 @@ The studio can:
 3. Approve or return the brief for correction.
 4. Continue the workflow without losing context or decision history.
 
-The first MVP does not need to generate and deploy a whole website automatically. It must first prove a reliable project record, client journey, AI job, and approval loop.
+The first MVP does not need to generate and deploy a website automatically or call a model API. It must prove a reliable project record, client journey, repeatable external-AI handoff, validated discovery output, and studio review loop. A copy/paste handoff is acceptable at this stage.
 
 ## 7. Non-goals for MVP
 
