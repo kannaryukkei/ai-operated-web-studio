@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\\Feature;
+namespace Tests\Feature;
 
-use App\\Enums\\UserRole;
-use App\\Models\\ClientAccount;
-use App\\Models\\Project;
-use App\\Models\\User;
-use Illuminate\\Foundation\\Testing\\RefreshDatabase;
-use Illuminate\\Support\\Str;
-use Tests\\TestCase;
+use App\Enums\UserRole;
+use App\Models\ClientAccount;
+use App\Models\Project;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
+use Tests\TestCase;
 
 class WorkspacePagesTest extends TestCase
 {
