@@ -353,7 +353,8 @@ export default function ProjectDiscovery({
                                                 {run.result.fact_register?.length ?? '—'}
                                             </p>
                                             <p className="text-xs text-muted-foreground">
-                                                Material facts with a source and publication status
+                                                Material facts with a source and
+                                                publication status
                                             </p>
                                         </div>
                                         <div className="rounded-md border p-3">
@@ -361,11 +362,22 @@ export default function ProjectDiscovery({
                                                 Customer questions
                                             </p>
                                             <p className="mt-1 text-lg font-semibold">
-                                                {run.result.customer_question_map?.filter((item) => item.status === 'GAP').length ?? '—'}
-                                                <span className="ml-1 text-xs font-normal text-muted-foreground">open gaps</span>
+                                                {run.result.customer_question_map?.filter(
+                                                    (item) => item.status === 'GAP',
+                                                ).length ?? '—'}
+                                                <span className="ml-1 text-xs font-normal text-muted-foreground">
+                                                    open gaps
+                                                </span>
                                             </p>
                                             <p className="text-xs text-muted-foreground">
-                                                {run.result.customer_question_map?.filter((item) => item.status === 'ANSWERED').length ?? 0} answered · {run.result.customer_question_map?.filter((item) => item.status === 'NOT_APPLICABLE').length ?? 0} not applicable
+                                                {run.result.customer_question_map?.filter(
+                                                    (item) => item.status === 'ANSWERED',
+                                                ).length ?? 0}{' '}
+                                                answered ·{' '}
+                                                {run.result.customer_question_map?.filter(
+                                                    (item) => item.status === 'NOT_APPLICABLE',
+                                                ).length ?? 0}{' '}
+                                                not applicable
                                             </p>
                                         </div>
                                         <div className="rounded-md border p-3">
@@ -373,48 +385,78 @@ export default function ProjectDiscovery({
                                                 CTA / assets
                                             </p>
                                             <p className="mt-1 text-lg font-semibold">
-                                                {run.result.cta_register?.length ?? '—'} / {run.result.asset_register?.length ?? '—'}
+                                                {run.result.cta_register?.length ?? '—'}{' '}
+                                                / {run.result.asset_register?.length ?? '—'}
                                             </p>
                                             <p className="text-xs text-muted-foreground">
                                                 Destinations / asset records
                                             </p>
                                         </div>
                                     </div>
-                                    {run.result.customer_question_map && run.result.customer_question_map.length > 0 && (
-                                        <div className="space-y-2">
-                                            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                                                Customer question coverage
-                                            </p>
-                                            <div className="divide-y rounded-md border">
-                                                {run.result.customer_question_map.map((item, index) => (
-                                                    <div key={index} className="flex flex-col gap-1 p-3 sm:flex-row sm:items-start sm:justify-between">
-                                                        <div>
-                                                            <p className="text-sm font-medium">{item.question}</p>
-                                                            <p className="mt-1 text-xs text-muted-foreground">{item.answer_or_gap}</p>
-                                                            <p className="mt-1 text-xs text-muted-foreground">Source: {item.source} · Owner/action: {item.owner_or_action}</p>
-                                                        </div>
-                                                        <span className="shrink-0 rounded-full bg-muted px-2 py-1 text-xs">{item.status}</span>
-                                                    </div>
-                                                ))}
+                                    {run.result.customer_question_map &&
+                                        run.result.customer_question_map.length > 0 && (
+                                            <div className="space-y-2">
+                                                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                                    Customer question coverage
+                                                </p>
+                                                <div className="divide-y rounded-md border">
+                                                    {run.result.customer_question_map.map(
+                                                        (item, index) => (
+                                                            <div
+                                                                key={index}
+                                                                className="flex flex-col gap-1 p-3 sm:flex-row sm:items-start sm:justify-between"
+                                                            >
+                                                                <div>
+                                                                    <p className="text-sm font-medium">
+                                                                        {item.question}
+                                                                    </p>
+                                                                    <p className="mt-1 text-xs text-muted-foreground">
+                                                                        {item.answer_or_gap}
+                                                                    </p>
+                                                                    <p className="mt-1 text-xs text-muted-foreground">
+                                                                        Source: {item.source} ·
+                                                                        Owner/action:{' '}
+                                                                        {item.owner_or_action}
+                                                                    </p>
+                                                                </div>
+                                                                <span className="shrink-0 rounded-full bg-muted px-2 py-1 text-xs">
+                                                                    {item.status}
+                                                                </span>
+                                                            </div>
+                                                        ),
+                                                    )}
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
-                                    {run.result.cta_register && run.result.cta_register.length > 0 && (
-                                        <div className="space-y-2">
-                                            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                                                CTA destination register
-                                            </p>
-                                            <div className="divide-y rounded-md border">
-                                                {run.result.cta_register.map((item, index) => (
-                                                    <div key={index} className="space-y-1 p-3">
-                                                        <p className="text-sm font-medium">{item.action}</p>
-                                                        <p className="break-all text-xs text-muted-foreground">{item.destination}</p>
-                                                        <p className="text-xs text-muted-foreground">{item.destination_status} · {item.expected_behavior}</p>
-                                                    </div>
-                                                ))}
+                                        )}
+                                    {run.result.cta_register &&
+                                        run.result.cta_register.length > 0 && (
+                                            <div className="space-y-2">
+                                                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                                    CTA destination register
+                                                </p>
+                                                <div className="divide-y rounded-md border">
+                                                    {run.result.cta_register.map(
+                                                        (item, index) => (
+                                                            <div
+                                                                key={index}
+                                                                className="space-y-1 p-3"
+                                                            >
+                                                                <p className="text-sm font-medium">
+                                                                    {item.action}
+                                                                </p>
+                                                                <p className="break-all text-xs text-muted-foreground">
+                                                                    {item.destination}
+                                                                </p>
+                                                                <p className="text-xs text-muted-foreground">
+                                                                    {item.destination_status} ·{' '}
+                                                                    {item.expected_behavior}
+                                                                </p>
+                                                            </div>
+                                                        ),
+                                                    )}
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
+                                        )}
                                     <details>
                                         <summary className="cursor-pointer text-sm font-medium">
                                             View complete structured brief
