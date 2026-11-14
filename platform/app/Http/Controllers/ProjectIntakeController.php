@@ -107,6 +107,7 @@ class ProjectIntakeController extends Controller
         return $project->intakes()->where('status', 'draft')->latest('version')->lockForUpdate()->first();
     }
 
+    /** @return array<string, array<int, mixed>> */
     private function rules(bool $forSubmission = false): array
     {
         $required = $forSubmission ? 'required' : 'nullable';
