@@ -83,16 +83,27 @@ Do not delete or rewrite these branches. Do not delete Pilot 02, Pilot 03 or KAL
 - [x] Updated the manual workflow and orchestration docs. No API credentials, model SDKs, database migration or new agent infrastructure added.
 
 ### Git checkpoints (AI Operated Web Studio branch)
-- `restructure/business-first-product-system` — work is isolated on the existing draft PR #12; `main` remains untouched.
+- `restructure/business-first-product-system` — work is isolated on the existing draft PR #12; `main` remains untouched. The PR remains draft and unmerged pending owner review.
 - Intake controller: commit `86e929ca`; intake UI: `25705a1b`; intake test: `03ea8ce1`.
 - Discovery controller: `4a2233b1`; discovery feature tests: `a88d6da4`; discovery result UI: `083a0a48`.
-- Documentation updates are recorded in the branch history; CI for these latest code commits is pending the current run.
+- Documentation updates are recorded in the branch history. Final CI run 43608516386 on commit `12cdab458a2529ce023ec9fb17254ad7bf29b413` completed successfully after the formatter correction and temporary workflow cleanup.
 
 ### Next
 1. Verify current diff and the full CI result after the latest code changes.
 2. Fix any formatter, PHPStan, TypeScript or feature-test errors; rerun CI.
 3. Review the live branch diff and compare with PR #12 before deciding whether any merge is appropriate.
 4. Report Starter as conditional until owner approval, asset rights, formal accessibility/performance/cross-browser review and one real-client delivery are complete.
+
+### Final verification — 2026-11-14
+- [x] GitHub Actions platform-ci run 43608516386 — **success**: Composer install, environment setup, migrations and Vite production build.
+- [x] Vite+ formatter: 74 files correctly formatted.
+- [x] Vite+ lint: 68 files, no warnings or lint errors.
+- [x] TypeScript npm run types:check / tsc --noEmit: passed.
+- [x] Laravel Pint: 87 files passed.
+- [x] PHPStan: passed.
+- [x] Laravel/PHPUnit feature and unit tests: **74 passed, 336 assertions**. Intake persistence and discovery-provenance validation tests included.
+- [x] Temporary formatter workflow removed; no temporary workflow file remains in the branch.
+- [x] PR #12 remains open as draft; no merge to main performed.
 
 ## Definition of done for this phase
 - Business-first intake and discovery are implemented and tested.
