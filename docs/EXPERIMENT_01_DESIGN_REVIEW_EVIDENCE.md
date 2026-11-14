@@ -87,3 +87,24 @@ Do not add every design preference to the client brief. Do not turn every output
 This evidence supports a candidate update to the Master Skill only. It does not justify changing Client Brief v2.1, creating new platform features, or promoting the Teras Rindang site into the canonical Starter blueprint.
 
 The site and all fictional content/assets remain isolated in the experiment repository. The canonical change in this branch is a proposed Master Skill v1.7 Candidate and supporting evidence only.
+
+## 7. Modular skill-system decision
+
+The reusable Master Skill improvements are now organized under `skills/` as a portable Agent Skills library:
+
+- `frontend-design` — upstream Anthropic skill imported verbatim under Apache-2.0 with the original license and provenance.
+- `ux-review` — Studio-owned skill for visitor tasks, journeys, question coverage and conversion clarity.
+- `typography-and-legibility` — Studio-owned type system and responsive legibility rules calibrated from Experiment #1.
+- `interface-quality-review` — Studio-owned code/interface review with a link to Vercel's live Web Interface Guidelines.
+- `visual-design-audit` — Studio-owned independent section-by-section visual critique.
+
+The Master Skill v1.7 Candidate now acts as orchestrator and loads only the smallest relevant specialist set by phase. Skill routing, upstream sources, license decisions and optional dependencies are documented in `skills/registry.md`.
+
+This import strategy is deliberately selective:
+- Anthropic frontend-design is vendored with its Apache-2.0 license.
+- Vercel web-design-guidelines is referenced as a live source rather than copied because a license file was not surfaced in the checked source tree.
+- UX/UI Principles was reviewed as a no-key-capable optional reference, but not vendored because no formal license file was surfaced and its enriched API is paid.
+- 21st.dev is optional; it is not a required no-cost core dependency.
+- OpenAI's older skills repository is excluded because its README marks it deprecated.
+
+No client-facing brief fields, platform feature, runtime dependency, design subscription or paid API is added by this architecture. Component libraries are evaluated separately and installed selectively within client website repositories, not copied into the canonical skill library.
