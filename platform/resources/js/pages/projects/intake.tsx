@@ -29,6 +29,9 @@ type IntakePayload = {
     required_features: string;
     constraints: string;
     success_metrics: string;
+    existing_assets: string;
+    asset_permissions: string;
+    content_approver: string;
 };
 
 const emptyPayload: IntakePayload = {
@@ -55,6 +58,9 @@ const emptyPayload: IntakePayload = {
     required_features: '',
     constraints: '',
     success_metrics: '',
+    existing_assets: '',
+    asset_permissions: '',
+    content_approver: '',
 };
 
 const groups: {
@@ -216,6 +222,24 @@ const groups: {
                 key: 'brand_direction',
                 label: 'Brand and visual direction',
                 hint: 'Preferred tone, personality, colors or styles to avoid.',
+                rows: 2,
+            },
+            {
+                key: 'existing_assets',
+                label: 'Existing assets and source',
+                hint: 'Share logo, photo, video, catalog or menu links/files and where the original assets are stored.',
+                rows: 3,
+            },
+            {
+                key: 'asset_permissions',
+                label: 'Asset ownership and usage permission',
+                hint: 'Who owns or created the assets? Are they approved for commercial website use? Note license, credits or restrictions. Write Not sure if unknown.',
+                rows: 3,
+            },
+            {
+                key: 'content_approver',
+                label: 'Content and launch approver',
+                hint: 'Name and role of the person who can approve business facts, website content and launch.',
                 rows: 2,
             },
             {
