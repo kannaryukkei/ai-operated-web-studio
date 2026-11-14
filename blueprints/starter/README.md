@@ -2,7 +2,7 @@
 
 **Status:** Migrated into the AI Operated Web Studio system on 2026-11-14  
 **Source:** `kannaryukkei/web-studio-template-kit`, branch `starter/five-website-audit-and-hardening`, commit `6ba68cbdba1c3a30f932a2eba998dd93b42a4a2f`  
-**Source validation:** production build PASS; Playwright 15/15 PASS on Chromium, 320–1440px (source evidence: `template-kit/docs/starter-responsive-qa.md`).
+**Migration verification:** exact 51/51 source-file match; migrated clean install/build PASS; Playwright 15/15 PASS on Chromium (GitHub Actions run [43615900261](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43615900261)). **Platform CI:** PASS on migration commit (run [43615904527](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43615904527)).
 
 ## What this blueprint contains
 
@@ -35,6 +35,6 @@ For cafés/F&B, portfolio studios, retail catalogs, and other categories, reuse 
 
 Every client website remains a separate repository created from a selected blueprint. Do not put client websites or client facts inside `platform/`. Do not add backend, CMS, database, checkout, booking, authentication or persistent form behavior unless a real business need is approved.
 
-## Release warning
+## Verification and release boundary
 
-The migrated source has inherited its original QA result; the migration itself must still pass its own clean-install build and Playwright run before this blueprint is marked migration-verified. Build/CI status is tracked in the migration record.
+Migration integrity and technical smoke tests are verified. This does not make the sample website production-ready for a real client. Formal accessibility/contrast, performance/Lighthouse, Firefox/Safari, real-client content/asset approval, and real conversion validation remain open. Use the Starter Product Acceptance Gate before any commercial readiness claim.

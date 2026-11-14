@@ -124,7 +124,17 @@ This checkpoint supersedes earlier plan wording that kept `web-studio-template-k
 - [x] Verify the 51 source blobs against the migrated paths: no missing files, no extra files, no blob SHA or file-size differences.
 - [x] Add a blueprint-local build and Playwright workflow at `.github/workflows/starter-blueprint-ci.yml`.
 - [x] Document canonical boundaries and repository-retirement policy in `docs/BLUEPRINT_MIGRATION_DECISION.md`.
-- [ ] Run migrated Starter clean-install/build/Playwright CI and record the run result.
+- [x] Run migrated Starter clean-install/build/Playwright CI — build PASS and Playwright 15/15 (run 43615900261).
+- [x] Platform CI on the migration commit — all jobs passed, including 74 tests / 336 assertions (run 43615904527).
+- [x] Compare all 51 source files to their migrated blobs; exact match confirmed.
 - [ ] Review PR #12 before merging. `main` remains unchanged until owner review.
+- [x] Update PR #12 title/body with migration scope and validation evidence; keep it Draft and unmerged.
 
 Final architecture: one canonical production repository; `platform/` is the application; `docs/` is the system policy; `blueprints/` contains website foundations; each real client website is isolated in its own repo. No paid model API is required.
+
+
+### Final repository retirement decision
+
+- `web-studio-template-kit`: source content is now migrated exactly and technically verified. **Safe to retire; archive now or delete after PR #12 is merged to `main`**. Do not delete while the canonical copy exists only on an unmerged draft branch.
+- `kala-coffee-studio`: **archive; do not delete**. Its original branch history, website code and CI artifacts remain useful historical provenance; only transferable practices were migrated.
+- `ai-operated-web-studio`: **keep as the sole canonical production system**.
