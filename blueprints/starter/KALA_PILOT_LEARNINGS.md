@@ -6,6 +6,7 @@
 
 | Experiment | Source branch / head | Website evidence | Reusable contribution |
 |---|---|---|---|
+| Repository operating baseline | `main` · `f5f173a516d7ccc56d81a8448b029f479d8c88d0` | README-only branch; no website implementation or test suite. | Defines the pilot's fictional/demo boundaries, static-first rule, no fake booking/contact/address/hours/testimonials, and requirement for build, responsive, accessibility and visual review. Retain as operating constraints, not as a product implementation. |
 | Pilot 01 — KALA Coffee | `pilot/organic-master-skill-run` · `8bf87e662639274459201918e8640521ca5cc0e7` | Build PASS; Playwright 7/7 (run 43565483194). Used Master Skill v1.2, not direct v1.3 evidence. | Editorial brand storytelling, asset provenance, browser verification, no-fabrication for fictional operations. |
 | Pilot 02 — SELA Interior | `pilot-02/sela-interior-studio` · `115f842637b36adeb475e19d410f1fc064545f09` | Build PASS; Playwright 9/9 (run 43568321691). | Portfolio discovery, project filters, accessible detail dialog, focus handling, semantic image/caption review. |
 | Pilot 03 — FABLE FORM | `pilot-03/fable-form-retail` · `287d84f5cb320e67e588758fbf194c23cea56da8` | Build PASS; Playwright 14/14 (run 43574296177). | Retail search/filter, variant-aware cart state, quantity/subtotal derivation, safe demo checkout boundary, local concept assets. |
@@ -14,7 +15,7 @@
 | Pilot 04 — RAPI RUMAH intake | `pilot-04/rapi-rumah-service-intake` · `b97b249fd5e3ba440463ac092956baa3da950a0d` | Intake and production records; no implementation-complete website or verified browser run in this branch. | Explicit form acceptance and exclusions; internal coordination email is not a public lead destination; budget/timeline are not public website facts. |
 | Pilot 04 — SORA Home Care intake | `pilot-04/sora-home-care` · `170034eaafd60597ee0ac1dba951212572893295` | Sparse-input stress scenario; no implementation-complete website or verified browser run in this branch. | Missing price, address, hours, service inclusions, approver and public contact remain missing; sparse input must not trigger invention. |
 
-The four Pilot 04 branches are not equivalent implementations. RUANG RAPI integrated is the only complete implementation baseline. RAPI RUMAH and SORA contribute intake and negative-regression scenarios only. Do not merge their client facts.
+All eight KALA repository branches (default `main` plus seven pilot branches) were inventoried. The `main` branch is README-only and contributes operating constraints, not implementation. The four Pilot 04 branches are not equivalent implementations. RUANG RAPI integrated is the only complete implementation baseline. RAPI RUMAH and SORA contribute intake and negative-regression scenarios only. Do not merge their client facts.
 
 ## 2. Rules that generalize across business categories
 
