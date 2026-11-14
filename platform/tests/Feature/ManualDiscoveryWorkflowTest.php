@@ -45,7 +45,7 @@ class ManualDiscoveryWorkflowTest extends TestCase
                 ->where('hasSubmittedIntake', true)
                 ->where('run.status', 'processing')
                 ->has('prompt')
-                ->where('prompt', fn ($prompt) => str_contains($prompt, 'offer_matrix') && str_contains($prompt, 'customer_question_map') && str_contains($prompt, 'buying_journey')));
+                ->where('prompt', fn ($prompt) => str_contains($prompt, 'offer_matrix') && str_contains($prompt, 'customer_question_map') && str_contains($prompt, 'buying_journey') && str_contains($prompt, 'fact_register') && str_contains($prompt, 'cta_register') && str_contains($prompt, 'asset_register') && str_contains($prompt, 'NOT_CONFIGURED')));
     }
 
     public function test_client_cannot_access_or_start_studio_discovery(): void
@@ -87,6 +87,10 @@ class ManualDiscoveryWorkflowTest extends TestCase
         $this->assertSame(DiscoveryRunStatus::Completed, $run->status);
         $this->assertSame('starter', $run->result['recommended_tier']);
         $this->assertSame('A customer compares service options.', $run->result['customer_question_map'][0]['question']);
+        $this->assertSame('APPROVED', $run->result['fact_register'][0]['public_use_status']);
+        $this->assertSame('APPROVED_REAL_DESTINATION', $run->result['cta_register'][0]['destination_status']);
+        $this->assertSame('APPROVED', $run->result['asset_register'][0]['permission_status']);
+        $this->assertSame('ANSWERED', $run->result['customer_question_map'][0]['status']);
         $this->assertNotNull($run->completed_at);
     }
 
@@ -100,6 +104,25 @@ class ManualDiscoveryWorkflowTest extends TestCase
         $run = DiscoveryRun::query()->sole();
         $incomplete = $this->validResult();
         unset($incomplete['offer_matrix']);
+
+        $this->actingAs($studio)->from(route('projects.discovery.show', $project))
+            ->post(route('projects.discovery.complete', [$project, $run]), [
+                'result_json' => json_encode($incomplete, JSON_THROW_ON_ERROR),
+            ])->assertSessionHasErrors('result_json');
+
+        $this->assertSame(DiscoveryRunStatus::Processing, $run->fresh()->status);
+    }
+
+    public function test_discovery_rejects_results_without_fact_and_cta_provenance(): void
+    {
+        $studio = $this->createUser(UserRole::StudioOwner);
+        $project = $this->createProject($studio);
+        $this->createSubmittedIntake($project);
+
+        $this->actingAs($studio)->post(route('projects.discovery.start', $project));
+        $run = DiscoveryRun::query()->sole();
+        $incomplete = $this->validResult();
+        unset($incomplete['fact_register'], $incomplete['cta_register']);
 
         $this->actingAs($studio)->from(route('projects.discovery.show', $project))
             ->post(route('projects.discovery.complete', [$project, $run]), [
@@ -185,16 +208,25 @@ class ManualDiscoveryWorkflowTest extends TestCase
             'recommended_tier' => 'starter',
             'recommendation_rationale' => ['A focused local service journey fits a comprehensive one-page site.'],
             'offer_matrix' => [
-                ['name' => 'Detailing packages', 'details' => 'Options and scope must be confirmed against the approved catalog.', 'pricing' => 'Not provided', 'evidence_status' => 'CLIENT-PROVIDED-UNVERIFIED'],
+                ['name' => 'Detailing packages', 'details' => 'Options and scope must be confirmed against the approved catalog.', 'pricing' => 'Not provided', 'source' => 'Submitted intake: products_services and offer_details.', 'evidence_status' => 'CLIENT-PROVIDED-UNVERIFIED'],
             ],
             'customer_question_map' => [
-                ['question' => 'A customer compares service options.', 'answer_or_gap' => 'Explain verified package differences; confirm missing details.', 'stage' => 'before_purchase'],
+                ['question' => 'A customer compares service options.', 'answer_or_gap' => 'Explain verified package differences; confirm missing details.', 'stage' => 'before_purchase', 'status' => 'ANSWERED', 'source' => 'Submitted intake: offer_details and customer_questions.', 'owner_or_action' => 'Studio to verify the current offer matrix with the owner.'],
             ],
             'buying_journey' => [
                 ['stage' => 'Evaluation', 'customer_need' => 'Understand the right package.', 'website_support' => 'Provide clear package scope and a guided inquiry path.'],
             ],
             'trust_register' => [
-                ['proof' => 'Portfolio evidence', 'status' => 'MISSING'],
+                ['proof' => 'Portfolio evidence', 'source' => 'No approved portfolio asset provided.', 'status' => 'MISSING'],
+            ],
+            'fact_register' => [
+                ['fact' => 'The business provides car detailing services.', 'source' => 'Submitted intake: business_overview and products_services.', 'evidence_status' => 'CLIENT-PROVIDED-UNVERIFIED', 'public_use_status' => 'APPROVED', 'notes' => 'Client approval recorded for this fixture.'],
+            ],
+            'cta_register' => [
+                ['action' => 'Request a consultation', 'destination' => 'https://wa.me/6280000000000', 'destination_status' => 'APPROVED_REAL_DESTINATION', 'expected_behavior' => 'Opens WhatsApp with a prepared consultation message; it does not confirm a booking.'],
+            ],
+            'asset_register' => [
+                ['asset_or_need' => 'Portfolio photos', 'source_or_owner' => 'Client supplied photo folder.', 'permission_status' => 'APPROVED', 'intended_use' => 'Portfolio gallery.', 'credit_or_restrictions' => 'Client confirmed commercial website permission.'],
             ],
             'content_gaps' => [
                 ['gap' => 'Approved current package prices', 'owner_or_source' => 'Client'],
