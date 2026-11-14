@@ -41,7 +41,11 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 - `docs/data-model.md`
 - `docs/security-and-approvals.md`
 - `docs/roadmap.md`
-- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.6_CANDIDATE.md` — current five-website-informed production skill.
+- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.7_CANDIDATE.md` — proposed production skill with five-website and Experiment #1 design-quality gates.
+- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.6_CANDIDATE.md` — preserved historical candidate.
+- `docs/EXPERIMENT_01_DESIGN_REVIEW_EVIDENCE.md` — supporting evidence for the v1.7 design-quality changes.
+- `skills/README.md` — modular Agent Skills library and how to use it.
+- `skills/registry.md` — skill routing, upstream provenance, license decisions and optional dependencies.
 - `docs/CLIENT_WEBSITE_BRIEF_TEMPLATE_v2.1.md` — current client brief and asset-permission intake.
 - `docs/WEBSITE_PRODUCT_TIERS_v1.1.md` — Starter / Business / Custom scope and Starter price boundary.
 - `docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.0.md` — design, implementation and technical guardrails.
@@ -50,6 +54,10 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 - `blueprints/starter/README.md` — how to use the migrated Starter reference.
 - `blueprints/starter/KALA_PILOT_LEARNINGS.md` — best practices distilled from every KALA pilot branch.
 - `AI_BUILD_RULES.md`
+
+## Modular skill system
+
+The Master Skill is the orchestrator; specialist instructions live under `skills/` as portable Agent Skills. Only the minimum relevant skills are activated per phase. The core workflow remains API-free and does not require paid design services.
 
 ## Product boundary
 
