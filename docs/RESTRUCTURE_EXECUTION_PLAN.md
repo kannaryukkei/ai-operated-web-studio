@@ -63,10 +63,10 @@ Preserve all four branches as historical evidence:
 Do not delete or rewrite these branches. Do not delete Pilot 02, Pilot 03 or KALA `main`. If archive consolidation is ever proposed, first preserve source files, commit SHAs, test evidence and provenance in a reviewed archive commit; deletion requires an explicit separate decision.
 
 ## Current PR / CI status
-- PR #12 remains a draft until the code and tests pass.
-- First CI failure was specifically the formatter check on `platform/resources/js/pages/projects/intake.tsx`; database migrations and frontend production build passed.
-- A formatting-only correction has been pushed. CI must be rerun and the full test/type/lint suite reviewed before merge.
-- No local test pass is claimed.
+- PR #12 remains a draft for deliberate review; CI is now green.
+- Initial CI failures were resolved in sequence: Vite+ formatting, Pint blank-line style, and PHPStan iterable return typing.
+- Latest CI run `43585104025`: frontend build, Vite+ formatting/lint, TypeScript, Pint, PHPStan and Laravel tests all PASS (87 files).
+- This is CI evidence for the current PR head; it is not a claim that Starter is production-ready or commercially validated.
 
 ## Definition of done for this phase
 - Business-first intake and discovery are implemented and tested.
