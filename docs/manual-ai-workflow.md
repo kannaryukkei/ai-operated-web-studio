@@ -14,8 +14,11 @@ This keeps the studio useful before there is enough revenue to justify automated
 4. The operator copies the generated prompt into ChatGPT, Claude, or another AI application.
 5. The AI returns the requested JSON brief.
 6. The operator pastes the result into the Discovery workspace.
-7. The platform validates the output structure and saves it against the run.
-8. The studio reviews the brief before sharing or approving it with the client.
+7. The platform validates required fields and saves the result against the run.
+8. The studio reviews the **fact register, asset permissions, CTA destinations and customer-question coverage** before using the brief for website planning.
+9. The studio resolves critical gaps or records an owner/action; only approved facts and destinations move into public website content.
+
+The current output contract is enforced by `ManualDiscoveryController`: every material fact needs a source and publication status; each relevant customer question needs `ANSWERED`, `GAP` or `NOT_APPLICABLE`; each CTA needs a destination status and expected behavior; each asset needs a source/owner and permission status.
 
 ## What the platform does
 
@@ -28,9 +31,12 @@ This keeps the studio useful before there is enough revenue to justify automated
 ## What the operator does
 
 - Chooses and uses the AI application.
-- Reviews the AI output for unsupported claims, assumptions, and scope risks.
+- Reviews the AI output for unsupported claims, assumptions, scope risks and source mismatches.
+- Checks that public facts, CTA destinations and asset rights have explicit approval status.
 - Corrects the result before saving it.
-- Owns all client-facing and commercial decisions.
+- Owns all client-facing, tier, commercial and production-release decisions.
+
+Use `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.6_CANDIDATE.md` for the production stages, `docs/CLIENT_WEBSITE_BRIEF_TEMPLATE_v2.1.md` for the client brief and `docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md` for the Starter release decision.
 
 ## Cost and integration boundary
 
