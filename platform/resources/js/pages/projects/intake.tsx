@@ -370,9 +370,18 @@ export default function ProjectIntake({
                                             <textarea
                                                 id={field.key}
                                                 rows={field.rows || 2}
-                                                disabled={!canEdit || form.processing}
-                                                value={form.data.payload[field.key]}
-                                                onChange={(event) => setField(field.key, event.target.value)}
+                                                disabled={
+                                                    !canEdit || form.processing
+                                                }
+                                                value={
+                                                    form.data.payload[field.key]
+                                                }
+                                                onChange={(event) =>
+                                                    setField(
+                                                        field.key,
+                                                        event.target.value,
+                                                    )
+                                                }
                                                 placeholder={field.hint}
                                                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60"
                                             />
