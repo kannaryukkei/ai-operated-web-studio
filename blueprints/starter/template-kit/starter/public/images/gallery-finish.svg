@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" role="img" aria-labelledby="t d">
+<title id="t">Illustration of a detailed vehicle finish</title><desc id="d">Close-up of a polished dark vehicle body and wheel with reflected light lines.</desc>
+<defs>
+ <linearGradient id="b" x2="0" y2="1"><stop stop-color="#31454a"/><stop offset="1" stop-color="#080e11"/></linearGradient>
+ <linearGradient id="p" x2="1" y2="1"><stop stop-color="#b5c6c2"/><stop offset=".18" stop-color="#42575b"/><stop offset=".48" stop-color="#152226"/><stop offset=".78" stop-color="#53696b"/><stop offset="1" stop-color="#0a1215"/></linearGradient>
+</defs>
+<rect width="900" height="700" fill="url(#b)"/>
+<path d="M0 165Q350 110 900 240V700H0Z" fill="url(#p)"/>
+<path d="M0 265Q400 175 900 320" fill="none" stroke="#d9e9e5" stroke-opacity=".65" stroke-width="8"/>
+<path d="M0 310Q400 215 900 365" fill="none" stroke="#54cbb8" stroke-opacity=".85" stroke-width="3"/>
+<path d="M0 430Q360 350 900 470" fill="none" stroke="#071012" stroke-width="90" opacity=".45"/>
+<circle cx="650" cy="500" r="165" fill="#070b0d" stroke="#a9bcb6" stroke-width="8"/>
+<circle cx="650" cy="500" r="115" fill="#243539" stroke="#607976" stroke-width="7"/>
+<circle cx="650" cy="500" r="42" fill="#0c171a" stroke="#91a7a0" stroke-width="7"/>
+<g stroke="#a7bbb4" stroke-width="9" opacity=".8">
+ <path d="M650 390V610M540 500H760M572 422L728 578M728 422L572 578"/>
+</g>
+<text x="48" y="80" fill="#eff8f4" font-family="Arial,sans-serif" font-size="15" letter-spacing="5">03 / FINISH</text>
+<text x="48" y="112" fill="#a9c1bb" font-family="Arial,sans-serif" font-size="10" letter-spacing="3">CONCEPTUAL DETAILING VISUAL</text>
+</svg>

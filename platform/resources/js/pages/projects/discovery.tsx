@@ -17,6 +17,34 @@ type DiscoveryResult = {
     primary_conversion: string;
     recommended_tier: string;
     recommendation_rationale: string[];
+    fact_register?: {
+        fact: string;
+        source: string;
+        evidence_status: string;
+        public_use_status: string;
+        notes: string;
+    }[];
+    cta_register?: {
+        action: string;
+        destination: string;
+        destination_status: string;
+        expected_behavior: string;
+    }[];
+    asset_register?: {
+        asset_or_need: string;
+        source_or_owner: string;
+        permission_status: string;
+        intended_use: string;
+        credit_or_restrictions: string;
+    }[];
+    customer_question_map?: {
+        question: string;
+        answer_or_gap: string;
+        stage: string;
+        status: 'ANSWERED' | 'GAP' | 'NOT_APPLICABLE';
+        source: string;
+        owner_or_action: string;
+    }[];
     sections: {
         key: string;
         purpose: string;
@@ -316,6 +344,150 @@ export default function ProjectDiscovery({
                                             {run.result.next_step}
                                         </p>
                                     </div>
+                                    <div className="grid gap-3 md:grid-cols-3">
+                                        <div className="rounded-md border p-3">
+                                            <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                                                Fact provenance
+                                            </p>
+                                            <p className="mt-1 text-lg font-semibold">
+                                                {run.result.fact_register
+                                                    ?.length ?? '—'}
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                Material facts with a source and
+                                                publication status
+                                            </p>
+                                        </div>
+                                        <div className="rounded-md border p-3">
+                                            <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                                                Customer questions
+                                            </p>
+                                            <p className="mt-1 text-lg font-semibold">
+                                                {run.result.customer_question_map?.filter(
+                                                    (item) =>
+                                                        item.status === 'GAP',
+                                                ).length ?? '—'}
+                                                <span className="ml-1 text-xs font-normal text-muted-foreground">
+                                                    open gaps
+                                                </span>
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {run.result.customer_question_map?.filter(
+                                                    (item) =>
+                                                        item.status ===
+                                                        'ANSWERED',
+                                                ).length ?? 0}{' '}
+                                                answered ·{' '}
+                                                {run.result.customer_question_map?.filter(
+                                                    (item) =>
+                                                        item.status ===
+                                                        'NOT_APPLICABLE',
+                                                ).length ?? 0}{' '}
+                                                not applicable
+                                            </p>
+                                        </div>
+                                        <div className="rounded-md border p-3">
+                                            <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                                                CTA / assets
+                                            </p>
+                                            <p className="mt-1 text-lg font-semibold">
+                                                {run.result.cta_register
+                                                    ?.length ?? '—'}{' '}
+                                                /{' '}
+                                                {run.result.asset_register
+                                                    ?.length ?? '—'}
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                Destinations / asset records
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {run.result.customer_question_map &&
+                                        run.result.customer_question_map
+                                            .length > 0 && (
+                                            <div className="space-y-2">
+                                                <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                                                    Customer question coverage
+                                                </p>
+                                                <div className="divide-y rounded-md border">
+                                                    {run.result.customer_question_map.map(
+                                                        (item, index) => (
+                                                            <div
+                                                                key={index}
+                                                                className="flex flex-col gap-1 p-3 sm:flex-row sm:items-start sm:justify-between"
+                                                            >
+                                                                <div>
+                                                                    <p className="text-sm font-medium">
+                                                                        {
+                                                                            item.question
+                                                                        }
+                                                                    </p>
+                                                                    <p className="mt-1 text-xs text-muted-foreground">
+                                                                        {
+                                                                            item.answer_or_gap
+                                                                        }
+                                                                    </p>
+                                                                    <p className="mt-1 text-xs text-muted-foreground">
+                                                                        Source:{' '}
+                                                                        {
+                                                                            item.source
+                                                                        }{' '}
+                                                                        ·
+                                                                        Owner/action:{' '}
+                                                                        {
+                                                                            item.owner_or_action
+                                                                        }
+                                                                    </p>
+                                                                </div>
+                                                                <span className="shrink-0 rounded-full bg-muted px-2 py-1 text-xs">
+                                                                    {
+                                                                        item.status
+                                                                    }
+                                                                </span>
+                                                            </div>
+                                                        ),
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+                                    {run.result.cta_register &&
+                                        run.result.cta_register.length > 0 && (
+                                            <div className="space-y-2">
+                                                <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                                                    CTA destination register
+                                                </p>
+                                                <div className="divide-y rounded-md border">
+                                                    {run.result.cta_register.map(
+                                                        (item, index) => (
+                                                            <div
+                                                                key={index}
+                                                                className="space-y-1 p-3"
+                                                            >
+                                                                <p className="text-sm font-medium">
+                                                                    {
+                                                                        item.action
+                                                                    }
+                                                                </p>
+                                                                <p className="text-xs break-all text-muted-foreground">
+                                                                    {
+                                                                        item.destination
+                                                                    }
+                                                                </p>
+                                                                <p className="text-xs text-muted-foreground">
+                                                                    {
+                                                                        item.destination_status
+                                                                    }{' '}
+                                                                    ·{' '}
+                                                                    {
+                                                                        item.expected_behavior
+                                                                    }
+                                                                </p>
+                                                            </div>
+                                                        ),
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
                                     <details>
                                         <summary className="cursor-pointer text-sm font-medium">
                                             View complete structured brief

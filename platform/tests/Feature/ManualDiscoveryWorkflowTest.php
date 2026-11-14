@@ -21,39 +21,31 @@ class ManualDiscoveryWorkflowTest extends TestCase
         $project = $this->createProject($studio);
         $this->createSubmittedIntake($project);
 
-        $response = $this->actingAs($studio)
-            ->post(route('projects.discovery.start', $project));
-
+        $response = $this->actingAs($studio)->post(route('projects.discovery.start', $project));
         $response->assertRedirect(route('projects.discovery.show', $project));
 
         $run = DiscoveryRun::query()->sole();
-
         $this->assertSame(DiscoveryRunStatus::Processing, $run->status);
         $this->assertSame(1, $run->intake_version);
-        $this->assertSame(
-            'A local car detailing business.',
-            $run->input_snapshot['business_overview'],
-        );
+        $this->assertSame('A local car detailing business.', $run->input_snapshot['business_overview']);
         $this->assertNotNull($run->started_at);
     }
 
-    public function test_studio_can_open_the_discovery_prompt_without_an_api_key(): void
+    public function test_studio_can_open_business_first_discovery_prompt_without_an_api_key(): void
     {
         $studio = $this->createUser(UserRole::StudioOwner);
         $project = $this->createProject($studio);
         $this->createSubmittedIntake($project);
 
-        $this->actingAs($studio)
-            ->post(route('projects.discovery.start', $project));
-
-        $this->actingAs($studio)
-            ->get(route('projects.discovery.show', $project))
+        $this->actingAs($studio)->post(route('projects.discovery.start', $project));
+        $this->actingAs($studio)->get(route('projects.discovery.show', $project))
             ->assertOk()
             ->assertInertia(fn ($page) => $page
                 ->component('projects/discovery')
                 ->where('hasSubmittedIntake', true)
                 ->where('run.status', 'processing')
-                ->has('prompt'));
+                ->has('prompt')
+                ->where('prompt', fn ($prompt) => str_contains($prompt, 'offer_matrix') && str_contains($prompt, 'customer_question_map') && str_contains($prompt, 'buying_journey') && str_contains($prompt, 'fact_register') && str_contains($prompt, 'cta_register') && str_contains($prompt, 'asset_register') && str_contains($prompt, 'NOT_CONFIGURED')));
     }
 
     public function test_client_cannot_access_or_start_studio_discovery(): void
@@ -63,14 +55,8 @@ class ManualDiscoveryWorkflowTest extends TestCase
         $project = $this->createProject($studio);
         $this->createSubmittedIntake($project);
 
-        $this->actingAs($client)
-            ->get(route('projects.discovery.show', $project))
-            ->assertForbidden();
-
-        $this->actingAs($client)
-            ->post(route('projects.discovery.start', $project))
-            ->assertForbidden();
-
+        $this->actingAs($client)->get(route('projects.discovery.show', $project))->assertForbidden();
+        $this->actingAs($client)->post(route('projects.discovery.start', $project))->assertForbidden();
         $this->assertDatabaseCount('discovery_runs', 0);
     }
 
@@ -79,15 +65,12 @@ class ManualDiscoveryWorkflowTest extends TestCase
         $studio = $this->createUser(UserRole::StudioOwner);
         $project = $this->createProject($studio);
 
-        $this->actingAs($studio)
-            ->from(route('projects.discovery.show', $project))
-            ->post(route('projects.discovery.start', $project))
-            ->assertSessionHasErrors('intake');
-
+        $this->actingAs($studio)->from(route('projects.discovery.show', $project))
+            ->post(route('projects.discovery.start', $project))->assertSessionHasErrors('intake');
         $this->assertDatabaseCount('discovery_runs', 0);
     }
 
-    public function test_studio_can_validate_and_save_a_structured_discovery_result(): void
+    public function test_studio_can_validate_and_save_business_first_discovery_result(): void
     {
         $studio = $this->createUser(UserRole::StudioOwner);
         $project = $this->createProject($studio);
@@ -96,21 +79,22 @@ class ManualDiscoveryWorkflowTest extends TestCase
         $this->actingAs($studio)->post(route('projects.discovery.start', $project));
         $run = DiscoveryRun::query()->sole();
 
-        $this->actingAs($studio)
-            ->post(route('projects.discovery.complete', [$project, $run]), [
-                'result_json' => json_encode($this->validResult(), JSON_THROW_ON_ERROR),
-            ])
-            ->assertRedirect(route('projects.discovery.show', $project));
+        $this->actingAs($studio)->post(route('projects.discovery.complete', [$project, $run]), [
+            'result_json' => json_encode($this->validResult(), JSON_THROW_ON_ERROR),
+        ])->assertRedirect(route('projects.discovery.show', $project));
 
         $run->refresh();
-
         $this->assertSame(DiscoveryRunStatus::Completed, $run->status);
         $this->assertSame('starter', $run->result['recommended_tier']);
-        $this->assertSame('Review the draft with the client.', $run->result['next_step']);
+        $this->assertSame('A customer compares service options.', $run->result['customer_question_map'][0]['question']);
+        $this->assertSame('APPROVED', $run->result['fact_register'][0]['public_use_status']);
+        $this->assertSame('APPROVED_REAL_DESTINATION', $run->result['cta_register'][0]['destination_status']);
+        $this->assertSame('APPROVED', $run->result['asset_register'][0]['permission_status']);
+        $this->assertSame('ANSWERED', $run->result['customer_question_map'][0]['status']);
         $this->assertNotNull($run->completed_at);
     }
 
-    public function test_invalid_discovery_output_is_rejected_without_completing_the_run(): void
+    public function test_incomplete_business_intelligence_output_is_rejected(): void
     {
         $studio = $this->createUser(UserRole::StudioOwner);
         $project = $this->createProject($studio);
@@ -118,15 +102,32 @@ class ManualDiscoveryWorkflowTest extends TestCase
 
         $this->actingAs($studio)->post(route('projects.discovery.start', $project));
         $run = DiscoveryRun::query()->sole();
+        $incomplete = $this->validResult();
+        unset($incomplete['offer_matrix']);
 
-        $this->actingAs($studio)
-            ->from(route('projects.discovery.show', $project))
+        $this->actingAs($studio)->from(route('projects.discovery.show', $project))
             ->post(route('projects.discovery.complete', [$project, $run]), [
-                'result_json' => json_encode([
-                    'business_summary' => 'Incomplete result',
-                ], JSON_THROW_ON_ERROR),
-            ])
-            ->assertSessionHasErrors('result_json');
+                'result_json' => json_encode($incomplete, JSON_THROW_ON_ERROR),
+            ])->assertSessionHasErrors('result_json');
+
+        $this->assertSame(DiscoveryRunStatus::Processing, $run->fresh()->status);
+    }
+
+    public function test_discovery_rejects_results_without_fact_and_cta_provenance(): void
+    {
+        $studio = $this->createUser(UserRole::StudioOwner);
+        $project = $this->createProject($studio);
+        $this->createSubmittedIntake($project);
+
+        $this->actingAs($studio)->post(route('projects.discovery.start', $project));
+        $run = DiscoveryRun::query()->sole();
+        $incomplete = $this->validResult();
+        unset($incomplete['fact_register'], $incomplete['cta_register']);
+
+        $this->actingAs($studio)->from(route('projects.discovery.show', $project))
+            ->post(route('projects.discovery.complete', [$project, $run]), [
+                'result_json' => json_encode($incomplete, JSON_THROW_ON_ERROR),
+            ])->assertSessionHasErrors('result_json');
 
         $this->assertSame(DiscoveryRunStatus::Processing, $run->fresh()->status);
     }
@@ -141,11 +142,9 @@ class ManualDiscoveryWorkflowTest extends TestCase
         $this->actingAs($studio)->post(route('projects.discovery.start', $firstProject));
         $run = DiscoveryRun::query()->sole();
 
-        $this->actingAs($studio)
-            ->post(route('projects.discovery.complete', [$secondProject, $run]), [
-                'result_json' => json_encode($this->validResult(), JSON_THROW_ON_ERROR),
-            ])
-            ->assertNotFound();
+        $this->actingAs($studio)->post(route('projects.discovery.complete', [$secondProject, $run]), [
+            'result_json' => json_encode($this->validResult(), JSON_THROW_ON_ERROR),
+        ])->assertNotFound();
 
         $this->assertSame(DiscoveryRunStatus::Processing, $run->fresh()->status);
     }
@@ -164,7 +163,6 @@ class ManualDiscoveryWorkflowTest extends TestCase
             'business_name' => 'Discovery Client '.$creator->getKey().'-'.$name,
             'slug' => 'discovery-client-'.$creator->getKey().'-'.strtolower(str_replace(' ', '-', $name)),
         ]);
-
         $project = new Project([
             'client_account_id' => $account->getKey(),
             'product_tier' => 'starter',
@@ -186,31 +184,55 @@ class ManualDiscoveryWorkflowTest extends TestCase
                 'business_overview' => 'A local car detailing business.',
                 'target_audience' => 'Local vehicle owners.',
                 'products_services' => 'Car wash and detailing.',
+                'offer_details' => 'Several packages with different scopes.',
+                'customer_questions' => 'Which package should I choose?',
+                'customer_objections' => 'How much does it cost?',
+                'purchase_process' => 'Contact by WhatsApp, confirm scope, schedule service.',
+                'operational_policies' => 'Service area and preparation requirements.',
+                'trust_evidence' => 'Verified portfolio photos.',
                 'website_goal' => 'Generate qualified inquiries.',
                 'primary_conversion' => 'Contact the business.',
             ],
         ]);
     }
 
-    /**
-     * @return array<string, mixed>
-     */
+    /** @return array<string, mixed> */
     private function validResult(): array
     {
         return [
             'business_summary' => 'A local car detailing business serving vehicle owners.',
+            'business_model_summary' => 'The business sells detailing packages to local vehicle owners through direct inquiry and scheduled service.',
             'primary_audience' => ['Local vehicle owners'],
             'website_goal' => 'Generate qualified inquiries.',
             'primary_conversion' => 'Contact the business.',
             'recommended_tier' => 'starter',
-            'recommendation_rationale' => ['The current requirements fit a focused lead-generation website.'],
+            'recommendation_rationale' => ['A focused local service journey fits a comprehensive one-page site.'],
+            'offer_matrix' => [
+                ['name' => 'Detailing packages', 'details' => 'Options and scope must be confirmed against the approved catalog.', 'pricing' => 'Not provided', 'source' => 'Submitted intake: products_services and offer_details.', 'evidence_status' => 'CLIENT-PROVIDED-UNVERIFIED'],
+            ],
+            'customer_question_map' => [
+                ['question' => 'A customer compares service options.', 'answer_or_gap' => 'Explain verified package differences; confirm missing details.', 'stage' => 'before_purchase', 'status' => 'ANSWERED', 'source' => 'Submitted intake: offer_details and customer_questions.', 'owner_or_action' => 'Studio to verify the current offer matrix with the owner.'],
+            ],
+            'buying_journey' => [
+                ['stage' => 'Evaluation', 'customer_need' => 'Understand the right package.', 'website_support' => 'Provide clear package scope and a guided inquiry path.'],
+            ],
+            'trust_register' => [
+                ['proof' => 'Portfolio evidence', 'source' => 'No approved portfolio asset provided.', 'status' => 'MISSING'],
+            ],
+            'fact_register' => [
+                ['fact' => 'The business provides car detailing services.', 'source' => 'Submitted intake: business_overview and products_services.', 'evidence_status' => 'CLIENT-PROVIDED-UNVERIFIED', 'public_use_status' => 'APPROVED', 'notes' => 'Client approval recorded for this fixture.'],
+            ],
+            'cta_register' => [
+                ['action' => 'Request a consultation', 'destination' => 'https://wa.me/6280000000000', 'destination_status' => 'APPROVED_REAL_DESTINATION', 'expected_behavior' => 'Opens WhatsApp with a prepared consultation message; it does not confirm a booking.'],
+            ],
+            'asset_register' => [
+                ['asset_or_need' => 'Portfolio photos', 'source_or_owner' => 'Client supplied photo folder.', 'permission_status' => 'APPROVED', 'intended_use' => 'Portfolio gallery.', 'credit_or_restrictions' => 'Client confirmed commercial website permission.'],
+            ],
+            'content_gaps' => [
+                ['gap' => 'Approved current package prices', 'owner_or_source' => 'Client'],
+            ],
             'sections' => [
-                [
-                    'key' => 'hero',
-                    'purpose' => 'Explain the core service.',
-                    'visitor_question' => 'What does this business offer?',
-                    'draft_message' => 'Professional vehicle detailing for local owners.',
-                ],
+                ['key' => 'hero', 'purpose' => 'Explain the core service.', 'visitor_question' => 'What does this business offer?', 'draft_message' => 'Professional vehicle detailing for local owners.'],
             ],
             'missing_information' => [],
             'claims_requiring_approval' => [],

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" role="img" aria-labelledby="t d">
+<title id="t">Illustration of vehicle interior detailing</title><desc id="d">Premium vehicle interior with detailed leather seat, dashboard and soft studio lighting.</desc>
+<defs>
+ <linearGradient id="b" x2="1" y2="1"><stop stop-color="#52666a"/><stop offset=".5" stop-color="#1b2b30"/><stop offset="1" stop-color="#090f12"/></linearGradient>
+ <linearGradient id="seat" x2="1" y2="1"><stop stop-color="#758581"/><stop offset=".4" stop-color="#354642"/><stop offset="1" stop-color="#111a1b"/></linearGradient>
+ <linearGradient id="dash" x2="0" y2="1"><stop stop-color="#7c8c88"/><stop offset="1" stop-color="#172326"/></linearGradient>
+</defs>
+<rect width="900" height="700" fill="url(#b)"/>
+<path d="M0 0H900V250Q620 210 430 310L0 350Z" fill="#0d171a"/>
+<path d="M0 300Q300 225 590 255Q760 270 900 220V390H0Z" fill="url(#dash)"/>
+<path d="M0 350Q230 300 385 375L445 700H0Z" fill="#101b1d"/>
+<path d="M430 700L470 385Q500 300 620 310Q760 320 815 425L900 700Z" fill="url(#seat)" stroke="#a5bbb4" stroke-opacity=".35" stroke-width="5"/>
+<path d="M532 410Q620 355 725 415M510 480Q620 435 778 492M485 565Q640 520 827 580" fill="none" stroke="#b5c6bd" stroke-opacity=".42" stroke-width="4"/>
+<path d="M95 355L380 305L430 345L400 390L100 420Z" fill="#131e21" stroke="#80938e" stroke-opacity=".4" stroke-width="3"/>
+<rect x="185" y="335" width="120" height="42" rx="6" fill="#0b1316" stroke="#50c6b5" stroke-opacity=".8"/>
+<circle cx="700" cy="125" r="115" fill="#5ccdbb" opacity=".11"/>
+<path d="M720 0L560 350" stroke="#d8e9e3" stroke-opacity=".35" stroke-width="14"/>
+<text x="48" y="80" fill="#eff8f4" font-family="Arial,sans-serif" font-size="15" letter-spacing="5">02 / INTERIOR</text>
+<text x="48" y="112" fill="#a9c1bb" font-family="Arial,sans-serif" font-size="10" letter-spacing="3">CONCEPTUAL DETAILING VISUAL</text>
+</svg>

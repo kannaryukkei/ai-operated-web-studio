@@ -1,0 +1,75 @@
+name: New Starter client project
+description: Create an internal record for a potential Starter website client.
+title: "[STARTER] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Internal intake only. Never enter passwords, API keys, payment details, or sensitive customer records.
+  - type: input
+    id: business
+    attributes:
+      label: Contact / business name
+    validations:
+      required: true
+  - type: input
+    id: channel
+    attributes:
+      label: Contact channel or public business profile
+    validations:
+      required: false
+  - type: dropdown
+    id: tier
+    attributes:
+      label: Initial tier assessment
+      options:
+        - Starter — likely fit
+        - Business — likely multi-page
+        - Custom — backend/integration/bespoke
+        - Not assessed
+    validations:
+      required: true
+  - type: textarea
+    id: business-summary
+    attributes:
+      label: Business and offer
+      description: What does the business provide and who is its audience?
+    validations:
+      required: true
+  - type: textarea
+    id: website-goal
+    attributes:
+      label: Website goal and primary visitor action
+    validations:
+      required: true
+  - type: checkboxes
+    id: capabilities
+    attributes:
+      label: Potential capabilities requested
+      options:
+        - label: Multiple pages
+        - label: CMS/admin editing
+        - label: Booking records
+        - label: Login/membership
+        - label: Payment/checkout
+        - label: External API integration
+        - label: Standard contact/WhatsApp CTA
+  - type: textarea
+    id: assets
+    attributes:
+      label: Existing assets and materials
+      description: Logo, brand guide, copy, photos, domain, existing site. Missing imagery is not a blocker.
+    validations:
+      required: false
+  - type: input
+    id: approver
+    attributes:
+      label: Decision maker / approver
+    validations:
+      required: false
+  - type: input
+    id: launch-date
+    attributes:
+      label: Desired launch date
+    validations:
+      required: false

@@ -6,22 +6,18 @@ Laravel owns project state and approvals. AI may assist with repeatable work, bu
 
 **MVP execution model:** Laravel creates a discovery run from a submitted intake snapshot, prepares a prompt, and validates the structured result pasted back by the studio operator. ChatGPT, Claude, or another AI application performs the model work outside the platform. Provider APIs and queued agent execution are future optimizations, not MVP requirements.
 
-## 2. Agent roster
+## 2. Current skill vs future roles
 
-| Agent | Responsibility | Output |
-|---|---|---|
-| Intake Guide | Help client provide complete business information | Structured intake + missing questions |
-| Qualification | Recommend Starter / Business / Custom and flag complexity | Tier-fit report |
-| Discovery Strategist | Turn intake into a client-ready discovery brief | Structured brief |
-| Proposal Drafter | Draft scope, exclusions, assumptions, and proposal | Proposal draft |
-| Content Strategist | Plan sections, messaging, CTA, FAQ, metadata | Content plan/copy artifacts |
-| Creative Director | Art direction, design tokens, reference analysis, visual prompts | Creative brief/assets |
-| Website Builder | Implement approved scope in isolated website repository | Code branch/PR/preview |
-| QA Reviewer | Independently inspect functionality, content, and responsiveness | QA report |
-| Revision Analyst | Classify client feedback and plan in-scope changes | Revision plan |
-| Release Assistant | Prepare launch and handover | Release/handover pack |
+The current MVP runs **one manual Discovery Strategist workflow** through ChatGPT or Claude. It is not a fleet of autonomous agents.
 
-Start with a reusable Discovery Strategist prompt operated through an external AI application. Other skills are added only when a real delivery workflow needs them.
+Potential later skills (not a build backlog):
+- Qualification / tier review.
+- Content and conversion planning.
+- Creative direction.
+- Website implementation.
+- Independent QA and release handover.
+
+Only split these into separate skills when repeated delivery shows that one reusable master skill is insufficient. Do not create agent orchestration, queues or provider integrations just because the architecture could support them.
 
 ## 3. MVP discovery handoff
 
@@ -83,32 +79,21 @@ For a future provider-integrated workflow, add bounded retries, idempotent jobs,
 
 ## 6. Structured outputs
 
-Every agent must return schema-validated output. Example discovery brief:
+The current manual Discovery Strategist returns one JSON object. Its exact prompt and server-side validation live together in `platform/app/Http/Controllers/ManualDiscoveryController.php`; update the prompt, validator, UI types and feature tests in the same change.
 
-```json
-{
-  "business_summary": "string",
-  "primary_audience": ["string"],
-  "website_goal": "string",
-  "primary_conversion": "string",
-  "recommended_tier": "starter|business|custom",
-  "recommendation_rationale": ["string"],
-  "sections": [
-    {
-      "key": "hero",
-      "purpose": "string",
-      "visitor_question": "string",
-      "draft_message": "string"
-    }
-  ],
-  "missing_information": ["string"],
-  "claims_requiring_approval": ["string"],
-  "scope_risks": ["string"],
-  "next_step": "string"
-}
-```
+Required output groups:
+- Business summary, business model, audience, website goal, conversion and recommended tier with rationale.
+- Offer matrix: real options, variants, inclusions/exclusions, pricing logic, source and evidence status.
+- Customer Question Map: question, supported answer or gap, purchase stage, `ANSWERED` / `GAP` / `NOT_APPLICABLE` status, source and owner/action.
+- Buying Journey: customer need and website support at each stage.
+- Fact register: material fact, exact source, evidence status, public-use approval and notes.
+- CTA register: action, exact destination or `NOT_CONFIGURED`, destination status and expected behavior.
+- Asset register: asset/need, owner/source, permission status, intended use and credits/restrictions.
+- Trust register, content gaps, proposed sections, missing information, claims requiring approval, scope risks and one next step.
 
-The AI may suggest a tier; the studio approves it.
+The output is evidence and a draft plan, not automatic approval. A correctly shaped JSON object can still contain unsupported or unapproved content; the studio must review the source, permission and publication status before it becomes public website copy. The AI suggests a tier; the studio approves it.
+
+Keep this contract API-free. The operator copies the prompt into ChatGPT/Claude and pastes the resulting JSON back into the workspace.
 
 ## 7. Tool permissions
 

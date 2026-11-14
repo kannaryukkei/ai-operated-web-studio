@@ -1,0 +1,13 @@
+item,required,source,status,approval_owner,notes,asset_path_or_url
+Business identity,yes,Client,REQUESTED,Client,Confirm exact details,
+Business description,yes,Client + AI draft,DRAFT,Client,Verify factual claims,
+Primary offer,yes,Client,REQUESTED,Client,Confirm inclusions,
+Prices,conditional,Client,REQUESTED,Client,Confirm amount and validity,
+Primary CTA,yes,Client + AI draft,DRAFT,Client,Test destination,
+Logo,preferred,Client/design,REQUESTED,Client,Create designed fallback if absent,
+Hero visual,yes,AI/licensed stock/client,NOT STARTED,Studio,Generate/source for crop,
+Gallery visuals,yes,AI/licensed stock/client,NOT STARTED,Studio,Keep visual showcase,
+Testimonials,optional,Verified source,NOT STARTED,Client,Never pass invented reviews as genuine,
+Metrics,optional,Verified/sample demo,NOT STARTED,Client/Studio,Label fictional portfolio data,
+FAQs,recommended,Client questions + AI draft,DRAFT,Client,Verify answers/policies,
+Privacy/legal,conditional,Client/adviser,NOT STARTED,Client,No invented assurances,
