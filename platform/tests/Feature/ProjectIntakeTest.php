@@ -35,6 +35,9 @@ class ProjectIntakeTest extends TestCase
                 ->where('intake.version', 1)
                 ->where('intake.payload.industry', 'Professional services')
                 ->where('intake.payload.customer_objections', 'Price is too high.')
+                ->where('intake.payload.existing_assets', 'https://example.com/logo-and-gallery')
+                ->where('intake.payload.asset_permissions', 'Owner-approved for commercial website use.')
+                ->where('intake.payload.content_approver', 'Ari — Business owner')
                 ->where('canEdit', true));
     }
 
@@ -114,6 +117,9 @@ class ProjectIntakeTest extends TestCase
             'required_features' => '',
             'constraints' => '',
             'success_metrics' => '',
+            'existing_assets' => 'https://example.com/logo-and-gallery',
+            'asset_permissions' => 'Owner-approved for commercial website use.',
+            'content_approver' => 'Ari — Business owner',
         ];
     }
 
