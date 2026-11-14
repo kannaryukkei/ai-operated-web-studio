@@ -1,0 +1,26 @@
+name: temporary-pint-intake
+
+on:
+  push:
+    branches:
+      - restructure/business-first-product-system
+    paths:
+      - .github/workflows/temporary-pint-intake.yml
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: platform
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          tools: composer:v2
+      - run: composer install --no-interaction --prefer-dist
+      - name: Apply Pint and print test diffs
+        run: |
+          composer lint
+          git diff -- tests/Feature/ManualDiscoveryWorkflowTest.php tests/Feature/ProjectIntakeTest.php
