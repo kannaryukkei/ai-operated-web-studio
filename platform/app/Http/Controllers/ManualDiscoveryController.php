@@ -19,12 +19,7 @@ class ManualDiscoveryController extends Controller
     public function show(Request $request, Project $project): Response
     {
         $this->authorizeStudio($request);
-
-        $intake = $project->intakes()
-            ->where('status', 'submitted')
-            ->latest('version')
-            ->first();
-
+        $intake = $project->intakes()->where('status', 'submitted')->latest('version')->first();
         $run = $intake?->discoveryRuns()->latest('id')->first();
 
         return Inertia::render('projects/discovery', [
@@ -42,66 +37,47 @@ class ManualDiscoveryController extends Controller
                 'failureReason' => $run->failure_reason,
             ] : null,
             'canStart' => $intake !== null && ($run === null || ! $run->status->isActive()),
-            'prompt' => $run && $run->status->isActive()
-                ? $this->buildPrompt($run->input_snapshot)
-                : null,
+            'prompt' => $run && $run->status->isActive() ? $this->buildPrompt($run->input_snapshot) : null,
         ]);
     }
 
-    public function start(
-        Request $request,
-        Project $project,
-        CreateDiscoveryRun $createDiscoveryRun,
-    ): RedirectResponse {
+    public function start(Request $request, Project $project, CreateDiscoveryRun $createDiscoveryRun): RedirectResponse
+    {
         $this->authorizeStudio($request);
-
         $run = $createDiscoveryRun->handle($project, (int) $request->user()->getKey());
 
         if ($run->status === DiscoveryRunStatus::Queued) {
-            $run->update([
-                'status' => DiscoveryRunStatus::Processing,
-                'started_at' => now(),
-            ]);
+            $run->update(['status' => DiscoveryRunStatus::Processing, 'started_at' => now()]);
         }
 
         return to_route('projects.discovery.show', $project)
             ->with('success', 'Discovery workspace is ready. Run the prompt in your AI app, then paste the JSON result here.');
     }
 
-    public function complete(
-        Request $request,
-        Project $project,
-        DiscoveryRun $discoveryRun,
-    ): RedirectResponse {
+    public function complete(Request $request, Project $project, DiscoveryRun $discoveryRun): RedirectResponse
+    {
         $this->authorizeStudio($request);
         abort_unless($discoveryRun->project_id === $project->getKey(), 404);
 
         if (! $discoveryRun->status->isActive()) {
-            throw ValidationException::withMessages([
-                'result_json' => 'This discovery run is no longer active. Start a new run to continue.',
-            ]);
+            throw ValidationException::withMessages(['result_json' => 'This discovery run is no longer active. Start a new run to continue.']);
         }
 
-        $validated = $request->validate([
-            'result_json' => ['required', 'string', 'max:60000', 'json'],
-        ]);
+        $validated = $request->validate(['result_json' => ['required', 'string', 'max:60000', 'json']]);
 
         try {
             $decoded = json_decode($validated['result_json'], true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException) {
-            throw ValidationException::withMessages([
-                'result_json' => 'The result must be valid JSON. Paste the JSON object without Markdown code fences.',
-            ]);
+            throw ValidationException::withMessages(['result_json' => 'The result must be valid JSON. Paste the JSON object without Markdown code fences.']);
         }
 
         if (! is_array($decoded) || array_is_list($decoded)) {
-            throw ValidationException::withMessages([
-                'result_json' => 'The result must be a JSON object with the required discovery fields.',
-            ]);
+            throw ValidationException::withMessages(['result_json' => 'The result must be a JSON object with the required discovery fields.']);
         }
 
         $validator = Validator::make($decoded, [
             'business_summary' => ['required', 'string', 'max:5000'],
+            'business_model_summary' => ['required', 'string', 'max:4000'],
             'primary_audience' => ['required', 'array', 'min:1'],
             'primary_audience.*' => ['required', 'string', 'max:500'],
             'website_goal' => ['required', 'string', 'max:2000'],
@@ -109,6 +85,25 @@ class ManualDiscoveryController extends Controller
             'recommended_tier' => ['required', 'in:starter,business,custom'],
             'recommendation_rationale' => ['required', 'array', 'min:1'],
             'recommendation_rationale.*' => ['required', 'string', 'max:1000'],
+            'offer_matrix' => ['required', 'array', 'min:1'],
+            'offer_matrix.*.name' => ['required', 'string', 'max:300'],
+            'offer_matrix.*.details' => ['required', 'string', 'max:1500'],
+            'offer_matrix.*.pricing' => ['required', 'string', 'max:500'],
+            'offer_matrix.*.evidence_status' => ['required', 'string', 'max:100'],
+            'customer_question_map' => ['required', 'array', 'min:1'],
+            'customer_question_map.*.question' => ['required', 'string', 'max:1000'],
+            'customer_question_map.*.answer_or_gap' => ['required', 'string', 'max:1500'],
+            'customer_question_map.*.stage' => ['required', 'in:before_purchase,during_purchase,after_purchase'],
+            'buying_journey' => ['required', 'array', 'min:1'],
+            'buying_journey.*.stage' => ['required', 'string', 'max:200'],
+            'buying_journey.*.customer_need' => ['required', 'string', 'max:1000'],
+            'buying_journey.*.website_support' => ['required', 'string', 'max:1000'],
+            'trust_register' => ['required', 'array'],
+            'trust_register.*.proof' => ['required', 'string', 'max:1000'],
+            'trust_register.*.status' => ['required', 'string', 'max:100'],
+            'content_gaps' => ['required', 'array'],
+            'content_gaps.*.gap' => ['required', 'string', 'max:1000'],
+            'content_gaps.*.owner_or_source' => ['required', 'string', 'max:500'],
             'sections' => ['required', 'array', 'min:1'],
             'sections.*.key' => ['required', 'string', 'max:100'],
             'sections.*.purpose' => ['required', 'string', 'max:1000'],
@@ -125,7 +120,7 @@ class ManualDiscoveryController extends Controller
 
         if ($validator->fails()) {
             throw ValidationException::withMessages([
-                'result_json' => 'The JSON is valid, but its structure is incomplete. Use the required discovery output format shown in the prompt.',
+                'result_json' => 'The JSON is valid, but its structure is incomplete. Include business model, offer matrix, customer question map, buying journey, trust register and content gaps.',
             ]);
         }
 
@@ -137,8 +132,7 @@ class ManualDiscoveryController extends Controller
             'failure_reason' => null,
         ]);
 
-        return to_route('projects.discovery.show', $project)
-            ->with('success', 'Discovery brief saved successfully.');
+        return to_route('projects.discovery.show', $project)->with('success', 'Discovery brief saved successfully.');
     }
 
     private function authorizeStudio(Request $request): void
@@ -146,58 +140,64 @@ class ManualDiscoveryController extends Controller
         abort_unless($request->user()?->isStudioStaff(), 403);
     }
 
-    /**
-     * @param  array<string, mixed>  $inputSnapshot
-     */
+    /** @param array<string, mixed> $inputSnapshot */
     private function buildPrompt(array $inputSnapshot): string
     {
-        $input = json_encode(
-            $inputSnapshot,
-            JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE,
-        ) ?: '{}';
+        $input = json_encode($inputSnapshot, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: '{}';
 
         return <<<PROMPT
-You are the Discovery Strategist for a professional website studio.
+You are the Business Discovery Strategist for a professional website studio.
 
-TASK
-Turn the submitted business intake below into a practical, client-ready website discovery brief.
+MISSION
+Understand the business and its customers before deciding what the website should contain. The goal is a complete, useful customer journey—not a generic attractive landing page.
 
-WORKING RULES
-- Use only information supported by the intake. Never invent business facts, credentials, testimonials, results, prices, or guarantees.
-- Clearly identify unknown information in missing_information instead of guessing.
-- Recommend a Starter, Business, or Custom tier based on actual complexity. This is a recommendation, not a commercial commitment.
-- Keep the brief specific to this business. Avoid generic marketing language.
-- Make every proposed website section serve a visitor need or business goal.
-- Flag factual claims that need client verification and scope risks that need studio review.
-- Do not expose private reasoning. Provide concise conclusions and practical rationale only.
-- Return one valid JSON object only. Do not use Markdown fences or add explanations outside the JSON.
+RULES
+- Use only information supported by the submitted intake. Never invent facts, prices, inclusions, policies, credentials, testimonials, results or guarantees.
+- Label evidence as VERIFIED, CLIENT-PROVIDED-UNVERIFIED, APPROVED-FOR-PUBLICATION, DEMO-ONLY, ASSUMPTION or MISSING.
+- Do not treat a missing answer as permission to guess. Record the gap and its owner/source.
+- Identify customer questions and objections before proposing sections.
+- Recommend Starter, Business or Custom based on business complexity and visitor tasks, not visual preference or page count alone.
+- Starter means a complete one-page business presence; Business means deeper multi-page information architecture; Custom means bespoke workflows/data/integrations that need a real business reason.
+- Every proposed section must answer a customer question or support a defined business action.
+- Return one valid JSON object only. No Markdown fences or prose outside JSON.
 
-SUBMITTED BUSINESS INTAKE
+SUBMITTED INTAKE
 {$input}
 
 REQUIRED JSON SHAPE
 {
-  "business_summary": "string",
-  "primary_audience": ["string"],
-  "website_goal": "string",
-  "primary_conversion": "string",
+  "business_summary": "Concise public-facing business summary",
+  "business_model_summary": "What is sold, to whom, where, how customers buy and how the business delivers",
+  "primary_audience": ["Audience segment and intent"],
+  "website_goal": "Primary business outcome",
+  "primary_conversion": "Primary visitor action and destination status",
   "recommended_tier": "starter|business|custom",
-  "recommendation_rationale": ["string"],
-  "sections": [
-    {
-      "key": "hero",
-      "purpose": "string",
-      "visitor_question": "string",
-      "draft_message": "string"
-    }
+  "recommendation_rationale": ["Evidence-based reasons and scope boundary"],
+  "offer_matrix": [
+    {"name":"Offer name","details":"Variants, inclusions, exclusions and best-fit customer; unknowns stay explicit","pricing":"Verified price or pricing method, otherwise Not provided","evidence_status":"VERIFIED|CLIENT-PROVIDED-UNVERIFIED|MISSING"}
   ],
-  "missing_information": [],
-  "claims_requiring_approval": [],
-  "scope_risks": [],
-  "next_step": "string"
+  "customer_question_map": [
+    {"question":"Real visitor question","answer_or_gap":"Supported answer or explicit gap","stage":"before_purchase|during_purchase|after_purchase"}
+  ],
+  "buying_journey": [
+    {"stage":"Discovery / evaluation / inquiry / delivery / aftercare","customer_need":"What the customer needs at this stage","website_support":"Content or action the website should provide"}
+  ],
+  "trust_register": [
+    {"proof":"Proof item or transparent alternative","status":"VERIFIED|CLIENT-PROVIDED-UNVERIFIED|MISSING"}
+  ],
+  "content_gaps": [
+    {"gap":"Missing information/evidence","owner_or_source":"Client, studio research, or not known"}
+  ],
+  "sections": [
+    {"key":"section-key","purpose":"Why it exists","visitor_question":"Question answered","draft_message":"Concise content direction"}
+  ],
+  "missing_information": ["Critical missing facts"],
+  "claims_requiring_approval": ["Claims needing client approval"],
+  "scope_risks": ["Dependencies, unsupported functionality or delivery risks"],
+  "next_step": "One practical next action"
 }
 
-Return all fields, even when one of the list fields is an empty array.
+All fields are required. Empty arrays are allowed only for trust_register, content_gaps, missing_information, claims_requiring_approval and scope_risks when there are genuinely no entries. Offer matrix, customer question map, buying journey and sections must contain at least one useful item.
 PROMPT;
     }
 }
