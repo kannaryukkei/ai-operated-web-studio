@@ -7,7 +7,7 @@ on:
       - '.github/workflows/temporary-format-snapshot.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   format:
@@ -19,7 +19,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          persist-credentials: false
+          persist-credentials: true
 
       - name: Setup Node
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
@@ -35,10 +35,13 @@ jobs:
         run: npm run check:fix
         continue-on-error: true
 
-      - name: Upload formatted discovery component
-        if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-        with:
-          name: formatted-discovery-component
-          path: platform/resources/js/pages/projects/discovery.tsx
-          if-no-files-found: error
+      - name: Commit formatter changes
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          if ! git diff --quiet -- resources/js/pages/projects/discovery.tsx; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add resources/js/pages/projects/discovery.tsx
+            git commit -m "style: apply repository formatter to discovery UI"
+            git push origin "HEAD:${GITHUB_HEAD_REF}"
+          fi
