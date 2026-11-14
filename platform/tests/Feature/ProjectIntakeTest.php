@@ -121,6 +121,7 @@ class ProjectIntakeTest extends TestCase
     {
         $user = User::factory()->create();
         $user->forceFill(['role' => $role])->save();
+
         return $user->refresh();
     }
 
@@ -132,6 +133,7 @@ class ProjectIntakeTest extends TestCase
         $project = new Project(['client_account_id' => $account->getKey(), 'product_tier' => 'starter', 'status' => 'onboarding', 'name' => 'Website project']);
         $project->created_by = $studio->getKey();
         $project->save();
+
         return $project;
     }
 }
