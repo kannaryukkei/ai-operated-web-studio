@@ -130,6 +130,7 @@ class ManualDiscoveryWorkflowTest extends TestCase
     {
         $user = User::factory()->create();
         $user->forceFill(['role' => $role])->save();
+
         return $user->refresh();
     }
 
@@ -147,6 +148,7 @@ class ManualDiscoveryWorkflowTest extends TestCase
         ]);
         $project->created_by = $creator->getKey();
         $project->save();
+
         return $project;
     }
 
