@@ -41,7 +41,8 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 - `docs/data-model.md`
 - `docs/security-and-approvals.md`
 - `docs/roadmap.md`
-- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.6_CANDIDATE.md` — current five-website-informed production skill.
+- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.7_CANDIDATE.md` — proposed production skill with five-website and Experiment #1 design-quality gates.
+- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.6_CANDIDATE.md` — preserved historical candidate.
 - `docs/CLIENT_WEBSITE_BRIEF_TEMPLATE_v2.1.md` — current client brief and asset-permission intake.
 - `docs/WEBSITE_PRODUCT_TIERS_v1.1.md` — Starter / Business / Custom scope and Starter price boundary.
 - `docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.0.md` — design, implementation and technical guardrails.
