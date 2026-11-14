@@ -16,21 +16,13 @@ use Inertia\Response;
 class ProjectIntakeController extends Controller
 {
     private const FIELDS = [
-        'business_overview',
-        'industry',
-        'location',
-        'target_audience',
-        'products_services',
-        'differentiators',
-        'website_goal',
-        'primary_conversion',
-        'current_website',
-        'competitor_references',
-        'brand_direction',
-        'required_pages',
-        'required_features',
-        'constraints',
-        'success_metrics',
+        'business_overview', 'industry', 'location', 'target_audience',
+        'products_services', 'offer_details', 'customer_questions',
+        'customer_objections', 'purchase_process', 'operational_policies',
+        'trust_evidence', 'aftercare_support', 'differentiators',
+        'website_goal', 'primary_conversion', 'public_contact_details',
+        'current_website', 'competitor_references', 'brand_direction',
+        'required_pages', 'required_features', 'constraints', 'success_metrics',
     ];
 
     public function show(Project $project): Response
@@ -39,8 +31,7 @@ class ProjectIntakeController extends Controller
 
         $intake = $project->intakes()
             ->where(fn (Builder $query) => $query->where('status', 'draft'))
-            ->latest('version')
-            ->first()
+            ->latest('version')->first()
             ?? $project->intakes()->latest('version')->first();
 
         $submittedAt = $intake === null ? null : $intake->getAttribute('submitted_at');
@@ -64,11 +55,9 @@ class ProjectIntakeController extends Controller
     public function save(Request $request, Project $project): RedirectResponse
     {
         Gate::authorize('update', $project);
-
         $validated = $request->validate($this->rules());
 
         DB::transaction(function () use ($project, $validated): void {
-            /** @var Project $lockedProject */
             $lockedProject = Project::query()->whereKey($project->getKey())->lockForUpdate()->firstOrFail();
             $intake = $this->currentDraft($lockedProject);
 
@@ -90,7 +79,6 @@ class ProjectIntakeController extends Controller
     public function submit(Request $request, Project $project): RedirectResponse
     {
         Gate::authorize('update', $project);
-
         $validated = $request->validate($this->rules(true));
 
         DB::transaction(function () use ($project, $request, $validated): void {
@@ -116,16 +104,9 @@ class ProjectIntakeController extends Controller
 
     private function currentDraft(Project $project): ?ProjectIntake
     {
-        return $project->intakes()
-            ->where('status', 'draft')
-            ->latest('version')
-            ->lockForUpdate()
-            ->first();
+        return $project->intakes()->where('status', 'draft')->latest('version')->lockForUpdate()->first();
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     private function rules(bool $forSubmission = false): array
     {
         $required = $forSubmission ? 'required' : 'nullable';
@@ -137,9 +118,17 @@ class ProjectIntakeController extends Controller
             'payload.location' => ['nullable', 'string', 'max:200'],
             'payload.target_audience' => [$required, 'string', 'max:4000'],
             'payload.products_services' => [$required, 'string', 'max:4000'],
+            'payload.offer_details' => ['nullable', 'string', 'max:5000'],
+            'payload.customer_questions' => ['nullable', 'string', 'max:4000'],
+            'payload.customer_objections' => ['nullable', 'string', 'max:4000'],
+            'payload.purchase_process' => ['nullable', 'string', 'max:4000'],
+            'payload.operational_policies' => ['nullable', 'string', 'max:4000'],
+            'payload.trust_evidence' => ['nullable', 'string', 'max:4000'],
+            'payload.aftercare_support' => ['nullable', 'string', 'max:3000'],
             'payload.differentiators' => ['nullable', 'string', 'max:4000'],
             'payload.website_goal' => [$required, 'string', 'max:2000'],
             'payload.primary_conversion' => [$required, 'string', 'max:1000'],
+            'payload.public_contact_details' => ['nullable', 'string', 'max:2000'],
             'payload.current_website' => ['nullable', 'url', 'max:255'],
             'payload.competitor_references' => ['nullable', 'string', 'max:4000'],
             'payload.brand_direction' => ['nullable', 'string', 'max:4000'],
