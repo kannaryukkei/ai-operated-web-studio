@@ -71,7 +71,8 @@ const groups: {
 }[] = [
     {
         title: 'Business and customers',
-        description: 'Help us understand what the business sells and who it serves.',
+        description:
+            'Help us understand what the business sells and who it serves.',
         fields: [
             {
                 key: 'business_overview',
@@ -113,7 +114,8 @@ const groups: {
     },
     {
         title: 'Products, services and operations',
-        description: 'The detail that helps visitors understand, compare and choose your offer.',
+        description:
+            'The detail that helps visitors understand, compare and choose your offer.',
         fields: [
             {
                 key: 'products_services',
@@ -162,7 +164,8 @@ const groups: {
     },
     {
         title: 'Website goals and contact',
-        description: 'What the website should achieve and where visitors should go next.',
+        description:
+            'What the website should achieve and where visitors should go next.',
         fields: [
             {
                 key: 'website_goal',
@@ -194,7 +197,8 @@ const groups: {
     },
     {
         title: 'Website references and constraints',
-        description: 'Optional details. The studio will turn these into a practical website plan.',
+        description:
+            'Optional details. The studio will turn these into a practical website plan.',
         fields: [
             {
                 key: 'current_website',
@@ -265,7 +269,9 @@ export default function ProjectIntake({
     }
 
     function submit() {
-        form.post(`/projects/${project.id}/intake/submit`, { preserveScroll: true });
+        form.post(`/projects/${project.id}/intake/submit`, {
+            preserveScroll: true,
+        });
     }
 
     return (
@@ -286,8 +292,9 @@ export default function ProjectIntake({
                         Business discovery intake
                     </h1>
                     <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-                        Tell us how your business works, what customers need to know and how they buy.
-                        Short answers are fine. Save progress and return later; optional questions can be
+                        Tell us how your business works, what customers need to
+                        know and how they buy. Short answers are fine. Save
+                        progress and return later; optional questions can be
                         left blank.
                     </p>
                 </div>
@@ -295,13 +302,17 @@ export default function ProjectIntake({
                 <Card>
                     <CardHeader className="gap-2">
                         <div className="flex flex-wrap items-center justify-between gap-2">
-                            <CardTitle className="text-base">Intake status</CardTitle>
+                            <CardTitle className="text-base">
+                                Intake status
+                            </CardTitle>
                             <span className="rounded-full bg-muted px-2.5 py-1 text-xs capitalize">
                                 {intake.status || 'Not started'}
                             </span>
                         </div>
                         <p className="text-sm text-muted-foreground">
-                            {intake.version ? `Version ${intake.version}` : 'No saved version yet'}
+                            {intake.version
+                                ? `Version ${intake.version}`
+                                : 'No saved version yet'}
                             {intake.submittedAt
                                 ? ` · Submitted ${new Date(intake.submittedAt).toLocaleDateString()}`
                                 : ''}
@@ -313,16 +324,27 @@ export default function ProjectIntake({
                     {groups.map((group) => (
                         <Card key={group.title}>
                             <CardHeader className="gap-1">
-                                <CardTitle className="text-base">{group.title}</CardTitle>
-                                <p className="text-sm text-muted-foreground">{group.description}</p>
+                                <CardTitle className="text-base">
+                                    {group.title}
+                                </CardTitle>
+                                <p className="text-sm text-muted-foreground">
+                                    {group.description}
+                                </p>
                             </CardHeader>
                             <CardContent className="grid gap-5 md:grid-cols-2">
                                 {group.fields.map((field) => (
                                     <div
                                         key={field.key}
-                                        className={field.rows ? 'space-y-2 md:col-span-2' : 'space-y-2'}
+                                        className={
+                                            field.rows
+                                                ? 'space-y-2 md:col-span-2'
+                                                : 'space-y-2'
+                                        }
                                     >
-                                        <label htmlFor={field.key} className="text-sm font-medium">
+                                        <label
+                                            htmlFor={field.key}
+                                            className="text-sm font-medium"
+                                        >
                                             {field.label}
                                             {field.required ? ' *' : ''}
                                         </label>
@@ -330,9 +352,18 @@ export default function ProjectIntake({
                                             <Input
                                                 id={field.key}
                                                 type="url"
-                                                disabled={!canEdit || form.processing}
-                                                value={form.data.payload[field.key]}
-                                                onChange={(event) => setField(field.key, event.target.value)}
+                                                disabled={
+                                                    !canEdit || form.processing
+                                                }
+                                                value={
+                                                    form.data.payload[field.key]
+                                                }
+                                                onChange={(event) =>
+                                                    setField(
+                                                        field.key,
+                                                        event.target.value,
+                                                    )
+                                                }
                                                 placeholder="https://example.com"
                                             />
                                         ) : (
@@ -359,15 +390,26 @@ export default function ProjectIntake({
                     {canEdit ? (
                         <div className="flex flex-wrap items-center justify-between gap-3">
                             <p className="text-xs text-muted-foreground">
-                                Only four core fields are required. Optional details improve the website
-                                plan. Submitted versions are preserved as read-only snapshots.
+                                Only four core fields are required. Optional
+                                details improve the website plan. Submitted
+                                versions are preserved as read-only snapshots.
                             </p>
                             <div className="flex gap-2">
-                                <Button type="submit" variant="outline" disabled={form.processing}>
-                                    <Save className="mr-2 size-4" /> Save progress
+                                <Button
+                                    type="submit"
+                                    variant="outline"
+                                    disabled={form.processing}
+                                >
+                                    <Save className="mr-2 size-4" /> Save
+                                    progress
                                 </Button>
-                                <Button type="button" disabled={form.processing} onClick={submit}>
-                                    <CheckCircle2 className="mr-2 size-4" /> Submit intake
+                                <Button
+                                    type="button"
+                                    disabled={form.processing}
+                                    onClick={submit}
+                                >
+                                    <CheckCircle2 className="mr-2 size-4" />{' '}
+                                    Submit intake
                                 </Button>
                             </div>
                         </div>
