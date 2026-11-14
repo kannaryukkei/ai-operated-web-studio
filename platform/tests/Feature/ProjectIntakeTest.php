@@ -17,7 +17,6 @@ class ProjectIntakeTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
         $this->withoutVite();
     }
 
@@ -25,26 +24,17 @@ class ProjectIntakeTest extends TestCase
     {
         $client = $this->createUser(UserRole::Client);
         $project = $this->createProject($client);
-
         $payload = $this->validPayload();
         $payload['industry'] = 'Professional services';
 
-        $this->actingAs($client)
-            ->patch(route('projects.intake.save', $project), ['payload' => $payload])
-            ->assertRedirect();
+        $this->actingAs($client)->patch(route('projects.intake.save', $project), ['payload' => $payload])->assertRedirect();
+        $this->assertDatabaseHas('project_intakes', ['project_id' => $project->getKey(), 'version' => 1, 'status' => 'draft']);
 
-        $this->assertDatabaseHas('project_intakes', [
-            'project_id' => $project->getKey(),
-            'version' => 1,
-            'status' => 'draft',
-        ]);
-
-        $this->get(route('projects.intake.show', $project))
-            ->assertOk()
-            ->assertInertia(fn ($page) => $page
-                ->component('projects/intake')
+        $this->get(route('projects.intake.show', $project))->assertOk()
+            ->assertInertia(fn ($page) => $page->component('projects/intake')
                 ->where('intake.version', 1)
                 ->where('intake.payload.industry', 'Professional services')
+                ->where('intake.payload.customer_objections', 'Price is too high.')
                 ->where('canEdit', true));
     }
 
@@ -53,36 +43,16 @@ class ProjectIntakeTest extends TestCase
         $client = $this->createUser(UserRole::Client);
         $project = $this->createProject($client);
 
-        $this->actingAs($client)
-            ->post(route('projects.intake.submit', $project), ['payload' => $this->validPayload()])
-            ->assertRedirect();
-
-        $this->assertDatabaseHas('project_intakes', [
-            'project_id' => $project->getKey(),
-            'version' => 1,
-            'status' => 'submitted',
-        ]);
+        $this->actingAs($client)->post(route('projects.intake.submit', $project), ['payload' => $this->validPayload()])->assertRedirect();
+        $this->assertDatabaseHas('project_intakes', ['project_id' => $project->getKey(), 'version' => 1, 'status' => 'submitted']);
 
         $updated = $this->validPayload();
         $updated['industry'] = 'Updated industry';
+        $this->patch(route('projects.intake.save', $project), ['payload' => $updated])->assertRedirect();
 
-        $this->patch(route('projects.intake.save', $project), ['payload' => $updated])
-            ->assertRedirect();
-
-        $this->assertDatabaseHas('project_intakes', [
-            'project_id' => $project->getKey(),
-            'version' => 1,
-            'status' => 'submitted',
-        ]);
-        $this->assertDatabaseHas('project_intakes', [
-            'project_id' => $project->getKey(),
-            'version' => 2,
-            'status' => 'draft',
-        ]);
-        $this->assertSame('Updated industry', ProjectIntake::query()
-            ->where('project_id', $project->getKey())
-            ->where('version', 2)
-            ->firstOrFail()->payload['industry']);
+        $this->assertDatabaseHas('project_intakes', ['project_id' => $project->getKey(), 'version' => 1, 'status' => 'submitted']);
+        $this->assertDatabaseHas('project_intakes', ['project_id' => $project->getKey(), 'version' => 2, 'status' => 'draft']);
+        $this->assertSame('Updated industry', ProjectIntake::query()->where('project_id', $project->getKey())->where('version', 2)->firstOrFail()->payload['industry']);
     }
 
     public function test_submission_requires_core_business_information(): void
@@ -90,17 +60,8 @@ class ProjectIntakeTest extends TestCase
         $client = $this->createUser(UserRole::Client);
         $project = $this->createProject($client);
 
-        $this->actingAs($client)
-            ->post(route('projects.intake.submit', $project), [
-                'payload' => ['business_overview' => 'A business'],
-            ])
-            ->assertSessionHasErrors([
-                'payload.target_audience',
-                'payload.products_services',
-                'payload.website_goal',
-                'payload.primary_conversion',
-            ]);
-
+        $this->actingAs($client)->post(route('projects.intake.submit', $project), ['payload' => ['business_overview' => 'A business']])
+            ->assertSessionHasErrors(['payload.target_audience', 'payload.products_services', 'payload.website_goal', 'payload.primary_conversion']);
         $this->assertDatabaseCount('project_intakes', 0);
     }
 
@@ -110,12 +71,8 @@ class ProjectIntakeTest extends TestCase
         $clientB = $this->createUser(UserRole::Client);
         $project = $this->createProject($clientA);
 
-        $this->actingAs($clientB)
-            ->get(route('projects.intake.show', $project))
-            ->assertForbidden();
-
-        $this->patch(route('projects.intake.save', $project), ['payload' => $this->validPayload()])
-            ->assertForbidden();
+        $this->actingAs($clientB)->get(route('projects.intake.show', $project))->assertForbidden();
+        $this->patch(route('projects.intake.save', $project), ['payload' => $this->validPayload()])->assertForbidden();
     }
 
     public function test_account_member_without_edit_permission_can_view_but_not_change_intake(): void
@@ -125,18 +82,12 @@ class ProjectIntakeTest extends TestCase
         $project = $this->createProject($owner);
         $project->clientAccount->users()->attach($member, ['membership_role' => 'member']);
 
-        $this->actingAs($member)
-            ->get(route('projects.intake.show', $project))
-            ->assertOk()
+        $this->actingAs($member)->get(route('projects.intake.show', $project))->assertOk()
             ->assertInertia(fn ($page) => $page->where('canEdit', false));
-
-        $this->patch(route('projects.intake.save', $project), ['payload' => $this->validPayload()])
-            ->assertForbidden();
+        $this->patch(route('projects.intake.save', $project), ['payload' => $this->validPayload()])->assertForbidden();
     }
 
-    /**
-     * @return array<string, string>
-     */
+    /** @return array<string, string> */
     private function validPayload(): array
     {
         return [
@@ -145,9 +96,17 @@ class ProjectIntakeTest extends TestCase
             'location' => '',
             'target_audience' => 'Local customers who need reliable service.',
             'products_services' => 'Core service packages and add-ons.',
+            'offer_details' => 'Package inclusions, exclusions and prices.',
+            'customer_questions' => 'Which package should I choose?',
+            'customer_objections' => 'Price is too high.',
+            'purchase_process' => 'Contact, confirm scope, schedule and receive service.',
+            'operational_policies' => 'Opening hours and cancellation rules.',
+            'trust_evidence' => 'Verified portfolio and customer reviews.',
+            'aftercare_support' => 'After-service support where applicable.',
             'differentiators' => '',
             'website_goal' => 'Generate qualified enquiries.',
             'primary_conversion' => 'Request a quote.',
+            'public_contact_details' => 'Approved public WhatsApp contact.',
             'current_website' => '',
             'competitor_references' => '',
             'brand_direction' => '',
@@ -162,28 +121,17 @@ class ProjectIntakeTest extends TestCase
     {
         $user = User::factory()->create();
         $user->forceFill(['role' => $role])->save();
-
         return $user->refresh();
     }
 
     private function createProject(User $client): Project
     {
-        $account = ClientAccount::create([
-            'business_name' => 'Intake Client '.$client->getKey(),
-            'slug' => 'intake-client-'.$client->getKey(),
-        ]);
+        $account = ClientAccount::create(['business_name' => 'Intake Client '.$client->getKey(), 'slug' => 'intake-client-'.$client->getKey()]);
         $account->users()->attach($client, ['membership_role' => 'owner']);
-
         $studio = $this->createUser(UserRole::StudioOwner);
-        $project = new Project([
-            'client_account_id' => $account->getKey(),
-            'product_tier' => 'starter',
-            'status' => 'onboarding',
-            'name' => 'Website project',
-        ]);
+        $project = new Project(['client_account_id' => $account->getKey(), 'product_tier' => 'starter', 'status' => 'onboarding', 'name' => 'Website project']);
         $project->created_by = $studio->getKey();
         $project->save();
-
         return $project;
     }
 }
