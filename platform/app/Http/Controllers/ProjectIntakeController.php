@@ -23,6 +23,7 @@ class ProjectIntakeController extends Controller
         'website_goal', 'primary_conversion', 'public_contact_details',
         'current_website', 'competitor_references', 'brand_direction',
         'required_pages', 'required_features', 'constraints', 'success_metrics',
+        'existing_assets', 'asset_permissions', 'content_approver',
     ];
 
     public function show(Project $project): Response
@@ -137,6 +138,9 @@ class ProjectIntakeController extends Controller
             'payload.required_features' => ['nullable', 'string', 'max:3000'],
             'payload.constraints' => ['nullable', 'string', 'max:4000'],
             'payload.success_metrics' => ['nullable', 'string', 'max:2000'],
+            'payload.existing_assets' => ['nullable', 'string', 'max:5000'],
+            'payload.asset_permissions' => ['nullable', 'string', 'max:4000'],
+            'payload.content_approver' => ['nullable', 'string', 'max:500'],
         ];
     }
 }
