@@ -1,0 +1,25 @@
+name: temporary-format-intake
+
+on:
+  push:
+    branches:
+      - restructure/business-first-product-system
+    paths:
+      - .github/workflows/temporary-format-intake.yml
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: platform
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: Apply repository formatter and print diff
+        run: |
+          npm run check:fix
+          git diff -- resources/js/pages/projects/intake.tsx
