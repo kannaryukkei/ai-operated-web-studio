@@ -89,11 +89,32 @@ class ManualDiscoveryController extends Controller
             'offer_matrix.*.name' => ['required', 'string', 'max:300'],
             'offer_matrix.*.details' => ['required', 'string', 'max:1500'],
             'offer_matrix.*.pricing' => ['required', 'string', 'max:500'],
-            'offer_matrix.*.evidence_status' => ['required', 'string', 'max:100'],
+            'offer_matrix.*.source' => ['required', 'string', 'max:1000'],
+            'offer_matrix.*.evidence_status' => ['required', 'in:VERIFIED,CLIENT-PROVIDED-UNVERIFIED,APPROVED-FOR-PUBLICATION,DEMO-ONLY,ASSUMPTION,MISSING'],
             'customer_question_map' => ['required', 'array', 'min:1'],
             'customer_question_map.*.question' => ['required', 'string', 'max:1000'],
             'customer_question_map.*.answer_or_gap' => ['required', 'string', 'max:1500'],
             'customer_question_map.*.stage' => ['required', 'in:before_purchase,during_purchase,after_purchase'],
+            'customer_question_map.*.status' => ['required', 'in:ANSWERED,GAP,NOT_APPLICABLE'],
+            'customer_question_map.*.source' => ['required', 'string', 'max:1000'],
+            'customer_question_map.*.owner_or_action' => ['required', 'string', 'max:500'],
+            'fact_register' => ['required', 'array', 'min:1'],
+            'fact_register.*.fact' => ['required', 'string', 'max:1000'],
+            'fact_register.*.source' => ['required', 'string', 'max:1000'],
+            'fact_register.*.evidence_status' => ['required', 'in:VERIFIED,CLIENT-PROVIDED-UNVERIFIED,APPROVED-FOR-PUBLICATION,DEMO-ONLY,ASSUMPTION,MISSING'],
+            'fact_register.*.public_use_status' => ['required', 'in:APPROVED,NEEDS_CLIENT_APPROVAL,DO_NOT_PUBLISH'],
+            'fact_register.*.notes' => ['required', 'string', 'max:1000'],
+            'cta_register' => ['required', 'array', 'min:1'],
+            'cta_register.*.action' => ['required', 'string', 'max:300'],
+            'cta_register.*.destination' => ['required', 'string', 'max:1000'],
+            'cta_register.*.destination_status' => ['required', 'in:APPROVED_REAL_DESTINATION,NOT_CONFIGURED,NEEDS_APPROVAL,DEMO_ONLY'],
+            'cta_register.*.expected_behavior' => ['required', 'string', 'max:1000'],
+            'asset_register' => ['present', 'array'],
+            'asset_register.*.asset_or_need' => ['required', 'string', 'max:500'],
+            'asset_register.*.source_or_owner' => ['required', 'string', 'max:1000'],
+            'asset_register.*.permission_status' => ['required', 'in:APPROVED,CLIENT_PROVIDED_UNVERIFIED,MISSING,DEMO_ONLY'],
+            'asset_register.*.intended_use' => ['required', 'string', 'max:500'],
+            'asset_register.*.credit_or_restrictions' => ['required', 'string', 'max:1000'],
             'buying_journey' => ['required', 'array', 'min:1'],
             'buying_journey.*.stage' => ['required', 'string', 'max:200'],
             'buying_journey.*.customer_need' => ['required', 'string', 'max:1000'],
@@ -120,7 +141,7 @@ class ManualDiscoveryController extends Controller
 
         if ($validator->fails()) {
             throw ValidationException::withMessages([
-                'result_json' => 'The JSON is valid, but its structure is incomplete. Include business model, offer matrix, customer question map, buying journey, trust register and content gaps.',
+                'result_json' => 'The JSON is valid, but its structure is incomplete. Include field-level facts and sources, asset permissions, CTA destinations, customer-question statuses, offer matrix, buying journey, trust register and content gaps.',
             ]);
         }
 
@@ -153,9 +174,13 @@ Understand the business and its customers before deciding what the website shoul
 
 RULES
 - Use only information supported by the submitted intake. Never invent facts, prices, inclusions, policies, credentials, testimonials, results or guarantees.
-- Label evidence as VERIFIED, CLIENT-PROVIDED-UNVERIFIED, APPROVED-FOR-PUBLICATION, DEMO-ONLY, ASSUMPTION or MISSING.
+- Label every material fact with one evidence status: VERIFIED, CLIENT-PROVIDED-UNVERIFIED, APPROVED-FOR-PUBLICATION, DEMO-ONLY, ASSUMPTION or MISSING.
+- For every fact, record its exact intake field, supplied URL/document, or other traceable source. If no source exists, write MISSING and do not publish the claim.
+- Record public-use approval separately from factual status. Do not assume that a client-provided fact is approved for publication.
+- Record every supplied or proposed asset, its owner/source, permission status, intended use, credit and restrictions. Unknown rights must be marked MISSING; do not infer that supplied images are licensed for commercial use.
+- Record every CTA with its exact destination, destination approval status and what actually happens after the visitor clicks. If no real destination is supplied, use NOT_CONFIGURED; do not invent a contact endpoint or imply a working submission.
 - Do not treat a missing answer as permission to guess. Record the gap and its owner/source.
-- Identify customer questions and objections before proposing sections.
+- Identify customer questions and objections before proposing sections. Mark every relevant question ANSWERED, GAP or NOT_APPLICABLE (with reason), and include its source and owner/action.
 - Recommend Starter, Business or Custom based on business complexity and visitor tasks, not visual preference or page count alone.
 - Starter means a complete one-page business presence; Business means deeper multi-page information architecture; Custom means bespoke workflows/data/integrations that need a real business reason.
 - Every proposed section must answer a customer question or support a defined business action.
@@ -174,16 +199,25 @@ REQUIRED JSON SHAPE
   "recommended_tier": "starter|business|custom",
   "recommendation_rationale": ["Evidence-based reasons and scope boundary"],
   "offer_matrix": [
-    {"name":"Offer name","details":"Variants, inclusions, exclusions and best-fit customer; unknowns stay explicit","pricing":"Verified price or pricing method, otherwise Not provided","evidence_status":"VERIFIED|CLIENT-PROVIDED-UNVERIFIED|MISSING"}
+    {"name":"Offer name","details":"Variants, inclusions, exclusions and best-fit customer; unknowns stay explicit","pricing":"Verified price or pricing method, otherwise Not provided","source":"Exact intake field or supplied source; otherwise MISSING","evidence_status":"VERIFIED|CLIENT-PROVIDED-UNVERIFIED|APPROVED-FOR-PUBLICATION|DEMO-ONLY|ASSUMPTION|MISSING"}
   ],
   "customer_question_map": [
-    {"question":"Real visitor question","answer_or_gap":"Supported answer or explicit gap","stage":"before_purchase|during_purchase|after_purchase"}
+    {"question":"Real visitor question","answer_or_gap":"Supported answer or explicit gap","stage":"before_purchase|during_purchase|after_purchase","status":"ANSWERED|GAP|NOT_APPLICABLE","source":"Intake field or evidence; otherwise MISSING","owner_or_action":"Client/studio action or N/A reason"}
+  ],
+  "fact_register": [
+    {"fact":"One material business fact","source":"Exact intake field, URL or document; otherwise MISSING","evidence_status":"VERIFIED|CLIENT-PROVIDED-UNVERIFIED|APPROVED-FOR-PUBLICATION|DEMO-ONLY|ASSUMPTION|MISSING","public_use_status":"APPROVED|NEEDS_CLIENT_APPROVAL|DO_NOT_PUBLISH","notes":"Limitations or approval needed; write None only when genuinely none"}
+  ],
+  "cta_register": [
+    {"action":"CTA label and intent","destination":"Exact URL/number/anchor or NOT_CONFIGURED","destination_status":"APPROVED_REAL_DESTINATION|NOT_CONFIGURED|NEEDS_APPROVAL|DEMO_ONLY","expected_behavior":"What actually happens after click, including limitations"}
+  ],
+  "asset_register": [
+    {"asset_or_need":"Asset name or needed visual","source_or_owner":"Client, URL, studio-created or unknown","permission_status":"APPROVED|CLIENT_PROVIDED_UNVERIFIED|MISSING|DEMO_ONLY","intended_use":"Where/how it will appear","credit_or_restrictions":"Required credit, license or restrictions; otherwise None"}
   ],
   "buying_journey": [
     {"stage":"Discovery / evaluation / inquiry / delivery / aftercare","customer_need":"What the customer needs at this stage","website_support":"Content or action the website should provide"}
   ],
   "trust_register": [
-    {"proof":"Proof item or transparent alternative","status":"VERIFIED|CLIENT-PROVIDED-UNVERIFIED|MISSING"}
+    {"proof":"Proof item or transparent alternative","source":"Exact source or MISSING","status":"VERIFIED|CLIENT-PROVIDED-UNVERIFIED|MISSING"}
   ],
   "content_gaps": [
     {"gap":"Missing information/evidence","owner_or_source":"Client, studio research, or not known"}
@@ -197,7 +231,7 @@ REQUIRED JSON SHAPE
   "next_step": "One practical next action"
 }
 
-All fields are required. Empty arrays are allowed only for trust_register, content_gaps, missing_information, claims_requiring_approval and scope_risks when there are genuinely no entries. Offer matrix, customer question map, buying journey and sections must contain at least one useful item.
+All fields are required. Empty arrays are allowed for asset_register, trust_register, content_gaps, missing_information, claims_requiring_approval and scope_risks only when there are genuinely no entries. Offer matrix, customer question map, fact register, CTA register, buying journey and sections must contain at least one useful item. Use explicit MISSING / NOT_CONFIGURED states instead of omitting unknown sources or destinations.
 PROMPT;
     }
 }
