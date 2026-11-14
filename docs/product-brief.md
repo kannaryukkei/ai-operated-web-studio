@@ -56,13 +56,13 @@ Do not market the platform as fully autonomous until the corresponding workflow 
 
 ## 5. Product tiers
 
-The platform can coordinate three website products, but must not merge their templates into the platform source code.
+The platform coordinates three website products from one canonical repository. Website source must remain outside the Laravel application under versioned `blueprints/`, never merged into `platform/`.
 
 - **Starter:** polished one-page website, static-first.
 - **Business:** multi-page website with richer information architecture and content depth.
 - **Custom:** bespoke scope and implementation, potentially including persistent data, APIs, accounts, or operational workflows.
 
-The platform should read a versioned product definition / blueprint for each tier. Actual production website code lives in a separate client repository.
+The platform should read a versioned product definition / blueprint for each tier from this repository's `blueprints/` directory. Actual production website code is copied to a separate client repository; blueprints remain the system-level reusable source of truth.
 
 ## 6. MVP outcome
 

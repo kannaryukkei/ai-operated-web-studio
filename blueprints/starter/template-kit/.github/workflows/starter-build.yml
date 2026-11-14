@@ -1,0 +1,39 @@
+name: Starter build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "starter/**"
+      - ".github/workflows/starter-build.yml"
+  pull_request:
+    paths:
+      - "starter/**"
+      - ".github/workflows/starter-build.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-responsive-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        working-directory: starter
+        run: npm install --no-audit --no-fund
+      - name: Build Starter
+        working-directory: starter
+        run: npm run build
+      - name: Install Playwright Chromium
+        working-directory: starter
+        run: npx playwright install chromium --with-deps
+      - name: Run responsive and interaction smoke tests
+        working-directory: starter
+        run: npm run test:e2e

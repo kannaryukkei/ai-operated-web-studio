@@ -104,35 +104,39 @@ The MVP uses persisted discovery runs and manual handoffs to external AI applica
 
 ## 6. Website production boundary
 
-The platform repository is not the website template repository.
+This repository is the studio's single canonical production system, but platform code and website code remain separate by directory and release boundary.
 
-- Platform source lives here.
-- Website blueprints remain in `web-studio-template-kit` and are versioned.
-- Each real client website lives in its own private GitHub repository.
-- The platform stores the selected blueprint version, repository ID/URL, current branch, commit, preview URL, and release reference.
-- Website generation should operate on an isolated branch / pull request and run the project's tests.
-- Production publishing is approval-gated.
+- Platform source and persisted studio state live under `platform/`.
+- Master Skill, client brief, product definitions, implementation standard and acceptance gates live under `docs/`.
+- Versioned website blueprints, their reference implementation, reusable prompts and delivery templates live under `blueprints/`. Starter is migrated to `blueprints/starter/`.
+- Each real client website lives in its own private GitHub repository, copied from the selected blueprint only after scope and category fit are confirmed.
+- Client facts, client assets, credentials and approvals never become shared blueprint defaults.
+- The platform records the selected blueprint/version, client repository ID/URL, branch, commit, preview URL and release reference.
+- Website generation works on an isolated client-repository branch / pull request and runs that project's tests.
+- Production publishing remains approval-gated.
+
+Do not create a second master repository for website templates. Keep one studio source of truth here; keep client websites isolated.
 
 ## 7. Initial repository layout
 
 ```text
 ai-operated-web-studio/
-  platform/                 # Laravel 13 application (next implementation milestone)
-  docs/
-  prompts/
-    agents/
-    workflows/
-  product-blueprints/
+  platform/                 # Laravel 13 application and its own CI
+  docs/                     # Master Skill, client brief, standards, acceptance gates
+  blueprints/
     starter/
-    business/
-    custom/
+      README.md
+      KALA_PILOT_LEARNINGS.md
+      template-kit/          # exact migrated source snapshot and working reference
+    business/                # only after Starter is accepted and reusable
+    custom/                  # scoped bespoke guidance; no forced generic app
   .github/
-    ISSUE_TEMPLATE/
+    workflows/               # platform and blueprint validation
   AI_BUILD_RULES.md
   README.md
 ```
 
-The website blueprint directory may initially hold version metadata and links to the separate template repository; do not duplicate the full website applications here.
+The migrated Starter source remains under `blueprints/starter/template-kit/starter/` to preserve source paths and provenance. Its usage rules are documented in `blueprints/starter/README.md`. Do not copy the entire blueprint into `platform/`.
 
 ## 8. Environment strategy
 

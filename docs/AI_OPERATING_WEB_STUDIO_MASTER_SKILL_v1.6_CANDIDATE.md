@@ -15,7 +15,7 @@ Use the five completed website audits as evidence, not as five skins to copy:
 - **RUANG RAPI:** traceable intake facts, honest missing-contact states and strict separation of client identities; use for local services and any project with incomplete public information.
 - **ZACKS Starter:** a complete local-service decision journey with offer comparison, guided selection, process, coverage, FAQs and an honest WhatsApp consultation path; use as the Starter service-business reference, not as a universal layout.
 
-Source audit: web-studio-template-kit/docs/five-website-starter-audit.md. The Starter reference is a technically validated portfolio preview, not a production-certified client website. Never copy fictional facts, assets, testimonials, pricing or contact data between pilots.
+Source audit: `../blueprints/starter/template-kit/docs/five-website-starter-audit.md`. Full cross-pilot rules and source SHAs: `../blueprints/starter/KALA_PILOT_LEARNINGS.md`. The Starter reference is a technically validated ZACKS portfolio preview, not a production-certified or universal client website. Never copy fictional facts, assets, testimonials, pricing or contact data between pilots.
 
 ## Non-negotiable rules
 
@@ -124,6 +124,20 @@ Review two dimensions independently:
 Prioritize critical missing information above decorative polish. Do not approve a visually attractive but commercially confusing website.
 
 Output: refined site, issue register, content gaps resolved/deferred, change log.
+
+## Conditional category interaction contracts (evidence-backed)
+
+Apply only when the approved business journey requires the pattern. These are regression rules, not a feature checklist to add to every site.
+
+- **F&B / brand-led hospitality (KALA):** tell a distinct brand/product story and answer menu, visit and ordering questions. All prices, menu items, venue details, hours, dietary information and sourcing claims need a source and publication approval. Do not invent a venue or local business facts.
+- **Portfolio / project-led services (SELA):** support project discovery and meaningful case detail. Any dialog must close with Escape, move focus inside on open, keep keyboard focus within while open, and restore focus to its trigger on close. Image relevance must match the project title/category/caption, not merely load successfully.
+- **Retail / catalog (FABLE FORM):** if a demo cart is justified, search and category filter should compose correctly; require a valid product variant before adding; identify cart lines by product plus selected variant; derive quantity and subtotal from current state; test remove-last-item and empty state. State must be labelled temporary/non-persistent if it resets on refresh. Checkout/order/payment remains disabled until a real approved integration exists. Product images and campaign images must be semantically distinct when their roles differ.
+- **Local services (RUANG RAPI):** show service scope, process, coverage, real customer questions and a truthful CTA. If no public contact destination is approved, use a contact-not-configured state; do not substitute an internal coordination contact or invent service details.
+- **Local-service offer selection (ZACKS Starter):** a guided package finder, comparison, add-on explanation, coverage, preparation and FAQs can strengthen a local-service decision journey. Automotive vehicle classes, prices, WhatsApp number, imagery and brand interactions are client-specific; never treat them as default components for other categories.
+- **Sparse intake (SORA):** explicitly test missing prices, inclusions, public contact, address, hours, named approver and proof. Keep each missing field missing; a plausible guess is still a fabrication.
+- **CTA/form integrity (RAPI RUMAH):** internal project contact and public conversion destination are separate data. A demo form must disclose that it neither sends nor stores data. Budget and timeline stay internal unless explicitly approved for publication.
+
+Across all categories, reuse the method (source traceability, Base → Refine → QA, visual + business completeness review, browser evidence), never a fixed design skin or irrelevant features.
 
 ## Stage 7 — Independent QA
 

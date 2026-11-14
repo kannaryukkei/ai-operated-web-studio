@@ -49,7 +49,7 @@ The order is **system inputs → Starter implementation → Starter real-world v
 ## Workstream 5 — Platform boundaries
 - [x] Keep the Laravel platform as project record, intake, manual AI handoff, validation and approval workspace.
 - [x] Keep the no-paid-API ChatGPT/Claude copy-paste workflow.
-- [x] Keep platform as source of project state and template kit as source of website implementations.
+- [x] Keep platform as source of project state and store reusable website implementations in this repository's `blueprints/` directory, outside `platform/`.
 - [ ] Do not add AI API integration, CMS, payment, CRM, website builder or deployment automation unless repeated delivery proves the need.
 
 ## Pilot 04 preservation — no deletion authorized
@@ -112,3 +112,19 @@ Do not delete or rewrite these branches. Do not delete Pilot 02, Pilot 03 or KAL
 - Starter is the only active implementation priority.
 - No Business/Custom implementation starts before Starter acceptance.
 - No paid API or unnecessary platform expansion is introduced.
+
+
+## Canonical blueprint migration — 2026-11-14
+
+This checkpoint supersedes earlier plan wording that kept `web-studio-template-kit` as a separate master repository.
+
+- [x] Inventory all eight branches of `kala-coffee-studio`, including the four Pilot 04 branches.
+- [x] Extract reusable process, design, business-integrity and QA practices from KALA, SELA, FABLE FORM, RUANG RAPI, RAPI RUMAH and SORA into `blueprints/starter/KALA_PILOT_LEARNINGS.md`.
+- [x] Copy every source file from `web-studio-template-kit` audit branch `starter/five-website-audit-and-hardening` into `blueprints/starter/template-kit/`.
+- [x] Verify the 51 source blobs against the migrated paths: no missing files, no extra files, no blob SHA or file-size differences.
+- [x] Add a blueprint-local build and Playwright workflow at `.github/workflows/starter-blueprint-ci.yml`.
+- [x] Document canonical boundaries and repository-retirement policy in `docs/BLUEPRINT_MIGRATION_DECISION.md`.
+- [ ] Run migrated Starter clean-install/build/Playwright CI and record the run result.
+- [ ] Review PR #12 before merging. `main` remains unchanged until owner review.
+
+Final architecture: one canonical production repository; `platform/` is the application; `docs/` is the system policy; `blueprints/` contains website foundations; each real client website is isolated in its own repo. No paid model API is required.

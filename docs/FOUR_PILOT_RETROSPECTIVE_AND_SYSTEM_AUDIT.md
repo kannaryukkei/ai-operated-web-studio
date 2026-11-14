@@ -77,7 +77,7 @@ The platform should remain a lightweight system of record and workflow coordinat
 ## What should not change
 
 - Keep `ai-operated-web-studio` as the source of truth for client brief, master production skill and studio workflow.
-- Keep website applications and tier demos in `web-studio-template-kit`.
+- Keep website blueprints in this repository under `blueprints/`, separate from `platform/`; keep delivered client sites in separate private repositories.
 - Keep KALA Coffee Studio `main` untouched by unrelated system work.
 - Preserve the frozen Master Skill v1.3 and existing pilot evidence.
 - Do not merge fictional business facts across pilots.
@@ -93,3 +93,17 @@ The platform should remain a lightweight system of record and workflow coordinat
 5. Build the Business website as the next actual product implementation.
 6. Define Custom scope and capability gates using the real ZACKS Laravel-backed site as a reference, without inventing features.
 7. Run a retrospective regression audit against all four pilot scenarios; do not create new pilots.
+
+
+## Canonical repository decision — 2026-11-14
+
+This section supersedes any earlier suggestion in this retrospective that `web-studio-template-kit` must remain a separate master repository.
+
+- `ai-operated-web-studio` is the only canonical production-system repository.
+- The complete 51-file source snapshot from `web-studio-template-kit` branch `starter/five-website-audit-and-hardening` (commit `6ba68cbdba1c3a30f932a2eba998dd93b42a4a2f`) has been migrated byte-for-byte into `blueprints/starter/template-kit/`.
+- Reusable findings from every KALA branch, including the intake-only Pilot 04 scenarios, are consolidated into `blueprints/starter/KALA_PILOT_LEARNINGS.md`.
+- The source Template Kit contains a ZACKS automotive/local-service reference; use it only when the category and journey fit. It is not a universal blank website and must not be deployed unchanged.
+- `platform/`, `docs/`, and `blueprints/` have distinct responsibilities inside this repository. Client website source and client-specific data stay in separate client repositories.
+- The former Template Kit repository becomes redundant after migration CI passes. The KALA repository remains valuable as historical provenance and should be archived rather than deleted until its original branch history and evidence are no longer needed.
+
+No repository or branch deletion is performed by this migration.

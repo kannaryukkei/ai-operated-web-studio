@@ -6,7 +6,7 @@ An AI-powered website production platform that guides clients from onboarding to
 
 Clients enter a guided workspace, explain their business and goals, review project progress, provide feedback, and approve deliverables. The studio uses reusable AI skills and prompts through external AI applications for repeatable research, strategy, content, design, development, and QA. The studio owner retains authority over commercial decisions, scope, factual claims, and production release.
 
-The platform is the production engine. Website templates and client deliverables remain separate from this application.
+**AI Operated Web Studio is the single canonical production system.** The Laravel platform, production standards, prompts and versioned website blueprints live in this repository, with clear folder boundaries. Each real client website remains in its own isolated repository.
 
 ## Initial architecture
 
@@ -46,11 +46,14 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 - `docs/WEBSITE_PRODUCT_TIERS_v1.1.md` — Starter / Business / Custom scope and Starter price boundary.
 - `docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.0.md` — design, implementation and technical guardrails.
 - `docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md` — required release and commercial gate.
+- `docs/BLUEPRINT_MIGRATION_DECISION.md` — canonical blueprint locations, source provenance and repository retirement decision.
+- `blueprints/starter/README.md` — how to use the migrated Starter reference.
+- `blueprints/starter/KALA_PILOT_LEARNINGS.md` — best practices distilled from every KALA pilot branch.
 - `AI_BUILD_RULES.md`
 
 ## Product boundary
 
-`web-studio-template-kit` remains the separate portfolio and website-blueprint repository. This repository owns the platform that coordinates production; it must not absorb the Starter, Business, or Custom demo websites into its application source.
+`ai-operated-web-studio` is the single source of truth for the studio's production system. Platform code lives under `platform/`; reusable website blueprints and delivery material live under `blueprints/`; operating standards, Master Skill and client brief live under `docs/`. Do not place website source inside `platform/`. Each real client website is copied from an appropriate blueprint into a separate private repository. The migrated Starter reference is under `blueprints/starter/` and is ZACKS-specific, not a universal site to deploy unchanged.
 
 ## Current delivery workflow
 

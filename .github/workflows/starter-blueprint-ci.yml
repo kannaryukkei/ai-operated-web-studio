@@ -1,0 +1,38 @@
+name: Starter blueprint CI
+
+on:
+  push:
+    branches: [restructure/business-first-product-system]
+    paths:
+      - "blueprints/starter/template-kit/starter/**"
+      - ".github/workflows/starter-blueprint-ci.yml"
+  pull_request:
+    paths:
+      - "blueprints/starter/template-kit/starter/**"
+      - ".github/workflows/starter-blueprint-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-responsive-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: blueprints/starter/template-kit/starter
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Build Starter
+        run: npm run build
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium --with-deps
+      - name: Run responsive and interaction smoke tests
+        run: npm run test:e2e
