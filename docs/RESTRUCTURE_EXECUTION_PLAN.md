@@ -1,70 +1,77 @@
-# AI-Operated Web Studio — Restructure Execution Plan
+# AI-Operated Web Studio — Corrected Restructure & Delivery Plan
 
 Branch: `restructure/business-first-product-system`
 Date: 2026-11-14
 
-## Objective
-Improve the system's inputs and production logic using the four completed pilots. Do not create more pilots. Build three sellable website products: Starter, Business and Custom.
+## Strategic decision
 
-## Workstreams
+Stop adding pilots. Use the four completed pilots as evidence to improve the studio system. Do not move to Business or Custom implementation until Starter has passed its own product acceptance gate.
 
-### 1. Product truth
-- [x] Audit existing product brief and tier ADR.
-- [x] Define Starter / Business / Custom around customer outcomes and business complexity.
-- [ ] Align platform product records and UI labels to the versioned tier definitions.
-- [ ] Ensure proposal/scope output includes inclusions, exclusions, third-party costs and maintenance.
+The order is **system inputs → Starter implementation → Starter real-world validation → Starter commercial readiness → Business → Custom**.
 
-### 2. Better inputs
+## Workstream 1 — Learn from completed work
+- [x] Audit four pilot outcomes and recurring weaknesses.
+- [x] Identify RUANG RAPI as the Pilot 04 implementation baseline.
+- [x] Preserve the distinction between implementation baseline, integrated audit branch, and supplementary intake experiments.
+- [ ] Finish evidence review of Starter implementation and actual customer-facing requirements.
+- [ ] Use Starpoint Garage as a completeness benchmark, not a visual template or a source of facts to copy.
+
+## Workstream 2 — Better inputs and discovery
 - [x] Draft business-first Client Brief v2.0.
 - [x] Expand platform intake with customer questions, objections, offer details, purchase process, policies, trust evidence, aftercare and public contact destinations.
-- [x] Reorganize intake UI into concise business/customer, offer/operations, conversion/contact and optional reference groups.
-- [ ] Separate client-facing core intake from studio-only qualification in the actual platform UI.
-- [ ] Add conditional modules for service, retail, portfolio and F&B.
-- [ ] Add explicit provenance/approval controls to structured discovery output.
+- [x] Reorganize intake UI into business/customer, offer/operations, conversion/contact and optional reference groups.
+- [x] Draft Master Skill v1.5 candidate with mandatory business intelligence and completeness review.
+- [x] Update manual discovery prompt to produce Business Model, Offer Matrix, Customer Question Map, Buying Journey, Trust Register and Content Gaps.
+- [x] Add server-side validation and feature-test updates for the discovery output.
+- [ ] Add source provenance and approval status to every material business fact and output item.
+- [ ] Add conditional discovery modules for service, retail, portfolio and F&B.
+- [ ] Add a reviewable business-completeness matrix before website planning can be approved.
 
-### 3. Better AI output
-- [x] Draft Master Skill v1.5 candidate.
-- [x] Update manual discovery prompt to produce Business Intelligence Summary, Offer Matrix, Customer Question Map, Buying Journey, Trust Register and Content Gap Register.
-- [x] Add server-side validation for the new discovery structure.
-- [x] Update feature tests for expanded intake and business-first discovery.
-- [ ] Add business-completeness review/approval in the discovery workspace UI.
-- [ ] Align discovery prompt and schema with the conditional business modules.
+## Workstream 3 — Starter is the only active product implementation
+- [ ] Audit the current Starter template against the four pilot findings and the business-completeness matrix.
+- [ ] Identify and fix information gaps, not merely visual gaps.
+- [ ] Define the minimum complete section/content system by business category; do not force irrelevant sections.
+- [ ] Ensure the Starter product has a genuine approved CTA destination and honest working conversion path.
+- [ ] Test realistic content density, package/product comparison, proof, process, policies, FAQs, location/coverage and aftercare where relevant.
+- [ ] Complete technical, accessibility, responsive, performance, SEO, functional and production QA.
+- [ ] Run one end-to-end delivery using a real, verified business brief and obtain business-owner review.
+- [ ] Document the actual included scope, exclusions, delivery time, client responsibilities, price logic and ongoing costs.
+- [ ] Pass `STARTER_PRODUCT_ACCEPTANCE_GATE_v1.0.md` before calling Starter ready to sell.
 
-### 4. Better website products
-- [ ] Starter: revise the current ZACKS demo against the completeness matrix; avoid empty sections and repeated cards.
-- [ ] Business: create a real multi-page ZACKS demo with distinct information architecture, detailed catalog, process, proof, FAQ/policies and contextual conversion paths.
-- [ ] Custom: document scope gates and use the existing ZACKS Laravel-backed system only for verified capabilities.
-- [ ] Keep all three tiers independently buildable and deployable.
+## Workstream 4 — Business and Custom remain deliberately gated
+- [ ] Do not implement Business until Starter passes the acceptance gate and its delivery process is repeatable.
+- [ ] After Starter acceptance, define Business as a genuinely multi-page product with its own customer journeys and content depth.
+- [ ] Do not implement Custom until Business scope is clear and a real workflow requirement justifies bespoke data/integration work.
+- [ ] Use the existing ZACKS Laravel-backed work only as evidence of actual capabilities; do not imply unverified production readiness.
 
-### 5. Platform scope control
-- [x] Keep Laravel platform as project record, intake, discovery handoff, validation and approval workspace.
-- [x] Keep external ChatGPT/Claude copy/paste workflow; no paid model API.
-- [ ] Do not add AI API integration, CMS, website builder, payment, CRM or deployment automation until actual repeated delivery proves the need.
-- [x] Preserve platform/template-kit boundary: platform owns project state; template kit owns website product implementations.
+## Workstream 5 — Platform boundaries
+- [x] Keep the Laravel platform as project record, intake, manual AI handoff, validation and approval workspace.
+- [x] Keep the no-paid-API ChatGPT/Claude copy-paste workflow.
+- [x] Keep platform as source of project state and template kit as source of website implementations.
+- [ ] Do not add AI API integration, CMS, payment, CRM, website builder or deployment automation unless repeated delivery proves the need.
 
-### 6. QA and evidence
-- [ ] Run platform PHP tests and frontend production build on this branch.
-- [ ] Add business-completeness checklist to Starter and Business QA.
-- [ ] Add regression cases based on four pilots: brand/F&B, portfolio/interior, retail/catalog, local service.
-- [ ] Mark every test PASS / FAIL / NOT TESTED.
-- [x] Preserve pilot evidence and frozen Master Skill v1.3.
+## Pilot 04 preservation — no deletion authorized
 
-## Pilot 04 cleanup
+**No Pilot 04 branch should be deleted as part of this restructure.** The prior instruction to delete all four Pilot 04 branches was incorrect and is withdrawn.
 
-Pilot 04 was a completed validation, not an active product branch. Its learning record and CI evidence must remain available. The integrated branch and three intake experiment branches in `kannaryukkei/kala-coffee-studio` are historical references; delete only after the final audit record is preserved.
+Preserve all four branches as historical evidence:
+- `pilot-04/ruang-rapi-service-intake` — primary implementation baseline; complete RUANG RAPI website, original completed intake provenance, production build and 10/10 Playwright evidence. This is the key original Pilot 04 implementation and must be retained.
+- `pilot-04/integrated-service-business` — comparative audit / integration record and associated history. Retain as a decision and audit artifact.
+- `pilot-04/rapi-rumah-service-intake` — supplementary intake/acceptance experiment; no implementation-complete claim.
+- `pilot-04/sora-home-care` — sparse-intake stress experiment; no implementation-complete claim.
 
-The current GitHub connection does not expose a branch-delete operation. Do not claim deletion has happened. The exact branches to delete manually after this audit is retained are:
-- `pilot-04/integrated-service-business`
-- `pilot-04/rapi-rumah-service-intake`
-- `pilot-04/ruang-rapi-service-intake`
-- `pilot-04/sora-home-care`
+Do not delete or rewrite these branches. Do not delete Pilot 02, Pilot 03 or KALA `main`. If archive consolidation is ever proposed, first preserve source files, commit SHAs, test evidence and provenance in a reviewed archive commit; deletion requires an explicit separate decision.
 
-Do not delete `pilot-02/sela-interior-studio`, `pilot-03/fable-form-retail`, `main`, or the Pilot 04 learning record. The integrated Pilot 04 code branch should be removed only after the retrospective record and CI evidence are safely preserved.
+## Current PR / CI status
+- PR #12 remains a draft until the code and tests pass.
+- First CI failure was specifically the formatter check on `platform/resources/js/pages/projects/intake.tsx`; database migrations and frontend production build passed.
+- A formatting-only correction has been pushed. CI must be rerun and the full test/type/lint suite reviewed before merge.
+- No local test pass is claimed.
 
-## Completion criteria
-- One canonical client-facing intake plus studio qualification.
-- One canonical Master Skill with business completeness as a mandatory gate.
-- Discovery output captures offer, buying journey, customer questions and evidence gaps.
-- Starter, Business and Custom have distinct, usable product definitions.
-- Business tier has a working deployable demonstration.
-- No API keys or new platform features are required to run the workflow.
+## Definition of done for this phase
+- Business-first intake and discovery are implemented and tested.
+- All four Pilot 04 branches are preserved.
+- Starter acceptance gate is explicit and measurable.
+- Starter is the only active implementation priority.
+- No Business/Custom implementation starts before Starter acceptance.
+- No paid API or unnecessary platform expansion is introduced.
