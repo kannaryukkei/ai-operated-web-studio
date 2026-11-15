@@ -264,36 +264,3 @@ export const advisorNeeds = [
   },
 ];
 
-export const sampleReviews = [
-  {
-    id: 'story-01',
-    category: 'CAR CARE / DAILY DRIVER',
-    quote: 'Saya ingin mobil bersih tanpa harus mengubah jadwal seharian. Yang paling membantu adalah bisa membahas kebutuhan dan estimasi lebih dulu.',
-    persona: 'Raka P.',
-    vehicle: 'Family SUV',
-    tag: 'SIMULATED CUSTOMER STORY',
-  },
-  {
-    id: 'story-02',
-    category: 'MOTORCYCLE / WEEKLY RIDE',
-    quote: 'Motor dipakai hampir setiap hari. Saya lebih suka perawatan yang sesuai kebutuhan, bukan sekadar mengambil paket paling mahal.',
-    persona: 'Dimas A.',
-    vehicle: 'Urban scooter',
-    tag: 'SIMULATED CUSTOMER STORY',
-  },
-  {
-    id: 'story-03',
-    category: 'DETAILING / INTERIOR RESET',
-    quote: 'Bagian kabin sering terlewat saat dibersihkan sendiri. Konsultasi membantu saya memahami cakupan pekerjaan sebelum menentukan layanan.',
-    persona: 'Nadia K.',
-    vehicle: 'Compact crossover',
-    tag: 'SIMULATED CUSTOMER STORY',
-  },
-];
-
-export const demoMetrics = [
-  { value: '1,250+', label: 'VEHICLES CARED FOR', detail: 'Portfolio demonstration metric' },
-  { value: '4.9/5', label: 'CUSTOMER EXPERIENCE', detail: 'Portfolio demonstration metric' },
-  { value: '92%', label: 'RETURNING CUSTOMERS', detail: 'Portfolio demonstration metric' },
-  { value: '03', label: 'SERVICE AREAS', detail: 'Surabaya · Sidoarjo · Gresik' },
-];
