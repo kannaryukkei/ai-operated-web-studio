@@ -631,3 +631,84 @@ main section { scroll-margin-top: 82px; }
   outline-offset: 3px;
   box-shadow: 0 0 0 5px #fffefa;
 }
+
+/* Studio readability baseline v1.0 — enforced by responsive.spec.js */
+:root { --teal-dark: #00685e; }
+main p:not([data-studio-type]),
+main li:not([data-studio-type]),
+main label:not([data-studio-type]),
+main summary:not([data-studio-type]),
+main .care-finder-note,
+main .finder-needs button > span,
+main .finder-needs button small,
+.site-footer p {
+  font-size: 15px !important;
+}
+main button,
+main input,
+main select,
+main textarea,
+main .button,
+main .package-link,
+main .additional-link,
+.site-header .desktop-nav a,
+.site-header .mobile-nav a,
+.site-header .button {
+  font-size: 13px !important;
+}
+main small,
+main .eyebrow:not(.eyebrow--light),
+main .micro-label,
+main .hero-kicker,
+main .hero-aside-eyebrow,
+main .hero-image-caption,
+main .hero-bottom,
+main .hero-location,
+main .package-meta,
+main .active-class-indicator,
+main .package-title-row > span,
+main .additional-top,
+main .additional-card > small,
+main .additional-price > span,
+main .additional-note,
+main .gallery-category,
+main .gallery-side-note,
+main .gallery-item figcaption span,
+main .gallery-item figcaption > a,
+main .gallery-disclaimer,
+main .process-count span,
+main .coverage-tags span,
+main .readiness-strip,
+main .form-heading > span,
+main .form-heading > small,
+main .optional,
+main .finder-topline,
+main .contact-footnote,
+.site-footer small,
+.site-footer .footer-legal-inner,
+.site-footer .footer-demo-note,
+.site-footer .footer-social > span,
+.site-footer .footer-nav > span {
+  font-size: 11px !important;
+}
+/* Muted text must remain readable on the paper/light surfaces. */
+main .eyebrow:not(.eyebrow--light),
+main .micro-label,
+main .class-option small,
+main .class-disclaimer,
+main .package-meta,
+main .package-price small,
+main .active-class-indicator,
+main .additional-top,
+main .additional-price > span,
+main .additional-note,
+main .gallery-item figcaption span,
+main .gallery-item figcaption > a,
+main .gallery-disclaimer,
+main .process-count span,
+main .coverage-stamp small,
+main .coverage-stamp span,
+main .finder-result > div:first-child > small,
+main .footer-legal-inner {
+  color: #526057;
+}
