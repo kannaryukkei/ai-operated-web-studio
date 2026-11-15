@@ -255,7 +255,7 @@ A private preview may be produced before all production blockers are cleared, bu
 
 **Responsible:** Studio owner authorizes release; operator performs the approved release and handover; client confirms ownership and receipt.
 
-**Inputs:** passing QA report, owner/client approvals, final content and permission records, domain/hosting/account details, release plan and rollback notes.
+**Inputs:** passing QA report, G0–G6 approvals under `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md`, final content and permission records, domain/hosting/account details, release plan and rollback notes.
 
 **Actions:**
 - Confirm production blockers are closed and preview-only items are resolved or removed.
@@ -269,7 +269,7 @@ A private preview may be produced before all production blockers are cleared, bu
 
 **Exit gate:** authorized production release is verified and the client understands ownership, renewal, limitations and support. If approval or verification is missing, remain at preview status.
 
-**Current implementation:** policies and checklists are documented; approval and deployment operations are manual. No autonomous publishing or DNS change is assumed.
+**Current implementation:** `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md` defines the manual approval record and G0–G7 gates. The platform has no complete persisted approval engine; approval and deployment operations are manual. No autonomous publishing or DNS change is assumed.
 
 ### Stage 9 — Evidence-led calibration and system learning
 
