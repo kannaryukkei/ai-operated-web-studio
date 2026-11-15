@@ -85,3 +85,21 @@ The normalization exposed a second handoff risk: facts can be successfully extra
 **Reusable system change:** add a mandatory Source-to-Page Coverage Matrix after implementation. Reconcile the original source index, normalized facts and customer-question map against exact page/section locators. Mark each material answer PUBLISHED, PREVIEW ONLY, GAP or NOT APPLICABLE. Include operational policies and aftercare where relevant, not only price and headline offer facts. Keep internal, private, unapproved and unavailable information out of public content. This matrix must be reviewed before owner sign-off and should feed independent QA.
 
 **Validation boundary:** this was an actual AI normalization execution but used a synthetic transcript derived from an already structured fixture; it is not a blind benchmark or real client evidence. No audio or asset-rights workflow was tested. S09 was a documentation/normalization segment and did not change website code.
+
+
+## 9. S10 — Policy facts must survive the page handoff
+
+S10 closed six concrete source-to-page gaps discovered during S09: limited motorbike parking / no dedicated car parking, outdoor-pet policy, public-holiday schedule uncertainty, accepted counter and pre-order payment methods, large/custom-order deposit and cancellation terms, and incorrect/damaged-order service recovery.
+
+**Semburat evidence:** [S10 refinement report](https://github.com/kannaryukkei/web-studio-experiment-03-semburat-bakehouse/blob/experiment/03-semburat-s10-policy-completeness/docs/EXPERIMENT_03_S10_BUSINESS_COMPLETENESS_REFINEMENT.md), [S10 Source-to-Page Coverage matrix](https://github.com/kannaryukkei/web-studio-experiment-03-semburat-bakehouse/blob/experiment/03-semburat-s10-policy-completeness/docs/EXPERIMENT_03_S10_SOURCE_TO_PAGE_COVERAGE.md), and [S10 combined QA run #43692947231](https://github.com/kannaryukkei/web-studio-experiment-03-semburat-bakehouse/actions/runs/43692947231).
+
+The matrix maps each topic from the raw transcript segment (INT-04 / INT-05), through the normalized operations/policy register, to the exact visible Visit detail or FAQ question. It deliberately records each row as **PROVIDED / DEMO_ONLY / NOT_APPROVED / PREVIEW_ONLY**. Browser verification proves that content is present and behaves correctly; it does not verify the business fact or authorize publication.
+
+**Reusable system rules confirmed by S10:**
+- Reconcile operational constraints and policies, not only headline offer/menu facts. Depending on the business, this may include physical access, parking, pets, holiday exceptions, payment methods, deposits, cancellation, refunds, order correction and aftercare.
+- Use real customer questions to shape FAQs. Do not force a fixed FAQ count; add only questions supported by source material and useful to a customer decision.
+- Keep each source locator intact through normalization, copy drafting and the rendered page. A fact in the brief is not a completed answer until its exact page/section is identified.
+- Keep content coverage separate from evidence and release authorization. A source-backed statement can be visible in a preview while remaining unverified, DEMO_ONLY or NOT_APPROVED.
+- Policy disclosure must never imply live payment, refund, reservation, order processing or support capability when no corresponding operational channel exists.
+
+**Validation boundary:** S10's combined S01–S10 browser, responsive, keyboard and business QA passed in Chromium. All new facts remain synthetic. This does not validate real policies, legal enforceability, real payment/support workflows or public launch readiness.
