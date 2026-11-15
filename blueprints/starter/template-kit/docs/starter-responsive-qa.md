@@ -62,3 +62,9 @@ The Windows repeat after the philosophy/contact fix produced a different remaini
 Revision commit [ac47977d627b6258925b03a80255f94aebe252e1](https://github.com/kannaryukkei/ai-operated-web-studio/commit/ac47977d627b6258925b03a80255f94aebe252e1) now uses a zero-minimum grid track (minmax(0,1fr)), constrains hero children to the available width, and lets the H1 wrap. The other 18 tests passed in the reported Windows run. The new correction has not yet been verified by a fresh local Windows run or a confirmed CI result.
 
 The final narrow-screen typography refinement is in commit [6d0ae557ea28e59c10ec5eabe2304d67b36df6f3](https://github.com/kannaryukkei/ai-operated-web-studio/commit/6d0ae557ea28e59c10ec5eabe2304d67b36df6f3): at max-width 380px, the H1 scales fluidly from 44px to 56px rather than using a fixed 56px. This is intended to keep the full heading legible without relying on a particular external font having loaded. Verification is pending on this latest revision.
+
+## Third 320px regression follow-up — 2026-11-16
+
+The Windows rerun following the hero fix showed no hero overflow, but the 320px assertion still failed in the booking section: `.booking-copy`, its heading/promises and the form expanded to 341px (document width 359px). The one-column booking grid inherited an intrinsic minimum track and the long booking heading required a constrained mobile treatment.
+
+Revision commit [5a24be7a4df0e9d772cf5aabf8b1425433d92ab3](https://github.com/kannaryukkei/ai-operated-web-studio/commit/5a24be7a4df0e9d772cf5aabf8b1425433d92ab3) switches the mobile booking track to `minmax(0,1fr)`, constrains copy/form/promise widths and applies a fluid, wrapping heading. Local Windows and fresh CI verification are pending for this latest change.
