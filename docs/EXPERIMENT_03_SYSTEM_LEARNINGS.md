@@ -103,3 +103,5 @@ The matrix maps each topic from the raw transcript segment (INT-04 / INT-05), th
 - Policy disclosure must never imply live payment, refund, reservation, order processing or support capability when no corresponding operational channel exists.
 
 **Validation boundary:** S10's combined S01–S10 browser, responsive, keyboard and business QA passed in Chromium. All new facts remain synthetic. This does not validate real policies, legal enforceability, real payment/support workflows or public launch readiness.
+
+S10's rendered Visit and FAQ captures were also reviewed at desktop, tablet and narrow mobile widths after the successful CI run. The additions retained the existing distinctive design direction; no redesign or additional UI component was justified. The reusable method is to review the actual rendered result after source-backed content changes and preserve a successful composition when the evidence supports retention, rather than equating every new segment with a redesign.
