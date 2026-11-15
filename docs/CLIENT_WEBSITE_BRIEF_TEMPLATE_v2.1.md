@@ -136,7 +136,9 @@ Keep internal project contacts separate from public contact destinations. A demo
 - Content production required:
 - Backend / CMS / integration requirement and business reason:
 - Risks, missing blockers and decisions requiring approval:
+- Clarification triage for every unresolved item: PREVIEW BLOCKER / PRODUCTION BLOCKER / OPTIONAL GAP.
 - Included scope, exclusions, revision rounds and ongoing support:
+- Minimal Clarification List (Studio-only): question, source/locator, why it matters, milestone priority, responsible owner and safe omission/fallback if unanswered. Batch only decisions needed for the next milestone; optional gaps remain recorded and are omitted from public copy.
 - Domain/registrar account owner, first-year domain/hosting inclusion, renewal payer and renewal date:
 
 ## E. Discovery outputs (AI/studio completes; client does not)
@@ -151,5 +153,6 @@ Keep internal project contacts separate from public contact destinations. A demo
 8. Recommended tier and scope rationale.
 9. Page/section map and CTA destination map.
 10. Factual claims requiring client approval.
+11. Minimal Clarification List with milestone triage (PREVIEW BLOCKER / PRODUCTION BLOCKER / OPTIONAL GAP), owner and safe fallback.
 
 The client provides business knowledge. The studio turns it into a structured website plan.
