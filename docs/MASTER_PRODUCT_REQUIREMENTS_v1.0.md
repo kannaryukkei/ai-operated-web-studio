@@ -149,6 +149,10 @@ Never invent prices, inclusions, locations, contacts, operating hours, policies,
 - **NFR-09 — Maintainability:** keep platform, standards, skills, blueprints and client sites within explicit boundaries.
 - **NFR-10 — Human authority:** no unapproved external messages, spend, public claims, DNS changes, publishing or ownership transfers.
 
+## 9A. Canonical client-input policy
+
+`docs/CLIENT_INPUT_AND_MATERIAL_POLICY_v1.0.md` is the normative input policy: one normal interview plus supplied assets and optional approved references. The client is not asked to complete the 26-field platform page or the AI-produced Client Website Brief. The existing platform intake remains an interim operator-populated summary bridge until its UI and server-side authorization are aligned. This document does not claim the current UI already enforces that policy.
+
 ## 10. Current implementation baseline
 
 This section distinguishes implemented code from manual operating procedures and future requirements. A documented process is not evidence that a platform feature exists.
@@ -156,7 +160,7 @@ This section distinguishes implemented code from manual operating procedures and
 | Capability | Current state | Evidence / boundary |
 |---|---|---|
 | Authentication, client/project records and access policies | Implemented foundation | Laravel platform models, routes, policies and feature tests. |
-| Structured project intake | Implemented, but policy misaligned | Versioned project intake exists. Controller validates five required fields; the UI copy says four; the manual workflow calls it a five-field internal bridge. Must be harmonized in later segments. |
+| Structured project intake | Implemented legacy bridge; access/UI policy misaligned | Versioned 26-field project intake exists. Controller requires five fields on submission; UI copy says four. Project policy currently allows authorized client-account owners and project editors to update it, although the canonical material-first policy treats it as a studio-populated internal snapshot. Do not ask clients to complete it as a second form. Server-side access/UI alignment is deferred to Segments 11–12. |
 | Interview + raw asset packet ingestion | Manual / external | Operator preserves sources in controlled project storage; platform does not provide the complete private multi-file ingestion workflow. |
 | Source-linked fact extraction and Source Coverage Matrix | Documented manual workflow | Protocol and skills define the method; the platform does not yet persist the complete canonical source/fact/coverage model. |
 | API-free discovery handoff | Implemented platform slice | Platform snapshots submitted intake, generates a prompt, accepts external AI JSON, validates and stores the structured result. |
