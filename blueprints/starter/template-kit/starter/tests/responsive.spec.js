@@ -137,8 +137,30 @@ test('consultation form opens the configured WhatsApp destination with the visit
   expect(message).toContain('Merek / model: Honda HR-V');
   expect(message).toContain('Treatment: Express');
   expect(message).toContain('jadwal belum terkonfirmasi');
-  await expect(page.getByRole('status')).toContainText('Pesan konsultasi disiapkan');
+  await expect(page.getByRole('status')).toContainText('WhatsApp terbuka dengan pesan konsultasi');
   await expect(page.locator('.form-disclaimer')).toContainText('bukan konfirmasi booking');
+});
+
+test('consultation form provides a direct WhatsApp fallback when the popup is blocked', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.open = (url) => {
+      window.__zacksWhatsAppUrl = url;
+      return null;
+    };
+  });
+  await page.goto('/');
+  await page.getByLabel('Nama', { exact: true }).fill('Starter QA');
+  await page.getByLabel('Merek / model kendaraan', { exact: true }).fill('Honda HR-V');
+  await page.getByRole('button', { name: /Lanjutkan ke WhatsApp/ }).click();
+
+  const status = page.getByRole('status');
+  await expect(status).toContainText('Browser memblokir jendela baru');
+  const fallback = page.getByRole('link', { name: /Buka WhatsApp/ });
+  const destination = new URL(await fallback.getAttribute('href'));
+  expect(destination.hostname).toBe('wa.me');
+  expect(destination.pathname).toBe('/6282359713072');
+  expect(destination.searchParams.get('text')).toContain('Nama: Starter QA');
+  expect(destination.searchParams.get('text')).toContain('Merek / model: Honda HR-V');
 });
 
 test('date minimum follows the browser local calendar date (Asia/Jakarta)', async ({ browser }) => {
