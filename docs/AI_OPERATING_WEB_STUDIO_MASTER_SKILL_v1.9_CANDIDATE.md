@@ -290,7 +290,7 @@ After implementation and refinement, reconcile the Raw Material Index, Source Co
 
 For every material customer question or source-backed public fact:
 - Record the source locator and the exact page/section/element where it is answered.
-- Mark the result **PUBLISHED** (supported and approved), **PREVIEW_ONLY** (clearly disclosed synthetic/unapproved content), **GAP** (missing or unresolved, with owner/action), or **NOT APPLICABLE** (reason recorded).
+- Mark the result **PUBLISHED** (supported and approved), **PREVIEW_ONLY** (clearly disclosed synthetic/unapproved content), **GAP** (missing or unresolved, with owner/action), or **NOT_APPLICABLE** (reason recorded).
 - Include operational decision information where relevant, not only headline offers: hours/holiday exceptions, location/parking/accessibility, pickup/delivery, stock/availability, pre-order lead time/minimum, payment/deposit/cancellation/refund, service recovery, dietary/allergen limits and aftercare.
 - Keep internal/private information out of public content. Do not add content solely to make a coverage row appear complete; an unavailable fact stays unavailable.
 - Flag any fact or customer question that disappears between raw material → normalized brief → customer-facing copy.
