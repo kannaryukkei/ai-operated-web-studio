@@ -10,7 +10,7 @@ Principle: Starter is compact, not incomplete. A one-page site must answer the i
 - [ ] Offer matrix includes real names, options, inclusions/exclusions and verified price or pricing method.
 - [ ] Customer Question Map covers before, during and after purchase where relevant.
 - [ ] Buying Journey and primary/secondary conversion paths are mapped.
-- [ ] Trust evidence is real and approved; missing proof is not fabricated.
+- [ ] Trust evidence is real and approved; missing proof is omitted rather than simulated. A demo label does not make invented testimonials, ratings or performance metrics acceptable.
 - [ ] Operational constraints, location/coverage, availability and policies are recorded.
 - [ ] Every material fact has a field-level source, evidence status and publication approval.
 - [ ] Every image/logo/video/font has an asset source/owner, permission status, intended use and credit requirement.
@@ -44,7 +44,7 @@ A site cannot pass production completeness with a critical BLOCKED item. Preview
 ## Gate 3 — Visual and content quality
 - [ ] Visual hierarchy makes the offer and primary action immediately understandable.
 - [ ] Content density feels complete without filler, repeated card grids or invented sections.
-- [ ] Images are relevant, correctly licensed/approved or clearly disclosed as concept imagery; no sample story or metric can appear in client-production mode.
+- [ ] Images are relevant, correctly licensed/approved or clearly disclosed as concept imagery. No invented testimonial, customer persona, rating, review count, award or performance metric appears in either portfolio-demo or client-production mode.
 - [ ] Typography, spacing, contrast and component consistency are reviewed. Important safety, allergen, pricing, policy and transaction disclosures are not treated as micro-metadata.
 - [ ] Mobile and desktop layouts are designed for the actual content, not just viewport screenshots.
 - [ ] Copy is specific, clear and customer-oriented rather than generic marketing language.
@@ -61,7 +61,7 @@ The canonical Starter reference must pass docs/STARTER_AUTOMATED_QUALITY_GATE_v1
 - [ ] Keyboard navigation, visible focus, form labels and semantic structure are checked. Text contrast is tested against actual backgrounds (4.5:1 normal / 3:1 large), with relevant non-text controls at 3:1; translucent colors are composited and every rendered instance is tested across target widths.
 - [ ] Metadata, social preview, favicon, sitemap/robots where applicable are correct.
 - [ ] Performance and image weight are measured; results are recorded rather than assumed.
-- [ ] Portfolio/demo mode and client-production mode are tested separately; demo metrics, simulated stories and sample proof are absent in client-production mode.
+- [ ] Portfolio/demo mode and client-production mode are tested separately. Both modes omit unverified social proof; only source-traceable, owner-approved evidence may be published. Demo-only visual labels remain clearly disclosed.
 - [ ] Preview robots restrictions are retained for previews and removed only after launch approval; production canonical, social metadata and robots directives are checked.
 - [ ] Cross-browser behavior is tested or explicitly marked NOT TESTED.
 - [ ] Hosting, domain, SSL, backups and update ownership are documented.
