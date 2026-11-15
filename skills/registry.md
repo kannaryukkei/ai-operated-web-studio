@@ -6,7 +6,7 @@ Checked: 2026-11-15
 
 | Skill folder | Primary responsibility | Expected output |
 |---|---|---|
-| `client-material-ingestion/` | Convert raw interviews and supplied assets into source-traceable normalized business knowledge | Raw Material Index, transcript summary, fact/source register, asset permissions, normalized brief and minimal clarification list |
+| `client-material-ingestion/` | Convert raw interviews and supplied assets into source-traceable normalized business knowledge | Raw Material Index, transcript summary, fact/source register, asset permissions, normalized brief and prioritized clarification list with safe preview fallbacks |
 | `frontend-design/` | Establish a distinct, brief-specific visual direction before coding | Design concept, compact token plan, layout direction and design rationale |
 | `ux-review/` | Translate business facts and customer needs into a useful visitor journey | Visitor tasks, customer-question coverage, IA/section recommendations and journey gaps |
 | `typography-and-legibility/` | Define and verify typography roles and readable text | Type-role scale, responsive type checks and exceptions |
