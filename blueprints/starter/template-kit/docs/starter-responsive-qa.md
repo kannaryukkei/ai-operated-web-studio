@@ -2,8 +2,9 @@
 
 **Status:** Current automated baseline passed; product production acceptance remains CONDITIONAL — preview only.  
 **Applies to:** `blueprints/starter/template-kit/starter/`  
-**Current tested implementation commit:** `6d4e85633e35bb8160a46988c8665267191e3f0f`  
-**GitHub Actions:** [Starter blueprint CI run #36](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43722483382)
+**Latest revision-branch test commit:** `5bed0839b4f55b976b69f9b8f8d6814be9d4aa72`  
+**GitHub Actions:** [Starter blueprint CI run #43](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43741402145)  
+**Content-evidence correction first verified on:** `6d4e85633e35bb8160a46988c8665267191e3f0f`
 
 ## Current automated result
 
@@ -23,7 +24,7 @@ The current suite covers:
 - Body/control/metadata typography floors at all nine widths.
 - WCAG AA contrast thresholds for measurable solid-color text/background surfaces, including the tested mobile-navigation and selected vehicle/class states.
 
-The older 15/15 run on commit `2c687401aa2d104c28360d70f7d763e9989215c9` is historical only. It predates the content-evidence regression and the current 19-test baseline.
+The older 15/15 run on commit `2c687401aa2d104c28360d70f7d763e9989215c9` is historical only. It predates the content-evidence regression and the current 19-test baseline. Revision-branch run #43 independently rebuilt the current branch and repeated the 19/19 result.
 
 ## What this does not prove
 
