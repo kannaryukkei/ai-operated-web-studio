@@ -14,15 +14,15 @@
 
 ## Important: this is a reference implementation, not a universal blank site
 
-The current website source is the ZACKS Detailing automotive/local-service demo. It is the best tested reference for a local service business decision journey, but it still contains ZACKS-specific language, automotive interactions, sample pricing, contact details, external photo references and demo proof. Do not deploy or copy it unchanged for a client.
+The current website source is the ZACKS Detailing automotive/local-service demo. It is the best tested reference for a local service business decision journey, but it still contains ZACKS-specific language, automotive interactions, sample pricing, contact details and external photo references. Some legacy portfolio content also contains simulated metrics/customer-story style proof; those elements do not comply with the current evidence policy, even in demos. Do not deploy or copy it unchanged for a client.
 
 For each project:
-1. Read the approved brief and the current Master Skill.
+1. Read the approved brief, Master Skill v1.11 Candidate and the canonical operating/data/approval documents.
 2. Decide whether this local-service pattern actually fits the customer journey.
 3. Copy `template-kit/starter/` into that client's separate website repository only when it is a fit.
-4. Replace all demo facts, identity, contact endpoints, images, credits, pricing, FAQs and policies with traceable client-approved data.
+4. Remove all simulated testimonials, reviews, ratings, awards, customer counts, performance metrics and case results. Replace business facts, identity, contact endpoints, images, credits, pricing, FAQs and policies only with source-traceable and appropriately approved material.
 5. Remove or redesign interactions that do not serve the real business.
-6. Run the complete acceptance gate and independent browser QA before any release.
+6. Follow WRP/G0–G7 gates and run the complete Starter Product Acceptance Gate plus independent browser QA before any release.
 
 For cafés/F&B, portfolio studios, retail catalogs, and other categories, reuse the learning and QA contracts—not the automotive page structure. Derive a category-specific information architecture and features from the client brief.
 
