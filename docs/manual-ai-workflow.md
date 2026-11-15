@@ -9,7 +9,7 @@ Default inputs:
 - supplied brand/product/service assets and documents;
 - optional existing website, social profiles, public CTA destinations and references.
 
-Follow docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md and docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.9_CANDIDATE.md.
+Follow `docs/CLIENT_INPUT_AND_MATERIAL_POLICY_v1.0.md`, `docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md` and the current Master Skill candidate.
 
 ## Operating sequence
 
@@ -20,9 +20,15 @@ Follow docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md and docs/AI_OPERATING_WEB
 5. **AI normalizes and traces.** The AI extracts atomic facts, links each material claim to a source locator, builds the asset/permission register, identifies conflicts and missing information, and creates the Client Brief v2.1 and business-discovery artifacts.
 6. **Ask minimal clarifications.** Only batch questions whose answers materially affect the offer, price, policy, visitor journey, CTA, public claim, asset permission or release. The client does not repeat information already supplied.
 7. **Operator reviews exceptions.** Review the fact register, source locators, public/private contact separation, asset rights, CTA destinations and critical gaps. Do not publish pending or unsupported claims.
-8. **Record the normalized snapshot.** The existing Studio project intake/discovery workspace can be used as a durable project/discovery record. Its current five-field intake is an interim internal bridge: fill it from the interview-derived summary; do not send it to the client as a second form. Preserve the raw packet separately until platform file ingestion is implemented.
+8. **Record the normalized snapshot.** The existing Studio project intake/discovery workspace can be used as a durable project/discovery record. Its Project Intake currently contains 26 fields; the controller requires five fields on submission (`business_overview`, `target_audience`, `products_services`, `website_goal`, `primary_conversion`) and leaves 21 optional. The page helper text incorrectly says four required fields. Fill the internal snapshot from interview-derived material; do not ask the client to complete it as a second form. Preserve the raw packet and source-linked artifacts separately because this summary form is not a complete provenance record.
 9. **Run the production lifecycle.** Continue through business intelligence, tier/scope, design differentiation, content, implementation, refinement, independent QA, owner approval and release using the Master Skill and specialist skills.
 10. **Keep the process API-free.** The operator chooses an existing AI application, copies the relevant prompt/materials, and pastes structured results back into the Studio. Add automation only after repeated manual bottlenecks are demonstrated.
+
+## Legacy intake page — operating caveat
+
+The current Project Intake page is still accessible to authorized client-account owners and project editors because the underlying Project policy permits them to update the project. This is not the intended material-first client journey. Until the platform is aligned, the studio must not direct clients to that page as a required second brief. Studio staff should use it only as an internal snapshot/bridge, populated from the interview and material packet. The UI and server-side authorization need a later implementation change; hiding a link alone is not sufficient.
+
+The 26-field snapshot is not the Raw Material Index, Fact Register, Asset/Permission Register or Source Coverage Matrix. Keep those source-linked artifacts in the controlled project workspace.
 
 ## What the platform currently does
 
