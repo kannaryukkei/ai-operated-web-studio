@@ -511,7 +511,7 @@ main section { scroll-margin-top: 82px; }
 .finder-price strong { color: var(--teal-dark); font: 700 23px/.9 var(--display); white-space: nowrap; }
 .finder-result .button { grid-column: 1 / -1; width: 100%; min-height: 43px; }
 
-.proof-strip { padding: 54px 0 58px; color: var(--white); background: #087f73; }
+.proof-strip { padding: 54px 0 58px; color: var(--white); background: var(--teal-dark); }
 .proof-strip-head { display: flex; justify-content: space-between; align-items: end; gap: 25px; }
 .proof-strip-head h2 { margin: 11px 0 0; color: var(--white); font: 700 clamp(38px,4vw,55px)/.92 var(--display); text-transform: uppercase; }
 .proof-strip-head h2 em { color: #a9f0e4; font-style: normal; }
@@ -521,8 +521,8 @@ main section { scroll-margin-top: 82px; }
 .proof-metric { min-width: 0; display: grid; gap: 7px; padding: 20px 18px 0 0; }
 .proof-metric + .proof-metric { padding-left: 20px; border-left: 1px solid rgba(255,255,255,.22); }
 .proof-metric > strong { color: var(--white); font: 700 clamp(34px,4vw,53px)/.9 var(--display); }
-.proof-metric > span { color: #d7f3ec; font-size: 8px; font-weight: 800; letter-spacing: .13em; }
-.proof-metric > small { color: rgba(255,255,255,.57); font-size: 7px; }
+.proof-metric > span { color: #ffffff; font-size: 8px; font-weight: 800; letter-spacing: .13em; }
+.proof-metric > small { color: #ffffff; font-size: 7px; }
 
 .stories-section { background: var(--night); }
 .stories-heading { display: flex; align-items: end; justify-content: space-between; gap: 25px; }
@@ -693,24 +693,34 @@ main .contact-footnote,
 .site-footer .footer-nav > span {
   font-size: 11px !important;
 }
-/* Muted text must remain readable on the paper/light surfaces. */
-main .eyebrow:not(.eyebrow--light),
-main .micro-label,
-main .class-option small,
-main .class-disclaimer,
-main .package-meta,
-main .package-price small,
-main .active-class-indicator,
-main .additional-top,
-main .additional-price > span,
-main .additional-note,
-main .gallery-item figcaption span,
-main .gallery-item figcaption > a,
-main .gallery-disclaimer,
-main .process-count span,
-main .coverage-stamp small,
-main .coverage-stamp span,
-main .finder-result > div:first-child > small,
-main .footer-legal-inner {
+
+/* Contrast-safe text tokens: scope muted text to the light surfaces it serves. */
+.philosophy-section .eyebrow { color: var(--teal); }
+.vehicle-tab:not(.is-active) { color: #526057; }
+.vehicle-class-heading p,
+.section-heading:not(.section-heading--light) p,
+.price-integrity-note p,
+.package-card:not(.package-card--featured) .package-description,
+.package-card:not(.package-card--featured) .package-price small,
+.additional-card > p,
+.additional-disclaimer,
+.process-list p,
+.faq-item p,
+.form-heading small,
+.form-disclaimer,
+.booking-promises span,
+.class-option small,
+.class-disclaimer,
+.active-class-indicator,
+.additional-top,
+.additional-price > span,
+.additional-note,
+.gallery-item figcaption span,
+.gallery-item figcaption > a,
+.gallery-disclaimer,
+.process-count span,
+.coverage-stamp small,
+.coverage-stamp span,
+.finder-result > div:first-child > small {
   color: #526057;
 }
