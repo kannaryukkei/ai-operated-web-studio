@@ -495,7 +495,7 @@ export default function ProjectDiscovery({
                                                                 </div>
                                                                 <span className="shrink-0 rounded-full bg-muted px-2 py-1 text-xs">
                                                                     {
-                                                                        item.status
+                                                                        item.answer_status
                                                                     }
                                                                 </span>
                                                             </div>
