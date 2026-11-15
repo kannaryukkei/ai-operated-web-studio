@@ -21,16 +21,16 @@ The canonical AI workflow is **Master Skill Stages 0–9**. The numbered deliver
 
 | Master Skill stage | Delivery activity | Required gate / output |
 |---|---|---|
-| 0 — Material-first intake and source normalization | Interview, source/asset capture, source coverage, facts, permissions, AI-populated Client Website Brief | G0 confirmations and traceable discovery snapshot |
-| 1 — Business intelligence | Offer, audience, buying triggers, objections, operational constraints and trust/evidence analysis | Business intelligence, Offer Matrix and Trust/Evidence Register |
-| 2 — Tier recommendation and scope | Starter fit, exclusions, proposal and commercial agreement | G1 owner approval and client agreement |
-| 3 — Customer questions and information architecture | Customer Question Map, Buying Journey, section/IA and source-to-page plan | Complete, source-linked visitor journey and IA |
-| 4 — Content and conversion | Copy, CTA behavior, gaps and Website Requirements Pack | WRP `APPROVED_FOR_DESIGN` and G2 |
-| 5 — Creative direction and implementation | Art direction, approved visual specification, design, asset composition and initial build | G2 prerequisite satisfied; G3 content/claims/visual-direction decisions recorded |
-| 6 — Refinement | Visual/functional refinement, design-differentiation corrections and updated coverage | Defects resolved or explicitly carried with status/evidence |
-| 7 — Independent QA | Browser-rendered visual checks, automated/manual QA and acceptance review | Starter/project acceptance evidence; G5 readiness inputs |
-| 8 — Release and handover | G4 preview acceptance, G5 production readiness, G6 authorization/release, G7 handover | PREVIEW_ACCEPTED → PRODUCTION_READY → RELEASE_AUTHORIZED → RELEASED → HANDED_OVER |
-| 9 — Evidence-led calibration | Retrospective, root-cause analysis and regression/system updates | Evidence-backed learning record |
+| Stage 0 — Material-first intake and source normalization | Interview, source/asset capture, source coverage, facts, permissions, AI-populated Client Website Brief | G0 confirmations and traceable discovery snapshot |
+| Stage 1 — Business intelligence | Offer, audience, buying triggers, objections, operational constraints and trust/evidence analysis | Business intelligence, Offer Matrix and Trust/Evidence Register |
+| Stage 2 — Tier recommendation and scope | Starter fit, exclusions, proposal and commercial agreement | G1 owner approval and client agreement |
+| Stage 3 — Customer questions and information architecture | Customer Question Map, Buying Journey, section/IA and source-to-page plan | Complete, source-linked visitor journey and IA |
+| Stage 4 — Content and conversion | Copy, CTA behavior, gaps and Website Requirements Pack | WRP `APPROVED_FOR_DESIGN` and G2 |
+| Stage 5 — Creative direction and implementation | Art direction, approved visual specification, design, asset composition and initial build | G2 prerequisite satisfied; G3 content/claims/visual-direction decisions recorded |
+| Stage 6 — Refinement | Visual/functional refinement, design-differentiation corrections and updated coverage | Defects resolved or explicitly carried with status/evidence |
+| Stage 7 — Independent QA | Browser-rendered visual checks, automated/manual QA and acceptance review | Starter/project acceptance evidence; G5 readiness inputs |
+| Stage 8 — Release and handover | G4 preview acceptance, G5 production readiness, G6 authorization/release, G7 handover | PREVIEW_ACCEPTED → PRODUCTION_READY → RELEASE_AUTHORIZED → RELEASED → HANDED_OVER |
+| Stage 9 — Evidence-led calibration | Retrospective, root-cause analysis and regression/system updates | Evidence-backed learning record |
 
 **Hard sequencing rule:** Stage 5 design or code must not begin until the approved WRP is `APPROVED_FOR_DESIGN`, G2 is recorded and preview blockers/scope decisions are resolved. G3 is not a substitute for G2. G4 preview acceptance is not production approval. G5 readiness is not G6 release authorization.
 
@@ -492,17 +492,18 @@ Never begin a change request based only on a casual chat message. Record the req
 
 ## 6. Client approval gates
 
-Obtain explicit approval at these points:
+Use the canonical G0–G7 gates from `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md`. Do not treat the board status, a completed prompt, a passing test or silence as approval.
 
-1. Scope and commercial terms.
-2. Business facts, offer, pricing, and primary conversion action.
-3. Section map and content direction.
-4. Art direction / visual direction.
-5. Final staging website.
-6. Go-live and domain connection.
+1. **G0 — Discovery facts, public claims and assets:** client/business owner confirms material facts, current offers/prices/policies, public contact destinations and asset rights/consent; operator records source-linked decisions; owner controls publication policy.
+2. **G1 — Tier, scope and commercial:** Studio owner approves tier, price, margin, timeline, revision limits, costs and exclusions; client agrees to the exact proposal/scope version.
+3. **G2 — WRP approval for design:** operator checks source traceability, feasibility and blockers; owner approves progression; required client confirmations are recorded; WRP status is `APPROVED_FOR_DESIGN`.
+4. **G3 — Content, claims and visual direction:** record exact customer-facing content and visual-direction versions, client confirmations and any owner policy/scope decisions.
+5. **G4 — Preview acceptance:** client/business owner reviews the exact preview version; record `PREVIEW_ACCEPTED` or `CHANGES_REQUESTED`. Preview acceptance is not production approval.
+6. **G5 — Production readiness:** verify all product acceptance criteria, QA evidence, content/permission/CTA dependencies, ownership, rollback and handover readiness. No production blocker may be silently waived.
+7. **G6 — Production release authorization:** Studio owner explicitly authorizes the exact candidate and external actions; client approvals remain recorded. Mark `RELEASED` only after actual deployment and production verification.
+8. **G7 — Handover and closure:** record client receipt, access/ownership confirmation, recurring costs, limitations and support responsibilities before marking `HANDED_OVER`.
 
-A client not responding is not considered approval. Pause the affected workstream and update the project schedule.
-
+Each decision must identify the authority, exact subject/artifact/version, timestamp and evidence. One person may hold multiple roles on a small project, but each authority decision remains explicit. If a required decision is pending, pause only the affected progression and record the dependency.
 ## 7. Status board
 
 Use one simple board with the following statuses:
