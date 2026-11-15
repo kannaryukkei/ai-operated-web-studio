@@ -2,7 +2,7 @@ name: Starter blueprint CI
 
 on:
   push:
-    branches: [restructure/business-first-product-system]
+    branches: [main, 'improvement/**', 'restructure/**']
     paths:
       - "blueprints/starter/template-kit/starter/**"
       - ".github/workflows/starter-blueprint-ci.yml"
@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   build-and-responsive-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: blueprints/starter/template-kit/starter
@@ -29,7 +29,7 @@ jobs:
         with:
           node-version: 22
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
       - name: Build Starter
         run: npm run build
       - name: Install Playwright Chromium
