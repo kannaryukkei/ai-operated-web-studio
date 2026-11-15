@@ -10,40 +10,95 @@ import { useState, type FormEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
+type EvidenceStatus =
+    | 'VERIFIED'
+    | 'CLIENT-PROVIDED-UNVERIFIED'
+    | 'DEMO-ONLY'
+    | 'ASSUMPTION'
+    | 'MISSING'
+    | 'CONFLICT';
+
+type PublicationStatus = 'APPROVED' | 'PENDING' | 'NOT_APPROVED';
+
 type DiscoveryResult = {
     business_summary: string;
+    business_model_summary: string;
     primary_audience: string[];
     website_goal: string;
     primary_conversion: string;
-    recommended_tier: string;
+    recommended_tier: 'starter' | 'business' | 'custom';
     recommendation_rationale: string[];
+    offer_matrix?: {
+        name: string;
+        details: string;
+        pricing: string;
+        source: string;
+        evidence_status: EvidenceStatus;
+    }[];
     fact_register?: {
         fact: string;
         source: string;
-        evidence_status: string;
-        public_use_status: string;
+        evidence_status: EvidenceStatus;
+        publication_status: PublicationStatus;
         notes: string;
     }[];
     cta_register?: {
         action: string;
         destination: string;
-        destination_status: string;
+        destination_status:
+            | 'APPROVED_REAL_DESTINATION'
+            | 'NOT_CONFIGURED'
+            | 'NEEDS_APPROVAL'
+            | 'DEMO_ONLY';
         expected_behavior: string;
     }[];
     asset_register?: {
         asset_or_need: string;
         source_or_owner: string;
-        permission_status: string;
+        permission_status:
+            | 'APPROVED'
+            | 'PENDING'
+            | 'NOT_APPROVED'
+            | 'NOT_APPLICABLE';
+        permission_evidence_status: EvidenceStatus;
+        consent_status:
+            | 'CONFIRMED'
+            | 'PENDING'
+            | 'NOT_APPROVED'
+            | 'NOT_APPLICABLE';
         intended_use: string;
         credit_or_restrictions: string;
     }[];
     customer_question_map?: {
         question: string;
         answer_or_gap: string;
-        stage: string;
-        status: 'ANSWERED' | 'GAP' | 'NOT_APPLICABLE';
+        stage: 'BEFORE_PURCHASE' | 'DURING_PURCHASE' | 'AFTER_PURCHASE';
+        answer_status: 'ANSWERED' | 'GAP' | 'NOT_APPLICABLE';
         source: string;
         owner_or_action: string;
+        milestone_priority:
+            | 'PREVIEW_BLOCKER'
+            | 'PRODUCTION_BLOCKER'
+            | 'OPTIONAL_GAP';
+    }[];
+    buying_journey?: {
+        stage: 'BEFORE_PURCHASE' | 'DURING_PURCHASE' | 'AFTER_PURCHASE';
+        customer_need: string;
+        website_support: string;
+    }[];
+    trust_register?: {
+        proof: string;
+        source: string;
+        evidence_status: EvidenceStatus;
+        publication_status: PublicationStatus;
+    }[];
+    content_gaps?: {
+        gap: string;
+        owner_or_source: string;
+        milestone_priority:
+            | 'PREVIEW_BLOCKER'
+            | 'PRODUCTION_BLOCKER'
+            | 'OPTIONAL_GAP';
     }[];
     sections: {
         key: string;
@@ -56,7 +111,6 @@ type DiscoveryResult = {
     scope_risks: string[];
     next_step: string;
 };
-
 type DiscoveryRun = {
     id: number;
     status: 'queued' | 'processing' | 'completed' | 'failed';
@@ -354,8 +408,8 @@ export default function ProjectDiscovery({
                                                     ?.length ?? '—'}
                                             </p>
                                             <p className="text-xs text-muted-foreground">
-                                                Material facts with a source and
-                                                publication status
+                                                Material facts with separate
+                                                evidence and publication status
                                             </p>
                                         </div>
                                         <div className="rounded-md border p-3">
@@ -365,7 +419,7 @@ export default function ProjectDiscovery({
                                             <p className="mt-1 text-lg font-semibold">
                                                 {run.result.customer_question_map?.filter(
                                                     (item) =>
-                                                        item.status === 'GAP',
+                                                        item.answer_status === 'GAP',
                                                 ).length ?? '—'}
                                                 <span className="ml-1 text-xs font-normal text-muted-foreground">
                                                     open gaps
@@ -374,13 +428,13 @@ export default function ProjectDiscovery({
                                             <p className="text-xs text-muted-foreground">
                                                 {run.result.customer_question_map?.filter(
                                                     (item) =>
-                                                        item.status ===
+                                                        item.answer_status ===
                                                         'ANSWERED',
                                                 ).length ?? 0}{' '}
                                                 answered ·{' '}
                                                 {run.result.customer_question_map?.filter(
                                                     (item) =>
-                                                        item.status ===
+                                                        item.answer_status ===
                                                         'NOT_APPLICABLE',
                                                 ).length ?? 0}{' '}
                                                 not applicable
