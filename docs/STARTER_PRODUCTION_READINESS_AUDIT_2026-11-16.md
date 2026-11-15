@@ -175,3 +175,11 @@ The generated Starter `package-lock.json` remains local and uncommitted at this 
 The correction described above was verified by GitHub Actions [Starter blueprint CI run #47](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43742492354), push to `revision/master-revision` at commit `57f91797a68af94a8d680c54b3034fba6ccf68f8`. Result: Vite production build PASS and Playwright **19/19 PASS** on Ubuntu 24.04 / Chromium.
 
 This closes the remote regression check. The operator's Windows run must still be repeated after pulling the CSS and `.gitignore` corrections to confirm the original 320px failure is also resolved in the local environment. The Starter lockfile also remains uncommitted, so the reproducibility gate is still open.
+
+### Second narrow-viewport regression follow-up — 2026-11-16
+
+After pulling the earlier philosophy/contact correction, the operator repeated Playwright on Windows. The original philosophy/contact overflow no longer appeared, but the same 320px document-overflow assertion still failed: document width 359px. The remaining offenders were in the hero: .hero-copy and its heading expanded to 343px because the mobile one-column grid retained an intrinsic minimum width. The other 18 Playwright tests passed; the operator's git status showed only the local, untracked Starter package-lock.json, with Playwright output correctly ignored.
+
+A second responsive correction was committed to revision/master-revision as [ac47977d627b6258925b03a80255f94aebe252e1](https://github.com/kannaryukkei/ai-operated-web-studio/commit/ac47977d627b6258925b03a80255f94aebe252e1). At the 640px breakpoint it sets the hero grid track to minmax(0,1fr), constrains the hero copy/kicker/description/aside to the available width, and allows the H1 to wrap at narrow widths. This is a layout correction, not an overflow-hiding workaround.
+
+Verification is still open: the operator must pull this commit and rerun the Windows 320px regression before the local issue is closed. The new commit's Starter CI result must also be checked. Do not commit the generated lockfile or switch Starter CI to npm ci until the local 19-test suite passes.
