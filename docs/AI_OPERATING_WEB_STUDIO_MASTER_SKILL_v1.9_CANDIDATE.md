@@ -107,6 +107,13 @@ Ask the client/owner only when a missing or conflicting answer materially change
 
 Batch related questions into one concise clarification request. Do not ask questions already answered in the interview or sources. Non-critical gaps remain explicitly marked and can be excluded from the preview. A plausible guess is never a substitute for an answer.
 
+Classify every unresolved item by its next-milestone impact:
+- **PREVIEW BLOCKER:** prevents a safe, coherent internal preview even with a labelled working name, unavailable state or Studio-created concept fallback.
+- **PRODUCTION BLOCKER:** preview may continue, but publication or live operation must wait (for example unresolved brand identity, price/offer facts, location/hours, public CTA, safety/policy claims, asset rights or consent).
+- **OPTIONAL GAP:** does not affect the current approved visitor journey; keep it in the gap register and omit the claim/feature instead of asking about it now.
+
+The Minimal Clarification List must contain only decisions needed for the next milestone, grouped by owner where practical. Each item records why it matters, priority, owner and a safe omission/fallback if unanswered. Continue unaffected preview work when safe. Do not ask for every missing field, do not expose private contacts, and do not treat a preview fallback as publication approval. An unanswered question stays PENDING / NOT_APPROVED; do not repeat it unless a later release gate requires it.
+
 ### Stage 0 outputs
 
 - Raw Material Index with source IDs and locators.
@@ -118,7 +125,7 @@ Batch related questions into one concise clarification request. Do not ask quest
 - Business Intelligence Summary and Offer Matrix.
 - Customer Question Map, Buying Journey and CTA map.
 - Conflict / Missing-Information Register with severity, owner and next action.
-- Minimal Clarification List containing only material questions.
+- Minimal Clarification List containing only decisions needed for the next milestone, triaged as PREVIEW BLOCKER / PRODUCTION BLOCKER / OPTIONAL GAP, with owner, reason and safe omission/fallback.
 
 Reference: docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md.
 
