@@ -724,3 +724,14 @@ main .contact-footnote,
 .finder-result > div:first-child > small {
   color: #526057;
 }
+
+/* Targeted surfaces exposed by the contrast regression. */
+.micro-label,
+.package-card:not(.package-card--featured) .package-meta,
+.package-card:not(.package-card--featured) .package-title-row > span,
+.finder-price small,
+.optional {
+  color: #526057;
+}
+.stories-section .section-heading p { color: #afbeb8; }
+.contact-footnote { color: #ffffff; }
