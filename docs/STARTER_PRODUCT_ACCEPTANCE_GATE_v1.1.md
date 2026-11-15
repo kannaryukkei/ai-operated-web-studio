@@ -51,7 +51,7 @@ A site cannot pass production completeness with a critical BLOCKED item. Preview
 
 ## Automated Starter regression baseline
 
-The canonical Starter reference must pass docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md. This supplements, and does not replace, the complete technical release checks below. Numeric contrast automation covers measurable solid-color surfaces; gradient/photo surfaces still require actual-scale human screenshot review.
+The canonical Starter reference must pass docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md and be checked against the current proposed `docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.1_CANDIDATE.md`. These supplement, and do not replace, the complete technical release checks below. Numeric contrast automation covers measurable solid-color surfaces; gradient/photo surfaces still require actual-scale human screenshot review.
 
 ## Gate 4 — Technical release quality
 - [ ] Production build passes.
