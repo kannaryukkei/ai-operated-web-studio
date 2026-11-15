@@ -2,7 +2,7 @@
 
 **Document ID:** AWOS-PRD-001  
 **Version:** 1.0  
-**Status:** Master Revision baseline  
+**Status:** Draft — Master Revision candidate (pending owner review)  
 **Last updated:** 2026-11-15  
 **Product owner:** Studio owner  
 **Canonical repository:** `kannaryukkei/ai-operated-web-studio`
@@ -229,7 +229,7 @@ Do not invent numeric performance targets for delivery hours or margin before co
 
 ## 15. Change control and ownership
 
-- This PRD is the single requirement source for the Web Studio product. The Master Skill defines how AI executes the production lifecycle; architecture defines technical boundaries; the roadmap defines sequence.
+- Upon owner adoption, this PRD becomes the canonical requirement source for the Web Studio product. The Master Skill defines how AI executes the production lifecycle; architecture defines technical boundaries; the roadmap defines sequence.
 - A change to scope, product promises, API dependence, approval authority or release policy must update this PRD and its traceability before implementation.
 - Each requirement change must record rationale, affected components, acceptance changes and migration impact.
 - Do not create a separate client PRD. Generate a Website Requirements Pack from each client's interview and materials.
