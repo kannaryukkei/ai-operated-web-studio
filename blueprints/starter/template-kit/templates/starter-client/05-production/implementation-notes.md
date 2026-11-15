@@ -1,30 +1,45 @@
-# Implementation Notes
+# Implementation Notes & Checkpoints
 
+## Approved implementation basis
+- Project ID:
+- Master Skill stage: 5 / 6
+- WRP ID/version/status:
+- G2 approval ID:
+- G3 content/design decision IDs:
+- Approved tier/scope version:
+- Design direction / Design Implementation Spec:
+- Asset/Permission Register IDs:
 - Repository:
-- Branch:
-- Framework/version:
-- Install command:
+- Base branch / commit:
+- Working branch:
+- Stack/framework/version:
+- Existing scripts / package manager:
+- Install / clean-install command:
 - Build command:
+- Test command:
 - Preview command:
-- Deployment target:
+- Deployment target (no action without G6):
 
-## Architecture
-- Static/dynamic:
-- Content configuration:
-- Components:
-- Interactions:
-- Contact/form behavior:
-- Third-party integrations:
+## Architecture and truthful behavior
+- Static/dynamic boundary:
+- Content configuration location:
+- Components/sections:
+- Navigation/CTA destinations and behavior:
+- Form/contact delivery behavior:
+- Third-party dependencies/services:
+- Data persistence (if any, explicit WRP requirement):
+- Privacy/security constraints:
+- Deviations from approved spec and reason:
 
-## AI execution
-- Prompt version:
-- Task:
-- Files changed:
-- Commit/PR:
-- Tests run/results:
-- Known limitations:
+## Bounded implementation checkpoint log
+
+| checkpoint_id | slice completed | changed files | branch/commit | check actually run | result | visual comparison evidence | open defect/blocker | next slice |
+|---|---|---|---|---|---|---|---|---|
+| IMP-001 | | | | | NOT_TESTED | | | |
+
+One row per meaningful slice. Preserve working commits; do not issue a large unverified code dump. A build pass does not prove visual fidelity.
 
 ## Decisions
-| Date | Decision | Reason | Approver |
-|---|---|---|---|
-| | | | |
+| decision_id | date | decision | rationale/evidence | authority/approver | affected artifact/version |
+|---|---|---|---|---|---|
+| | | | | | |
