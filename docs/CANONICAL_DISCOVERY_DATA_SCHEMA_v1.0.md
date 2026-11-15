@@ -257,6 +257,8 @@ PUBLISHED means the answer is present in the rendered candidate and every underl
 
 ## 5. Discovery summary and section plan
 
+The canonical packet may carry a concise summary. The Website Requirements Pack references these discovery records by stable ID and adds testable implementation requirements; it must not duplicate their source/evidence records.
+
 The canonical packet may carry a concise summary:
 
 - `business_summary`
