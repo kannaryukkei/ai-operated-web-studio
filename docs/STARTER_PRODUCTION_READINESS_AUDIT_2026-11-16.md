@@ -111,7 +111,7 @@ They do **not** establish that the number is currently controlled by the busines
 
 **Reproducibility correction required:** create and commit `blueprints/starter/template-kit/starter/package-lock.json`; verify a clean `npm ci`; then change Starter CI from `npm install` to `npm ci` and configure npm cache against that lockfile. The separate `platform/package-lock.json` does not lock the Starter app dependencies.
 
-**CI trigger correction:** the root Starter blueprint workflow previously excluded `revision/**`. The workflow has now been updated to include revision branches, pin its GitHub Actions by commit SHA and include the relevant acceptance/evidence/implementation documents in its path filters. Its new revision-branch run must still be observed before that trigger change is treated as verified.
+**CI trigger correction — verified:** the root Starter blueprint workflow now includes `revision/**`, pins its GitHub Actions by commit SHA and includes the relevant acceptance/evidence/implementation documents in both push and pull-request path filters. Revision-branch trigger verification: [Starter blueprint CI run #43](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43741402145), push to `revision/master-revision`, commit `5bed0839b4f55b976b69f9b8f8d6814be9d4aa72`; Vite production build PASS and Playwright 19/19 PASS. The run still used `npm install` because the Starter lockfile has not yet been created.
 
 ## Gate 5 — Real-world and commercial readiness: blockers
 
