@@ -33,7 +33,7 @@
 | 09 | Harmonize prompts, skills, and delivery playbook | DONE |
 | 10 | Harmonize documentation | DONE |
 | 11 | Align platform with canonical workflow | DONE |
-| 12 | Implement minimum platform changes | IMPLEMENTED — CI PENDING |
+| 12 | Implement minimum platform changes | PASS LOCALLY — FORMAT SYNC PENDING |
 | 13 | Strengthen CI, reproducibility, and QA evidence | NOT STARTED |
 | 14 | Starter production readiness gate | NOT STARTED |
 | 15 | Final system audit and revision closure | NOT STARTED |
@@ -362,3 +362,19 @@ git pull origin revision/master-revision
 composer run-script ci:check
 ```
 The operator's two locally formatted TSX files had passed `vp check` and should be kept; they were not changed by this follow-up. Segment 12 stays `IMPLEMENTED — CI PENDING` until a complete run passes.
+
+## Validation closeout — Segment 12 (2026-11-15)
+
+**Observed local command:** `composer run-script ci:check`, executed from `platform/` on local branch `revision/master-revision` after pulling remote commit `a243ca41e00ea29f58aaf65843e0b281941031f7`.
+
+**Complete observed result: PASS**
+- `npm run check`: all 74 files correctly formatted; no warnings or lint errors in 68 files.
+- `npm run types:check`: `tsc --noEmit` exited successfully.
+- Pint `--test`: 87 files PASS.
+- PHPStan `--memory-limit=1G`: 64/64 analysed, `[OK] No errors`.
+- Laravel PHPUnit: **80 passed, 370 assertions**, 7.38 seconds.
+- The prior Vite manifest failure is resolved by the committed `withoutVite()` setup in `ManualDiscoveryWorkflowTest`.
+
+**Remaining repository synchronization check:** Before treating the revision branch itself as fully reproducible, inspect `git status --short`. Earlier, `npm.cmd run check:fix` reported local modifications in `resources/js/pages/projects/discovery.tsx` and `resources/js/pages/projects/intake.tsx`; the successful run proves the local working tree is formatted, but the provided log does not show those two files being committed. If they remain modified, commit only those two formatter changes on `revision/master-revision` and push that branch, never `main`. If clean, no extra sync commit is needed.
+
+**Segment 12 status:** Functional implementation and all local checks PASS. Tracker records `PASS LOCALLY — FORMAT SYNC PENDING` only to capture the possible two-file formatting delta. Once `git status --short` is clean (or the two formatter-only changes are committed/pushed), mark Segment 12 DONE and begin Segment 13. GitHub Actions itself has not run because no PR was created; this local full Composer check is the observed equivalent validation for this segment.
