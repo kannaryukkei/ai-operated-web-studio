@@ -253,7 +253,7 @@ For each segment, record: purpose and visitor question; what works; issues and s
 
 Inspect cross-page systems separately: type scale, color and contrast, spacing rhythm, grid alignment, image framing, content density, heading hierarchy, interaction affordances, keyboard focus and responsive behavior.
 
-Review screenshots at actual viewport scale (100%) on desktop, tablet and mobile. A downscaled full-page screenshot is useful for section rhythm but is not sufficient evidence that body text or metadata is legible.
+Review screenshots at actual viewport scale (100%) on desktop, tablet and mobile. A downscaled full-page screenshot is useful for section rhythm but is not sufficient evidence that body text or metadata is legible. Check every instance of each defined text role, not only the first match, and inspect policy/safety details at the narrowest supported viewport.
 
 Prioritize issues in this order: factual/business integrity and broken conversion; comprehension and readability; navigation and interaction clarity; responsive layout and asset framing; visual hierarchy and composition; decorative refinement.
 
