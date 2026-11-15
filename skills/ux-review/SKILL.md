@@ -17,7 +17,7 @@ Do not infer missing business facts from visual appearance. Keep VERIFIED, CLIEN
 
 1. **Identify the visitor and task.** State the primary audience, their intent and the one main task the website should help them complete.
 2. **Map the decision journey.** Review discovery, evaluation, trust, inquiry/order and post-action expectations where relevant.
-3. **Check question coverage.** For every important customer question, mark ANSWERED, GAP or NOT APPLICABLE. Attach the supporting source or owner/action.
+3. **Check source-to-page question coverage.** Reconcile the Raw Material Index, Source Coverage Matrix, Fact Register and Customer Question Map with the actual page. For every material customer question, record its source locator, exact page/section where it is answered, or GAP / NOT APPLICABLE with owner/action. Check operational policies as well as headline offers: availability, hours/holiday changes, visit and parking, pickup/delivery, pre-order requirements, payment/deposit/cancellation/refund, aftercare and dietary/allergen limitations where relevant. Do not let information disappear between interview → brief → website. Keep private, unapproved or unavailable facts out of public content.
 4. **Audit information architecture.** Check that page/section order follows visitor priorities, labels are understandable, related content is grouped and unnecessary sections are removed.
 5. **Audit choices and cognitive load.** Look for duplicated choices, jargon, dense blocks, unclear differentiation, excessive navigation and tasks requiring avoidable memory or repeated steps.
 6. **Audit trust and factual clarity.** Ensure real evidence is used, uncertainty is transparent, limitations are clear and the site does not rely on unsupported claims.
@@ -39,7 +39,7 @@ For each major page section:
 - Recommended change.
 
 ### Question coverage
-A compact table: customer question, status (ANSWERED / GAP / NOT APPLICABLE), evidence/source and owner/action for gaps.
+A compact table: customer question, source locator, exact page/section locator, status (ANSWERED / GAP / NOT APPLICABLE) and owner/action for gaps. Distinguish a fact present in the brief from an answer actually visible on the website.
 
 ### Conversion review
 List each CTA, exact destination, what happens after activation and whether the destination is approved. Flag any misleading or unavailable behavior.
