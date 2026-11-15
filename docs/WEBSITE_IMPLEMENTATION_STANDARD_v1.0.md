@@ -11,7 +11,8 @@ Build the smallest website that completely supports the customer's decision and 
 
 Every project gets a small, project-specific token set before detailed styling:
 
-- **Brand tokens:** primary, secondary, accent, background, surface, text, muted text, border and semantic states. Check contrast before approval.
+- **Brand tokens:** primary, secondary, accent, background, surface, text, muted text, border and semantic states. Check actual foreground/background pairs before approval; never assume one accent works on every surface.
+- **Contrast contract:** target WCAG AA text contrast (4.5:1 normal text, 3:1 large text) and at least 3:1 for relevant non-text controls/focus indicators. Include translucent text compositing, overlays and real image/gradient surfaces. Record tested pairs and ratios.
 - **Typography:** one display family and one body family by default; define a restrained type scale, line heights and readable line lengths.
 - **Spacing and layout:** use a consistent spacing scale, content max-width, grid/gap rules, section rhythm and responsive breakpoints.
 - **Components:** define only the components the actual site needs (buttons, links, cards, form controls, navigation, FAQ, gallery/product/project item).
