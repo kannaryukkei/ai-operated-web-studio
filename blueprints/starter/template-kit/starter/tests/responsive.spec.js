@@ -8,7 +8,6 @@ test('core portfolio sections render and no layout overflows at common viewport 
     await page.goto('/', { waitUntil: 'domcontentloaded' });
     await expect(page.locator('#treatments')).toBeVisible();
     await expect(page.locator('#care-finder')).toBeAttached();
-    await expect(page.locator('#stories')).toBeAttached();
     await expect(page.locator('#booking')).toBeAttached();
     await expect(page.locator('.site-footer')).toBeAttached();
 
@@ -138,8 +137,30 @@ test('consultation form opens the configured WhatsApp destination with the visit
   expect(message).toContain('Merek / model: Honda HR-V');
   expect(message).toContain('Treatment: Express');
   expect(message).toContain('jadwal belum terkonfirmasi');
-  await expect(page.getByRole('status')).toContainText('Pesan konsultasi disiapkan');
+  await expect(page.getByRole('status')).toContainText('WhatsApp terbuka dengan pesan konsultasi');
   await expect(page.locator('.form-disclaimer')).toContainText('bukan konfirmasi booking');
+});
+
+test('consultation form provides a direct WhatsApp fallback when the popup is blocked', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.open = (url) => {
+      window.__zacksWhatsAppUrl = url;
+      return null;
+    };
+  });
+  await page.goto('/');
+  await page.getByLabel('Nama', { exact: true }).fill('Starter QA');
+  await page.getByLabel('Merek / model kendaraan', { exact: true }).fill('Honda HR-V');
+  await page.getByRole('button', { name: /Lanjutkan ke WhatsApp/ }).click();
+
+  const status = page.getByRole('status');
+  await expect(status).toContainText('Browser memblokir jendela baru');
+  const fallback = page.getByRole('link', { name: /Buka WhatsApp/ });
+  const destination = new URL(await fallback.getAttribute('href'));
+  expect(destination.hostname).toBe('wa.me');
+  expect(destination.pathname).toBe('/6282359713072');
+  expect(destination.searchParams.get('text')).toContain('Nama: Starter QA');
+  expect(destination.searchParams.get('text')).toContain('Merek / model: Honda HR-V');
 });
 
 test('date minimum follows the browser local calendar date (Asia/Jakarta)', async ({ browser }) => {
@@ -199,11 +220,20 @@ test('FAQ provides a readable answer list and core sections remain present', asy
   );
   expect(new Set(questions).size).toBe(12);
   expect(questions).toContain('Apakah mengirim form konsultasi berarti sudah booking?');
-  for (const id of ['treatments', 'care-finder', 'approach', 'additional', 'gallery', 'stories', 'process', 'coverage', 'booking', 'faq']) {
+  for (const id of ['treatments', 'care-finder', 'approach', 'additional', 'gallery', 'process', 'coverage', 'booking', 'faq']) {
     await expect(page.locator(`#${id}`)).toBeAttached();
   }
 });
 
+
+test('unverified testimonials and performance metrics are excluded from the Starter reference', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.stories-section, .story-card, .proof-strip, .proof-metric')).toHaveCount(0);
+  const visibleCopy = await page.locator('main').innerText();
+  for (const fabricatedClaim of [/1,250\+/, /4\.9\/5/, /92%/, /Raka P\./, /Dimas A\./, /Nadia K\./, /SIMULATED CUSTOMER STORY/i, /SAMPLE STORIES/i]) {
+    expect(visibleCopy).not.toMatch(fabricatedClaim);
+  }
+});
 
 test('mobile navigation closes with Escape', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });

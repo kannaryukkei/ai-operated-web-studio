@@ -56,6 +56,8 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 - `docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.0.md` — design, implementation and technical guardrails.
 - `docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md` — required release and commercial gate.
 - `docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md` — automated typography, control, metadata and solid-surface contrast regression for the Starter reference.
+- `docs/STARTER_CONTENT_EVIDENCE_GATE_v1.0.md` — evidence and publication gate for testimonials, ratings and business-performance claims.
+- `docs/STARTER_CONTENT_EVIDENCE_CALIBRATION_2026-11-15.md` — applied record of removing simulated social proof from Starter.
 - `docs/BLUEPRINT_MIGRATION_DECISION.md` — canonical blueprint locations, source provenance and repository retirement decision.
 - `blueprints/starter/README.md` — how to use the migrated Starter reference.
 - `blueprints/starter/KALA_PILOT_LEARNINGS.md` — best practices distilled from every KALA pilot branch.

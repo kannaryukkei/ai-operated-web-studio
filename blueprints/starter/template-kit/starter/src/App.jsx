@@ -17,7 +17,6 @@ import {
   additionalTreatments,
   advisorNeeds,
   benefits,
-  demoMetrics,
   faqs,
   formatRupiah,
   formatWhatsAppLink,
@@ -26,7 +25,6 @@ import {
   photoCredits,
   processSteps,
   site,
-  sampleReviews,
   vehicleClasses,
 } from './data/zacks-site.js';
 
@@ -296,25 +294,6 @@ function CareFinder() {
   );
 }
 
-function ProofStrip() {
-  if (site.contentMode !== 'portfolio-demo') return null;
-  return (
-    <section className="proof-strip">
-      <div className="container proof-strip-head">
-        <div><span className="eyebrow eyebrow--light">THE ZACKS EXPERIENCE</span><h2>Care that fits <em>real life.</em></h2></div>
-        <span className="demo-data-label">ILLUSTRATIVE PORTFOLIO DATA</span>
-      </div>
-      <div className="container proof-metrics">
-        {demoMetrics.map((metric) => (
-          <article key={metric.label} className="proof-metric">
-            <strong>{metric.value}</strong><span>{metric.label}</span><small>{metric.detail}</small>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function Philosophy() {
   return (
     <section className="philosophy-section" id="approach">
@@ -413,37 +392,6 @@ function Gallery() {
 }
 
 
-function CustomerStories() {
-  if (site.contentMode !== 'portfolio-demo') return null;
-  return (
-    <section className="section stories-section" id="stories">
-      <div className="container">
-        <div className="stories-heading">
-          <SectionHeading
-            eyebrow="05 / CUSTOMER PERSPECTIVES"
-            title={<>Good care is personal. <em>So is every ride.</em></>}
-            description="Contoh cerita pelanggan yang menggambarkan kebutuhan berbeda: kendaraan harian, mobil keluarga, hingga perhatian khusus pada kabin."
-          />
-          <span className="demo-data-label demo-data-label--dark">SAMPLE STORIES / PORTFOLIO DEMO</span>
-        </div>
-        <div className="stories-grid">
-          {sampleReviews.map((story, index) => (
-            <article className="story-card" key={story.id}>
-              <div className="story-topline"><span>0{index + 1} / {story.category}</span><span>“</span></div>
-              <blockquote>{story.quote}</blockquote>
-              <div className="story-person">
-                <div className="story-avatar">{story.persona.split(' ').map((part) => part[0]).join('').replace('.', '').slice(0,2).toUpperCase()}</div>
-                <div><strong>{story.persona}</strong><span>{story.vehicle}</span></div>
-                <small>DEMO STORY</small>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function Process() {
   return (
     <section className="section process-section" id="process">
@@ -506,7 +454,7 @@ function BookingForm() {
     preferredDate: '',
     notes: '',
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState(null);
 
   const treatmentOptions = useMemo(
     () => [
@@ -538,8 +486,10 @@ function BookingForm() {
       '',
       'Mohon bantu cek rekomendasi, estimasi harga, dan ketersediaan. Saya memahami jadwal belum terkonfirmasi sampai admin membalas.',
     ].filter(Boolean).join('\n');
-    window.open(formatWhatsAppLink(message), '_blank', 'noopener,noreferrer');
-    setSubmitted(true);
+    const whatsappUrl = formatWhatsAppLink(message);
+    const popup = window.open(whatsappUrl, '_blank');
+    if (popup) popup.opener = null;
+    setSubmitted({ opened: Boolean(popup), url: whatsappUrl });
   };
 
   return (
@@ -571,7 +521,13 @@ function BookingForm() {
           <label>Tanggal yang diinginkan <span className="optional">(opsional)</span><input type="date" min={getLocalDateISO()} value={form.preferredDate} onChange={(e) => update('preferredDate', e.target.value)} /></label>
           <label>Catatan tambahan <span className="optional">(opsional)</span><textarea rows="3" value={form.notes} onChange={(e) => update('notes', e.target.value)} placeholder="Ceritakan kondisi kendaraan atau area yang ingin ditangani..." /></label>
           <button className="button button--primary form-submit" type="submit">Lanjutkan ke WhatsApp <ArrowUpRight size={16} /></button>
-          {submitted && <p className="form-feedback" role="status">Pesan konsultasi disiapkan. Lanjutkan percakapan di WhatsApp untuk konfirmasi dengan admin.</p>}
+          {submitted?.opened && <p className="form-feedback" role="status">WhatsApp terbuka dengan pesan konsultasi. Kirim pesan di sana untuk melanjutkan dan menunggu konfirmasi admin.</p>}
+          {submitted && !submitted.opened && (
+            <div className="form-feedback form-feedback--fallback" role="status">
+              <span>Browser memblokir jendela baru. Buka WhatsApp melalui tautan ini untuk melanjutkan:</span>
+              <a href={submitted.url} target="_blank" rel="noopener noreferrer">Buka WhatsApp <ArrowUpRight size={14} /></a>
+            </div>
+          )}
           <p className="form-disclaimer">Form ini hanya menyusun pesan WhatsApp. Informasi tidak disimpan di website dan pengiriman form bukan konfirmasi booking.</p>
         </form>
       </div>
@@ -651,10 +607,8 @@ export default function App() {
         <VehicleAndTreatments />
         <CareFinder />
         <Philosophy />
-        <ProofStrip />
         <AdditionalTreatments />
         <Gallery />
-        <CustomerStories />
         <Process />
         <Coverage />
         <BookingForm />
