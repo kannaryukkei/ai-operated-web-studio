@@ -40,4 +40,4 @@ This correction does not verify live ZACKS catalog prices, operational facts, as
 
 ## Decision
 
-Retain both corrections. The tested implementation passed CI on the exact commit recorded above. For future Starter projects, missing social proof is an omission—not a content gap to be filled with fictional customer voices or performance figures. For future Starter projects, missing social proof is an omission—not a content gap to be filled with fictional customer voices or performance figures. Publish proof only after its source, scope, permission and owner approval are recorded under `STARTER_CONTENT_EVIDENCE_GATE_v1.0.md`.
+Retain both corrections. The tested implementation passed CI on the exact commit recorded above. For future Starter projects, missing social proof is an omission—not a content gap to be filled with fictional customer voices or performance figures. Publish proof only after its source, scope, permission and owner approval are recorded under `STARTER_CONTENT_EVIDENCE_GATE_v1.0.md`.
