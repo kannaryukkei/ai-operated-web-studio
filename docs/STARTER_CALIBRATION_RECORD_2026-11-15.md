@@ -44,7 +44,7 @@
 
 ## 3. Final regression evidence
 
-<badge>PASS — tested commit 9a1ff28</badge>
+**Final verification: PASS — tested commit `9a1ff28`.**
 
 | Check | Final result | Evidence |
 |---|---|---|
