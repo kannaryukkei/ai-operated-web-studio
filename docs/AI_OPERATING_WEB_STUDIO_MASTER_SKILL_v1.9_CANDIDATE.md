@@ -121,7 +121,7 @@ The Minimal Clarification List must contain only decisions needed for the next m
 - Transcript / Interview Summary (where applicable).
 - Normalized Client Brief v2.1.
 - Atomic Fact Register with source, locator, evidence status and publication status.
-- Asset Register with provenance, owner, permission and intended use.
+- Asset Register with provenance, owner, commercial-use/publication permission, intended use, identifiable-people consent/model-release status and applicable credit/restrictions.
 - Business Intelligence Summary and Offer Matrix.
 - Customer Question Map, Buying Journey and CTA map.
 - Conflict / Missing-Information Register with severity, owner and next action.
