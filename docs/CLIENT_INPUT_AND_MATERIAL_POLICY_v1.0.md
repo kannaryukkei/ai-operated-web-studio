@@ -94,7 +94,7 @@ These are interim technical validation rules, not a requirement to ask the clien
 
 The current intake page is still reachable by project users. The controller authorizes project updates through the Project policy; that policy allows studio staff, client-account owners and project members with owner/editor roles to update the project. Consequently, authorized client users can currently edit and submit the structured intake.
 
-This existing behavior conflicts with the intended material-first policy. Until a later platform-alignment/implementation segment changes the UI and authorization, treat the client-editable intake as a legacy implementation, not the desired operating procedure. For new projects, the studio operator should derive the internal snapshot from the interview packet. Do not ask the client to complete the 26-field page as a second mandatory form.
+This existing behavior conflicts with the intended material-first policy. The code audit and target-state correction are recorded in `docs/PLATFORM_ALIGNMENT_SPECIFICATION_v1.0.md`; until Segment 12 implements the UI and authorization changes, treat the client-editable intake as a legacy implementation, not the desired operating procedure. For new projects, the studio operator should derive the internal snapshot from the interview packet. Do not ask the client to complete the 26-field page as a second mandatory form.
 
 The later platform change must preserve secure project access and ensure the internal bridge is editable only by authorized studio roles, while the client experience remains a normal interview + material handoff + targeted clarification/approval flow. Do not change access by hiding a link alone; enforce it server-side and test it.
 
