@@ -320,6 +320,8 @@ Run the actual production build and browser tests; source inspection is not brow
 ### Functional and responsive
 - Apply the implementation and accessibility checklist in `skills/interface-quality-review/SKILL.md` alongside the project's existing browser-test stack.
 - Build, routes, navigation, mobile menu, forms/controls and all CTAs.
+- Test state transitions and boundary cases, not only initial rendering: category/filter changes, add/increment/decrement/remove-last/clear, empty/error/unavailable states, limits and derived totals where relevant. Scope automated locators to the correct component when controls share accessible names.
+- Set viewport, scroll position, selected category, cart/FAQ state and other interactive conditions deterministically before screenshot capture. Separate behavior tests from screenshot-only workarounds for fixed/sticky-element crop artifacts.
 - No broken links, false success states, fake booking or fake storage.
 - No horizontal overflow at 320, 360, 390, 640, 768, 900, 1024, 1280 and 1440px where supported.
 - Body copy and metadata type floors are checked at mobile, tablet and desktop widths; use 15px body / 11px non-critical metadata as the default reference. Important safety/allergen, pricing, policy, legal and transaction details should normally remain at least 13px.
