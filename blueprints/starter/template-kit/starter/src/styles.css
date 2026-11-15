@@ -640,6 +640,7 @@ main label:not([data-studio-type]),
 main summary:not([data-studio-type]),
 main .care-finder-note,
 main .finder-needs button > span,
+main .class-option strong,
 main .finder-needs button small,
 .site-footer p {
   font-size: 15px !important;
@@ -658,6 +659,7 @@ main .additional-link,
 }
 main small,
 main .eyebrow:not(.eyebrow--light),
+main .eyebrow--light,
 main .micro-label,
 main .hero-kicker,
 main .hero-aside-eyebrow,
