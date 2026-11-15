@@ -15,6 +15,13 @@ class ManualDiscoveryWorkflowTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withoutVite();
+    }
+
     public function test_studio_can_start_discovery_from_a_submitted_intake_snapshot(): void
     {
         $studio = $this->createUser(UserRole::StudioOwner);
