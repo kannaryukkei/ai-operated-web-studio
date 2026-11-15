@@ -56,7 +56,7 @@ For each image, logo, font or video record its source/owner, permission or licen
 
 - Static-first for Starter. Use the existing repository/template stack where it is useful; do not create a framework or component library for a single small site.
 - A React/Vite static build is acceptable when the source template already uses it; simple HTML/CSS/JS is acceptable when that is genuinely simpler.
-- Separate content from presentation when it reduces editing risk; avoid excessive abstraction and premature shared packages.
+- Separate content from presentation when it reduces editing risk; use one canonical data source when facts drive multiple components or calculations; avoid excessive abstraction and premature shared packages.
 - Do not add backend, database, CMS, login, payment, inventory, booking engine, analytics or custom API by default.
 - Forms must have a real approved delivery path. A mailto: or WhatsApp handoff must describe exactly what it does and must not claim that the website stores or confirms the request.
 - Keep dependencies minimal and pinned/reproducible. Commit the lockfile and use the package manager's clean-install command in CI.
