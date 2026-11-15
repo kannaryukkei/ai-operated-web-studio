@@ -229,9 +229,9 @@ test('readability role floors hold at all nine Starter viewports', async ({ page
           return style.display !== 'none' && style.visibility !== 'hidden' && Number(style.opacity) > 0 && rect.width > 0 && rect.height > 0 && (node.innerText || node.textContent || '').trim().length > 0;
         })
         .map((node) => ({
-          text: (node.innerText || node.textContent || '').replace(/\\s+/g, ' ').trim().slice(0, 72),
+          text: (node.innerText || node.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 72),
           fontSize: Number.parseFloat(getComputedStyle(node).fontSize),
-          element: node.tagName.toLowerCase() + (typeof node.className === 'string' && node.className ? '.' + node.className.trim().replace(/\\s+/g, '.') : ''),
+          element: node.tagName.toLowerCase() + (typeof node.className === 'string' && node.className ? '.' + node.className.trim().replace(/\s+/g, '.') : ''),
         })));
       expect(metrics.length, role.name + ' should have rendered samples at ' + width + 'px').toBeGreaterThan(0);
       const violations = metrics.filter((item) => item.fontSize < role.min);
@@ -244,7 +244,7 @@ test('text contrast meets WCAG AA on measurable solid-color surfaces', async ({ 
   const selector = 'main p, main li, main label, main summary, main button, main input, main select, main textarea, main a, main small, main .eyebrow, main .micro-label, .site-header a, .site-footer a, .site-footer p, .site-footer small';
   const inspectContrast = async () => page.evaluate((textSelector) => {
     const parseColor = (value) => {
-      const match = value.match(/rgba?\\(\\s*([\\d.]+)[,\\s]+([\\d.]+)[,\\s]+([\\d.]+)(?:\\s*[,/]\\s*([\\d.]+%?))?\\s*\\)/i);
+      const match = value.match(/rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:\s*[,/]\s*([\d.]+%?))?\s*\)/i);
       if (!match) return null;
       const alpha = match[4] === undefined ? 1 : match[4].endsWith('%') ? Number.parseFloat(match[4]) / 100 : Number.parseFloat(match[4]);
       return [Number(match[1]), Number(match[2]), Number(match[3]), alpha];
@@ -274,7 +274,7 @@ test('text contrast meets WCAG AA on measurable solid-color surfaces', async ({ 
     for (const element of elements) {
       const rect = element.getBoundingClientRect();
       const style = getComputedStyle(element);
-      const text = (element.innerText || element.textContent || '').replace(/\\s+/g, ' ').trim();
+      const text = (element.innerText || element.textContent || '').replace(/\s+/g, ' ').trim();
       if (!text || style.display === 'none' || style.visibility === 'hidden' || rect.width === 0 || rect.height === 0 || Number(style.opacity) === 0) continue;
       if (element.closest('.hero, .philosophy-photo, .gallery-photo, .coverage-art')) {
         skipped.push({ text: text.slice(0, 48), reason: 'photographic / gradient surface requires screenshot review' });
@@ -312,7 +312,7 @@ test('text contrast meets WCAG AA on measurable solid-color surfaces', async ({ 
       const minimum = fontSize >= 24 || (fontSize >= 18.66 && isBold) ? 3 : 4.5;
       const measured = ratio(renderedForeground, background);
       checked += 1;
-      if (measured + 0.01 < minimum) failures.push({ text: text.slice(0, 64), element: element.tagName.toLowerCase() + (typeof element.className === 'string' && element.className ? '.' + element.className.trim().replace(/\\s+/g, '.') : ''), foreground: style.color, background: 'rgb(' + background.slice(0, 3).map(Math.round).join(', ') + ')', fontSize: style.fontSize, contrast: Number(measured.toFixed(2)), required: minimum });
+      if (measured + 0.01 < minimum) failures.push({ text: text.slice(0, 64), element: element.tagName.toLowerCase() + (typeof element.className === 'string' && element.className ? '.' + element.className.trim().replace(/\s+/g, '.') : ''), foreground: style.color, background: 'rgb(' + background.slice(0, 3).map(Math.round).join(', ') + ')', fontSize: style.fontSize, contrast: Number(measured.toFixed(2)), required: minimum });
     }
     return { checked, skippedCount: skipped.length, failures, skippedExamples: skipped.slice(0, 5) };
   }, selector);
