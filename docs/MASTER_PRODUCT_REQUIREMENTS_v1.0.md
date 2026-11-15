@@ -112,7 +112,7 @@ Priority definitions: **MUST** = required for the defined operating outcome; **S
 | FR-13 | MUST | Build the simplest website implementation that meets the approved requirements, static-first by default. | Added backend, accounts, integrations or transactions have a documented business need and scope approval. |
 | FR-14 | MUST | Keep each client's website code and data isolated from the shared platform and other clients. | Client website lives in its own repository; authorization and project-isolation tests pass. |
 | FR-15 | MUST | Preserve successful work through bounded refinement and independent QA. | Changes are tied to findings; production build, functional, responsive, accessibility and content checks are evidenced. |
-| FR-16 | MUST | Separate preview readiness, studio review, client approval and production release. | Each state is explicit; pending facts, rights, destinations or approvals cannot silently pass as production-ready. |
+| FR-16 | MUST | Separate preview readiness, studio review, client confirmation, owner approval and production release. | Follow `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md`; each decision references the exact artifact/version and evidence, and pending facts, rights, destinations or approvals cannot silently pass as production-ready. |
 | FR-17 | MUST | Prepare release and handover records, including ownership, costs, known limitations and support responsibilities. | Handover checklist and release evidence are retained with the project. |
 | FR-18 | MUST | Calibrate the system from reproducible evidence and fix the responsible layer only. | Findings are classified as INPUT/SOURCE, MASTER SKILL/REASONING, IMPLEMENTATION/QA or external blocker; original failing case is retested. |
 | FR-19 | SHOULD | Coordinate the workflow in the Laravel platform while allowing manual external-AI handoffs. | Platform stores project/intake/discovery snapshots and validated output; external AI execution works without provider credentials. |
@@ -166,7 +166,7 @@ This section distinguishes implemented code from manual operating procedures and
 | API-free discovery handoff | Implemented platform slice | Platform snapshots submitted intake, generates a prompt, accepts external AI JSON, validates and stores the structured result. |
 | Canonical schema alignment | Partial | Discovery validator requires useful structured sections, but its enums/provenance contract do not yet fully match the material-ingestion protocol. |
 | Website Requirements Pack | Specification defined; production workflow remains manual | `docs/WEBSITE_REQUIREMENTS_PACK_v1.0.md` now defines the pre-design contract. It is maintained as a versioned project artifact; no dedicated platform artifact workflow exists yet. |
-| Client/studio approval workflow | Manual / partial | Human approval policy is documented; a complete persisted approval workflow is not implemented in the current platform. |
+| Client/studio approval workflow | Manual / partial | `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md` defines the manual G0–G7 process; a complete persisted approval workflow is not implemented in the current platform. |
 | Starter website reference and automated checks | Implemented reference, not production certification | ZACKS-specific blueprint and Starter CI exist; current responsive suite has 19 tests. |
 | Full cross-browser, assistive-tech and performance verification | Not yet proven | Current Chromium tests do not equal complete accessibility/performance/cross-browser certification. |
 | Real client delivery and commercial margin | Not yet proven | Starter acceptance requires a real delivery, owner sign-off, measured delivery effort and viable margin. |
@@ -227,7 +227,7 @@ Do not invent numeric performance targets for delivery hours or margin before co
 | FR-10–FR-11 | CTA register; Starter Content Evidence Gate | Starter ZACKS fixture and evidence guard | CTA/claim evidence inspection and browser tests |
 | FR-12–FR-13 | Master Skill design/implementation stages; Website Implementation Standard | Specialist skills; isolated Starter template/client repository workflow | Design fingerprint, content/design review, build and responsive tests |
 | FR-15 | Master Skill Stage 7; Starter Product Acceptance Gate | Starter Playwright suite / CI | Independent QA report and exact-commit test evidence |
-| FR-16–FR-17, NFR-10 | Manual AI Workflow; Master Skill Stage 8; security/approval policy | Manual studio/client decisions; no complete approval engine yet | Approval record, release checklist and handover pack |
+| FR-16–FR-17, NFR-10 | Approval & Release Policy v1.0; Canonical Workflow Stage 8; security policy | Manual studio/client decisions; no complete approval engine yet | G0–G7 approval register, release checklist and handover pack |
 | FR-18 | Master Skill Stage 9; Calibration Protocol | Calibration records and regression tests | Root-cause record and retest of original failing case |
 | FR-19–FR-20, NFR-01/02/05/06/07/08/09 | Product brief; architecture; roadmap; AI Build Rules | Laravel platform, external AI tools, versioned docs/skills/blueprints | Platform tests, CI, documented manual workflow and future change justification |
 
