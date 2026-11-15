@@ -302,3 +302,19 @@ composer run-script ci:check
 ```
 
 The active root GitHub Actions workflow had the same shorthand invocation, `composer ci:check`, despite its `working-directory: platform`. Corrected the workflow to `composer run-script ci:check` in this follow-up commit. This is an invocation correction only; it does not imply CI has run or passed. Automated checks remain pending and the revision workflow is still PR-triggered (or push-to-main), so no PR or main update was performed.
+
+## Follow-up fix — Pint parallel process launch on Windows (2026-11-15)
+
+The operator ran `composer run-script ci:check` from `platform/`. Observed results:
+- `npm run check`: PASS — all 74 files correctly formatted; no warnings/lint errors in 68 files.
+- `npm run types:check`: PASS — `tsc --noEmit` exited successfully.
+- `php artisan config:clear`: PASS.
+- Pint stopped before checking files because Windows rejected a parallel child process: `proc_open(): CreateProcess failed: Access is denied`.
+
+**Correction committed:** `platform/composer.json` now invokes `pint` and `pint --test` without `--parallel`. This removes the failing subprocess requirement, with a small serial-runtime trade-off.
+
+**Validation pending:** No claim is made that Pint, PHPStan or Laravel tests pass. Re-run from `platform/` after syncing the latest branch:
+```powershell
+composer run-script ci:check
+```
+Segment 12 remains `IMPLEMENTED — CI PENDING` until this complete run succeeds.
