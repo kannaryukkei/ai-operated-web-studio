@@ -45,7 +45,7 @@ A site cannot pass production completeness with a critical BLOCKED item. Preview
 - [ ] Visual hierarchy makes the offer and primary action immediately understandable.
 - [ ] Content density feels complete without filler, repeated card grids or invented sections.
 - [ ] Images are relevant, correctly licensed/approved or clearly disclosed as concept imagery; no sample story or metric can appear in client-production mode.
-- [ ] Typography, spacing, contrast and component consistency are reviewed.
+- [ ] Typography, spacing, contrast and component consistency are reviewed. Important safety, allergen, pricing, policy and transaction disclosures are not treated as micro-metadata.
 - [ ] Mobile and desktop layouts are designed for the actual content, not just viewport screenshots.
 - [ ] Copy is specific, clear and customer-oriented rather than generic marketing language.
 
