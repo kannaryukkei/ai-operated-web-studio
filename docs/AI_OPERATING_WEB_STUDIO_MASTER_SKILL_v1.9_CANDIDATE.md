@@ -203,7 +203,7 @@ Follow docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.0.md for design tokens, category-
 - Make the website feel populated by useful content and purposeful imagery, not empty space or repeated card grids.
 - Use customer/product/project visuals where available. If missing, use approved generated, licensed or designed concept assets and label them honestly.
 - Build a complete implementation within approved tier scope.
-- Keep content/data separate from presentation when it materially improves maintainability.
+- Keep content/data separate from presentation when it materially improves maintainability. If a fact feeds multiple components or calculations, use one canonical data source rather than duplicated literals; derive UI values from current state.
 - Include semantic structure, responsive composition, keyboard behavior, focus states, reduced motion, useful alt text, metadata and favicon.
 
 ### Mandatory Design Differentiation Gate (before implementation)
