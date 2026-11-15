@@ -13,7 +13,7 @@ client interview material + supplied assets → AI source extraction → normali
 
 The previous v1.8 intake-form specification encouraged a long structured client form. This is not the desired product experience. The default should be one normal client interview (recording, transcript or operator notes) plus existing assets and optional links. The AI—not the client—creates the field-level structure, fact register, asset register, business intelligence and customer journey.
 
-**System consequence:** introduce CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md and Master Skill v1.9 candidate. Preserve v1.8 as historical; retain the form spec only as optional internal reference. Do not make the platform form a second client task.
+**System consequence:** introduce CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md, Master Skill v1.9 candidate and the required Source Coverage Matrix. The S07 source-coverage review caught omissions in the initial synthetic transcript, proving that extraction needs a full source-to-output pass rather than a representative-facts sample. Preserve v1.8 as historical; keep structured intake internal/optional. Do not make the platform form a second client task.
 
 ## 2. Visual quality — retain Semburat direction
 
@@ -57,6 +57,7 @@ The Semburat material-first regression is now completed as a controlled syntheti
 - A conversational transcript was reconstructed from the structured DEMO_ONLY source fixture.
 - A separate synthetic asset packet was created.
 - A manual normalization QA record captured representative atomic facts, source locators, answer/evidence/publication status and unavailable information.
+- A source-to-output coverage map accounts for the main business/website information domains and corrected omissions found in the first transcript pass.
 - The normal S01–S06 website test suites passed again from the S07 branch.
 
 This is a useful contract/provenance exercise, but **not** evidence of real-world interview extraction. The transcript was not independently recorded, no audio transcription was tested, and CI did not call an AI model. Remaining NOT TESTED items:
