@@ -6,6 +6,8 @@
 **Date:** [YYYY-MM-DD]  
 **Status:** DRAFT / REVIEWED
 
+**Schema authority:** `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md`. This matrix is a readable post-implementation QA view of canonical `page_coverage[]`; it is not a separate discovery schema. Prepare the source-to-page plan in Stages 3–4, but assign rendered coverage only after implementation and QA.
+
 ## Purpose
 
 Reconcile the original interview/source packet and normalized discovery artifacts with the actual customer-facing website. This matrix detects information lost between:
@@ -27,10 +29,10 @@ A fact may be present in the transcript but still be unverified and not approved
 
 ## Coverage matrix
 
-| ID | Customer question / source topic | Raw source locator | Normalized fact / answer reference | Answer status | Evidence status | Publication status | Exact page / section locator | Page coverage | Gap owner / action |
+| page_coverage_id | question_id | Customer question / source topic | Raw source locator | Normalized fact / answer reference | Answer status | Evidence status | Publication status | Exact page / section locator | coverage_status | Gap owner / action |
 |---|---|---|---|---|---|---|---|---|---|
-| Q-001 | [Visitor question] | [SRC-ID + segment/page/timecode] | [Fact Register ID] | [status] | [status] | [status] | [URL / page + section ID] | [status] | [owner + action or —] |
-| Q-002 | [Visitor question] | [SRC-ID + segment/page/timecode] | [Fact Register ID] | [status] | [status] | [status] | [URL / page + section ID] | [status] | [owner + action or —] |
+| PC-001 | Q-001 | [Visitor question] | [SRC-ID + segment/page/timecode] | [Fact Register ID] | [status] | [status] | [status] | [URL / page + section ID] | [status] | [owner + action or —] |
+| PC-002 | Q-002 | [Visitor question] | [SRC-ID + segment/page/timecode] | [Fact Register ID] | [status] | [status] | [status] | [URL / page + section ID] | [status] | [owner + action or —] |
 
 Add one row for every material customer question or source-backed fact that can affect a visitor's decision, expectations, safety, trust or next action. Do not use one broad row to hide missing subtopics.
 
@@ -52,7 +54,7 @@ Include only relevant domains for the business; this is a review guide, not a ma
 ## Decision rules
 
 1. A row is **PUBLISHED** only when the answer is actually visible in the rendered customer experience, supported by an approved source and phrased without expanding the claim.
-2. A row is **PREVIEW_ONLY** when the website intentionally shows synthetic, draft, unverified or otherwise non-production information with a clear disclosure.
+2. A row is **PREVIEW_ONLY** when the rendered website intentionally shows disclosed draft or unverified information that the approval policy permits for internal preview. Never invent social proof or imply that a concept image is real work.
 3. A row is **GAP** when a material question is not answered, a required source is missing, or a customer-facing action cannot be completed honestly. Record owner and next action.
 4. A row is **NOT_APPLICABLE** only with a short reason. Do not use it to conceal inconvenient or missing information.
 5. Never expose internal contacts, private notes, sensitive documents, unpublished commercial terms or unapproved claims merely to improve coverage.
