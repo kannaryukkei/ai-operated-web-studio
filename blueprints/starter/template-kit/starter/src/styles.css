@@ -748,3 +748,9 @@ main .contact-footnote,
 .contact-footnote { color: #ffffff; }
 
 .finder-result > div:first-child > p { color: #526057; }
+
+/* Keep vehicle-class selection legible in both default and selected states. */
+.class-option.is-active { color: var(--night); background: #e3e9e4; border-color: var(--night); }
+.class-option.is-active > span { border-color: var(--teal-dark); color: var(--night); }
+main .class-option small,
+main .class-option.is-active small { color: #526057 !important; }
