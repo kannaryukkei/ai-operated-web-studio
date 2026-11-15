@@ -322,7 +322,8 @@ Run actual production build and browser tests; source inspection is not browser 
 - Build, routes, navigation, mobile menu, forms/controls and all CTAs.
 - No broken links, false success states, fake booking or fake storage.
 - No horizontal overflow at 320, 360, 390, 640, 768, 900, 1024, 1280 and 1440px where supported.
-- Body copy and metadata type floors are checked at mobile, tablet and desktop widths; use 15px body / 11px metadata as the default reference unless a documented design reason justifies a role-specific exception.
+- Body copy and metadata type floors are checked at mobile, tablet and desktop widths; use 15px body / 11px non-critical metadata as the default reference. Important safety/allergen, pricing, policy, legal and transaction details should normally remain at least 13px.
+- Contrast regression checks every instance for each text role at all nine standard widths, with actual foreground/background mapping, alpha compositing and relevant interaction states. Keep this targeted test distinct from a full WCAG/assistive-technology audit.
 - Image crop, aspect ratio and focal point are checked at each relevant breakpoint; responsive CSS must not unintentionally cut important subject matter.
 - Check that static cards, rows and status panels do not imply non-existent click behavior; every apparent control must work or be presented as non-interactive.
 - All images load; verify natural dimensions and truthful captions.
