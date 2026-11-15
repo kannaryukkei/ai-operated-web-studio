@@ -89,8 +89,11 @@ A client-supplied file is not automatically owned by the client or approved for 
 
 ### 6. Produce the normalized handoff
 
+Before finalizing the handoff, run a source-coverage pass: walk every meaningful heading, section, transcript segment and asset. Map each material topic to an output or mark it EXCLUDED with reason / NOT_AVAILABLE / CONFLICT / NOT_APPLICABLE. Do not stop after extracting a representative sample.
+
 Produce and cross-reference:
 1. Raw Material Index.
+2. Source Coverage Matrix.
 2. Transcript / Interview Summary, when applicable.
 3. Normalized Client Brief v2.1.
 4. Atomic Fact Register and Source Register.
@@ -107,6 +110,7 @@ Every material fact used in content, design or conversion must be traceable to a
 
 Before handing off to UX and production, confirm:
 - all available source material was reviewed;
+- each meaningful source topic is mapped or explicitly excluded/unresolved in the Source Coverage Matrix;
 - raw sources remain unchanged and indexed;
 - each material fact has a source and locator or an explicit MISSING / ASSUMPTION state;
 - conflicting facts remain visible;
