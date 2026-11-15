@@ -411,8 +411,13 @@ main section { scroll-margin-top: 82px; }
   .package-price { margin: 17px 0 15px; }
   .package-features { margin-bottom: 18px; }
   .price-integrity-note { padding: 13px; }
-  .philosophy-grid { gap: 37px; }
+  .philosophy-grid { grid-template-columns: minmax(0,1fr); gap: 37px; }
+  .philosophy-grid > * { min-width: 0; }
+  .philosophy-copy,.philosophy-copy .section-heading { width: 100%; min-width: 0; }
+  .philosophy-copy .section-heading h2 { max-width: 100%; overflow-wrap: anywhere; }
   .philosophy-photo,.philosophy-photo img { min-height: 365px; height: 365px; }
+  .contact-inner { min-width: 0; }
+  .contact-inner h2 { width: 100%; max-width: 100%; font-size: clamp(42px,12.5vw,64px); overflow-wrap: anywhere; }
   .photo-overlay-caption strong { font-size: 32px; }
   .principle { grid-template-columns: 29px 1fr 16px; gap: 9px; padding-block: 17px; }
   .principle h3 { font-size: 23px; }
