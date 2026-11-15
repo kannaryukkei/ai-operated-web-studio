@@ -2,12 +2,19 @@ name: Starter blueprint CI
 
 on:
   push:
-    branches: [main, 'improvement/**', 'restructure/**']
+    branches: [main, 'improvement/**', 'restructure/**', 'revision/**']
     paths:
       - "blueprints/starter/template-kit/starter/**"
       - ".github/workflows/starter-blueprint-ci.yml"
       - "docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md"
       - "docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md"
+      - "docs/STARTER_CONTENT_EVIDENCE_GATE_v1.0.md"
+      - "docs/STARTER_CONTENT_EVIDENCE_CALIBRATION_2026-11-15.md"
+      - "docs/STARTER_CALIBRATION_RECORD_2026-11-15.md"
+      - "docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.1_CANDIDATE.md"
+      - "docs/STARTER_PRODUCTION_READINESS_AUDIT_2026-11-16.md"
+      - "blueprints/starter/template-kit/docs/starter-responsive-qa.md"
+      - "blueprints/starter/template-kit/docs/five-website-starter-audit.md"
   pull_request:
     paths:
       - "blueprints/starter/template-kit/starter/**"
@@ -27,9 +34,9 @@ jobs:
         working-directory: blueprints/starter/template-kit/starter
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 22
       - name: Install dependencies
