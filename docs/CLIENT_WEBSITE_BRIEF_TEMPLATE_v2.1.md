@@ -9,14 +9,14 @@ Purpose: collect the information needed to create a complete, useful website wit
 
 ## How to use this brief
 
-- Start with the **Core Intake**. Keep it short and conversational.
+- The AI/studio populates this artifact from the interview, supplied assets and approved references; it is not sent to the client as a questionnaire.
 - Complete only the relevant business module: Services, Retail/Product, Portfolio/Project, or F&B/Hospitality.
-- The studio/AI researches and structures the information; do not ask the client to write website copy.
-- Use "Not sure" / "Not available" instead of guessing.
-- Record the source and approval status of public facts.
+- Use explicit NOT_AVAILABLE / NOT_APPLICABLE / NOT_SURE states instead of guessing.
+- Keep source, evidence status and publication approval attached to public-facing facts.
 - Internal commercial notes are never published by default.
+- Use the conversational prompts in the Material Ingestion Protocol only as interviewer reminders; never force a fixed script or repeat questions already answered.
 
-## A. Core Intake (required for every client)
+## A. Core Business Profile (AI-populated for every project)
 
 ### 1. Business basics
 - Business / brand name:
