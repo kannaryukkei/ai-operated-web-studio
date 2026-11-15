@@ -59,6 +59,7 @@ Fetch the live guideline source before a Vercel-guideline-specific review. If th
 ### Responsive behavior
 - Check intended mobile, tablet and desktop layouts.
 - Test horizontal overflow at project-selected widths.
+- Review screenshots at actual viewport scale. Full-page captures support rhythm review but cannot prove small-text legibility. Keep fixed/sticky controls out of section screenshot crops when they are capture artifacts, without hiding them during behavior tests.
 - Review image crop, focal point, safe area and content order at each breakpoint.
 - Check fixed elements, sticky headers, menus, long labels and forms on small screens.
 
