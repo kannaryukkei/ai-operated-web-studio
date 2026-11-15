@@ -4,7 +4,7 @@
 
 An AI-powered web production platform that guides a client through the complete website project lifecycle while orchestrating the studio's internal delivery work.
 
-The client experiences a guided project portal. The studio uses a lightweight operations workspace plus reusable AI skills and prompts in external AI applications. The operator transfers structured outputs into the platform and retains control at defined approval gates.
+The client explains the business in a normal interview and supplies existing assets and optional source links. The studio uses a lightweight operations workspace plus reusable AI skills and prompts in external AI applications. AI converts the raw materials into a source-traceable brief; the operator reviews exceptions and controls approval gates. A long client questionnaire is not the default input.
 
 This is initially an internal platform for one web studio and its clients, not a public multi-agency SaaS product.
 
@@ -14,7 +14,7 @@ A website project normally involves fragmented communication, repeated briefing,
 
 The platform should turn this into a repeatable workflow with:
 - One source of truth for every project.
-- Guided client input instead of unstructured back-and-forth.
+- Minimal one-time client input through an interview and existing materials; AI-led normalization instead of repeated briefing.
 - Repeatable AI-assisted work with predictable, validated outputs, even when the AI runs outside the platform.
 - Visible project status and approvals.
 - Automated validation and traceable revisions.
@@ -24,8 +24,8 @@ The platform should turn this into a repeatable workflow with:
 
 ### Client
 - Creates an account / accesses an invitation.
-- Completes a guided business intake.
-- Discusses needs with an AI consultation guide.
+- Participates in a normal business interview and supplies existing assets/source links.
+- Clarifies only material unresolved facts, conflicts or asset permissions identified by the AI.
 - Reviews scope/proposal drafts.
 - Tracks project progress.
 - Reviews previews and submits feedback.
@@ -68,8 +68,8 @@ The platform should read a versioned product definition / blueprint for each tie
 
 A real client can:
 1. Access a private client portal.
-2. Complete a guided intake about their business and website goal.
-3. Receive a discovery brief prepared with an external AI application and saved in the platform.
+2. Participate in a normal interview and supply existing assets; the studio records the raw material once.
+3. Receive a discovery brief normalized by AI from the interview and materials, with source references and unresolved gaps recorded.
 4. Review and correct the brief.
 5. See the studio's proposed next step and project status.
 
