@@ -318,3 +318,25 @@ The operator ran `composer run-script ci:check` from `platform/`. Observed resul
 composer run-script ci:check
 ```
 Segment 12 remains `IMPLEMENTED — CI PENDING` until this complete run succeeds.
+
+## Follow-up fix — PHPStan worker memory exhaustion on Windows (2026-11-15)
+
+Observed operator output:
+- `npm.cmd run check:fix` formatted the changed TSX files.
+- Subsequent `npm run check`: PASS — all 74 files formatted; no warnings/lint errors in 68 files.
+- `tsc --noEmit`: PASS.
+- Pint `--test`: PASS — 87 files.
+- PHPStan failed before completing analysis: a parallel worker exceeded the local PHP CLI memory limit (128 MB) while PHP parsed a source file. No PHPStan code diagnostic was emitted; result was incomplete.
+
+**Committed correction on `revision/master-revision`:**
+- `platform/composer.json` changes `types:check` to `phpstan analyse --memory-limit=1G`.
+- `platform/phpstan.neon` sets `parallel.maximumNumberOfProcesses: 1`, which disables PHPStan worker parallelization. PHPStan documents this option and the `--memory-limit` CLI flag.
+- No static-analysis rule level was lowered and no findings were suppressed.
+
+**Important local working tree detail:** The operator's `npm.cmd run check:fix` changed only `resources/js/pages/projects/discovery.tsx` and `resources/js/pages/projects/intake.tsx` according to the reported `git status --short`. Those formatting edits are uncommitted and should be preserved. They can be committed to the current revision branch after the complete check passes; do not reset or discard them.
+
+**Next execution:** Pull latest `origin/revision/master-revision` while on local branch `revision/master-revision`, then run from `platform/`:
+```powershell
+composer run-script ci:check
+```
+The updated PHPStan step should run with 1 GB and one process. PHPStan and Laravel tests remain unverified until this new run succeeds. Segment 12 remains `IMPLEMENTED — CI PENDING`.
