@@ -49,3 +49,8 @@ The Starter folder has no committed `package-lock.json`. The current root workfl
 A passing build and 19/19 browser suite mean the recorded Starter code passed its current automated checks. They do not verify ZACKS live facts, permission to publish assets, business-owner approval, real CTA ownership/response, actual conversion, delivery economics or launch operations.
 
 **Current decision:** CONDITIONAL — PREVIEW ONLY. Do not describe the ZACKS reference as a production-ready client website or the Rp500,000 pilot price as a validated commercial offer until the remaining Starter Product Acceptance Gate blockers are closed.
+
+
+## Narrow viewport regression follow-up — 2026-11-16
+
+A local Windows Playwright run after lockfile generation found overflow at 320px (document width 389px), with intrinsic sizing in the philosophy grid and contact heading identified in the failure report. The responsive CSS was corrected in commit `57f91797a68af94a8d680c54b3034fba6ccf68f8`. The exact correction commit passed a fresh Linux CI build and Playwright **19/19** on [run #47](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43742492354). A repeat Windows run is still required to close the local reproduction. Starter `package-lock.json` remains local and uncommitted; npm ci verification has been completed locally but CI is not yet switched to npm ci.
