@@ -139,14 +139,14 @@ Batch clarifications. Ask only questions that materially affect offer scope, pri
 The AI converts the source packet into the established Studio artifacts:
 1. Source Coverage Matrix: every meaningful source section/topic mapped to a normalized output, or explicitly EXCLUDED with reason / NOT_AVAILABLE / CONFLICT / NOT_APPLICABLE.
 2. Client Brief v2.1 (normalized output, not client input form).
-2. Atomic Fact Register and Source Register.
-3. Asset and Permission Register.
-4. Business Intelligence Summary.
-5. Offer Matrix.
-6. Customer Question Map and Buying Journey.
-7. Trust Register and Content Gap Register.
-8. Public CTA / Contact Map, separate from private project contacts.
-9. Critical Clarification List with owner and next action.
+3. Atomic Fact Register and Source Register.
+4. Asset and Permission Register.
+5. Business Intelligence Summary.
+6. Offer Matrix.
+7. Customer Question Map and Buying Journey.
+8. Trust Register and Content Gap Register.
+9. Public CTA / Contact Map, separate from private project contacts.
+10. Critical Clarification List with owner and next action.
 11. Tier recommendation, scope, sitemap/section plan and production handoff.
 
 Every material fact in downstream copy must remain traceable to the Fact Register. Unsupported copy must be removed or explicitly marked as an internal assumption. Every meaningful source topic must also be accounted for in the Source Coverage Matrix; a topic cannot silently disappear between raw input and the normalized brief.
