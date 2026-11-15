@@ -54,7 +54,7 @@ A site cannot pass production completeness with a critical BLOCKED item. Preview
 - [ ] All routes, links, navigation and interactions pass browser tests.
 - [ ] Responsive checks at 320, 360, 390, 640, 768, 900, 1024, 1280 and 1440px.
 - [ ] No horizontal overflow, broken assets, console errors or broken links.
-- [ ] Keyboard navigation, visible focus, form labels, semantic structure and contrast are checked.
+- [ ] Keyboard navigation, visible focus, form labels and semantic structure are checked. Text contrast is tested against actual backgrounds (4.5:1 normal / 3:1 large), with relevant non-text controls at 3:1; translucent colors are composited and every rendered instance is tested across target widths.
 - [ ] Metadata, social preview, favicon, sitemap/robots where applicable are correct.
 - [ ] Performance and image weight are measured; results are recorded rather than assumed.
 - [ ] Portfolio/demo mode and client-production mode are tested separately; demo metrics, simulated stories and sample proof are absent in client-production mode.
