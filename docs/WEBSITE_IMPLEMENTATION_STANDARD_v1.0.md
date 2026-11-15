@@ -1,5 +1,8 @@
 # Website Implementation Standard v1.0
 
+
+> **Superseded:** This v1.0 guideline is retained as a historical version. The current proposed revision is `docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.1_CANDIDATE.md`; owner adoption is pending.
+
 Status: Production guideline for Starter-first delivery
 Source of truth: This file defines design and implementation guardrails. The Master Skill defines the work stages; the Starter Product Acceptance Gate defines release approval.
 
