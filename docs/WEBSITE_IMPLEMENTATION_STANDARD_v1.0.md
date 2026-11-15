@@ -82,7 +82,7 @@ For every release candidate:
 3. Run browser tests for navigation, primary CTA, forms, key interactions and error/empty states.
 4. Check responsive widths and screenshots on desktop and mobile.
 5. Verify all image loads, alternative text, link destinations and external dependencies.
-6. Run accessibility/contrast review and performance measurement; record results and limitations.
+6. Run accessibility/contrast review and performance measurement; record results and limitations. Preserve the exact tested color pairs, viewport set and untested boundaries; do not describe a targeted contrast regression as full WCAG conformance.
 7. Test another browser or explicitly mark it NOT TESTED.
 8. Verify production metadata, robots policy, SSL, DNS and client ownership.
 9. Record PASS / FAIL / NOT TESTED for each item. A green build is not proof of commercial readiness.
