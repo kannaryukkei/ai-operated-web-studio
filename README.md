@@ -41,13 +41,15 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 - `docs/data-model.md`
 - `docs/security-and-approvals.md`
 - `docs/roadmap.md`
-- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.10_CANDIDATE.md` — current proposed material-first orchestrator with design differentiation, independent QA and the mandatory evidence-led calibration loop.
+- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.11_CANDIDATE.md` — current Master Revision candidate orchestrator; owner adoption remains pending.
 - `docs/MASTER_SKILL_CALIBRATION_PROTOCOL_v1.0.md` and `docs/EXPERIMENT_CALIBRATION_RECORD_TEMPLATE_v1.0.md` — root-cause classification, minimal correction and regression evidence.
 - `docs/STARTER_CALIBRATION_RECORD_2026-11-15.md` — first applied Starter calibration record and CI evidence.
-- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.8_CANDIDATE.md` — preserved historical candidate containing the design-differentiation gate.
+- `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md`, `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md`, `docs/WEBSITE_REQUIREMENTS_PACK_v1.0.md`, and `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md` — current stage, data, pre-design and G0–G7 contracts.
+- `docs/WEBSITE_PRODUCT_TIERS_v1.2_CANDIDATE.md` — current proposed tier boundaries; Starter is the only active implementation priority.
+- Earlier Master Skill files (including v1.8 and v1.10) are retained as historical candidates, not current operating instructions.
 - `docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md` — default interview + asset intake and source-normalization workflow.
 - `docs/EXPERIMENT_03_SYSTEM_LEARNINGS.md` — reusable system findings from Experiment #3.
-- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.6_CANDIDATE.md` — preserved historical candidate.
+
 - `docs/EXPERIMENT_01_DESIGN_REVIEW_EVIDENCE.md` — supporting evidence for the v1.7 design-quality changes.
 - `skills/README.md` — modular Agent Skills library and how to use it.
 - `skills/registry.md` — skill routing, upstream provenance, license decisions and optional dependencies.
@@ -65,7 +67,7 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 
 ## Modular skill system
 
-The Master Skill is the orchestrator; specialist instructions live under `skills/` as portable Agent Skills. `client-material-ingestion` is required at Stage 0; other specialists are activated only when relevant. The core workflow remains API-free and uses existing AI applications rather than paid model APIs.
+The Master Skill is the orchestrator; specialist instructions live under `skills/` as portable Agent Skills. `client-material-ingestion` is required at Stage 0; the current skill registry maps specialist activation to Master Skill Stages 0–9. The core workflow remains API-free and uses existing AI applications rather than paid model APIs.
 
 ## Product boundary
 
