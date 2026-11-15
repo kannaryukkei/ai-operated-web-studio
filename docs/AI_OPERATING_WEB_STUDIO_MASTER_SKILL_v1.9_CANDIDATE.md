@@ -270,7 +270,20 @@ Only DISTINCTIVE is a pass for owner visual review. COMPETENT BUT GENERIC and DE
 
 Prioritize critical missing information above decorative polish. Do not approve a visually attractive but commercially confusing website.
 
-Output: refined site, section-by-section design audit, issue register with impact and resolution, content gaps resolved/deferred, screenshot evidence and change log.
+### Source-to-page coverage (required)
+
+After implementation and refinement, reconcile the Raw Material Index, Source Coverage Matrix, Fact Register and Customer Question Map against the actual rendered website. Input coverage alone does not prove that source-backed information survived content design and implementation.
+
+For every material customer question or source-backed public fact:
+- Record the source locator and the exact page/section/element where it is answered.
+- Mark the result **PUBLISHED** (supported and approved), **PREVIEW ONLY** (clearly disclosed synthetic/unapproved content), **GAP** (missing or unresolved, with owner/action), or **NOT APPLICABLE** (reason recorded).
+- Include operational decision information where relevant, not only headline offers: hours/holiday exceptions, location/parking/accessibility, pickup/delivery, stock/availability, pre-order lead time/minimum, payment/deposit/cancellation/refund, service recovery, dietary/allergen limits and aftercare.
+- Keep internal/private information out of public content. Do not add content solely to make a coverage row appear complete; an unavailable fact stays unavailable.
+- Flag any fact or customer question that disappears between raw material → normalized brief → customer-facing copy.
+
+Produce a **Source-to-Page Coverage Matrix** and prioritized content-gap register before owner review. This matrix becomes an input to the independent QA gate, not another client form.
+
+Output: refined site, section-by-section design audit, Source-to-Page Coverage Matrix, issue register with impact and resolution, content gaps resolved/deferred, screenshot evidence and change log.
 
 ## Conditional category interaction contracts (evidence-backed)
 
@@ -304,9 +317,11 @@ Run actual production build and browser tests; source inspection is not browser 
 
 ### Business completeness (new required gate)
 For every relevant customer question, mark:
-- ANSWERED — clear and supported by evidence.
+- ANSWERED — clear, supported by evidence and linked to its exact page/section locator.
 - GAP — important answer missing; owner/action recorded.
 - NOT APPLICABLE — reason recorded.
+
+The answer must be checked against the rendered implementation, not only the normalized brief. A source-backed question is not ANSWERED merely because the information exists in an interview transcript, fact register or draft copy.
 
 Check at minimum:
 - What is sold and who it is for.
@@ -325,7 +340,8 @@ A GAP may be accepted for a preview only when clearly disclosed; it cannot silen
 ### Integrity and technical
 - Every material public fact has a source, evidence status and publication approval; every asset has provenance, permission status and intended use.
 - Every CTA is listed with its exact destination, approval status and expected post-click behavior.
-- Every customer question is marked ANSWERED, GAP or NOT_APPLICABLE, with evidence or an owner/action.
+- Every customer question is marked ANSWERED, GAP or NOT_APPLICABLE, with source evidence, exact page/section locator when answered, or an owner/action when unresolved.
+- The Source-to-Page Coverage Matrix accounts for material policy and operational facts; no important source topic silently disappears during implementation.
 - No invented claims, contacts, testimonials, metrics or customer evidence.
 - No cross-project contamination.
 - Keyboard/focus/semantics, contrast, labels, alt text and reduced motion.
