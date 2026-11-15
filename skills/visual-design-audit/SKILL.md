@@ -52,6 +52,26 @@ Evaluate independently:
 - Compare the rendered result against the approved blueprint and real source content.
 - Do not invent visual test results or assume the screenshot represents an untested viewport.
 
+## Cross-project distinctiveness (required)
+
+A visually clean and usable page can still be generic. Judge the design as a creative deliverable, not only as a collection of defects.
+
+When the project repository or design archive contains prior work:
+- Inspect the design fingerprints and rendered references of at least the two most recent relevant projects. If the original repository or screenshot is unavailable, state that limitation rather than inventing a comparison.
+- Compare macro-composition, hero treatment, section sequence, content grid, typographic voice, image language, surface system and interaction grammar.
+- Record which patterns are reused, which are meaningfully new, and why any intentional reuse fits this client's visitor task.
+- Check common anti-patterns: repeated all-caps labels, eyebrows above every heading, arbitrary numbers/counters, a default split hero, identical card grids, decorative arrows and generic section sequences. Do not ban a pattern automatically; require a clear business or usability reason for retaining it.
+- A palette, font pairing or illustration change alone is not sufficient evidence of distinctiveness.
+
+### Required aesthetic verdict
+
+Return exactly one:
+- **DISTINCTIVE** — composition and visual grammar clearly fit this client and are not mistaken for a re-skin of prior work.
+- **COMPETENT BUT GENERIC** — coherent and usable, but too dependent on familiar template structure or decoration.
+- **DERIVATIVE** — primarily a re-skin or near-copy of earlier work.
+
+Only DISTINCTIVE is a default pass for owner visual review. COMPETENT BUT GENERIC and DERIVATIVE require focused redesign before owner review, unless the owner explicitly accepts a documented exception. "No blocker found" is not an aesthetic verdict and cannot replace it.
+
 ## Prioritization
 
 Fix in this order:
