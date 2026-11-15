@@ -2,7 +2,12 @@
 
 **Master Skill mapping:** Stage 7 — independent QA.
 
-Review the exact candidate branch/commit against the approved WRP, design pack, source/approval records and Starter acceptance gate. The purpose is to decide whether the result is actually good enough, not merely whether it runs.
+## Run mode and entry conditions
+
+- **CLIENT_PROJECT:** review the exact candidate branch/commit against the approved WRP, design pack, source/approval records and Starter acceptance gate.
+- **INTERNAL_BENCHMARK:** the operator may authorize a retrospective audit of an existing synthetic/internal preview even when its WRP is DRAFT. Review the exact existing render/source; do not edit website code, invent missing approval, or infer production readiness. Business facts/assets remain DEMO_ONLY and preview-only.
+
+If the target render/source or run authorization is missing, stop and state the blocker.
 
 ## Use the smallest independent reviewer set
 
@@ -14,32 +19,32 @@ Review the exact candidate branch/commit against the approved WRP, design pack, 
 
 ## Acceptance dimensions — keep verdicts separate
 
-### A. Aesthetic quality (hard gate)
+### A. Aesthetic quality
 
-Capture real rendered screenshots at desktop, tablet and mobile. Compare the exact candidate against:
-1. Its approved design pack.
-2. At least two recent Studio websites/experiments, including the closest category match where available.
+Capture actual rendered screenshots at desktop, tablet and mobile.
 
-Record one explicit verdict:
+Compare the current site with its approved design pack when one exists, and inspect at least two recent Studio design fingerprints/rendered references. Use rendered evidence where available; if only a prior fingerprint/document is available, state that limitation and do not invent what its screenshot looks like.
+
+Return one verdict:
 - `DISTINCTIVE` — strong business-specific composition and visual grammar; not mistaken for a re-skin.
 - `COMPETENT BUT GENERIC` — coherent and usable, but relies too heavily on familiar or repeated template patterns.
 - `DERIVATIVE` — primarily a re-skin or near-copy of previous Studio work.
-- `NOT TESTED` — required rendered or cross-project evidence is unavailable.
+- `NOT TESTED` — the current site's actual rendered output is unavailable or too incomplete to judge.
 
-Only `DISTINCTIVE` passes the default aesthetic gate. `COMPETENT BUT GENERIC` and `DERIVATIVE` require a focused redesign. `NOT TESTED` means the aesthetic gate is BLOCKED; it must never be silently treated as a pass.
+Aesthetic verdict is based on the actual current render. Separately record cross-project comparison coverage as `COMPLETE`, `PARTIAL` or `NOT_AVAILABLE`. Award `DISTINCTIVE` only when comparison coverage is complete enough to support that conclusion. A provisional `COMPETENT BUT GENERIC` or `DERIVATIVE` finding may be recorded from current-render evidence even when comparison coverage is partial, but the full distinctiveness gate remains unresolved.
 
 Do not award `DISTINCTIVE` because the palette, font or hero illustration changed. Judge macro-composition, hierarchy, section rhythm, imagery, typography, density, interaction grammar and signature moments.
 
 ### B. Business and content completeness
 
-- Verify every material customer question against the rendered page and canonical Source-to-Page records.
+- Verify each material customer question against the rendered page and canonical Source-to-Page records.
 - Check facts, prices, claims, permissions, publication states, CTA destinations and actual post-click behavior.
 - Distinguish PUBLISHED, PREVIEW_ONLY, GAP and NOT_APPLICABLE. Preview-only content never counts as production-published.
 - No fake testimonials, metrics, ratings, credentials, promises, bookings, storage or success states.
 
 ### C. Functional and technical quality
 
-- Run the actual build and project tests on the exact candidate commit.
+- Run the actual build and project tests on the exact candidate commit when code changes or matching evidence is missing/stale.
 - Check navigation, links, CTAs, controls, empty/error/unavailable states and keyboard behavior where relevant.
 - Check responsive layout, overflow, asset loading/crops, focus, semantics, contrast, reduced motion, console/network errors and basic performance as scoped.
 - Record each check PASS / FAIL / NOT TESTED. A build pass is not visual QA; screenshots are not proof of code quality.
@@ -51,15 +56,17 @@ For each issue record severity, exact location, evidence, user/business impact, 
 ## Overall verdict
 
 Return separate verdicts for:
-- Aesthetic gate.
+- Aesthetic gate and cross-project comparison coverage.
 - Business/content completeness.
 - Functional/technical acceptance.
 - Overall candidate: PASS / PASS WITH CONCERNS / FAIL / BLOCKED.
 
-The overall candidate cannot be PASS while the aesthetic gate is GENERIC, DERIVATIVE or NOT TESTED, or while a critical factual/conversion/technical blocker remains.
+For `CLIENT_PROJECT`, the overall candidate cannot be PASS while the distinctiveness gate is unresolved or a critical factual/conversion/technical blocker remains.
+
+For `INTERNAL_BENCHMARK`, provide a diagnostic verdict only. Never state that a production or client-approval gate passed.
 
 ## Required report
 
-Exact project/branch/commit; WRP/design-pack versions; reviewer/context; aesthetic verdict and side-by-side screenshots; business coverage matrix; functional/technical evidence; findings by severity; fixes and retest results; NOT TESTED areas; owner decision required; next gate.
+Run mode; exact project/branch/commit; WRP/design-pack versions; reviewer/context; aesthetic verdict and comparison coverage; side-by-side screenshots where available; business coverage matrix; functional/technical evidence; findings by severity; fixes/retest results; NOT TESTED areas; owner decision required; next checkpoint.
 
 Never fabricate social proof, including in demo/portfolio content. A QA PASS is not production release authorization.
