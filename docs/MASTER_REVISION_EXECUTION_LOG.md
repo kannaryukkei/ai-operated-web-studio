@@ -28,7 +28,7 @@
 | 04 | Harmonize client input and material ingestion | DONE |
 | 05 | Establish canonical data schema | DONE |
 | 06 | Define Website Requirements Pack | DONE |
-| 07 | Define review, approval, and release gates | NOT STARTED |
+| 07 | Define review, approval, and release gates | DONE |
 | 08 | Revise Master Skill | NOT STARTED |
 | 09 | Harmonize prompts, skills, and delivery playbook | NOT STARTED |
 | 10 | Harmonize documentation | NOT STARTED |
@@ -64,8 +64,8 @@
 4. Continue from the first NOT STARTED segment; do not redo verified work.
 5. Update this log in the same segment checkpoint when a segment is completed.
 
-**Next segment:** 07 — Define Review, Approval & Release Gates.  
-**Resume point:** define manual approval states and decision authority for AI-generated output, studio review, client fact/asset confirmation, owner scope approval, production approval, release authorization and handover. Keep current platform limitations explicit; do not invent an implemented approval engine.
+**Next segment:** 08 — Revise Master Skill.  
+**Resume point:** revise the v1.10 candidate to orchestrate the adopted material-first policy, canonical schema, WRP and approval gates. Map every stage to canonical artifacts and exit conditions. Keep the API-free/manual execution model and preserve only specialist techniques that add distinct value.
 
 
 ## Checkpoint — Segment 02
@@ -129,3 +129,15 @@
 **Files changed:** `docs/WEBSITE_REQUIREMENTS_PACK_v1.0.md`; `docs/MASTER_PRODUCT_REQUIREMENTS_v1.0.md`; `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md`; `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md`; this execution log.  
 **Blockers:** no WRP artifact workflow exists in the Laravel platform; keep it as a versioned project file until a justified implementation.  
 **Commit:** WRP `490798787a38effb31bd8b98dac9d8c40e1af956`; PRD `3ad14396d3846a6efb701d2acc601d002d22bb38`; workflow `1b724fe7ca4fa58632f13b0b68f3bf36a56688b8`; schema link `7e6057e0a1ca7fb96e786b5430e6979986506af2` plus asset mapping refinement `54352bc43ad16da64eaadf5cf559b6bca3eec533`.  
+
+
+## Checkpoint — Segment 07
+
+**Status:** DONE (manual operating policy defined; platform enforcement deferred to Segments 11–12)  
+**Output:** `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md`  
+**Actions:** defined AI/operator/client/owner authority; approval record fields; artifact workflow states; preview/production/release states; G0–G7 gates; change-after-approval behavior; and manual operating boundary. Updated security/approval policy, Master PRD traceability and canonical workflow Stage 8 to reference the new policy.  
+**Key decisions:** fact confirmation, evidence quality, publication permission, commercial approval, WRP design approval, preview acceptance, production readiness, release authorization and handover are separate decisions. Silence and CI success never count as approval. AI cannot authorize an external/release action.  
+**Validation:** reviewed existing security policy and Starter acceptance gate; inspected current ProjectIntake tests to confirm existing client editing behavior and no assumptions about a complete approval workflow. Updated documents re-fetched and references checked. Documentation-only; no application tests run.  
+**Files changed:** `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md`; `docs/security-and-approvals.md`; `docs/MASTER_PRODUCT_REQUIREMENTS_v1.0.md`; `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md`; this execution log.  
+**Blockers:** the platform has no complete persisted approval workflow; manual approval register remains required until Segments 11–12 specify/implement minimum support.  
+**Commit:** approval policy `49abfd6e6e6425cfc2290f7e295bd431d0adef08`; security policy `627185a8461e1a056f59a00665e03aff973aa801`; PRD `2ecf164ee760db659552565207dfb06c46136062`; workflow `40c006cc81260423bffa2c4235ae2378d483377c`; execution log checkpoint follows.  
