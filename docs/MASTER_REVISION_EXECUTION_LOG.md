@@ -532,3 +532,7 @@ Followed the 320px hero grid correction with a fluid H1 size at max-width 380px 
 After the hero correction, the Windows repeat no longer listed hero elements as offenders. The remaining failure was booking: document width 359px; `.booking-copy`, `.section-heading`, H2, promise rows and `.booking-form` expanded to 341px. This is the booking section's one-column intrinsic sizing/long heading issue. The other 18 tests passed and `git status --short` still showed only the untracked Starter `package-lock.json`.
 
 Applied revision commit `5a24be7a4df0e9d772cf5aabf8b1425433d92ab3` to give the mobile booking grid a zero-minimum track, constrain copy/form/promises and use a fluid wrapping heading. Pull and run local Windows tests; confirm fresh CI. Do not commit the Starter lockfile or switch the workflow to `npm ci` before 19/19 passes. Segment 14 remains IN PROGRESS.
+
+### Booking responsive correction — CI evidence
+
+Revision commit `5a24be7a4df0e9d772cf5aabf8b1425433d92ab3` passed Starter blueprint CI [run #58](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43743441717): production build PASS and Playwright 19/19 PASS on Ubuntu 24.04 / Chromium. This validates the latest booking correction in Linux CI. Windows reproduction remains pending. Keep Segment 14 IN PROGRESS and do not commit the Starter lockfile until local Windows 19/19 is confirmed.
