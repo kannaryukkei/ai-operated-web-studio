@@ -32,6 +32,7 @@ Use these as defaults for the Studio's current reference workflow, not as univer
 - Compact metadata / eyebrow labels: 11px minimum.
 - Primary button labels: 13px minimum.
 - Legal/credit notes should remain comfortably readable; do not reduce them to decorative micro-text.
+- Important allergen/safety information, pricing conditions, operating policies, access limitations and transaction disclosures are not metadata. Use at least 13px as a starting floor for dense important detail, or restructure the layout/copy to preserve comfortable reading.
 - Prefer readable line lengths (generally around 45–80 characters, adjusted for typeface and container).
 - Set line-height for the role and script; body copy often needs approximately 1.5–1.8.
 - Use fluid heading scales where appropriate; avoid uncontrolled heading wraps and awkward single-word lines.
