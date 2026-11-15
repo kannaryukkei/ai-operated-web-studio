@@ -41,10 +41,13 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 - `docs/data-model.md`
 - `docs/security-and-approvals.md`
 - `docs/roadmap.md`
-- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.7_CANDIDATE.md` — proposed production skill with five-website and Experiment #1 design-quality gates.
+- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.8_CANDIDATE.md` — proposed production orchestrator with cross-project design differentiation, screenshot-to-code implementation contracts and checkpointed frontend QA.
+- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.7_CANDIDATE.md` — preserved previous candidate.
 - `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.6_CANDIDATE.md` — preserved historical candidate.
 - `docs/EXPERIMENT_01_DESIGN_REVIEW_EVIDENCE.md` — supporting evidence for the v1.7 design-quality changes.
 - `skills/README.md` — modular Agent Skills library and how to use it.
+- `skills/registry.md` — specialist routing, upstream provenance, license decisions and activation matrix.
+- `skills/upstream/webdev-agent-kit/UPSTREAM.md` — pinned source, Apache 2.0 attribution and adaptation record for frontend implementation skills.
 - `skills/registry.md` — skill routing, upstream provenance, license decisions and optional dependencies.
 - `docs/CLIENT_WEBSITE_BRIEF_TEMPLATE_v2.1.md` — current client brief and asset-permission intake.
 - `docs/WEBSITE_PRODUCT_TIERS_v1.1.md` — Starter / Business / Custom scope and Starter price boundary.
