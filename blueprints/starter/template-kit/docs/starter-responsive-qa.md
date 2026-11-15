@@ -54,3 +54,9 @@ A passing build and 19/19 browser suite mean the recorded Starter code passed it
 ## Narrow viewport regression follow-up — 2026-11-16
 
 A local Windows Playwright run after lockfile generation found overflow at 320px (document width 389px), with intrinsic sizing in the philosophy grid and contact heading identified in the failure report. The responsive CSS was corrected in commit `57f91797a68af94a8d680c54b3034fba6ccf68f8`. The exact correction commit passed a fresh Linux CI build and Playwright **19/19** on [run #47](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43742492354). A repeat Windows run is still required to close the local reproduction. Starter `package-lock.json` remains local and uncommitted; npm ci verification has been completed locally but CI is not yet switched to npm ci.
+
+## Second 320px regression follow-up — 2026-11-16
+
+The Windows repeat after the philosophy/contact fix produced a different remaining overflow: document width 359px at 320px, with .hero-copy/H1 expanding to 343px. The prior philosophy/contact overflow was no longer listed. The cause was the one-column mobile hero grid retaining an intrinsic minimum track size.
+
+Revision commit [ac47977d627b6258925b03a80255f94aebe252e1](https://github.com/kannaryukkei/ai-operated-web-studio/commit/ac47977d627b6258925b03a80255f94aebe252e1) now uses a zero-minimum grid track (minmax(0,1fr)), constrains hero children to the available width, and lets the H1 wrap. The other 18 tests passed in the reported Windows run. The new correction has not yet been verified by a fresh local Windows run or a confirmed CI result.
