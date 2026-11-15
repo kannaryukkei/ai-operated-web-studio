@@ -21,18 +21,32 @@ Checked: 2026-11-15
 | `interface-quality-review/` | Review implemented interface behavior and quality | Evidence-based code/UI findings grouped by severity |
 | `visual-design-audit/` | Independently critique the rendered website section by section | Strengths, defects, prioritized fixes, screenshot references and resolution status |
 
+## Studio-adapted implementation and acceptance skills
+
+These four skills were selectively adopted from the preserved `improvement/frontend-implementation-skills` branch. They are adapted derivatives of the Apache-2.0 WebDev Agent Kit, not a wholesale branch merge.
+
+| Skill folder | Primary responsibility | Activation |
+|---|---|---|
+| `design-screenshot-spec/` | Convert an approved screenshot/mockup into a traceable Design Implementation Spec with measured, inferred and unknown values separated | Optional when an approved visual reference is the implementation target |
+| `frontend-layout-implementer/` | Implement an approved spec in the existing stack through bounded, independently checked slices | Required implementation method for scoped Starter code work |
+| `frontend-visual-qa/` | Compare the real browser-rendered site to the approved visual spec/reference and capture viewport/state evidence | Required when WRP/design acceptance includes visual fidelity; otherwise use for visual corrections |
+| `frontend-quality-reviewer/` | Independently judge the completed implementation against scope, acceptance criteria and evidence; return PASS / PASS WITH CONCERNS / FAIL / BLOCKED without silently fixing | Independent acceptance review at Stage 7 when a separate reviewer/context is available; otherwise disclose self-review |
+
+Role boundaries: `visual-design-audit` judges aesthetic quality and distinctiveness; `frontend-visual-qa` checks rendered fidelity against a specified reference; `interface-quality-review` diagnoses interface semantics/accessibility/interaction defects; `frontend-quality-reviewer` makes the broader scoped acceptance judgment. Do not run every reviewer mechanically when the evidence and requested task do not require it.
+
 ## Activation matrix
 
-| Production phase | Required skills | Optional skills |
+| Master Skill phase | Required skills | Conditional / optional skills |
 |---|---|---|
-| Material intake / normalization | Master Skill + `client-material-ingestion` | None; this is the default Stage 0 source-normalization skill |
-| Discovery / business intelligence | Master Skill + `client-material-ingestion` + `ux-review` | Category-specific module only where the business requires it |
-| Pre-production design | `frontend-design` + `typography-and-legibility` | `ux-review` for unresolved journey/IA decisions |
-| First implementation | `frontend-design` as design authority | Stack-specific implementation skill only where the chosen framework needs it |
-| Refinement | `visual-design-audit` + `interface-quality-review` | `typography-and-legibility` for type regressions |
-| Independent QA | `interface-quality-review` + project browser tests | `visual-design-audit` when visual changes were made |
+| Stage 0 — Material intake | Master Skill + `client-material-ingestion` | None; default source-normalization method |
+| Stages 1–4 — Business intelligence, journey, content and WRP | `client-material-ingestion` + `ux-review` as needed | Category-specific module only where the business requires it |
+| Stage 5 — Creative direction | `frontend-design` + `typography-and-legibility` | `design-screenshot-spec` only when an approved screenshot/mockup is the target |
+| Stages 5–6 — Implementation/refinement | `frontend-layout-implementer` | `design-screenshot-spec` for reference-driven work; `typography-and-legibility` for type-specific changes |
+| Stage 6 — Design/UX refinement | `visual-design-audit` + `interface-quality-review` for material UI changes | `frontend-visual-qa` for reference fidelity and responsive screenshot evidence |
+| Stage 7 — Independent QA | Project tests + `frontend-quality-reviewer` | `frontend-visual-qa`, `interface-quality-review` and `visual-design-audit` according to acceptance criteria and surface changed |
+| Stages 8–9 — Release/handover/calibration | Master Skill + approval/release policy and evidence records | Specialist reviewer only for affected release evidence or retrospective findings |
 
-Do not activate all skills mechanically. The Master Skill selects the smallest useful set.
+The Master Skill enforces the approval policy's **G0–G7** decision gates; a specialist skill cannot approve or bypass a gate. Do not activate all skills mechanically. A green build, visual critique or screenshot comparison cannot replace the overall acceptance matrix.
 
 ## Reviewed upstream sources
 
@@ -73,6 +87,15 @@ Do not activate all skills mechanically. The Master Skill selects the smallest u
 
 - Repository: https://github.com/openai/skills
 - Decision: **EXCLUDED AS CURRENT UPSTREAM**. Its own README marks the repository deprecated and directs readers to current Codex plugin documentation. Do not build a dependency on this deprecated catalog.
+
+### 6. ytvee-dev — `webdev-agent-kit`
+
+- Repository: https://github.com/ytvee-dev/webdev-agent-kit
+- Pinned upstream commit: `170504cdabf24269e62fca3009229750351ac3cf`
+- License: Apache-2.0; exact license text retained at `skills/upstream/webdev-agent-kit/LICENSE`.
+- Adapted files: `design-screenshot-spec`, `frontend-layout-implementer`, `frontend-visual-qa`, and `frontend-quality-reviewer`. Each file is marked as a Studio-specific adaptation; attribution and source blob SHAs are recorded in `skills/upstream/webdev-agent-kit/UPSTREAM.md`.
+- Decision: **SELECTIVELY ADOPTED**. The branch was not merged wholesale. These methods fill the design-to-code specification, bounded implementation, rendered visual verification and independent acceptance-judgment gaps.
+- No upstream runtime, component library, Figma MCP, CLI, API or paid service is required. Re-review upstream content and licensing before any refresh.
 
 ## Reuse rules
 
