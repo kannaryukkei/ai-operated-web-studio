@@ -30,7 +30,7 @@
 | 06 | Define Website Requirements Pack | DONE |
 | 07 | Define review, approval, and release gates | DONE |
 | 08 | Revise Master Skill | DONE |
-| 09 | Harmonize prompts, skills, and delivery playbook | NOT STARTED |
+| 09 | Harmonize prompts, skills, and delivery playbook | DONE |
 | 10 | Harmonize documentation | NOT STARTED |
 | 11 | Align platform with canonical workflow | NOT STARTED |
 | 12 | Implement minimum platform changes | NOT STARTED |
@@ -154,4 +154,31 @@
 **Files changed:** `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.11_CANDIDATE.md`; this execution log.  
 **Deferred to Segment 10:** README/skills registry/manual prompt pointers still reference earlier Master Skill versions and will be harmonized with the prompts and documentation index.  
 **Blockers:** none for the candidate draft; owner approval of v1.11 remains pending.  
-**Commits:** v1.11 initial `d5c168a223c425297eab5df98ed4959ab43a46ac`; approval/source-output refinement `f9ae13ab9013b13fd79d8ed545567b6462bac91d`; Stage 0/1 lifecycle alignment `1e2589fa4ebf2df0cb333c7e6fd7df7906529424`; final file content SHA re-fetched as `1362491063065c350ee3df0f22f970c58be3f9ef`.  
+**Commits:** v1.11 initial `d5c168a223c425297eab5df98ed4959ab43a46ac`; approval/source-output refinement `f9ae13ab9013b13fd79d8ed545567b6462bac91d`; Stage 0/1 lifecycle alignment `1e2589fa4ebf2df0cb333c7e6fd7df7906529424`; final file content SHA re-fetched as `1362491063065c350ee3df0f22f970c58be3f9ef`.
+
+## Checkpoint — Segment 09
+
+**Status:** DONE (prompts, specialist skills, registry and Starter delivery operations harmonized to Master Skill v1.11 candidate)  
+**Actions:** Rewrote the six numbered Starter specialist prompts and orchestrator prompt to map directly to Master Skill Stages 0–9, canonical discovery records, WRP `APPROVED_FOR_DESIGN`, G0–G7 and the API-free/manual-AI workflow. Recast the Starter Delivery Playbook's former 14 stages as numbered operational steps beneath the single canonical Stage 0–9 workflow; corrected its demo/social-proof policy, client-input model, WRP gate and approval section. Rebuilt the Starter Production Kit to use G0–G7 and current release-state transitions. Updated the skill registry and README to v1.11 and clarified the four review roles.
+  
+**Selective skill adoption:** Reviewed the preserved `improvement/frontend-implementation-skills` branch at `ae6bb2099968597eebe3e0dba5a3c0bebde20e21`. Adopted `design-screenshot-spec`, `frontend-layout-implementer`, `frontend-visual-qa` and `frontend-quality-reviewer` as individual adapted skills; did not merge the branch or its other commits. Each adopted file includes a modification notice and Master Skill integration note. Retained the upstream Apache-2.0 license and provenance table with pinned commit/blob SHAs. Checked the pinned upstream repository tree: root `LICENSE` exists; no root `NOTICE` file was present. The old experiment branch remains preserved and unchanged.
+
+**Key role boundaries:** `design-screenshot-spec` translates an approved visual reference to an evidence-labelled specification; `frontend-layout-implementer` executes bounded slices; `frontend-visual-qa` compares real browser-rendered output to approved references; `frontend-quality-reviewer` provides a scoped cross-layer acceptance verdict. Existing `visual-design-audit` and `interface-quality-review` remain distinct for aesthetic critique and interface defect diagnosis.
+
+**Files changed:**  
+- `blueprints/starter/template-kit/prompts/starter/00-orchestrator.md` through `06-review-release-handover.md` (7 files)  
+- `blueprints/starter/template-kit/docs/starter-delivery-playbook.md`  
+- `blueprints/starter/template-kit/docs/starter-production-kit.md`  
+- `skills/registry.md`; `skills/README.md`  
+- New `skills/design-screenshot-spec/SKILL.md`, `skills/frontend-layout-implementer/SKILL.md`, `skills/frontend-visual-qa/SKILL.md`, `skills/frontend-quality-reviewer/SKILL.md`  
+- New `skills/upstream/webdev-agent-kit/LICENSE` and `skills/upstream/webdev-agent-kit/UPSTREAM.md`  
+- This execution log.
+
+**Validation:** Re-fetched all seven prompts; verified Master Skill mapping, WRP/G2, G0–G7, Stage 7 review roles, explicit NOT_TESTED handling and G4–G7 release distinctions. Re-fetched all four skills and checked modification notice, v1.11 integration note and upstream attribution. Re-fetched registry/README; checked skill activation and G0–G7 authority. Playbook was checked for the canonical Stage 0–9 map, all 14 retained operating steps (no duplicate Master Stage headings), explicit prohibition of simulated social proof, material-first client input, WRP gate and G0–G7 approval section. Production Kit was checked for the same gate and manual/no-paid-API boundary. Documentation-only segment; no application code changed and no application tests were run.
+
+**Decisions:** The new implementation/review methods are available to the Master Skill but are not all mandatory on every project; activate the minimum useful set. The four adapted skills are not a mandatory runtime/tooling dependency. The existing reviewer overlap is controlled by explicit role boundaries rather than deleting/replacing Studio-owned skills. Master Skill v1.11 remains a CANDIDATE pending owner adoption.
+
+**Blockers:** none for this segment. Remaining stale documentation/template references and project-template alignment move to Segment 10. No merge, PR creation, branch deletion or change to `main`.
+
+**Resume point:** Segment 10 — audit repository-wide documentation/indexes and the starter-client templates/status/approval artifacts for stale Master Skill v1.9/v1.10 references, legacy client-questionnaire expectations, conflicting demo/social-proof language, old approval labels and outdated workflow/status states. Harmonize to v1.11 and the canonical schema/WRP/G0–G7 without expanding platform scope.
+
