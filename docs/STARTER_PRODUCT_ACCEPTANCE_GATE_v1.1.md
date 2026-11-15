@@ -17,7 +17,7 @@ Principle: Starter is compact, not incomplete. A one-page site must answer the i
 - [ ] Critical gaps have an owner and are either resolved or explicitly excluded from production launch.
 
 ## Gate 1 — Customer-facing completeness
-For each applicable item mark ANSWERED, NOT_APPLICABLE (with reason), or BLOCKED (with owner/action). Record its supporting source or evidence:
+For this commercial completeness gate, mark each applicable customer question ANSWERED, NOT_APPLICABLE (with reason), or BLOCKED (with owner/action), and retain its supporting source/evidence. Map this separate decision to the Source-to-Page Matrix: ANSWERED must have PUBLISHED status for production; PREVIEW_ONLY may be accepted for an internal preview only; GAP maps to BLOCKED. Never treat an approved preview exception as production-ready.
 - [ ] What does the business offer and who is it for?
 - [ ] What are the available products/services/packages?
 - [ ] How does a customer compare options and choose?
