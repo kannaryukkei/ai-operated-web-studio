@@ -283,10 +283,22 @@
 
 **Static verification:** Re-fetched all nine changed files and checked policy/controller/UI/test contract consistency. Confirmed exactly three intake actions use the new policy, general project update remains unchanged, client link is guarded, no canEdit prop remains, and canonical statuses appear consistently in validator, prompt, types, rendering and fixtures.
 
-**Automated test status:** NOT RUN. The active root platform workflow is pull-request or main-push triggered; the revision branch is not configured for push CI. Local runtime does not have Composer/vendor dependencies and GitHub clone access is unavailable. No PR or main push was made under the agreed revision boundary. Do not report tests or CI as passing. Command to execute from `platform/`: `composer ci:check`.
+**Automated test status:** NOT RUN. The active root platform workflow is pull-request or main-push triggered; the revision branch is not configured for push CI. Local runtime does not have Composer/vendor dependencies and GitHub clone access is unavailable. No PR or main push was made under the agreed revision boundary. Do not report tests or CI as passing. Command to execute from `platform/`: `composer run-script ci:check`. The workflow's shorthand invocation was also corrected to use `run-script`.
 
 **Current changed files (9):**  
 `platform/app/Policies/ProjectPolicy.php`; `platform/app/Http/Controllers/ProjectIntakeController.php`; `platform/app/Http/Controllers/ManualDiscoveryController.php`; `platform/resources/js/pages/projects/intake.tsx`; `platform/resources/js/pages/projects/index.tsx`; `platform/resources/js/pages/projects/discovery.tsx`; `platform/tests/Feature/ProjectIntakeTest.php`; `platform/tests/Feature/WorkspacePagesTest.php`; `platform/tests/Feature/ManualDiscoveryWorkflowTest.php`.
 
 **Resume point:** Finish Segment 12 by running `composer ci:check` from `platform/` in the configured local environment or through an authorized PR that triggers `.github/workflows/platform-ci.yml`. Correct any concrete failures and rerun. Only then mark Segment 12 DONE and begin Segment 13. No merge, PR creation, branch deletion or change to `main` has been performed.
 
+## Follow-up fix — Composer script invocation (2026-11-15)
+
+After the operator ran the previously suggested command from the repository root, Composer returned: `There are no commands defined in the "ci" namespace.`
+
+Repository inspection confirmed there is no root `composer.json`; the platform Composer project is `platform/composer.json`. Its custom script key is `ci:check`, and Composer's supported manual invocation is `run-script`. Therefore the exact PowerShell command from repository root is:
+
+```powershell
+cd .\platform
+composer run-script ci:check
+```
+
+The active root GitHub Actions workflow had the same shorthand invocation, `composer ci:check`, despite its `working-directory: platform`. Corrected the workflow to `composer run-script ci:check` in this follow-up commit. This is an invocation correction only; it does not imply CI has run or passed. Automated checks remain pending and the revision workflow is still PR-triggered (or push-to-main), so no PR or main update was performed.
