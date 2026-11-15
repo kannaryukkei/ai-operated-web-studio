@@ -4,6 +4,9 @@ Checked: 2026-11-15
 
 ## Calibration and learning
 
+- docs/STARTER_CONTENT_EVIDENCE_GATE_v1.0.md — evidence and publication rules for reviews, testimonials, ratings, awards and performance claims on Starter sites.
+- docs/STARTER_CONTENT_EVIDENCE_CALIBRATION_2026-11-15.md — applied calibration record removing simulated social proof from the ZACKS Starter reference.
+
 - docs/MASTER_SKILL_CALIBRATION_PROTOCOL_v1.0.md — required evidence-led root-cause classification and correction loop.
 - docs/EXPERIMENT_CALIBRATION_RECORD_TEMPLATE_v1.0.md — reusable record for findings, minimal corrections and regression evidence.
 
