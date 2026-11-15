@@ -36,6 +36,9 @@ Fetch the live guideline source before a Vercel-guideline-specific review. If th
 - Skip links work and remain visually hidden until focused.
 - Menus/dialogs handle focus and Escape correctly where applicable.
 - Text contrast and non-text UI contrast are checked; record the actual sampled pairs and ratio.
+- Use WCAG AA as the target: 4.5:1 for normal text, 3:1 for large text and 3:1 for relevant non-text controls/focus indicators.
+- Enumerate every rendered instance for each tested role, not only the first match. Test actual surface pairs, alpha-composite translucent colors, and include important hover, focus, active, disabled, expanded and error states.
+- Map accent and muted-text tokens to the surfaces where they appear. A brand color is not automatically an accessible text color on every background.
 - Color is not the only status signal.
 - Reduced-motion preferences are respected.
 - Touch targets and gesture alternatives are appropriate.
