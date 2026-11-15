@@ -250,3 +250,53 @@ Files inspected include:
 - relevant project/client/intake/discovery migrations and the active platform CI workflow.
 
 This segment is a code-and-test inspection plus a target-state specification. No platform source code or database migration was changed, and no application test suite was executed in this segment.
+
+## 10. Segment 12 implementation update — 2026-11-15
+
+**Implementation state:** The minimum code and regression-test changes are committed on `revision/master-revision`. Static re-fetch/review confirms the intended access rules and enum contract are reflected across policy, controllers, UI and fixtures.
+
+### Implemented
+
+- Added `ProjectPolicy::manageInternalIntake()`, restricted to `User::isStudioStaff()`. `ProjectPolicy::update()` remains unchanged, so client-account owners and project editors retain their existing general project-edit permission without receiving internal intake access.
+- All three `ProjectIntakeController` actions — show, save and submit — authorize `manageInternalIntake` before retrieving or changing intake data. The Inertia response no longer returns a `canEdit` flag.
+- Project list renders “Open intake” only when `isStudio` is true. Direct route requests by clients remain denied server-side.
+- Reframed the intake page as an internal Studio snapshot derived from the interview and supplied materials; removed its client-facing questionnaire language. Helper copy now states five required fields and 21 optional fields. The 26-field payload, five required validation rules, draft saving and submitted-version immutability remain unchanged. No migration was added.
+- Updated submit/save success copy to identify an internal Studio snapshot.
+- Aligned the manual DiscoveryRun working-summary contract across PHP validation, generated AI prompt, TypeScript types/rendering and fixtures:
+  - Evidence: `VERIFIED`, `CLIENT-PROVIDED-UNVERIFIED`, `DEMO-ONLY`, `ASSUMPTION`, `MISSING`, `CONFLICT`.
+  - Publication: `APPROVED`, `PENDING`, `NOT_APPROVED`.
+  - Asset permission: `APPROVED`, `PENDING`, `NOT_APPROVED`, `NOT_APPLICABLE`; separate permission-evidence and consent statuses.
+  - Customer journey uses uppercase `BEFORE_PURCHASE`, `DURING_PURCHASE`, `AFTER_PURCHASE`; question field is `answer_status`; unresolved-item milestone values are canonical `PREVIEW_BLOCKER`, `PRODUCTION_BLOCKER`, `OPTIONAL_GAP`.
+  - Trust and content-gap records now use the corresponding separate evidence/publication and milestone status fields.
+- The manual external-AI workflow remains unchanged: Studio starts the run, uses the prompt in an existing AI app and pastes JSON. No provider API, key, SDK, queue or paid service was introduced.
+- Updated feature tests to deny client owners, account admins/members and project owner/editor/viewer roles on all three intake endpoints; added Studio Owner/Operator access, five-field/21-optional validation, version immutability and client project-list Studio-flag assertions. Discovery tests cover canonical output and reject legacy mixed evidence/publication values, legacy asset-permission values and lowercase journey stages.
+
+### Static validation performed
+
+Re-fetched and inspected all nine changed files. Confirmed:
+- All three intake controller actions use the dedicated Studio-only policy.
+- General project edit policy remains unchanged.
+- Intake data is no longer serialized to client requests because the authorization check occurs before querying/returning payload data.
+- UI link gating, internal-only copy and five/21 helper text are present.
+- Canonical enum lists are consistent across PHP rules, AI prompt, TypeScript types/rendering and test fixtures.
+- Negative regression tests exist for the deprecated enum shapes.
+- No database migration, WRP/approval model, external AI integration or CI workflow change was introduced.
+
+### Automated test / CI status
+
+**NOT RUN — no PASS is claimed.** The available root `.github/workflows/platform-ci.yml` runs for pull requests touching `platform/**` or pushes to `main`; it does not run on this revision branch. The local execution environment has PHP but no Composer binary/vendor installation, and outbound GitHub access is unavailable for cloning/running the application. No PR was created and `main` was not modified, consistent with the revision-branch boundary.
+
+The reproducible validation command is `composer ci:check` from the `platform/` directory. It runs frontend checks, TypeScript checks, Pint/PHPStan and Laravel tests via the configured Composer scripts. Run it locally or through the explicitly authorized revision PR before treating these changes as tested. The corresponding acceptance criteria above remain **pending execution** until then.
+
+**Files changed in this implementation:**  
+- `platform/app/Policies/ProjectPolicy.php`
+- `platform/app/Http/Controllers/ProjectIntakeController.php`
+- `platform/app/Http/Controllers/ManualDiscoveryController.php`
+- `platform/resources/js/pages/projects/intake.tsx`
+- `platform/resources/js/pages/projects/index.tsx`
+- `platform/resources/js/pages/projects/discovery.tsx`
+- `platform/tests/Feature/ProjectIntakeTest.php`
+- `platform/tests/Feature/WorkspacePagesTest.php`
+- `platform/tests/Feature/ManualDiscoveryWorkflowTest.php`
+
+**Next action:** Complete Segment 12 by executing `composer ci:check` on this branch through a reproducible local run or authorized PR. If it fails, fix the exact reported issue and rerun. Do not mark Segment 12 DONE or start Segment 13 CI hardening until the result is observed.
