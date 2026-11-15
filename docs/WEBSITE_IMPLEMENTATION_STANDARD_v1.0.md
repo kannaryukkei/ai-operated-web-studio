@@ -79,7 +79,7 @@ For every release candidate:
 
 1. Install using the committed lockfile.
 2. Run the production build.
-3. Run browser tests for navigation, primary CTA, forms, key interactions and error/empty states.
+3. Run browser tests against the exact checked-out commit for navigation, primary CTA, forms, state transitions, boundary limits and error/empty/unavailable states. Scope locators to the intended component when accessible names repeat.
 4. Check responsive widths and screenshots on desktop and mobile.
 5. Verify all image loads, alternative text, link destinations and external dependencies.
 6. Run accessibility/contrast review and performance measurement; record results and limitations. Preserve the exact tested color pairs, viewport set and untested boundaries; do not describe a targeted contrast regression as full WCAG conformance.
