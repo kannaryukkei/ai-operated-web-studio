@@ -153,3 +153,18 @@ A real pilot delivery and retrospective are required before converting the propo
 The Starter reference is suitable for continued development, internal demonstration and automated regression work. It is not yet accepted as a production-ready ZACKS website, a universal Starter template that can be copied unchanged, or a commercially validated Rp500,000 package.
 
 Do not claim PASS — Ready to sell until every critical gate is closed with evidence and the Studio owner approves the release. Business and Custom remain deferred.
+
+
+## Local Windows reproducibility follow-up — 2026-11-16
+
+The operator generated the Starter-local `package-lock.json` with `npm.cmd install --package-lock-only --no-audit --no-fund`. A clean `npm.cmd ci --no-audit --no-fund` completed and added 70 packages. The Vite production build also passed (1,685 modules transformed). Playwright Chromium ran 19 tests: **18 passed, 1 failed**.
+
+The failure was the existing core horizontal-overflow test at 320px: document width 389px. The reported overflow included the philosophy grid/photo expanded to 371px and the contact heading extending to 434px. The other 18 tests, including the nine-width typography/contrast regression, passed. PowerShell initially blocked `npm.ps1`/`npx.ps1` under ExecutionPolicy; using the explicit `.cmd` launchers worked. This is a shell-policy issue, not an application failure.
+
+**Correction applied to revision branch:**
+- `starter/src/styles.css`: constrain the narrow-screen philosophy grid to a zero-minimum single track, set grid children/copy to `min-width: 0`, allow the philosophy heading to wrap within its container, and constrain the contact heading to the container width with a responsive font size and safe wrapping.
+- `starter/.gitignore`: ignore generated `test-results/` and `playwright-report/` output so browser diagnostics are not accidentally committed.
+
+The CSS correction is commit `57f91797a68af94a8d680c54b3034fba6ccf68f8`. A fresh Starter CI run was triggered for that code change; its completion must be checked. The operator must pull the fix and repeat the 320px responsive test locally before the issue is considered closed.
+
+The generated Starter `package-lock.json` remains local and uncommitted at this checkpoint. It must be inspected and committed after the corrected local suite passes. The GitHub workflow has not yet switched to `npm ci`; that change follows the verified lockfile commit.
