@@ -23,7 +23,7 @@
 |---|---|---|
 | 00 | Revalidate repository baseline | DONE |
 | 01 | Establish revision workspace and rules | DONE |
-| 02 | Create Master PRD Lite | NOT STARTED |
+| 02 | Create Master PRD Lite | DONE |
 | 03 | Define canonical operating workflow | NOT STARTED |
 | 04 | Harmonize client input and material ingestion | NOT STARTED |
 | 05 | Establish canonical data schema | NOT STARTED |
@@ -64,5 +64,19 @@
 4. Continue from the first NOT STARTED segment; do not redo verified work.
 5. Update this log in the same segment checkpoint when a segment is completed.
 
-**Next segment:** 02 — Create Master PRD Lite.  
-**Resume point:** inspect and reconcile existing product brief, MVP specification, architecture, roadmap, Master Skill, and audit findings; then draft a traceable PRD with requirement IDs and acceptance criteria.
+**Next segment:** 03 — Define Canonical Operating Workflow.  
+**Resume point:** map the approved material-first lifecycle stage by stage, then assign actors, inputs, outputs, decisions, validation and exit criteria. Before doing so, inspect the current Master Skill stages and manual workflow for overlaps or contradictions.
+
+
+## Checkpoint — Segment 02
+
+**Status:** DONE (draft prepared; owner review remains an adoption decision)  
+**Output:** `docs/MASTER_PRODUCT_REQUIREMENTS_v1.0.md`  
+**Source review:** product brief, MVP specification, architecture, roadmap, Master Skill v1.10 candidate, four-pilot retrospective, material-ingestion protocol, Client Brief v2.1, product tier definitions, Starter acceptance/evidence gates, manual AI workflow, AI Build Rules, and relevant platform intake/discovery code.  
+**Requirements:** 20 functional requirements (MUST / SHOULD / LATER), 10 non-functional requirements, system acceptance criteria, success measures, dependencies/risks and requirement traceability.  
+**Important baseline correction:** current intake controller requires five fields on submission, while intake UI copy says four; manual workflow also describes the intake as a five-field internal bridge. This discrepancy is recorded for Segment 04/11.  
+**Key boundary:** external-AI/manual workflow remains valid; no paid API is required. Platform is a system of record/coordinator, not an autonomous production engine. Starter remains the only active product implementation priority.  
+**Validation:** source-document and current controller/UI inspection completed; PRD file re-fetched after write and status set to Draft pending owner review. No application tests run because this segment changes product requirements documentation only.  
+**Files changed:** `docs/MASTER_PRODUCT_REQUIREMENTS_v1.0.md`; `docs/MASTER_REVISION_EXECUTION_LOG.md`.  
+**Blockers:** none for drafting; owner adoption of the PRD remains pending.  
+**Commit references:** PRD initial commit `23ac368e9552069fc5bf59a13bcd106cbf0dab01`; review-status update and execution-log checkpoint recorded in subsequent branch commits.  
