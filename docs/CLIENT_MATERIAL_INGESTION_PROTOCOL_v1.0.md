@@ -137,7 +137,8 @@ Batch clarifications. Ask only questions that materially affect offer scope, pri
 ### Step G — Produce normalized outputs
 
 The AI converts the source packet into the established Studio artifacts:
-1. Client Brief v2.1 (normalized output, not client input form).
+1. Source Coverage Matrix: every meaningful source section/topic mapped to a normalized output, or explicitly EXCLUDED with reason / NOT_AVAILABLE / CONFLICT / NOT_APPLICABLE.
+2. Client Brief v2.1 (normalized output, not client input form).
 2. Atomic Fact Register and Source Register.
 3. Asset and Permission Register.
 4. Business Intelligence Summary.
@@ -146,9 +147,9 @@ The AI converts the source packet into the established Studio artifacts:
 7. Trust Register and Content Gap Register.
 8. Public CTA / Contact Map, separate from private project contacts.
 9. Critical Clarification List with owner and next action.
-10. Tier recommendation, scope, sitemap/section plan and production handoff.
+11. Tier recommendation, scope, sitemap/section plan and production handoff.
 
-Every material fact in downstream copy must remain traceable to the Fact Register. Unsupported copy must be removed or explicitly marked as an internal assumption.
+Every material fact in downstream copy must remain traceable to the Fact Register. Unsupported copy must be removed or explicitly marked as an internal assumption. Every meaningful source topic must also be accounted for in the Source Coverage Matrix; a topic cannot silently disappear between raw input and the normalized brief.
 
 ## 6. AI operating rules
 
@@ -184,6 +185,7 @@ When the platform later adds file intake, preserve original files, project-level
 
 A project passes Material Ingestion when:
 - Raw input packet is preserved and indexed.
+- A Source Coverage Matrix accounts for each meaningful source section/topic, with a normalized destination or an explicit exclusion/unresolved reason.
 - Interview facts are extracted into atomic claims with source locators.
 - No material claim is silently invented or detached from its source.
 - Answer, evidence and publication statuses are separate.
@@ -202,7 +204,7 @@ The Semburat experiment's original fixture was already a structured, fully popul
 - [Separate synthetic asset packet](https://github.com/kannaryukkei/web-studio-experiment-03-semburat-bakehouse/blob/experiment/03-semburat-s07-material-ingestion/docs/EXPERIMENT_03_SYNTHETIC_ASSET_PACKET.md), distinguishing absent client assets from Studio-generated demo artwork.
 - [Raw material normalization QA](https://github.com/kannaryukkei/web-studio-experiment-03-semburat-bakehouse/blob/experiment/03-semburat-s07-material-ingestion/docs/EXPERIMENT_03_RAW_MATERIAL_NORMALIZATION_QA.md), which records representative source-linked facts, separate answer/evidence/publication statuses and preserved unknowns.
 
-**Simulation result:** PASS for the documented synthetic transcript/asset normalization case. The normalized facts were compared against the original structured fixture; missing public CTA, valid map/location, accessibility assessment, reviews, credentials, client-owned imagery and publication rights remained unavailable rather than being invented. The material packet and QA record are explicitly marked SYNTHETIC / DEMO_ONLY.
+**Simulation result:** PASS for the documented synthetic transcript/asset normalization case. The normalized facts were compared against the original structured fixture; a source-to-output coverage pass also caught and corrected several omitted source details before the checkpoint. Missing public CTA, valid map/location, accessibility assessment, reviews, credentials, client-owned imagery and publication rights remained unavailable rather than being invented. The material packet and QA record are explicitly marked SYNTHETIC / DEMO_ONLY.
 
 **CI evidence:** S07 reran the existing S01–S06 Chromium website suites successfully in [PR run #43687520793](https://github.com/kannaryukkei/web-studio-experiment-03-semburat-bakehouse/actions/runs/43687520793) and [push run #43687516348](https://github.com/kannaryukkei/web-studio-experiment-03-semburat-bakehouse/actions/runs/43687516348). These CI runs verify website regressions; they do **not** execute an AI extraction model or prove automatic transcript parsing.
 
