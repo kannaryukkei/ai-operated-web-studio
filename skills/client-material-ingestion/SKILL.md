@@ -87,6 +87,18 @@ A client-supplied file is not automatically owned by the client or approved for 
 - Ask only when a gap changes offer scope, price, customer journey, public claim, CTA, asset rights or release.
 - Batch material questions into one concise clarification list. All other unknowns remain explicit GAP / NOT_AVAILABLE / NOT_SURE and can be excluded from preview copy.
 
+#### Clarification triage and safe continuation
+
+Classify every unresolved item by the next milestone it blocks:
+
+- **PREVIEW BLOCKER:** an internal preview cannot be produced safely or coherently even with a clearly labelled working label, an unavailable state or a Studio-created concept fallback. Keep the blocked element out until resolved.
+- **PRODUCTION BLOCKER:** a preview may proceed, but publication/live use is blocked. Typical examples are unresolved customer-facing brand identity, current price/offer facts, exact visit details, public CTA destination, material safety/policy claims, asset rights or required people consent.
+- **OPTIONAL GAP:** the item is not necessary for the approved current visitor journey. Keep it in the Content Gap Register and omit the claim or feature; do not ask about it merely to complete the brief.
+
+Batch only the smallest set of questions needed for the next decision, grouped by the responsible owner. Each question must state why it matters and what can safely be omitted if unanswered. Do not ask the client to resolve optional gaps before they become relevant. Continue unaffected preview work where safe, using a provisional internal label, a truthful contact-not-configured state or Studio-created concept assets with clear disclosure. Never present placeholders as approved public facts.
+
+An unanswered question remains PENDING / NOT_APPROVED. Do not repeatedly ask it; raise it again only when the next release decision depends on it.
+
 ### 6. Produce the normalized handoff
 
 Before finalizing the handoff, run a source-coverage pass: walk every meaningful heading, section, transcript segment and asset. Map each material topic to an output or mark it EXCLUDED with reason / NOT_AVAILABLE / CONFLICT / NOT_APPLICABLE. Do not stop after extracting a representative sample.
