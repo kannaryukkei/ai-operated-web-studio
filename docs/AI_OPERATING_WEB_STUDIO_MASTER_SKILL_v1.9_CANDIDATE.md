@@ -331,10 +331,13 @@ Run actual production build and browser tests; source inspection is not browser 
 - Complete the section-by-section design audit and record changes before requesting owner review.
 
 ### Business completeness (new required gate)
-For every relevant customer question, mark:
-- ANSWERED — clear, supported by evidence and linked to its exact page/section locator.
-- GAP — important answer missing; owner/action recorded.
-- NOT APPLICABLE — reason recorded.
+For every relevant customer question, use the canonical Source-to-Page page-coverage status:
+- **PUBLISHED** — answer is visible, supported by an approved source and approved for public release.
+- **PREVIEW_ONLY** — answer is visible in a clearly disclosed internal preview but is synthetic, draft, unverified or not approved for production.
+- **GAP** — a material answer is missing, unresolved or the customer action cannot be completed honestly; record owner/action.
+- **NOT_APPLICABLE** — the question does not apply; record the reason.
+
+Do not collapse page coverage into answer/evidence/publication status. A PREVIEW_ONLY answer can make a private preview useful but never counts as PUBLISHED or production-complete.
 
 The answer must be checked against the rendered implementation, not only the normalized brief. A source-backed question is not ANSWERED merely because the information exists in an interview transcript, fact register or draft copy.
 
@@ -355,7 +358,7 @@ A GAP may be accepted for a preview only when clearly disclosed; it cannot silen
 ### Integrity and technical
 - Every material public fact has a source, evidence status and publication approval; every asset has provenance, permission status and intended use.
 - Every CTA is listed with its exact destination, approval status and expected post-click behavior.
-- Every customer question is marked ANSWERED, GAP or NOT_APPLICABLE, with source evidence, exact page/section locator when answered, or an owner/action when unresolved.
+- Every customer question has a Source-to-Page status (PUBLISHED / PREVIEW_ONLY / GAP / NOT_APPLICABLE), plus separate answer/evidence/publication states, exact source and rendered locators, and owner/action for unresolved gaps.
 - The Source-to-Page Coverage Matrix accounts for material policy and operational facts; no important source topic silently disappears during implementation.
 - No invented claims, contacts, testimonials, metrics or customer evidence.
 - No cross-project contamination.
