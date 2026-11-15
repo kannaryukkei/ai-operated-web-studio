@@ -1,7 +1,7 @@
 # Website Product Tiers v1.1
 
-Status: Proposed operating standard — 2026-11-14
-Supersedes: v1.0. Adds an explicit, bounded Starter launch-price model.
+Status: Superseded historical version.
+Replaced by: `docs/WEBSITE_PRODUCT_TIERS_v1.2_CANDIDATE.md` (Master Revision candidate; owner adoption pending).
 Audience: UMKM and local businesses first.
 Core rule: sell the outcome and completeness, not a page count or a list of technical features.
 
