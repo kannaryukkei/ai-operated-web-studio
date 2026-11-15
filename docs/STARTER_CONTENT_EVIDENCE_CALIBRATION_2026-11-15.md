@@ -2,7 +2,7 @@
 
 **Reference:** ZACKS Starter  
 **Classification:** IMPLEMENTATION / QA  
-**Status:** Correction prepared; automated CI verification pending
+**Status:** Correction implemented; automated CI verification PASS
 
 ## Finding
 
@@ -23,11 +23,12 @@ The Starter reference rendered three simulated customer-story cards and a proof 
 4. Add a browser regression that fails if the known simulated proof components or values return.
 5. Clarify the acceptance gate and add a reusable content-evidence publication rule.
 
-## Verification plan
+## Verification evidence
 
-- Production Vite build must pass.
-- Full Playwright suite must pass at the existing nine responsive widths, including the new evidence-integrity regression.
-- Existing navigation, pricing, Care Finder, WhatsApp, image, FAQ, typography, contrast and keyboard tests must remain green.
+- **Result:** PASS — production Vite build succeeded and Playwright completed **18/18 tests**.
+- **Tested website code commit:** `53613da9c24486bcbbd55e008b2e8aea0711fa63`.
+- **GitHub Actions run:** [#28 / 43721721168](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43721721168).
+- The run includes the new evidence-integrity regression and retains the existing nine responsive viewport widths, navigation, pricing, Care Finder, WhatsApp, date, image, FAQ, typography, contrast and keyboard checks.
 - No change to the Starter's static-first architecture, client intake requirements, scope boundary or pricing assumptions.
 
 ## Boundaries
@@ -36,4 +37,4 @@ This correction does not verify live ZACKS catalog prices, operational facts, as
 
 ## Decision
 
-Retain the correction if CI passes. For future Starter projects, missing social proof is an omission—not a content gap to be filled with fictional customer voices or performance figures. Publish proof only after its source, scope, permission and owner approval are recorded under `STARTER_CONTENT_EVIDENCE_GATE_v1.0.md`.
+Retain the correction. The tested implementation passed CI on the exact commit recorded above. For future Starter projects, missing social proof is an omission—not a content gap to be filled with fictional customer voices or performance figures. Publish proof only after its source, scope, permission and owner approval are recorded under `STARTER_CONTENT_EVIDENCE_GATE_v1.0.md`.
