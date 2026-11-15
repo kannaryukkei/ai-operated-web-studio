@@ -32,7 +32,7 @@
 | 08 | Revise Master Skill | DONE |
 | 09 | Harmonize prompts, skills, and delivery playbook | DONE |
 | 10 | Harmonize documentation | DONE |
-| 11 | Align platform with canonical workflow | NOT STARTED |
+| 11 | Align platform with canonical workflow | DONE |
 | 12 | Implement minimum platform changes | NOT STARTED |
 | 13 | Strengthen CI, reproducibility, and QA evidence | NOT STARTED |
 | 14 | Starter production readiness gate | NOT STARTED |
@@ -231,4 +231,43 @@
 **Blockers:** none for Segment 10. Policy candidates await owner adoption. Platform alignment/implementation and Starter code proof-removal remain deliberately deferred.
 
 **Resume point:** Segment 11 — audit the current Laravel platform against Master Skill v1.11, PRD, canonical workflow/schema, WRP and G0–G7. Specify the minimum project/data/access/approval changes required, with special attention to internal-only Project Intake access, correct five-field validation/UI copy and server-side authorization. Preserve the API-free manual-AI model; do not build a broad automation engine.
+
+## Checkpoint — Segment 11
+
+**Status:** DONE (Laravel platform audited; minimum target-state alignment specified; no application code changed)
+
+**Specification added:** `docs/PLATFORM_ALIGNMENT_SPECIFICATION_v1.0.md` — 18.6 KB. Root README, Master PRD, Canonical Operating Workflow, manual AI workflow and Client Input & Material Policy now link to it.
+
+### Findings verified against code and tests
+
+1. **Project Intake is not internal-only today.** `ProjectIntakeController::show` authorizes project `view`; `save` and `submit` authorize project `update`. `ProjectPolicy::update` explicitly permits client-account owners and project members with `owner` / `editor` roles. The entire intake payload is sent in Inertia props to users who can view the project. The project index also renders “Open intake” for every project, not just Studio users.
+2. **Tests currently preserve the old permission model.** `ProjectIntakeTest` contains `test_client_owner_can_save_and_resume_an_intake_draft`; it also allows an account member to view the intake while blocking edits. These tests must be inverted/rewritten in Segment 12, not merely supplemented with hidden-link UI checks.
+3. **Five fields are required, not four.** Controller and required field markers cover `business_overview`, `target_audience`, `products_services`, `website_goal` and `primary_conversion`. Twenty-one other fields are optional. The helper sentence is wrong. Preserve this 26-field legacy summary bridge and correct its purpose/copy; do not turn it into a client form.
+4. **Manual discovery is already Studio-only and API-free.** `ManualDiscoveryController` checks `isStudioStaff()`; a DiscoveryRun snapshots the submitted intake version and the UI tells the operator to run the prompt in an external AI application and paste JSON. Keep this interaction.
+5. **The discovery JSON is a legacy working summary, not the canonical schema.** Validator/prompt currently accept mixed evidence/publication values (`APPROVED-FOR-PUBLICATION`, `NEEDS_CLIENT_APPROVAL`, `DO_NOT_PUBLISH`) and use `CLIENT_PROVIDED_UNVERIFIED`, `MISSING`, `DEMO_ONLY` as asset permission statuses. It also lacks the complete canonical IDs, source locators, source coverage, permission/consent axes and post-QA `page_coverage[]`. This is explicitly defined as a working summary only; full canonical records and WRP remain manually versioned project artifacts.
+6. **There is no first-class WRP/approval engine in the platform baseline.** The inspected platform models/migrations include projects, project intake and discovery runs, but no WRP model, canonical source/fact/asset record model, G0–G7 approval model or release state machine. Manual versioned artifacts remain sufficient for the current workflow.
+7. **Project editing rights and internal intake rights must stay separate.** Segment 12 must add a dedicated `ProjectPolicy::manageInternalIntake` ability (Studio Owner/Operator only) and use it in all three ProjectIntakeController actions. Do not narrow the general `ProjectPolicy::update` ability as a side effect.
+
+### Segment 12 implementation contract
+
+- Restrict intake GET/PATCH/submit server-side to Studio Owner and Studio Operator. Client account owners/admins/members and project owner/editor/viewer roles with client accounts receive 403. No payload is serialized to client users.
+- Hide “Open intake” from client project lists; retain direct-route server protection.
+- Rename/reword the intake page as an internal Studio snapshot; state that the operator derives it from the interview/material packet. Correct copy to five required and 21 optional fields; retain existing validation/versioning behavior.
+- Keep the manual external-AI discovery workflow.
+- Align the working-summary validator/prompt/TypeScript/UI/fixtures on the overlapping canonical controlled status vocabularies. Do not claim that the working summary becomes the full canonical packet.
+- Keep G0–G7, WRP and release states as versioned manual artifacts; do not add an approval table, WRP engine, provider API, automated agent engine or migration for unused data structures.
+- Add/adjust tests for staff access, denial for client owners/admins/members/project roles, project-list link visibility, five-field validation, version snapshots, discovery role/enum behavior and API-free operation.
+
+### Validation and evidence
+
+- Inspected ProjectIntakeController, ProjectPolicy, ProjectIntake/Project/DiscoveryRun/User models, CreateDiscoveryRun, ManualDiscoveryController, role/run enums, web routes, intake/discovery/project-list React pages, project/client/intake/discovery migrations, ProjectIntakeTest, ManualDiscoveryWorkflowTest, DiscoveryRunTest and platform CI definitions.
+- Fetched and checked the new specification plus all five linked operating documents.
+- Compared Segment 10 checkpoint SHA `606a5a67281348b698c41bd115b3d0894266d296` to the post-Segment 11 branch: six files changed; none under `platform/`. This was a documentation/specification segment only.
+- No platform source, migration or automated test was changed/run. Static audit evidence is recorded above; no new CI/test pass is claimed.
+
+**Decisions:** Keep platform as a lightweight project system of record and manual workflow coordinator. Treat Project Intake as an internal summary bridge, not client input or canonical provenance. Do not build a persisted approval/WRP engine before delivery evidence demonstrates the need. Candidate operating policies remain pending owner adoption.
+
+**Blockers:** none for the audit/specification. Implementation acceptance remains open and is the work of Segment 12.
+
+**Resume point:** Segment 12 — implement the minimum changes in `docs/PLATFORM_ALIGNMENT_SPECIFICATION_v1.0.md` on `revision/master-revision`: internal-only intake policy/route protection and UI visibility/copy; preserve 26-field snapshot with five required fields and immutable submitted versions; align the limited DiscoveryRun working-summary status enums across prompt, PHP validator, TypeScript/UI and tests. Run the full platform CI checks and report actual evidence. Do not merge/create a PR/delete a branch or alter `main` unless explicitly requested.
 
