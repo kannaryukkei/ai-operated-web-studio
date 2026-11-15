@@ -2,17 +2,24 @@
 
 Use the Customer Question Map and Buying Journey as the source of structure. Do not assume every section belongs on every site. Link every answer to canonical fact/source IDs and keep the independent status axes separate.
 
-| page_coverage_id | customer_question_id | order | section | visitor question | answer summary | source_ids | fact_ids | asset_ids | CTA_ID | answer_status | evidence_status | publication_status | milestone_priority | rendered_coverage_status (post-QA only) |
-|---|---|---:|---|---|---|---|---|---|---|---|---|---|---|---|
-| PC-001 | Q-001 | 1 | Hero | Is this for me? | | | | | | | | | | |
-| PC-002 | Q-002 | 2 | Offer | What can I get? | | | | | | | | | | |
-| PC-003 | Q-003 | 3 | Process / value | What happens next? | | | | | | | | | | |
-| PC-004 | Q-004 | 4 | Visual showcase | What can I see? | | | | | | | | | | |
+## Planned section map (Stages 3–4)
 
-**Canonical answer status:** PROVIDED / NOT_AVAILABLE / NOT_APPLICABLE / NOT_SURE / CONFLICT.  
+| section_map_id | question_id | order | section | visitor question | answer summary or gap | source_ids | fact_ids | asset_ids | cta_ids | question_answer_status | evidence_status | publication_status | milestone_priority |
+|---|---|---:|---|---|---|---|---|---|---|---|---|---|
+| SEC-001 | Q-001 | 1 | Hero | Is this for me? | | | | | | | | | |
+| SEC-002 | Q-002 | 2 | Offer | What can I get? | | | | | | | | | |
+| SEC-003 | Q-003 | 3 | Process / value | What happens next? | | | | | | | | | |
+| SEC-004 | Q-004 | 4 | Visual showcase | What can I see? | | | | | | | | | |
+
+**Customer-question answer status:** ANSWERED / GAP / NOT_APPLICABLE. An ANSWERED question must have supporting fact IDs; it does not imply publication approval or rendered coverage.  
 **Evidence status:** VERIFIED / CLIENT-PROVIDED-UNVERIFIED / DEMO-ONLY / ASSUMPTION / MISSING / CONFLICT.  
 **Publication status:** APPROVED / PENDING / NOT_APPROVED.  
-**Milestone priority:** PREVIEW_BLOCKER / PRODUCTION_BLOCKER / OPTIONAL_GAP.  
-**Rendered page coverage (only after implementation/QA):** PUBLISHED / PREVIEW_ONLY / GAP / NOT_APPLICABLE.
+**Milestone priority:** PREVIEW_BLOCKER / PRODUCTION_BLOCKER / OPTIONAL_GAP.
 
-A visual showcase may use disclosed concept imagery, but it is not customer proof. Do not invent testimonials, reviews, ratings, awards, metrics, customer stories or outcomes — including for demos. Do not mark rendered coverage PUBLISHED merely because a section exists in a draft.
+## Rendered coverage (after implementation and QA only)
+
+Create canonical `page_coverage[]` records after reviewing the actual rendered candidate. Required fields:
+
+`page_coverage_id`, `question_id`, `target_page_or_url`, `target_section_key`, `coverage_status` (PUBLISHED / PREVIEW_ONLY / GAP / NOT_APPLICABLE), `rendered_locator_or_evidence`, `fact_ids`, and `owner_or_action`.
+
+Do not mark a planned section as PUBLISHED. A draft in the brief or section map is not rendered evidence. A visual showcase may use disclosed concept imagery, but it is not customer proof. Never invent testimonials, reviews, ratings, awards, metrics, customer stories or outcomes — including for demos.
