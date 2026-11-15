@@ -264,12 +264,14 @@ export default function ProjectsIndex({
                                     </span>
                                 </span>
                                 <div className="flex flex-wrap gap-3">
-                                    <Link
-                                        href={`/projects/${project.id}/intake`}
-                                        className="text-xs font-medium text-primary hover:underline"
-                                    >
-                                        Open intake
-                                    </Link>
+                                    {isStudio && (
+                                        <Link
+                                            href={`/projects/${project.id}/intake`}
+                                            className="text-xs font-medium text-primary hover:underline"
+                                        >
+                                            Open intake
+                                        </Link>
+                                    )}
                                     {isStudio && (
                                         <Link
                                             href={`/projects/${project.id}/discovery`}
