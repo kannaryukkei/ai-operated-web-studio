@@ -56,6 +56,7 @@ Inspect at minimum one narrow mobile, one tablet and one desktop viewport. Use a
 For each viewport:
 - Capture computed font sizes for the defined body and metadata roles.
 - Check headings, buttons, nav labels, captions and footnotes.
+- Measure every instance of each text role; a check of only the first element can miss one-off responsive overrides.
 - Check long-copy wrapping, spacing and line length.
 - Check no horizontal overflow or clipped text.
 - Record PASS / FAIL / NOT TESTED.
