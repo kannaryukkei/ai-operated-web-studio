@@ -31,6 +31,8 @@ Fetch the live guideline source before a Vercel-guideline-specific review. If th
 ### Accessibility and keyboard
 - All functionality is keyboard reachable and operable.
 - Focus is visible, not obscured by sticky headers, footers or overlays.
+- For long pages or repeated navigation, provide a skip link as the first keyboard stop; keep it visually hidden until focused, reveal it clearly on focus, and move focus to a programmatically focusable main-content target.
+- Test representative keyboard-only journeys, not only isolated focus styles: skip-link activation, menu open/close and destination selection, native disclosure controls, form/select controls where present, and primary action buttons.
 - Skip links work and remain visually hidden until focused.
 - Menus/dialogs handle focus and Escape correctly where applicable.
 - Text contrast and non-text UI contrast are checked; record the actual sampled pairs and ratio.
