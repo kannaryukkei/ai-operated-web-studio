@@ -8,7 +8,6 @@ test('core portfolio sections render and no layout overflows at common viewport 
     await page.goto('/', { waitUntil: 'domcontentloaded' });
     await expect(page.locator('#treatments')).toBeVisible();
     await expect(page.locator('#care-finder')).toBeAttached();
-    await expect(page.locator('#stories')).toBeAttached();
     await expect(page.locator('#booking')).toBeAttached();
     await expect(page.locator('.site-footer')).toBeAttached();
 
@@ -199,11 +198,20 @@ test('FAQ provides a readable answer list and core sections remain present', asy
   );
   expect(new Set(questions).size).toBe(12);
   expect(questions).toContain('Apakah mengirim form konsultasi berarti sudah booking?');
-  for (const id of ['treatments', 'care-finder', 'approach', 'additional', 'gallery', 'stories', 'process', 'coverage', 'booking', 'faq']) {
+  for (const id of ['treatments', 'care-finder', 'approach', 'additional', 'gallery', 'process', 'coverage', 'booking', 'faq']) {
     await expect(page.locator(`#${id}`)).toBeAttached();
   }
 });
 
+
+test('unverified testimonials and performance metrics are excluded from the Starter reference', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.stories-section, .story-card, .proof-strip, .proof-metric')).toHaveCount(0);
+  const visibleCopy = await page.locator('main').innerText();
+  for (const fabricatedClaim of [/1,250\\+/, /4\\.9\\/5/, /92%/, /Raka P\\./, /Dimas A\\./, /Nadia K\\./, /SIMULATED CUSTOMER STORY/i, /SAMPLE STORIES/i]) {
+    expect(visibleCopy).not.toMatch(fabricatedClaim);
+  }
+});
 
 test('mobile navigation closes with Escape', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
