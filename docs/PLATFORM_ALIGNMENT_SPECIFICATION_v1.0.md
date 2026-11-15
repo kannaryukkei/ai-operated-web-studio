@@ -197,40 +197,40 @@ A persisted approval model may be reconsidered only after real projects show tha
 
 ### Internal intake access
 
-- [ ] Studio Owner can GET, PATCH and submit a valid intake.
-- [ ] Studio Operator can GET, PATCH and submit a valid intake.
-- [ ] Client account owner receives 403 from GET, PATCH and submit.
-- [ ] Client account admin/member receives 403 from GET, PATCH and submit.
-- [ ] Project owner/editor/viewer with client role receives 403 from GET, PATCH and submit.
-- [ ] Unauthorized responses never include the stored 26-field payload.
-- [ ] Project list displays “Open intake” only to Studio staff.
-- [ ] Direct URL access remains denied even when the link is hidden.
+- [x] Studio Owner can GET, PATCH and submit a valid intake.
+- [x] Studio Operator can GET, PATCH and submit a valid intake.
+- [x] Client account owner receives 403 from GET, PATCH and submit.
+- [x] Client account admin/member receives 403 from GET, PATCH and submit.
+- [x] Project owner/editor/viewer with client role receives 403 from GET, PATCH and submit.
+- [x] Unauthorized responses never include the stored 26-field payload.
+- [x] Project list displays “Open intake” only to Studio staff.
+- [x] Direct URL access remains denied even when the link is hidden.
 
 ### Validation and versioning
 
-- [ ] Exactly the five named fields are required at submit; all 21 other fields remain optional.
-- [ ] Draft save continues to allow partial/empty optional fields.
-- [ ] Submitted intake version is immutable; subsequent Studio edits create a new draft version.
-- [ ] Payload keys remain restricted to the defined 26 fields.
+- [x] Exactly the five named fields are required at submit; all 21 other fields remain optional.
+- [x] Draft save continues to allow partial/empty optional fields.
+- [x] Submitted intake version is immutable; subsequent Studio edits create a new draft version.
+- [x] Payload keys remain restricted to the defined 26 fields.
 
 ### Discovery
 
-- [ ] Manual discovery remains Studio-only and requires a submitted intake snapshot.
-- [ ] DiscoveryRun retains the exact intake version and input snapshot used.
-- [ ] Result validator rejects the deprecated mixed/legacy status values in new output and accepts only the canonical enums defined in §4.3.
-- [ ] Prompt, PHP validator, TypeScript types/UI and fixtures use the same enum vocabulary.
-- [ ] The UI continues to identify discovery as a manual external-AI handoff; no paid API is introduced.
-- [ ] Tests do not claim that the result is a full canonical record packet or WRP.
+- [x] Manual discovery remains Studio-only and requires a submitted intake snapshot.
+- [x] DiscoveryRun retains the exact intake version and input snapshot used.
+- [x] Result validator rejects the deprecated mixed/legacy status values in new output and accepts only the canonical enums defined in §4.3.
+- [x] Prompt, PHP validator, TypeScript types/UI and fixtures use the same enum vocabulary.
+- [x] The UI continues to identify discovery as a manual external-AI handoff; no paid API is introduced.
+- [x] Tests do not claim that the result is a full canonical record packet or WRP.
 
 ### Workflow truthfulness
 
-- [ ] G0–G7 approvals remain manual, versioned and tied to exact artifacts.
-- [ ] WRP/G2 prerequisite is documented; no platform stage transition falsely signals WRP approval.
-- [ ] No build/test/discovery status implies client approval, production readiness or release authorization.
+- [x] G0–G7 approvals remain manual, versioned and tied to exact artifacts.
+- [x] WRP/G2 prerequisite is documented; no platform stage transition falsely signals WRP approval.
+- [x] No build/test/discovery status implies client approval, production readiness or release authorization.
 
 ## 8. Test and CI requirements
 
-The active root workflow `.github/workflows/platform-ci.yml` runs on pull requests touching `platform/**` and performs Composer install, Laravel migrations, `npm ci`, frontend build and `composer ci:check`. The configured Composer CI check includes frontend checks, PHPStan and Laravel tests/Pint through the test script. Segment 12 must be validated by that workflow on the revision branch's pull request or equivalent reproducible local run. No result should be reported as PASS until observed.
+The active root workflow `.github/workflows/platform-ci.yml` runs on pull requests touching `platform/**` and performs Composer install, Laravel migrations, `npm ci`, frontend build and `composer run-script ci:check`. The configured Composer check includes frontend checks, TypeScript, PHPStan and Laravel tests/Pint. A complete local execution was observed on Windows from `platform/`: frontend formatting/lint PASS (74 formatted, 68 clean); TypeScript PASS; Pint PASS (87 files); PHPStan PASS (64/64, no errors); Laravel tests PASS (80 tests, 370 assertions). GitHub Actions itself has not been run because no PR was created. Before closing Segment 12, reconcile the two local TSX formatter edits from `npm.cmd run check:fix` if they remain in `git status --short`; commit/push them to the revision branch only.
 
 The repository also contains `platform/.github/workflows/tests.yml` nested under `platform/`; do not rely on that file as the repository's active workflow unless it is moved to the root workflows directory in a separately scoped CI change.
 
@@ -342,3 +342,9 @@ The operator reran `composer run-script ci:check` after the PHPStan memory/worke
 Inspection showed that `ProjectIntakeTest` and `WorkspacePagesTest` already call `$this->withoutVite()` in `setUp()`; `ManualDiscoveryWorkflowTest` did not. The failing test validates server-side prompt props, not compiled frontend assets. Added the same `withoutVite()` test setup to `ManualDiscoveryWorkflowTest`, so the feature suite does not require a local `npm run build` just to render the Inertia response. The root CI workflow still performs `npm run build` before tests.
 
 **Status:** the fix is committed but has not yet been executed locally. Re-run the full `composer run-script ci:check` from `platform/`. The 79 previously passing tests remain good evidence; the single previously failing test must be rerun before claiming the entire suite PASS. Segment 12 remains `IMPLEMENTED — CI PENDING`.
+
+### Final observed local validation — 2026-11-15
+
+The operator ran `composer run-script ci:check` from `platform/` after pulling the revision branch's Vite-test fix. All configured checks passed: frontend formatting/lint, TypeScript, Pint (87 files), PHPStan (64/64, no errors), and **Laravel tests 80 passed (370 assertions)**. The detailed terminal output was attached in the conversation.
+
+One local synchronization item remains to verify: the earlier `npm.cmd run check:fix` produced modifications to `resources/js/pages/projects/discovery.tsx` and `resources/js/pages/projects/intake.tsx`. The successful local validation used that working tree. Check whether they remain uncommitted; commit and push those two formatter-only changes to `revision/master-revision` if necessary. Do not push to `main`. Once the local branch is clean and matches the tested tree, Segment 12 can be marked DONE. GitHub Actions was not triggered because no PR was created.
