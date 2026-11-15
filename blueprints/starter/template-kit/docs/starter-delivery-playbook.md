@@ -15,6 +15,27 @@ The objective is not merely to finish a website. It is to deliver a consistent c
 
 Use this as the default workflow. Tailor the content and visual direction to each business; do not improvise the operational process from scratch every time.
 
+## Canonical workflow alignment — Master Skill v1.11
+
+The canonical AI workflow is **Master Skill Stages 0–9**. The numbered delivery steps retained below are operational substeps for sales, administration and client delivery; they are not a second competing stage system.
+
+| Master Skill stage | Delivery activity | Required gate / output |
+|---|---|---|
+| 0 — Material-first intake and source normalization | Interview, source/asset capture, source coverage, facts, permissions, AI-populated Client Website Brief | G0 confirmations and traceable discovery snapshot |
+| 1 — Business intelligence | Offer, audience, buying triggers, objections, operational constraints and trust/evidence analysis | Business intelligence, Offer Matrix and Trust/Evidence Register |
+| 2 — Tier recommendation and scope | Starter fit, exclusions, proposal and commercial agreement | G1 owner approval and client agreement |
+| 3 — Customer questions and information architecture | Customer Question Map, Buying Journey, section/IA and source-to-page plan | Complete, source-linked visitor journey and IA |
+| 4 — Content and conversion | Copy, CTA behavior, gaps and Website Requirements Pack | WRP `APPROVED_FOR_DESIGN` and G2 |
+| 5 — Creative direction and implementation | Art direction, approved visual specification, design, asset composition and initial build | G2 prerequisite satisfied; G3 content/claims/visual-direction decisions recorded |
+| 6 — Refinement | Visual/functional refinement, design-differentiation corrections and updated coverage | Defects resolved or explicitly carried with status/evidence |
+| 7 — Independent QA | Browser-rendered visual checks, automated/manual QA and acceptance review | Starter/project acceptance evidence; G5 readiness inputs |
+| 8 — Release and handover | G4 preview acceptance, G5 production readiness, G6 authorization/release, G7 handover | PREVIEW_ACCEPTED → PRODUCTION_READY → RELEASE_AUTHORIZED → RELEASED → HANDED_OVER |
+| 9 — Evidence-led calibration | Retrospective, root-cause analysis and regression/system updates | Evidence-backed learning record |
+
+**Hard sequencing rule:** Stage 5 design or code must not begin until the approved WRP is `APPROVED_FOR_DESIGN`, G2 is recorded and preview blockers/scope decisions are resolved. G3 is not a substitute for G2. G4 preview acceptance is not production approval. G5 readiness is not G6 release authorization.
+
+Commercial lead capture and account/payment administration may occur before or around these stages; they do not create new AI workflow stages. The owner remains responsible for commercial and release decisions. The client confirms business facts, public destinations, permissions and customer-facing acceptance within the approval policy. The client is not asked to approve hidden technical mechanics.
+
 ## 2. Product definition
 
 ### What Starter sells
@@ -62,7 +83,7 @@ A visual interaction can be included in Starter when it is self-contained and do
 1. **Sell the result, not the tools.** Clients buy a credible online presence and a useful customer journey, not "AI-generated websites".
 2. **Standardize the workflow, personalize the website.** The stages, checklists, QA, and handover stay consistent; brand, copy, visuals, and section order vary by client.
 3. **Missing materials are not a production blocker.** Create a content and visual direction using supplied information, AI-assisted drafts, licensed assets, mockups, or illustrative visuals. Record what is simulated and what requires approval.
-4. **Demo content and live-client content are different modes.** Portfolio demos may use clearly identified fictional metrics, sample stories, mock product data, and simulated interactions to show capability. Never pass invented testimonials, certifications, statistics, case results, pricing, or policies off as verified facts on a real client's live website. Obtain client approval for all claims before launch.
+4. **Evidence is never simulated.** Do not invent testimonials, reviews, ratings, awards, customer counts, performance metrics, case results, credentials or other social proof — including for portfolio/demo sites. A labelled demo may use clearly disclosed concept imagery, illustrative layouts or non-proof sample interface content only when no reasonable viewer could mistake it for real client work.
 5. **One source of truth.** Keep current scope, approvals, content, assets, and project status in the client's project folder/repository. Do not rely on chat history as the only record.
 6. **No scope drift by chat.** New functionality or a new deliverable is a change request, not an informal addition.
 7. **No launch without approval.** The client approves the content, design direction, final staging site, domain, and launch timing.
@@ -95,7 +116,7 @@ flowchart TD
   R --> S[Handover and post-launch care]
 ```
 
-### Stage 0 — Lead capture
+### Operating step 0 — Lead capture
 
 **Goal:** Record every inquiry and respond professionally.
 
@@ -109,7 +130,7 @@ flowchart TD
 
 **Exit gate:** Basic business identity and desired outcome are known.
 
-### Stage 1 — Qualification and tier fit
+### Operating step 1 — Qualification and tier fit
 
 **Goal:** Determine whether Starter is the right product.
 
@@ -133,15 +154,15 @@ flowchart TD
 
 **Escalate to Custom** when the project requires bespoke workflows, backend/data features, unusual integrations, or a scope that cannot be responsibly contained in Starter.
 
-**Output:** Fit decision and initial scope notes.
+**Output:** Fit decision, initial scope notes and tier recommendation.
 
-**Exit gate:** Tier and rough complexity are agreed internally.
+**Exit gate:** The Studio owner approves tier/scope progression under G1; the client agrees to the resulting proposal before production work proceeds.
 
-### Stage 2 — Discovery and client brief
+### Operating step 2 — Discovery and client brief
 
 **Goal:** Understand the business and customer journey before writing or designing.
 
-Run a structured discovery call or asynchronous intake. Use the template in `starter-delivery-templates.md`.
+Run one normal discovery interview and collect the transcript/recording or operator notes, existing client materials/assets and optional references. The AI/operator normalizes these into the Client Website Brief and canonical records. Do not send a long technical questionnaire or ask the client to complete a second brief; ask only targeted follow-ups for material missing facts, conflicts, public destinations or permissions.
 
 Capture:
 - Business overview and value proposition.
@@ -154,11 +175,11 @@ Capture:
 - Legal, privacy, regulated-industry, and claim sensitivities.
 - Decision maker and feedback channel.
 
-**Output:** Approved discovery brief.
+**Output:** AI-populated Client Website Brief, Source Register, Source Coverage Matrix, Fact Register, Asset/Permission Register and prioritized clarifications.
 
-**Exit gate:** The studio can explain who the site is for, what it needs to communicate, and what the visitor should do next.
+**Exit gate:** G0 confirmations and publication decisions are recorded against exact fact/asset/CTA IDs. A client statement may remain client-provided and unverified.
 
-### Stage 3 — Scope, quotation, and agreement
+### Operating step 3 — Scope, quotation, and agreement
 
 **Goal:** Turn the brief into a bounded commercial offer.
 
@@ -186,11 +207,11 @@ The proposal must specify:
 - Compare quoted effort with actual effort after delivery.
 - Do not lock a permanent price list until several projects have provided evidence.
 
-**Output:** Accepted proposal, written scope, payment confirmation, and project schedule.
+**Output:** Accepted proposal, written scope, payment confirmation and project schedule, linked to the WRP inputs.
 
-**Exit gate:** Client has accepted scope, terms, payment milestone, and approver. Work does not enter production before the agreed start payment is confirmed.
+**Exit gate:** G1 owner approval and client agreement are recorded against the exact proposal/scope version. Work does not enter production before the agreed start payment is confirmed.
 
-### Stage 4 — Kickoff and onboarding
+### Operating step 4 — Kickoff and onboarding
 
 **Goal:** Establish one controlled project workspace.
 
@@ -239,7 +260,7 @@ client-name-starter/
 
 **Exit gate:** Minimum project inputs are recorded and missing items have an owner and due date. Missing photography alone must not stop production.
 
-### Stage 5 — Content strategy and information architecture
+### Operating step 5 — Content strategy and information architecture
 
 **Goal:** Decide what the one-page website needs to say and in what order.
 
@@ -252,7 +273,7 @@ Typical sequence:
 4. Services, packages, or product offer.
 5. Why choose this business / differentiators.
 6. How it works / process.
-7. Proof: case studies, testimonials, metrics, credentials, guarantees, or a non-testimonial value section.
+7. Evidence/value: use only source-backed proof that has valid publication approval; otherwise use a non-testimonial explanation of the offer, process or service method. Never invent testimonials, ratings, metrics, awards, guarantees or case results — including for demos.
 8. Gallery / portfolio / visual showcase.
 9. Location, service coverage, or availability.
 10. FAQ.
@@ -263,14 +284,14 @@ Select only relevant sections. The final page may contain 8–12 sections; do no
 **Content modes**
 - **Verified:** supplied by the client or otherwise confirmed.
 - **Drafted:** AI-assisted copy based on the brief; requires review.
-- **Illustrative:** fictional/sample content or concept visuals used to demonstrate layout; must be marked as sample in prototypes and removed, replaced, or explicitly approved before a real public launch.
+- **Illustrative:** disclosed concept imagery or layout samples that do not function as evidence and cannot be mistaken for real client work. Fabricated social proof is prohibited even when marked as sample.
 - **Client-supplied but unverified:** held for confirmation before production release.
 
-**Output:** Section map and content draft / content matrix.
+**Output:** Customer Question Map, Buying Journey, source-linked section map/IA, copy deck, CTA Register and content-gap list.
 
-**Exit gate:** Client approves the core claims, offer hierarchy, CTA, and any content that affects commercial or legal meaning.
+**Exit gate:** G0 facts/permissions and G1 scope are in place; the AI/studio has completed Stage 3–4 inputs and assembled the WRP. Required client confirmations and owner approval are recorded through G2; the WRP must be `APPROVED_FOR_DESIGN` before design or code.
 
-### Stage 6 — Art direction and asset production
+### Operating step 6 — Art direction and asset production
 
 **Goal:** Establish a distinctive visual language and fill the page with coherent, high-quality assets.
 
@@ -289,13 +310,13 @@ Create:
 3. Properly licensed stock photography.
 4. Original illustrations, mockups, or designed graphics.
 
-Do not allow a missing photo, testimonial, or finished-case image to block the design. Create an illustrative substitute and identify it accurately in the prototype. For a live site, obtain approval and ensure the imagery does not imply a real product, facility, customer, or completed result that does not exist.
+Do not allow missing photography or verified case material to block design. Use disclosed concept imagery, licensed assets or original illustration as appropriate. Do not create substitute testimonials, reviews, metrics or fictional proof. Never imply that concept imagery depicts the client's real product, facility, staff, customer or completed result.
 
-**Output:** Approved art direction, asset set, and visual content map.
+**Output:** Art direction, design fingerprint, asset/permission map, responsive compositions and approved design specification.
 
-**Exit gate:** Client approves the overall visual direction before detailed build. Minor implementation choices remain with the studio.
+**Exit gate:** Record G3 content/claims and visual-direction confirmations/decisions against the exact version. The client confirms business accuracy and approved use of client-identifiable assets; the Studio owner approves material policy/scope changes. Implementation details remain with the studio.
 
-### Stage 7 — Design and development
+### Operating step 7 — Design and development
 
 **Goal:** Build the website using the validated Starter foundation while tailoring the result to the client.
 
@@ -320,11 +341,11 @@ Do not allow a missing photo, testimonial, or finished-case image to block the d
 - Make every CTA do what its label promises.
 - Do not use a visual component just because it is fashionable; it must improve clarity or conversion.
 
-**Output:** Working staging site and source repository.
+**Output:** Working staging site and source repository with bounded implementation checkpoints.
 
-**Exit gate:** All scoped sections and interactions are implemented and ready for internal QA.
+**Exit gate:** All scoped sections/interactions are implemented; deviations, blockers and evidence are recorded for Stage 6 refinement and Stage 7 independent QA.
 
-### Stage 8 — Internal quality assurance
+### Operating step 8 — Internal quality assurance
 
 **Goal:** Find and fix issues before the client spends a review round.
 
@@ -350,11 +371,11 @@ Minimum manual checks:
 
 The current Starter baseline has a Playwright smoke-test pattern in `starter/tests/responsive.spec.js`. Reuse the idea and tailor tests to the client site; do not assume every project uses the exact ZACKS selectors.
 
-**Output:** QA checklist with pass/fail and resolved issues.
+**Output:** QA report, acceptance matrix, rendered screenshots/viewport evidence, defect ledger and verified test results.
 
-**Exit gate:** No critical or high-severity defects remain. The build passes and core flows work.
+**Exit gate:** Stage 7 evidence satisfies the Starter Product Acceptance Gate/project acceptance criteria. The build passing alone is not visual QA or production readiness; carry any NOT_TESTED items explicitly into the G5 decision.
 
-### Stage 9 — Client review and revisions
+### Operating step 9 — Client review and revisions
 
 **Goal:** Collect focused feedback without allowing scope to drift.
 
@@ -372,11 +393,11 @@ Present the staging URL with:
 - Studio-caused defects are fixed without consuming a revision round.
 - Record each decision and approval.
 
-**Output:** Revision log and approved staging version.
+**Output:** Consolidated revision/change register, preview evidence and versioned decision record.
 
-**Exit gate:** Client approves content, visual design, functionality, and final staging version in writing.
+**Exit gate:** G4 records PREVIEW_ACCEPTED for the exact preview URL/commit, or CHANGES_REQUESTED with a consolidated list. Preview acceptance never bypasses G5/G6.
 
-### Stage 10 — Launch readiness
+### Operating step 10 — Launch readiness
 
 **Goal:** Prevent domain, ownership, and release surprises.
 
@@ -393,11 +414,11 @@ Confirm:
 - Client has approved the exact launch version and timing.
 - Final payment milestone is handled according to the agreement.
 
-**Output:** Launch checklist and written go-live approval.
+**Output:** Production-readiness report, release candidate, rollback plan and handover readiness record.
 
-**Exit gate:** No unresolved blocker, client approval recorded, and deployment access confirmed.
+**Exit gate:** G5 is passed only when all production blockers are resolved and the exact candidate has supporting evidence. G5 is not release authorization.
 
-### Stage 11 — Deployment and verification
+### Operating step 11 — Deployment and verification
 
 **Goal:** Publish the approved website and verify the real production domain.
 
@@ -411,11 +432,11 @@ Confirm:
 7. Check for broken images, console errors, and mixed-content issues.
 8. Record deployment date, host, domain, repository, and account owner.
 
-**Output:** Live website and production verification record.
+**Output:** Production deployment and verification record.
 
-**Exit gate:** Production URL passes the launch checklist and client is notified.
+**Exit gate:** G6 owner authorization and required client approvals exist before deployment. Mark RELEASED only after production URL/CTA and critical behavior are verified.
 
-### Stage 12 — Handover and closeout
+### Operating step 12 — Handover and closeout
 
 **Goal:** Make ownership and next steps unambiguous.
 
@@ -433,11 +454,11 @@ Handover should include:
 
 Use client-owned domain and hosting accounts wherever practical. Credentials should be transferred using a secure password-sharing method, never pasted into public repositories or ordinary project notes.
 
-**Output:** Handover checklist, closeout note, and feedback request.
+**Output:** Handover checklist, ownership/access confirmation, closeout note and feedback request.
 
-**Exit gate:** Client confirms receipt of deliverables and the project status moves to `LIVE / HANDOVER COMPLETE`.
+**Exit gate:** G7 evidence is recorded and the project may move to HANDED_OVER only after client receipt, access and ownership responsibilities are confirmed.
 
-### Stage 13 — Post-launch support and care
+### Operating step 13 — Post-launch support and care
 
 **Goal:** Separate warranty fixes from ongoing changes and recurring service.
 
@@ -572,7 +593,7 @@ For the first 3–5 paid Starter projects, treat this playbook as a controlled p
 - Ask clients where the process felt unclear or slow.
 - Revise scope caps, price, revision rules, and delivery timeline based on real results.
 
-After 3–5 projects, publish **Starter Delivery Playbook v1.1** with evidence-based estimates and commercial boundaries.
+Feed each completed delivery into Master Skill Stage 9. After 3–5 paid projects, publish **Starter Delivery Playbook v1.1** with evidence-based estimates and commercial boundaries.
 
 ## 12. Related documents
 
