@@ -64,8 +64,7 @@
 4. Continue from the first NOT STARTED segment; do not redo verified work.
 5. Update this log in the same segment checkpoint when a segment is completed.
 
-**Next segment:** 09 — Harmonize Prompts, Skills & Delivery Playbook.  
-**Resume point:** map the numbered Starter prompts and all delivery playbook stages to Master Skill v1.11 Stages 0–9. Audit the stale frontend-implementation-skills branch selectively; review license/provenance, merge unique value only, and resolve overlaps with current review skills. Do not merge the branch wholesale.
+**Current resume point:** Segment 15 — Final system audit and revision closure. The earlier Segment 09 pointer above this log's checkpoint history is superseded by the current Segment Tracker and completion entries below. Reconcile the final documentation/workflow state, confirm the branch boundary and record the closure decision. Do not merge to `main`, create a PR, or delete branches as part of this audit.
 
 
 ## Checkpoint — Segment 02
