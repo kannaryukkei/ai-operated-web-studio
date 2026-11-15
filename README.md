@@ -39,6 +39,7 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 - `docs/mvp-specification.md`
 - `docs/ai-orchestration.md`
 - `docs/data-model.md`
+- `docs/PLATFORM_ALIGNMENT_SPECIFICATION_v1.0.md` — minimum Laravel alignment for internal-only intake, manual discovery and canonical workflow boundaries.
 - `docs/security-and-approvals.md`
 - `docs/roadmap.md`
 - `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.11_CANDIDATE.md` — current Master Revision candidate orchestrator; owner adoption remains pending.
