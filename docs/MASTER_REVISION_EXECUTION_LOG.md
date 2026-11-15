@@ -340,3 +340,25 @@ Observed operator output:
 composer run-script ci:check
 ```
 The updated PHPStan step should run with 1 GB and one process. PHPStan and Laravel tests remain unverified until this new run succeeds. Segment 12 remains `IMPLEMENTED — CI PENDING`.
+
+## Follow-up fix — Vite manifest dependency in ManualDiscoveryWorkflowTest (2026-11-15)
+
+**Latest observed local result:**
+- `npm run check`: PASS — 74 formatted; no warnings/lint errors in 68 files.
+- `npm run types:check`: PASS.
+- Pint: PASS — 87 files.
+- PHPStan: PASS — 64/64 files, no errors.
+- Laravel test suite: 79 passed, 1 failed (80 total).
+
+The one failed test was `ManualDiscoveryWorkflowTest::test_studio_can_open_business_first_discovery_prompt_without_an_api_key`. The request was otherwise exercising the intended server-rendered Inertia page, but the local test environment did not have a Vite manifest at `public/build/manifest.json`. This local `composer run-script ci:check` does not run `npm run build` first. The root GitHub Actions workflow does run `npm run build` before Composer checks.
+
+**Root cause:** `ManualDiscoveryWorkflowTest` rendered an Inertia page but lacked `$this->withoutVite()` in its test setup. The sibling workspace/intake suites already use this isolation.
+
+**Fix committed:** added a `setUp()` method to `ManualDiscoveryWorkflowTest` that calls `parent::setUp()` and `$this->withoutVite()`. It affects only test asset handling, not application runtime behaviour. Fix not yet executed after commit.
+
+**Next command:** from local branch `revision/master-revision`, in the `platform/` directory:
+```powershell
+git pull origin revision/master-revision
+composer run-script ci:check
+```
+The operator's two locally formatted TSX files had passed `vp check` and should be kept; they were not changed by this follow-up. Segment 12 stays `IMPLEMENTED — CI PENDING` until a complete run passes.
