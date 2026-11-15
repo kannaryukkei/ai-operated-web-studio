@@ -72,3 +72,9 @@ Revision commit [5a24be7a4df0e9d772cf5aabf8b1425433d92ab3](https://github.com/ka
 ## Booking correction CI verification — 2026-11-16
 
 The booking layout correction in `5a24be7a4df0e9d772cf5aabf8b1425433d92ab3` passed [Starter blueprint CI run #58](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43743441717): Vite production build PASS; Playwright **19/19 PASS** on Ubuntu 24.04 / Chromium. A Windows local rerun is still required before the cross-environment reproduction can be closed. The lockfile remains uncommitted and the workflow still uses npm install.
+
+## Fourth 320px regression follow-up — 2026-11-16
+
+The Windows repeat after the booking fix no longer listed the booking section as the overflowing content. At 320px, document width was 341px. The main offender was the Care Finder MOTO/MOTOR tab button extending beyond the viewport due to intrinsic two-column grid sizing. Additional findings were a 323px Care Finder container scroll width, 6px of internal package-grid/card overflow, and a contact decorative orbit extending its section scroll area despite clipping.
+
+Revision commit [bde0cf55aaa4cf37d47723aa0339d55ea34ad191](https://github.com/kannaryukkei/ai-operated-web-studio/commit/bde0cf55aaa4cf37d47723aa0339d55ea34ad191) gives the Care Finder mobile grid and tabs zero-minimum tracks, constrains the buttons and type, allows package metadata to wrap with reduced narrow card padding, and contains the decorative contact orbit on very narrow screens. Windows and CI verification for this correction remain pending.
