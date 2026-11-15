@@ -40,7 +40,7 @@ Source audit: `../blueprints/starter/template-kit/docs/five-website-starter-audi
 15. A different palette, font pairing or hero illustration alone does not make a website visually distinctive. Material differentiation must be visible in composition, information architecture, image language, typographic voice or interaction grammar.
 16. Before building, compare the proposed design fingerprint with at least the two most recent relevant Studio websites or experiments. Record meaningful similarities and explain any deliberate reuse.
 17. Do not carry forward a page sequence, split-hero pattern, repeated card grid, eyebrow system or decorative numbering by default. Reuse is allowed only when the current visitor task and brand genuinely call for it.
-18. Client-critical fields must never disappear as silent blanks. Capture a value or an explicit status such as NOT AVAILABLE, NOT APPLICABLE or NOT SURE; keep the reason and next owner/action where material.
+18. Client-critical fields must never disappear as silent blanks. Capture a value or an explicit answer status such as NOT_AVAILABLE, NOT_APPLICABLE or NOT_SURE; keep the reason and next owner/action where material.
 19. Do not require a client to complete a long structured website questionnaire. The default client input is interview material + supplied assets. Existing forms are optional interviewer aids or temporary platform metadata, not a client burden.
 20. Preserve raw interview files and client assets unchanged. All extracted facts and generated outputs must retain source pointers to the raw material that supports them.
 21. Never infer business facts, product properties, credentials, people consent, customer permission or publication rights from the appearance of an image or asset alone.
