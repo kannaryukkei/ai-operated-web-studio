@@ -12,6 +12,8 @@ on:
     paths:
       - "blueprints/starter/template-kit/starter/**"
       - ".github/workflows/starter-blueprint-ci.yml"
+      - "docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md"
+      - "docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md"
   workflow_dispatch:
 
 permissions:
