@@ -1,7 +1,7 @@
 # Product Specification — ZACKS Reference Builds
 
-Status: Draft v0.3  
-Purpose: Build comparable Starter, Business, and Custom demonstrations using one real reference business.
+Status: Draft v0.4 — Master Revision candidate  
+Purpose: Prove one repeatable, high-quality Starter website production workflow using one real reference business. Business and Custom remain parked until Starter acceptance passes.
 
 ## 1. Business reference
 
@@ -34,7 +34,7 @@ Proposed sections:
 9. FAQ
 10. Contact / WhatsApp CTA and footer
 
-Testimonials must not be fabricated. If verified testimonials are unavailable, omit the testimonial section or replace it with a non-testimonial proof/value section.
+Do not fabricate or simulate testimonials, reviews, ratings, awards, customer counts, performance metrics or case results — including in portfolio demos. If no approved trust evidence exists, omit the proof section or use a truthful, source-supported explanation of the process/offer. Concept imagery is not proof.
 
 Principles:
 - One-page information architecture.
@@ -42,7 +42,9 @@ Principles:
 - Completeness means useful verified information, not filler content.
 - No CMS, backend, database, customer login, admin dashboard, or persistent customer records by default.
 
-### B. Business — multi-page website
+### B. Business — parked reference definition
+
+Not an active implementation target. Revisit only after Starter passes the product acceptance gate and the Studio owner reprioritizes.
 
 Goal: demonstrate deeper content, clearer navigation, and more room for presentation—not just a longer Starter page.
 
@@ -55,7 +57,9 @@ Proposed routes:
 
 Final grouping depends on the amount of verified content available. Do not create empty pages solely to increase page count.
 
-### C. Custom — bespoke project
+### C. Custom — parked reference definition
+
+Not an active implementation target. Revisit only after Starter and any separately approved Business definition justify the work.
 
 Goal: demonstrate a genuinely tailored experience for the same ZACKS business.
 
@@ -105,4 +109,4 @@ A tier is demonstrable when:
 - Payment gateway
 - Reusable system for every industry at once
 
-First prove one repeatable, high-quality Starter website workflow using ZACKS.
+First prove one repeatable, high-quality Starter website workflow using ZACKS. Follow Master Skill Stages 0–9, the canonical schema/WRP and G0–G7 approval policy; do not begin design or implementation before WRP `APPROVED_FOR_DESIGN` and G2.
