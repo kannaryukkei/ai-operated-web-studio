@@ -1,37 +1,37 @@
 # Web Studio Template Kit
 
-A reusable website production foundation built from the ZACKS Detailing reference project.
+A reusable Starter website production foundation derived from the ZACKS Detailing reference project.
 
-## Purpose
+## Current development priority
 
-Create three comparable portfolio demonstrations for the same reference business:
+**Starter is the only active implementation target.** Business and Custom definitions remain reference material; do not build their blueprints until Starter passes the current product acceptance gate and the Studio owner explicitly reprioritizes.
 
-1. **Starter** — a comprehensive one-page business website.
-2. **Business** — a richer multi-page website.
-3. **Custom** — bespoke project work, with the current ZACKS Laravel-backed implementation as a real technical reference.
-
-The same reference business lets the portfolio demonstrate the difference between product tiers without changing the client, industry, or core context.
+The current Starter codebase is a development/portfolio reference, not a sellable production release. Its React/Vite source and automated checks are useful as a baseline, but legacy sample metrics and customer-story style proof must be removed or replaced with non-proof content. A demo label does not legitimize fabricated social proof.
 
 ## Product principles
 
-- This repository is a portfolio and product-development sandbox. Demo content, sample metrics, sample customer scenarios, and simulated interactions may be created to demonstrate capability.
-- Make simulated content legible as portfolio sample data; do not present invented reviews or metrics as independently verified real-world proof.
-- Do not let missing customer materials block a strong portfolio presentation. Use licensed stock, generated, or designed visuals and replace them with approved brand assets later.
-- Keep Starter lightweight and static-first. Add backend functionality only when it improves the product and fits the tier.
+- Use Master Skill v1.11 Candidate and the canonical workflow, schema, WRP and G0–G7 approval policy as the operating authority.
+- The default client input is one normal interview plus existing client assets and optional references. The AI/operator produces the Client Website Brief; do not turn project setup into a long client questionnaire.
+- Never invent testimonials, reviews, ratings, awards, customer counts, performance metrics, credentials, guarantees or case results — including for portfolio/demo work.
+- Clearly disclosed concept imagery and illustrative layouts are allowed when they cannot be mistaken for actual client staff, premises, products, customers or completed work.
+- Missing client photography is not a blocker; missing factual evidence must not be filled with fabricated proof.
+- Keep Starter lightweight and static-first. Add backend functionality only when it is required by an approved business need and scope.
 - Keep business facts separate from presentation components.
-- Preserve responsive behavior, accessibility, performance, SEO foundations, and QA.
-- Treat AI as a production assistant; review generated content and code.
+- Preserve responsive behavior, accessibility, performance, SEO foundations, reproducibility and independent QA evidence.
+- Treat AI as a production assistant; it does not approve facts, commercial scope, permissions or release.
 
-## Planned structure
+## Repository structure
 
 ```text
-starter/   Standalone Starter website (portfolio foundation)
-business/  Standalone multi-page tier, built after Starter validation
-custom/    Bespoke project examples and guidance
-docs/      Product specs, source audit, extraction map, architecture and QA
+starter/   Active one-page Starter development/reference website
+business/  Parked until Starter acceptance passes
+custom/    Parked; bespoke project examples only when reprioritized
+docs/      Product, source, architecture, QA and delivery standards
+prompts/   Master Skill-aligned Starter execution prompts
+templates/ Reusable internal project artifacts
 ```
 
-Each implemented tier should be independently buildable and deployable. A shared npm workspace or component library is intentionally deferred until reuse is proven.
+Each real client website remains independently buildable and deployable in a separate repository. A shared npm workspace or component library is deferred until repeated delivery evidence proves the need.
 
 ## Reference project
 
@@ -41,22 +41,24 @@ Each implemented tier should be independently buildable and deployable. A shared
 - Frontend root: `Frontend/`
 - Backend root: `Backend/zacks-backend/`
 
-The audit is scoped to `design-intelligence-v1`, not historical branches. The audited ZACKS frontend uses Laravel API integration; legacy Supabase SQL files remain in the source repository, but are not the active frontend integration.
+The audit is scoped to that branch and commit, not historical branches. The audited ZACKS frontend uses Laravel API integration; legacy Supabase SQL files are not the active frontend integration.
 
-Do not copy the ZACKS project wholesale. Follow `docs/extraction-map.md` to isolate business facts, brand assets, Laravel/admin integration, analytics configuration, and deployment assumptions. See `docs/competitive-copywriting-patterns.md` for how Starpoint Garage's content strategy was adapted into a ZACKS-specific portfolio narrative. For client production, use `docs/starter-delivery-playbook.md` as the SOP, `docs/starter-delivery-templates.md` for reusable templates, `docs/starter-production-kit.md` for the workspace/control system, and `docs/starter-ai-operations-blueprint.md` for the AI-led automation model.
+Do not copy the ZACKS project wholesale. Follow `docs/extraction-map.md` to isolate business facts, brand assets, Laravel/admin integration, analytics configuration and deployment assumptions. For client production, use:
+- `docs/starter-delivery-playbook.md` for delivery operating steps under Master Skill Stages 0–9.
+- `docs/starter-delivery-templates.md` for internal project records and reusable messages.
+- `docs/starter-production-kit.md` for workspace/control structure.
+- `prompts/starter/` for current stage prompts.
 
-## Current status
+## Current reference status
 
-- Latest source audit and extraction map completed.
-- **Starter v0.4.0** has an automotive-editorial visual system and an expanded portfolio journey.
-- Includes interactive vehicle / class pricing, Care Finder, additional services, illustrative metrics and sample customer stories, photo gallery, WhatsApp consultation form, FAQ, and aligned responsive footer.
-- Portfolio-only metrics and sample stories are explicitly labelled as demo data.
-- Hero and gallery photographs are credited visual references, not proof of ZACKS customer work.
-- Site remains React + Vite + plain CSS and does not store booking data.
-- Latest audit branch validation: production build PASS and Playwright 15/15 PASS on Chromium (320–1440px responsive checks; see `docs/starter-responsive-qa.md`).
-- Automated coverage includes section presence, responsive overflow, mobile navigation and Escape, keyboard skip link, vehicle/class pricing, Care Finder, consultation message payload, local date handling, internal links, WhatsApp destination consistency, 12 unique FAQs, image loading/alt text, and footer alignment.
-- This is a technically validated portfolio preview, not yet a sellable production release. Owner-approved business facts, contact/social ownership, asset permissions, accessibility/contrast, performance, cross-browser, real-client validation, deployment and handover remain release gates.
-- See `docs/starter-responsive-qa.md` for evidence and remaining manual QA scope.
-- Starter client delivery is documented in `docs/starter-delivery-playbook.md` and `docs/starter-delivery-templates.md`.
-- **Starter Production Kit** adds a 24-file client workspace template, status-board CSV, GitHub intake issue form, AI stage prompt library, and AI-operations blueprint.
-- Current AI automation is an operating design plus reusable prompts/templates; only build and browser testing are automated in GitHub Actions today. Lead ingestion, AI stage triggers, approvals, invoicing, and hosting deployment remain future integrations.
+- Starter v0.4.0 provides an automotive-editorial visual system and an expanded portfolio journey.
+- Includes interactive vehicle/class pricing, Care Finder, additional services, a photo gallery, WhatsApp consultation handoff, FAQ and responsive footer.
+- The existing implementation also includes legacy illustrative metrics/customer-story content. Treat those as known content-policy defects; they must not be reproduced and must be removed or redesigned before the reference can pass the updated acceptance gate.
+- Hero/gallery photographs are visual references, not evidence of customer work; verify source, license, permissions and use before redistribution.
+- The site is React + Vite + plain CSS and does not persist booking data.
+- The documented Chromium baseline is useful regression evidence, but does not complete visual, accessibility/contrast, performance, cross-browser, real-client, deployment or handover acceptance.
+- Current AI automation is an operating design plus reusable prompts/templates; build/browser testing are automated in GitHub Actions, while lead intake, AI execution, approvals, invoicing and hosting deployment remain manual unless a separate tested implementation exists.
+
+## Release boundary
+
+A successful build or passing browser suite does not make this reference sellable or production-ready. Use `docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md`, WRP `APPROVED_FOR_DESIGN` and approval gates G0–G7 before any client production release or commercial-readiness claim.
