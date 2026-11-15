@@ -34,7 +34,7 @@
 | 10 | Harmonize documentation | DONE |
 | 11 | Align platform with canonical workflow | DONE |
 | 12 | Implement minimum platform changes | DONE |
-| 13 | Strengthen CI, reproducibility, and QA evidence | IN PROGRESS |
+| 13 | Strengthen CI, reproducibility, and QA evidence | DONE |
 | 14 | Starter production readiness gate | NOT STARTED |
 | 15 | Final system audit and revision closure | NOT STARTED |
 
@@ -433,3 +433,35 @@ The evidence-summary step itself completed successfully and recorded job failure
 **Next corrective action:** on the operator's local revision branch, pull the latest revision commits, then run `composer update --lock --no-install` from `platform/` to refresh lock metadata without installing packages or intentionally upgrading dependency versions. Inspect `git diff -- composer.lock`; expect only the lock metadata/content-hash to change. Do not commit if package versions, references or dependency entries change unexpectedly. Run `composer validate --strict --no-check-publish` and report the lockfile diff plus validation output before committing.
 
 **Status:** Segment 13 remains IN PROGRESS. No claim that GitHub Actions passed; no application tests have run in these two Actions attempts. `main` remains untouched.
+
+
+## Segment 13 completion — 2026-11-16
+
+**Status:** DONE.
+
+### Implemented on `revision/master-revision`
+
+- Updated `.github/workflows/platform-ci.yml` so qualifying pushes to `revision/master-revision` execute the same Platform CI as pull requests and pushes to `main`. Existing path filters and least-privilege `contents: read` permission remain.
+- Added `composer validate --strict --no-check-publish` before Composer dependency installation. `composer install` and `npm ci` continue to consume the committed lockfiles.
+- Added an always-run GitHub Actions job summary containing the job result, commit SHA, ref, and PHP/Composer/Node/npm runtime versions. The summary step itself is verified successful on the completed run.
+- Refreshed only Composer's lock metadata with `composer update --lock --no-install`. The observed diff was exactly one line: `content-hash`; no package version, reference, or dependency entry changed. `composer validate --strict --no-check-publish` then reported `./composer.json is valid`. Committed as `cdddb2f1c4d1a7e03cc34cc594040f61cc7ed985`.
+
+### CI evidence
+
+- Initial run #89 failed at the newly added Composer validation step because `composer.lock` content-hash metadata was stale. Dependency install/build/tests were correctly skipped. This exposed the lock drift before application checks.
+- Run #90 repeated the same result because it tested the summary-step correction before the lockfile correction.
+- After the one-line lock metadata refresh, Platform CI run **#91 succeeded** on push event, branch `revision/master-revision`, commit `cdddb2f1c4d1a7e03cc34cc594040f61cc7ed985`: https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43740240943
+- Observed successful steps: Composer manifest/lock validation, Composer install, environment preparation, database migration, `npm ci`, frontend production build, all CI checks, and the evidence-summary step.
+- Detailed check output: frontend formatting passed (74 files); frontend lint passed (68 files, no warnings/errors); TypeScript `tsc --noEmit` passed; Pint passed (87 files); PHPStan analysed 64/64 files with no errors; Laravel tests **80 passed (370 assertions)**.
+- Runner versions observed in logs: PHP 8.5.12, Composer 2.11.2, Node 22.23.4 and npm 10.9.9.
+
+### Repository boundary and verification
+
+- Operator reported `git status -sb` as `## revision/master-revision...origin/revision/master-revision`, with no modified/untracked paths.
+- GitHub comparison at closeout: `revision/master-revision` is 141 commits ahead and 0 behind `main`; merge base remains the original baseline `ff734d789612aa7fad756d4be9e6facaa960213b`. No commit was added to or merged into `main`.
+- No PR was created, no merge occurred and no branch was deleted.
+
+**Exit criteria:** revision pushes now receive remote CI evidence; dependency manifests/lock metadata are validated before installation; successful CI publishes run metadata; full build/static-analysis/test checks pass on GitHub Actions. All criteria met.
+
+**Next segment:** 14 — Starter production readiness gate.
+**Resume point:** audit the Starter production acceptance and content-evidence gates against the current Starter blueprint, implementation standards, and current calibration evidence. Keep Starter as the only active tier. Do not change the platform or move to Business/Custom unless the audit demonstrates a concrete need.
