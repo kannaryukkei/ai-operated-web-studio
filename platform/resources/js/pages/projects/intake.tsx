@@ -298,7 +298,7 @@ export default function ProjectIntake({
 
     return (
         <>
-            <Head title={`Business intake · ${project.name}`} />
+            <Head title={`Internal intake · ${project.name}`} />
             <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 p-4 md:p-8">
                 <div>
                     <Link
