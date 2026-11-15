@@ -114,6 +114,7 @@ Evidence status:
 - DEMO-ONLY
 - ASSUMPTION
 - MISSING
+- CONFLICT
 
 Publication status:
 - APPROVED
