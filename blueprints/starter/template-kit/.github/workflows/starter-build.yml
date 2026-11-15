@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   build-and-responsive-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,7 +27,7 @@ jobs:
           node-version: 22
       - name: Install dependencies
         working-directory: starter
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
       - name: Build Starter
         working-directory: starter
         run: npm run build
