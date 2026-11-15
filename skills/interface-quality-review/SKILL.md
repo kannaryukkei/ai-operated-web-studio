@@ -46,6 +46,13 @@ Fetch the live guideline source before a Vercel-guideline-specific review. If th
 - No fake form success, order confirmation, booking, payment, sending or storage.
 - Disabled or unavailable actions explain the state honestly.
 
+### Dynamic interaction focus continuity
+- Provide a skip link as the first keyboard stop on long pages; confirm that it becomes visible on focus and moves focus to the main content landmark.
+- When a menu, navigation panel or dialog is dismissed with Escape, restore focus to its invoking control. When a navigation destination is activated, move focus to the destination if it is a programmatic focus target.
+- When an interaction re-renders or replaces the focused control, preserve focus on the equivalent updated action. If that action no longer exists (for example, removing the last row or clearing a list), move focus to a meaningful, available next action rather than the document body or a hidden element.
+- Test state transitions, not just initial control activation: add/increment/decrement/remove-last/clear, category changes, disabled limits and empty states where applicable.
+- A visible focus outline alone does not prove keyboard usability; test representative tasks from start to finish using keyboard input only.
+
 ### Responsive behavior
 - Check intended mobile, tablet and desktop layouts.
 - Test horizontal overflow at project-selected widths.
