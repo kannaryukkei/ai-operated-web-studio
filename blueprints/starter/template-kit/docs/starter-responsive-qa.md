@@ -1,17 +1,21 @@
 # Starter Responsive and Browser QA
 
-**Status:** Current automated baseline passed; product production acceptance remains CONDITIONAL — preview only.  
+**Status:** Automated baseline passed on Windows and GitHub Actions; product production acceptance remains CONDITIONAL — preview only.  
 **Applies to:** `blueprints/starter/template-kit/starter/`  
-**Latest revision-branch test commit:** `5bed0839b4f55b976b69f9b8f8d6814be9d4aa72`  
-**GitHub Actions:** [Starter blueprint CI run #43](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43741402145)  
+**Current responsive source correction:** `bde0cf55aaa4cf37d47723aa0339d55ea34ad191`  
+**Committed Starter lockfile:** `0159e20`  
+**Lockfile-enforced workflow:** `a418077ad01a009e3937c7ee63e38629556864fe`  
+**Current GitHub Actions evidence:** [Starter blueprint CI run #69](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43744267588)  
 **Content-evidence correction first verified on:** `6d4e85633e35bb8160a46988c8665267191e3f0f`
 
 ## Current automated result
 
+- Clean Starter dependency installation: **PASS** using committed `package-lock.json` and `npm ci`.
 - Production Vite build: **PASS**.
-- Playwright Chromium suite: **19/19 PASS**.
-- Runner: Ubuntu 24.04, Node 22, Playwright Chromium.
-- The current `revision/master-revision` source tree retains the tested Starter implementation; the subsequent revision commits changed documentation/workflow/platform files, not the Starter application source or its 19 browser tests.
+- Playwright Chromium suite: **19/19 PASS** on GitHub Actions run #69.
+- Operator-reported Windows Playwright suite: **19/19 PASS** after the narrow-viewport corrections.
+- Runner: GitHub Actions Ubuntu 24.04, Node 22, Playwright Chromium; local browser: Windows / Chromium.
+- The final CI run exercised the current responsive Starter source, committed lockfile and workflow that enforces `npm ci`.
 
 The current suite covers:
 - No horizontal overflow at 320, 360, 390, 640, 768, 900, 1024, 1280 and 1440px.
@@ -24,7 +28,7 @@ The current suite covers:
 - Body/control/metadata typography floors at all nine widths.
 - WCAG AA contrast thresholds for measurable solid-color text/background surfaces, including the tested mobile-navigation and selected vehicle/class states.
 
-The older 15/15 run on commit `2c687401aa2d104c28360d70f7d763e9989215c9` is historical only. It predates the content-evidence regression and the current 19-test baseline. Revision-branch run #43 independently rebuilt the current branch and repeated the 19/19 result.
+The older 15/15 run on commit `2c687401aa2d104c28360d70f7d763e9989215c9` is historical only. It predates the content-evidence regression and the current 19-test baseline. Run #43 was the first successful revision-branch trigger; run #69 is the current reproducible baseline with `npm ci`.
 
 ## What this does not prove
 
@@ -42,7 +46,7 @@ The automated suite is a bounded Chromium regression baseline, not production or
 
 ## Reproducibility note
 
-The Starter folder has no committed `package-lock.json`. The current root workflow uses `npm install`, so dependency resolution is not frozen to an exact lockfile. Add a committed lockfile and switch the workflow to `npm ci` before describing Starter dependency installation as reproducible. The Platform CI lockfile does not cover this separate Starter Vite project.
+**PASS.** The Starter folder has a committed `package-lock.json` (commit `0159e20`). The root Starter workflow uses `npm ci --no-audit --no-fund` and configures npm caching with `cache-dependency-path: blueprints/starter/template-kit/starter/package-lock.json`. CI run #69 installed 69 packages from the lockfile, built the production bundle and passed all 19 Playwright tests. The Platform CI lockfile remains separate from this Starter Vite project.
 
 ## Release interpretation
 
@@ -82,3 +86,16 @@ Revision commit [bde0cf55aaa4cf37d47723aa0339d55ea34ad191](https://github.com/ka
 ## Care Finder / package / contact correction — CI verification
 
 Commit `bde0cf55aaa4cf37d47723aa0339d55ea34ad191` passed [Starter blueprint CI run #63](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43743839966): Vite production build PASS and Playwright **19/19 PASS** on Ubuntu 24.04 / Chromium. The overflow test iterates all nine configured viewport widths, including 320px. This confirms the revised Care Finder selector sizing, narrow package-card metadata, and contained contact orbit in the CI browser. Windows local reproduction on this exact revision is still required; npm install remains in the workflow until the local lockfile is committed.
+
+
+## Final responsive and reproducibility closeout — 2026-11-16
+
+All intermediate 320px overflow findings and their "pending" notes above are historical debugging checkpoints; they are superseded by the verified final state below.
+
+- Windows local browser suite after pulling the final responsive corrections: **19/19 PASS** (operator reported).
+- GitHub Actions [Starter blueprint CI run #69](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43744267588): **SUCCESS** on workflow commit `a418077ad01a009e3937c7ee63e38629556864fe`.
+- Verified steps: `npm ci` installed 69 packages; Vite production build PASS; Playwright Chromium **19/19 PASS**.
+- The overflow regression iterates 320, 360, 390, 640, 768, 900, 1024, 1280 and 1440px. The automated typography/contrast tests also iterate all nine widths.
+- The Starter lockfile is committed as `0159e20`; generated Playwright output remains ignored by the Starter `.gitignore`.
+
+**Interpretation:** the automated responsive/browser and dependency-reproducibility baseline is closed. This does not close human visual review over photos/gradients, a full accessibility audit, Firefox/WebKit, performance, live owner approvals, CTA ownership/handling, production hosting, or real-client/commercial readiness. The product decision remains **CONDITIONAL — PREVIEW ONLY**.
