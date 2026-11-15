@@ -1,5 +1,8 @@
 # Client Website Brief v2.1 — Business-First Intake
 
+> **Use:** This is an AI-produced normalized discovery artifact, not a questionnaire for the client to complete. Build it from interview material, supplied assets and approved source links using the Material-First Ingestion Protocol. Leave missing fields explicitly marked; ask only for material clarifications.
+
+
 Status: Proposed standard — 2026-11-14
 Supersedes: v2.0. Adds explicit asset provenance/permission and launch-approval capture.
 Purpose: collect the information needed to create a complete, useful website without overwhelming a small-business owner.
