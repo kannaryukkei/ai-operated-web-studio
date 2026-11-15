@@ -511,3 +511,8 @@ Create and validate `blueprints/starter/template-kit/starter/package-lock.json`,
 The operator generated a local Starter `package-lock.json` using `npm.cmd install --package-lock-only`; `npm.cmd ci` added 70 packages and the Vite build passed. Local Playwright reported 18/19: the only failure was horizontal overflow at 320px (document width 389px), traced by the test to intrinsic-width expansion of the one-column philosophy grid and contact heading. PowerShell ExecutionPolicy blocked the `.ps1` shims, but the explicit `.cmd` commands worked.
 
 Applied a narrow-viewport CSS correction in commit `57f91797a68af94a8d680c54b3034fba6ccf68f8` and added Playwright output folders to the Starter `.gitignore` in commit `3fb9e111cdcde6ca5c0b2dcbabf7ea8a33049e79`. New Starter CI run #47 was triggered for the CSS correction; completion must be checked. The lockfile is still local/uncommitted. Pull the CSS/.gitignore commits, rerun clean install/build/browser tests on Windows, then commit the lockfile only after all 19 pass. Segment 14 remains IN PROGRESS.
+
+
+### Narrow viewport fix — remote verification
+
+Starter blueprint CI [run #47](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43742492354) completed SUCCESS on commit `57f91797a68af94a8d680c54b3034fba6ccf68f8`: Vite production build PASS; Playwright 19/19 PASS. The 320px philosophy-grid/contact-heading correction is therefore green on the Ubuntu 24.04 CI runner. Operator-side Windows reproduction still needs a rerun after pulling the fix. The generated Starter lockfile remains local/uncommitted, and the workflow still uses npm install until it is committed and verified. Segment 14 remains IN PROGRESS.
