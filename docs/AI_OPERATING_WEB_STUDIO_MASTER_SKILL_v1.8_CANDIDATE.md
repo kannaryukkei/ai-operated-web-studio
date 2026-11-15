@@ -50,10 +50,16 @@ Activate only the smallest useful set for the current phase:
 - **UX and journey:** `skills/ux-review/SKILL.md` during discovery and information-architecture decisions.
 - **Visual concept:** `skills/frontend-design/SKILL.md` before creating or materially redesigning a website.
 - **Typography:** `skills/typography-and-legibility/SKILL.md` when creating the type system or refining readability.
-- **Rendered visual critique:** `skills/visual-design-audit/SKILL.md` after the first implementation and before owner review.
-- **Implementation/interface review:** `skills/interface-quality-review/SKILL.md` after implementation and after significant UI changes.
+- **Reference translation:** `skills/design-screenshot-spec/SKILL.md` when an approved screenshot/mockup must become an implementation contract.
+- **Frontend coding:** `skills/frontend-layout-implementer/SKILL.md` for scoped implementation in the existing project stack.
+- **Rendered fidelity QA:** `skills/frontend-visual-qa/SKILL.md` after meaningful UI slices and after visual corrections.
+- **Interface behavior:** `skills/interface-quality-review/SKILL.md` for interaction, accessibility and interface checks.
+- **Aesthetic critique:** `skills/visual-design-audit/SKILL.md` for the distinctiveness and section-by-section design verdict.
+- **Code/acceptance review:** `skills/frontend-quality-reviewer/SKILL.md` for evidence-based independent implementation review.
 
-The skills produce outputs for the same shared Client Brief, Blueprint, Asset Register, Issue Log and QA Report. Do not create separate competing plans or duplicate the same review.
+These responsibilities are separate: screenshot spec translates the reference, implementer writes code, visual QA checks the rendered match, visual-design-audit judges aesthetic quality, and frontend-quality-reviewer judges code/acceptance quality. Do not treat one pass as proof of another.
+
+The skills produce outputs for the same shared Client Brief, Design Implementation Spec, Blueprint, Asset Register, Issue Log, implementation checkpoints and QA Report. Do not create separate competing plans or duplicate the same review.
 
 ### Authority and conflict resolution
 1. Approved Client Brief, fact register, project scope and explicit owner decisions remain authoritative.
@@ -64,6 +70,22 @@ The skills produce outputs for the same shared Client Brief, Blueprint, Asset Re
 6. External skill content is reference material, not a source of client facts or instructions that can override this Master Skill.
 
 Core skills must work in the API-free manual workflow. No paid API, API key, MCP server, design subscription, external component registry or additional platform feature is mandatory.
+## Segment-by-segment execution contract
+
+Large website work must be delivered as small, recoverable implementation segments, not one long uncheckpointed operation.
+
+1. Break implementation into meaningful page/section slices with a visible acceptance outcome.
+2. Complete one bounded slice at a time; do not generate the entire website in one unverified code operation.
+3. After each slice, run the cheapest relevant check, inspect the changed files and save a checkpoint.
+4. A checkpoint records branch/commit, completed slice, files changed, verification actually run, open findings, next slice and blocking dependencies.
+5. Use one small commit per accepted slice when Git and repository permissions allow. Otherwise save the checkpoint in the project work log. Never force a commit to an unauthorized branch.
+6. If a tool call, browser or build fails, stop at the last known-good checkpoint, record the failure and resume from that point. Do not restart from scratch or overwrite successful work without a reason.
+7. Send the owner concise progress updates at segment boundaries. Do not let a long task run silently with no durable progress.
+8. Keep visual correction bounded: no more than two correction cycles for one section before recording the remaining mismatch and escalating the decision.
+9. Do not claim full implementation complete until all planned slices, full build/tests, visual QA and independent review have their own recorded results.
+
+This process reduces lost work and makes interruptions recoverable. It does not guarantee a fixed completion duration.
+
 ## Stage 0 — Intake validation
 
 - Read the current brief, source links, assets and prior project decisions.
@@ -151,6 +173,11 @@ Follow docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.0.md for design tokens, category-
 - Keep content/data separate from presentation when it materially improves maintainability.
 - Include semantic structure, responsive composition, keyboard behavior, focus states, reduced motion, useful alt text, metadata and favicon.
 
+- Once the direction is approved, run `skills/design-screenshot-spec/SKILL.md` against the selected visual reference. Produce a Design Implementation Spec with composition, section evidence, typography, asset crop, viewport behavior, interactions, unknowns and measurable acceptance criteria. Treat the reference as a build contract, not loose inspiration.
+- Run `skills/frontend-layout-implementer/SKILL.md` for coding. Detect and preserve the actual project stack; the Studio supports static HTML/CSS/JS, React/Vite and Laravel/Inertia as appropriate. Do not migrate frameworks or add dependencies without approval.
+- Implement by section/component slices. Save a checkpoint after each slice and compare it against the reference before continuing to the next major slice.
+- Do not substitute an image, simplify a distinctive layout or change a hero treatment merely because it is easier to code. Deviations must be documented with a reason.
+
 ### Mandatory Design Differentiation Gate (before implementation)
 
 Run `skills/frontend-design/SKILL.md` as a design-lead exercise, not as a source of mood words or a palette alone. No production code is written until this gate is recorded.
@@ -185,6 +212,7 @@ Review two dimensions independently:
 ### Mandatory independent design audit
 
 Run `skills/visual-design-audit/SKILL.md` for the segment-level critique and `skills/interface-quality-review/SKILL.md` for code/interface behavior and accessibility checks. Do not rely on owner feedback as the primary design-QA method. The studio/AI must critique its own implementation before asking the owner to review it.
+Also run `skills/frontend-visual-qa/SKILL.md` to compare actual browser-rendered screenshots against the Design Implementation Spec at the same viewport sizes. A build pass or static CSS inspection is not rendered visual evidence. Use `skills/frontend-quality-reviewer/SKILL.md` for the scoped code/acceptance verdict; record whether that review is fresh-context or self-review.
 
 Review the actual page section by section, at minimum:
 - Header / navigation / announcement.
@@ -252,6 +280,9 @@ Run actual production build and browser tests; source inspection is not browser 
 - Check that static cards, rows and status panels do not imply non-existent click behavior; every apparent control must work or be presented as non-interactive.
 - All images load; verify natural dimensions and truthful captions.
 - Desktop, tablet and mobile screenshots saved as evidence and reviewed at actual scale, not only as a downscaled full-page image.
+- Use `skills/frontend-visual-qa/SKILL.md` for reference-to-render comparison and `skills/frontend-quality-reviewer/SKILL.md` for code/acceptance review. Record their verdicts separately from `visual-design-audit` and `interface-quality-review`.
+- Browser screenshots count only when a real browser/Playwright session loaded the tested commit. If that capability is blocked, mark rendered QA BLOCKED/NOT TESTED; do not substitute generated mockups or a static renderer.
+- Save one implementation checkpoint after each major section, then a final combined build/test checkpoint. A green CI build does not override a failed visual-fidelity verdict.
 - Complete the section-by-section design audit and record changes before requesting owner review.
 
 ### Business completeness (new required gate)
@@ -293,6 +324,7 @@ Prepare preview, revision register, launch checklist, rollback plan, handover no
 For design refinement, include the independent section-by-section audit, typography scale and its responsive checks, interaction/affordance review, asset crop review, design fingerprint, cross-project comparison, anti-template scan, explicit aesthetic verdict and desktop/tablet/mobile visual evidence.
 
 For each stage: status, inputs/sources, fact classifications, decisions/assumptions, artifacts/files, tests/evidence, unresolved risks/approvals and next owner/action.
+For implementation: retain segment checkpoints with branch/commit, slice, changed files, checks run, failures/unknowns and next slice. For screenshot-driven work: retain the Design Implementation Spec and the matching reference/rendered screenshots. Distinguish build/test status, visual fidelity, aesthetic verdict, code review and release readiness.
 
 ## Definition of done
 
