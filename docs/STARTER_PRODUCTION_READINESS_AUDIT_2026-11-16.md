@@ -168,3 +168,10 @@ The failure was the existing core horizontal-overflow test at 320px: document wi
 The CSS correction is commit `57f91797a68af94a8d680c54b3034fba6ccf68f8`. A fresh Starter CI run was triggered for that code change; its completion must be checked. The operator must pull the fix and repeat the 320px responsive test locally before the issue is considered closed.
 
 The generated Starter `package-lock.json` remains local and uncommitted at this checkpoint. It must be inspected and committed after the corrected local suite passes. The GitHub workflow has not yet switched to `npm ci`; that change follows the verified lockfile commit.
+
+
+### Responsive correction verification
+
+The correction described above was verified by GitHub Actions [Starter blueprint CI run #47](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43742492354), push to `revision/master-revision` at commit `57f91797a68af94a8d680c54b3034fba6ccf68f8`. Result: Vite production build PASS and Playwright **19/19 PASS** on Ubuntu 24.04 / Chromium.
+
+This closes the remote regression check. The operator's Windows run must still be repeated after pulling the CSS and `.gitignore` corrections to confirm the original 320px failure is also resolved in the local environment. The Starter lockfile also remains uncommitted, so the reproducibility gate is still open.
