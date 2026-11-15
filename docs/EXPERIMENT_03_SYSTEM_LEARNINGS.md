@@ -33,6 +33,8 @@ Independent review of the rendered S01–S05 artifact found a strong, category-s
 - The selected-item count should be announced via an accessible live region.
 - Quantity-cap behavior needs an explicit regression test; testing add/remove at small quantities alone missed the boundary state.
 - The first S06 attempt exposed an ambiguous Playwright locator because the product list and order summary both contained an identically named Add control. Scope selectors to the correct panel. This is a test-quality correction, not a site defect.
+- S08 added a skip link as the first keyboard stop, a focusable main landmark, and Playwright keyboard-only paths for mobile navigation, native FAQ disclosures, category selection, product add, quantity increment and clear. The S08 PR CI passed in [run #43689533633](https://github.com/kannaryukkei/web-studio-experiment-03-semburat-bakehouse/actions/runs/43689533633).
+- Reusable rule: for long pages/repeated navigation, provide and test a skip link that reveals on focus and moves focus to main content. Include keyboard-only journeys for representative controls; a visible focus outline alone does not prove the flow works.
 
 ## 4. Responsive QA finding
 
@@ -65,7 +67,7 @@ This is a useful contract/provenance exercise, but **not** evidence of real-worl
 - real client asset rights/permissions and upload workflow;
 - Firefox and WebKit;
 - physical devices;
-- full WCAG and assistive-technology audit;
+- full WCAG and assistive-technology audit (S08 only verifies representative keyboard paths in Chromium; it is not a conformance audit);
 - Lighthouse/Core Web Vitals and real-world performance;
 - real owner/visitor validation and commercial delivery effort.
 
