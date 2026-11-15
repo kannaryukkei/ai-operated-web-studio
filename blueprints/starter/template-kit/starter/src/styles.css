@@ -746,3 +746,5 @@ main .contact-footnote,
 .optional { color: #526057; }
 .stories-section .section-heading p { color: #afbeb8; }
 .contact-footnote { color: #ffffff; }
+
+.finder-result > div:first-child > p { color: #526057; }
