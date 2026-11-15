@@ -24,7 +24,7 @@
 | 00 | Revalidate repository baseline | DONE |
 | 01 | Establish revision workspace and rules | DONE |
 | 02 | Create Master PRD Lite | DONE |
-| 03 | Define canonical operating workflow | NOT STARTED |
+| 03 | Define canonical operating workflow | DONE |
 | 04 | Harmonize client input and material ingestion | NOT STARTED |
 | 05 | Establish canonical data schema | NOT STARTED |
 | 06 | Define Website Requirements Pack | NOT STARTED |
@@ -64,8 +64,8 @@
 4. Continue from the first NOT STARTED segment; do not redo verified work.
 5. Update this log in the same segment checkpoint when a segment is completed.
 
-**Next segment:** 03 — Define Canonical Operating Workflow.  
-**Resume point:** map the approved material-first lifecycle stage by stage, then assign actors, inputs, outputs, decisions, validation and exit criteria. Before doing so, inspect the current Master Skill stages and manual workflow for overlaps or contradictions.
+**Next segment:** 04 — Harmonize Client Input & Material Ingestion.  
+**Resume point:** decide and document the single source-of-input policy (interview + assets as primary); reconcile the 26-field platform intake, five required controller fields, four-field UI copy and five-field manual-workflow description. Align material-ingestion protocol and client brief without making the client complete a second long form.
 
 
 ## Checkpoint — Segment 02
@@ -80,3 +80,16 @@
 **Files changed:** `docs/MASTER_PRODUCT_REQUIREMENTS_v1.0.md`; `docs/MASTER_REVISION_EXECUTION_LOG.md`.  
 **Blockers:** none for drafting; owner adoption of the PRD remains pending.  
 **Commit references:** PRD initial commit `23ac368e9552069fc5bf59a13bcd106cbf0dab01`; review-status update and execution-log checkpoint recorded in subsequent branch commits.  
+
+
+## Checkpoint — Segment 03
+
+**Status:** DONE (workflow map drafted; owner review remains an adoption decision)  
+**Output:** `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md`  
+**Source review:** Master Skill v1.10 Candidate stages 0–9, Product Brief, MVP Specification, roadmap, Manual AI Workflow, Client Material Ingestion Protocol, Client Brief v2.1, Starter product/evidence gates, AI Build Rules and Master PRD v1.0.  
+**Actions:** mapped the lifecycle from project setup/interview through Stage 0–9; defined stage purpose, actor, inputs, actions, outputs, exit gate and current manual/platform boundary; added responsibility matrix, canonical artifact set, preview/production policy and change-control rules.  
+**Key decision:** the Laravel platform remains the durable project/workflow record; external AI applications and coding tools remain valid execution surfaces; human approval remains mandatory for commercial/factual/permission/release decisions.  
+**Validation:** workflow stage headings cross-checked against the current Master Skill v1.10 Candidate; source files inspected. Documentation-only segment; no application tests run.  
+**Files changed:** `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md`; `docs/MASTER_REVISION_EXECUTION_LOG.md`.  
+**Blockers:** none for drafting; owner adoption of the workflow remains pending.  
+**Commit:** workflow document `f513fc9e1252b27ab31dd4b7a829cc3ce2ff9448`; execution-log checkpoint committed after it.  
