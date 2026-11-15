@@ -1,43 +1,52 @@
-# Starter Project Retrospective
+# Starter Project Retrospective — Stage 9 Calibration
 
-## Economics
+## Project and evidence
+- Project ID:
+- Website/release commit:
+- WRP version:
+- Starter Acceptance Gate version:
+- QA report:
+- Client feedback / approval references:
+
+## Delivery economics
 - Quoted fee:
 - Collected:
-- Third-party costs:
+- Third-party/domain/hosting costs:
 - Estimated hours:
 - Actual hours:
-- Contribution estimate:
-
-## Time by stage
-| Stage | Estimate | Actual | AI-assisted? | Notes |
-|---|---:|---:|---|---|
-| Lead/qualification | | | | |
-| Discovery | | | | |
-| Scope/proposal | | | | |
-| Content/IA | | | | |
-| Art direction/assets | | | | |
-| Build | | | | |
-| QA | | | | |
-| Revisions | | | | |
-| Deployment/handover | | | | |
-
-## Quality
+- Contribution/margin estimate:
 - Revision rounds:
 - Change requests:
-- Pre-review defects:
-- Post-launch defects:
-- Client satisfaction:
-- Care plan purchased:
 
-## Lessons
-- What took longer?
-- What was repetitive?
-- What did AI get wrong?
-- Which approval caused delay?
-- What can be automated next?
-- What should change in scope/pricing?
+## Time by Master Skill stage
+| Master Stage | Estimate | Actual | AI-assisted? | Waiting/dependency time | Notes |
+|---|---:|---:|---|---:|---|
+| 0 — Material intake | | | | | |
+| 1 — Business intelligence | | | | | |
+| 2 — Tier/scope | | | | | |
+| 3 — Customer questions/IA | | | | | |
+| 4 — Content/WRP | | | | | |
+| 5 — Creative direction/implementation | | | | | |
+| 6 — Refinement | | | | | |
+| 7 — Independent QA | | | | | |
+| 8 — Release/handover | | | | | |
+| 9 — Calibration | | | | | |
 
-## Improvement actions
-| Action | Owner | Priority | Status |
-|---|---|---|---|
-| | | | |
+## Quality and root-cause calibration
+- Defects before preview:
+- Defects after release:
+- Client wait time:
+- Customer/owner feedback:
+- AI output requiring major correction:
+- Root cause: INPUT_SOURCE / MASTER_SKILL_REASONING / IMPLEMENTATION_QA / SCOPE_COMMERCIAL / EXTERNAL_DEPENDENCY
+- Reproducible evidence:
+- Minimal system correction:
+- Regression test:
+- Result after correction:
+
+## Reusable improvement actions
+| action_id | change (prompt/skill/template/test/platform) | evidence supporting change | owner | priority | decision/status |
+|---|---|---|---|---|---|
+| | | | | | |
+
+Do not turn a one-off preference into a system rule. Adopt improvements only when the evidence shows a reusable cause and the owner approves policy/scope changes.
