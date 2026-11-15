@@ -329,3 +329,16 @@ PHPStan then failed before producing analysis diagnostics: a parallel worker exh
 This avoids both the 128 MB worker cap and Windows subprocess spawning. It trades some analysis speed for portability on the local Windows/Herd environment and the Linux CI runner.
 
 **Execution remains pending.** The revised PHPStan settings have been committed but have not yet been exercised by the operator. The two TSX formatting corrections from `npm.cmd run check:fix` exist in the operator's local working tree and are still uncommitted; keep them. After syncing the latest branch, rerun the complete Composer script before recording PASS.
+
+### Follow-up test isolation fix — Vite manifest in local tests (2026-11-15)
+
+The operator reran `composer run-script ci:check` after the PHPStan memory/worker correction. Results observed from the pasted terminal output:
+- Frontend formatting/lint: PASS (74 formatted; no warnings/lint errors in 68 files).
+- TypeScript: PASS.
+- Pint: PASS (87 files).
+- PHPStan: PASS (64/64 analysed, no errors).
+- Laravel tests: 79 passed, one failed (80 total). The single failure was `ManualDiscoveryWorkflowTest::test_studio_can_open_business_first_discovery_prompt_without_an_api_key`, which rendered an Inertia page and failed because the local Vite manifest was absent: `Unable to locate file in Vite manifest: resources/js/pages/projects/discovery.tsx`.
+
+Inspection showed that `ProjectIntakeTest` and `WorkspacePagesTest` already call `$this->withoutVite()` in `setUp()`; `ManualDiscoveryWorkflowTest` did not. The failing test validates server-side prompt props, not compiled frontend assets. Added the same `withoutVite()` test setup to `ManualDiscoveryWorkflowTest`, so the feature suite does not require a local `npm run build` just to render the Inertia response. The root CI workflow still performs `npm run build` before tests.
+
+**Status:** the fix is committed but has not yet been executed locally. Re-run the full `composer run-script ci:check` from `platform/`. The 79 previously passing tests remain good evidence; the single previously failing test must be rerun before claiming the entire suite PASS. Segment 12 remains `IMPLEMENTED — CI PENDING`.
