@@ -454,7 +454,7 @@ function BookingForm() {
     preferredDate: '',
     notes: '',
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState(null);
 
   const treatmentOptions = useMemo(
     () => [
@@ -486,8 +486,10 @@ function BookingForm() {
       '',
       'Mohon bantu cek rekomendasi, estimasi harga, dan ketersediaan. Saya memahami jadwal belum terkonfirmasi sampai admin membalas.',
     ].filter(Boolean).join('\n');
-    window.open(formatWhatsAppLink(message), '_blank', 'noopener,noreferrer');
-    setSubmitted(true);
+    const whatsappUrl = formatWhatsAppLink(message);
+    const popup = window.open(whatsappUrl, '_blank');
+    if (popup) popup.opener = null;
+    setSubmitted({ opened: Boolean(popup), url: whatsappUrl });
   };
 
   return (
@@ -519,7 +521,13 @@ function BookingForm() {
           <label>Tanggal yang diinginkan <span className="optional">(opsional)</span><input type="date" min={getLocalDateISO()} value={form.preferredDate} onChange={(e) => update('preferredDate', e.target.value)} /></label>
           <label>Catatan tambahan <span className="optional">(opsional)</span><textarea rows="3" value={form.notes} onChange={(e) => update('notes', e.target.value)} placeholder="Ceritakan kondisi kendaraan atau area yang ingin ditangani..." /></label>
           <button className="button button--primary form-submit" type="submit">Lanjutkan ke WhatsApp <ArrowUpRight size={16} /></button>
-          {submitted && <p className="form-feedback" role="status">Pesan konsultasi disiapkan. Lanjutkan percakapan di WhatsApp untuk konfirmasi dengan admin.</p>}
+          {submitted?.opened && <p className="form-feedback" role="status">WhatsApp terbuka dengan pesan konsultasi. Kirim pesan di sana untuk melanjutkan dan menunggu konfirmasi admin.</p>}
+          {submitted && !submitted.opened && (
+            <div className="form-feedback form-feedback--fallback" role="status">
+              <span>Browser memblokir jendela baru. Buka WhatsApp melalui tautan ini untuk melanjutkan:</span>
+              <a href={submitted.url} target="_blank" rel="noopener noreferrer">Buka WhatsApp <ArrowUpRight size={14} /></a>
+            </div>
+          )}
           <p className="form-disclaimer">Form ini hanya menyusun pesan WhatsApp. Informasi tidak disimpan di website dan pengiriman form bukan konfirmasi booking.</p>
         </form>
       </div>
