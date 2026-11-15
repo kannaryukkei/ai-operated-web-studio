@@ -66,7 +66,7 @@ For each image, logo, font or video record its source/owner, permission or licen
 
 - Validate at 320, 360, 390, 640, 768, 900, 1024, 1280 and 1440px; no horizontal overflow.
 - Use semantic landmarks, one clear h1, logical heading order, labelled form controls, accessible names, keyboard-operable controls and visible focus.
-- Check text/control contrast, keyboard navigation, dialog focus/escape behavior, focus restoration and reduced-motion behavior where relevant.
+- Check text/control contrast, keyboard navigation, dialog focus/escape behavior, focus restoration and reduced-motion behavior where relevant. Contrast tests must inspect every rendered instance for each role at the target breakpoints, include relevant interaction states and alpha-composite translucent colors against the actual surface; checking only the first matching element is insufficient.
 - Avoid ARIA when native HTML semantics already provide the needed behavior.
 - Provide title, useful description, favicon, Open Graph metadata and canonical URL when a production domain exists.
 - Keep previews and demo deployments noindex/nofollow. Remove preview restrictions only after domain/content approval; configure robots/sitemap appropriately for launch.
