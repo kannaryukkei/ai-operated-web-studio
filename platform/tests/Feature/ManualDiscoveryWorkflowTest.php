@@ -45,7 +45,17 @@ class ManualDiscoveryWorkflowTest extends TestCase
                 ->where('hasSubmittedIntake', true)
                 ->where('run.status', 'processing')
                 ->has('prompt')
-                ->where('prompt', fn ($prompt) => str_contains($prompt, 'offer_matrix') && str_contains($prompt, 'customer_question_map') && str_contains($prompt, 'buying_journey') && str_contains($prompt, 'fact_register') && str_contains($prompt, 'cta_register') && str_contains($prompt, 'asset_register') && str_contains($prompt, 'NOT_CONFIGURED')));
+                ->where('prompt', fn ($prompt) => str_contains($prompt, 'offer_matrix')
+                    && str_contains($prompt, 'customer_question_map')
+                    && str_contains($prompt, 'buying_journey')
+                    && str_contains($prompt, 'fact_register')
+                    && str_contains($prompt, 'publication_status')
+                    && str_contains($prompt, 'permission_evidence_status')
+                    && str_contains($prompt, 'consent_status')
+                    && str_contains($prompt, 'answer_status')
+                    && str_contains($prompt, 'PREVIEW_BLOCKER')
+                    && str_contains($prompt, 'NOT_CONFIGURED')
+                    && str_contains($prompt, 'including for portfolio/demo work')));
     }
 
     public function test_client_cannot_access_or_start_studio_discovery(): void
