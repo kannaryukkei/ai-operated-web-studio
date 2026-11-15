@@ -483,6 +483,11 @@ main section { scroll-margin-top: 82px; }
 }
 @media (max-width: 380px) {
   .hero h1 { font-size: clamp(44px,14vw,56px); }
+  .package-card { padding-inline: 13px; }
+  .package-meta { min-width: 0; flex-wrap: wrap; align-items: flex-start; }
+  .package-meta > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+  .recommended { white-space: normal; }
+  .contact-orbit { right: 0; width: min(68vw,210px); opacity: .4; }
   .hero-aside-card strong { font-size: 20px; }
   .class-option { grid-template-columns: 25px 1fr; padding-inline: 7px; }
   .class-option > span { width: 24px; height: 24px; }
@@ -559,7 +564,14 @@ main section { scroll-margin-top: 82px; }
 }
 @media (max-width: 640px) {
   .care-finder-section { padding-block: 66px; }
-  .care-finder-layout { gap: 27px; }
+  .care-finder-layout { grid-template-columns: minmax(0,1fr); gap: 27px; }
+  .care-finder-layout > *,.care-finder-copy,.care-finder-panel { width: 100%; min-width: 0; }
+  .care-finder-copy .section-heading { width: 100%; min-width: 0; }
+  .care-finder-copy .section-heading h2 { max-width: 100%; overflow-wrap: anywhere; }
+  .finder-vehicle-tabs { grid-template-columns: repeat(2,minmax(0,1fr)); min-width: 0; }
+  .finder-vehicle-tabs button { min-width: 0; width: 100%; gap: 8px; padding-inline: 9px; }
+  .finder-vehicle-tabs button > span { flex-shrink: 0; }
+  .finder-vehicle-tabs button strong { min-width: 0; font-size: 18px; overflow-wrap: anywhere; }
   .care-finder-note { margin-top: 19px; }
   .care-finder-panel { padding: 17px 14px; }
   .finder-topline { font-size: 7px; }
