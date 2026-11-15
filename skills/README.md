@@ -6,14 +6,15 @@ Each skill is an independent folder with a `SKILL.md` file using the Agent Skill
 
 ## Operating model
 
-**Client Brief + Master Orchestrator + selected specialist skills → website output → independent evaluation**
+**Interview material + client assets → AI source normalization + Master Orchestrator + selected specialist skills → website output → independent evaluation**
 
-The Client Brief remains the source of business truth. Skills do not replace it, ask clients to specify technical design details, or invent client facts.
+The raw interview and supplied materials are the primary sources. The Client Brief is the AI-produced normalized record; clients are not expected to complete a long website questionnaire. Skills do not ask clients to specify technical design details or invent client facts.
 
 ## Core skill set
 
 | Skill | Role | Activation |
 |---|---|---|
+| `client-material-ingestion` | Turn raw interviews and supplied assets into a source-traceable normalized brief | Required at Stage 0 of every new project or when new client source material arrives |
 | `frontend-design` | Distinctive visual direction, subject-specific design decisions, layout and type direction | Before designing a new website or materially redesigning a page |
 | `ux-review` | Visitor tasks, customer questions, journey, information architecture and conversion clarity | During discovery/blueprint and when evaluating business usability |
 | `typography-and-legibility` | Type roles, hierarchy, readable scale, line length and responsive legibility | During pre-production design and visual refinement |
@@ -22,7 +23,7 @@ The Client Brief remains the source of business truth. Skills do not replace it,
 
 ## How to use
 
-1. Read `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.7_CANDIDATE.md` first. It defines the overall process and authority.
+1. Read the latest approved Master Skill first. For the proposed material-first workflow, also review `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.9_CANDIDATE.md` and `docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md`.
 2. Use `skills/registry.md` to select the minimum relevant specialist set.
 3. Read only the selected `SKILL.md` files for the current phase; do not load every skill for every task.
 4. Keep their outputs in the project's shared artifacts: client brief/fact register, blueprint, issue log, test evidence and change log.
