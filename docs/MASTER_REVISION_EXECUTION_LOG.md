@@ -26,8 +26,8 @@
 | 02 | Create Master PRD Lite | DONE |
 | 03 | Define canonical operating workflow | DONE |
 | 04 | Harmonize client input and material ingestion | DONE |
-| 05 | Establish canonical data schema | NOT STARTED |
-| 06 | Define Website Requirements Pack | NOT STARTED |
+| 05 | Establish canonical data schema | DONE |
+| 06 | Define Website Requirements Pack | DONE |
 | 07 | Define review, approval, and release gates | NOT STARTED |
 | 08 | Revise Master Skill | NOT STARTED |
 | 09 | Harmonize prompts, skills, and delivery playbook | NOT STARTED |
@@ -64,8 +64,8 @@
 4. Continue from the first NOT STARTED segment; do not redo verified work.
 5. Update this log in the same segment checkpoint when a segment is completed.
 
-**Next segment:** 05 — Establish Canonical Data Schema.  
-**Resume point:** define one schema for Source, Fact, Asset/Permission, Offer, Customer Question, CTA, Trust Evidence, Content Gap and Page Coverage records. Separate answer/evidence/publication/page-coverage statuses and map current DiscoveryRun validation to the canonical contract.
+**Next segment:** 07 — Define Review, Approval & Release Gates.  
+**Resume point:** define manual approval states and decision authority for AI-generated output, studio review, client fact/asset confirmation, owner scope approval, production approval, release authorization and handover. Keep current platform limitations explicit; do not invent an implemented approval engine.
 
 
 ## Checkpoint — Segment 02
@@ -105,3 +105,27 @@
 **Validation:** all changed documents re-fetched from the revision branch; controller field inventory and validation rules inspected directly; ProjectPolicy update rule inspected; platform UI helper text inspected. Documentation-only segment; no application tests run.  
 **Blockers:** no blocker for the operating policy. Client access/UI still needs a tested implementation in Segments 11–12.  
 **Commits:** input policy `36fc077aea6039a7b1ab8a206194ebc23894734c`; protocol `01a021adf0f136ac243feef03c63550c591df566`; manual workflow `950e32969f78bf25b7199d300b110c0b095b5b32`; Master PRD `bf311156fc290d875b9a587f7b8f5c6b34a2eed8`; canonical workflow `81ff624257b4d5b3152900971718210714d151a5`; client brief policy reference `87bff7bbfdcc00527255c98c4839b332017c4e22`; execution log checkpoint follows.  
+
+
+## Checkpoint — Segment 05
+
+**Status:** DONE (logical data contract defined; platform implementation deferred to Segments 11–12)  
+**Output:** `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md`  
+**Records defined:** shared envelope, Source Register, Source Coverage Matrix, Fact Register, Asset/Permission Register, Offer Matrix, Customer Question Map, Buying Journey, CTA Register, Trust/Evidence Register, Content Gap Register and Source-to-Page Coverage Matrix.  
+**Status contract:** separate answer, evidence, publication, rendered page coverage and milestone priority.  
+**Legacy mapping:** documented the current ManualDiscoveryController enums and fields, including mixed `APPROVED-FOR-PUBLICATION`, aliases `NEEDS_CLIENT_APPROVAL` / `DO_NOT_PUBLISH`, missing stable source locators, asset permission/evidence conflation, and absence of source coverage/page coverage collections.  
+**Validation:** inspected the complete existing ManualDiscoveryController validation rules and prompt contract; checked field-level mappings against the material-ingestion policy. Schema document re-fetched and key sections verified. No platform code changed and no application tests run.  
+**Files changed:** `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md`; this execution log.  
+**Blockers:** platform does not yet enforce this schema; implementation specification and migrations/tests remain Segments 11–12.  
+**Commit:** schema `4f89fd327a19b35931476998c26f5cdb1587d6bf` with legacy asset mapping refinement `54352bc43ad16da64eaadf5cf559b6bca3eec533`.
+
+## Checkpoint — Segment 06
+
+**Status:** DONE (pre-design specification defined; project-specific WRP generation remains manual)  
+**Output:** `docs/WEBSITE_REQUIREMENTS_PACK_v1.0.md`  
+**Purpose:** establish one source-linked pre-design/pre-code contract derived from Stages 1–4. It defines scope, audience journeys, customer-question coverage, IA, content, CTA, assets/rights, functionality, non-functional requirements, acceptance criteria, blockers, approvals and version/change control.  
+**Gate:** Stage 5 cannot begin until the WRP is APPROVED_FOR_DESIGN. Studio owner approves tier/scope and progression; client confirms material business facts, public destinations and permissions; client is not asked to approve technical implementation mechanics.  
+**Validation:** checked the pack structure against PRD FR-09, canonical workflow Stage 3–5 and the canonical data schema; confirmed stable record references are used rather than duplicating source records. Documentation-only; no application tests run.  
+**Files changed:** `docs/WEBSITE_REQUIREMENTS_PACK_v1.0.md`; `docs/MASTER_PRODUCT_REQUIREMENTS_v1.0.md`; `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md`; `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md`; this execution log.  
+**Blockers:** no WRP artifact workflow exists in the Laravel platform; keep it as a versioned project file until a justified implementation.  
+**Commit:** WRP `490798787a38effb31bd8b98dac9d8c40e1af956`; PRD `3ad14396d3846a6efb701d2acc601d002d22bb38`; workflow `1b724fe7ca4fa58632f13b0b68f3bf36a56688b8`; schema link `7e6057e0a1ca7fb96e786b5430e6979986506af2` plus asset mapping refinement `54352bc43ad16da64eaadf5cf559b6bca3eec533`.  
