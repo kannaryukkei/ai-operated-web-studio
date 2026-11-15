@@ -94,15 +94,15 @@ Before finalizing the handoff, run a source-coverage pass: walk every meaningful
 Produce and cross-reference:
 1. Raw Material Index.
 2. Source Coverage Matrix.
-2. Transcript / Interview Summary, when applicable.
-3. Normalized Client Brief v2.1.
-4. Atomic Fact Register and Source Register.
-5. Asset and Permission Register.
-6. Business Intelligence Summary and Offer Matrix.
-7. Customer Question Map, Buying Journey and Trust Register.
-8. Content Gap Register.
-9. Public CTA / Contact Map, with private project contacts kept separate.
-10. Critical Clarification List and production handoff recommendation.
+3. Transcript / Interview Summary, when applicable.
+4. Normalized Client Brief v2.1.
+5. Atomic Fact Register and Source Register.
+6. Asset and Permission Register.
+7. Business Intelligence Summary and Offer Matrix.
+8. Customer Question Map, Buying Journey and Trust Register.
+9. Content Gap Register.
+10. Public CTA / Contact Map, with private project contacts kept separate.
+11. Critical Clarification List and production handoff recommendation.
 
 Every material fact used in content, design or conversion must be traceable to a Fact Register record. Unapproved or unsupported facts must not appear as public claims.
 
