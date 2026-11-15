@@ -73,7 +73,7 @@ class ProjectIntakeController extends Controller
             $intake->save();
         });
 
-        return back()->with('success', 'Intake progress saved.');
+        return back()->with('success', 'Internal intake snapshot saved.');
     }
 
     public function submit(Request $request, Project $project): RedirectResponse
