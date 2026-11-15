@@ -91,7 +91,7 @@ A private preview may be produced before all production blockers are cleared, bu
 
 **Exit gate:** all material sources are accounted for; facts are traceable or explicitly unresolved; unknown rights remain pending; no material conflict is silently resolved; raw source files remain unchanged.
 
-**Current implementation:** the protocol and policy define the method; the operator handles storage, transcription availability, source indexing and material handoff manually. The platform does not implement full private file ingestion or canonical provenance storage. Its 26-field intake is an interim bridge (five required controller fields, 21 optional) and remains client-editable for authorized account owners/project editors today; this is a known mismatch. The intended policy is operator-populated, studio-only use until Segments 11–12 implement the server-side/UI correction.
+**Current implementation:** the protocol and policy define the method; the operator handles storage, transcription availability, source indexing and material handoff manually. The platform does not implement full private file ingestion or canonical provenance storage. Its 26-field intake is an interim bridge (five required controller fields, 21 optional) and remains client-editable for authorized account owners/project editors today; this is a known mismatch. The intended policy is operator-populated, studio-only use. `docs/PLATFORM_ALIGNMENT_SPECIFICATION_v1.0.md` records the audited correction; Segment 12 must implement and test the server-side/UI restriction.
 
 ### Stage 1 — Business intelligence
 
