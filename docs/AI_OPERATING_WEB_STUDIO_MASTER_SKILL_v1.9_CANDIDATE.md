@@ -87,6 +87,7 @@ The client does not need to write website copy, fill a long form, prepare a site
 2. **Transcribe where needed.** If the available AI application can transcribe supplied audio, use it; otherwise use the operator's available transcription method. Do not introduce a paid model API as a prerequisite. Retain the original recording and transcript as separate sources.
 3. **Create source locators.** Use timestamps for recordings/transcripts, page and paragraph references for documents, filenames and image IDs for assets, and URL plus relevant section for web sources. When exact location is unavailable, retain a short source excerpt and explain the locator limitation.
 4. **Extract atomic facts.** Split statements into single claims. Link every material claim to its source and locator. Do not merge conflicting claims into one apparently certain answer.
+5. **Run source coverage.** Walk every meaningful source heading, section, transcript segment and asset. Build a Source Coverage Matrix that maps each material topic to a normalized artifact or records EXCLUDED (with reason), NOT_AVAILABLE, CONFLICT or NOT_APPLICABLE. Do not extract only a convenient sample and assume the rest of the brief is complete.
 5. **Classify uncertainty.** Keep answer status (PROVIDED / NOT_AVAILABLE / NOT_APPLICABLE / NOT_SURE), evidence status (VERIFIED / CLIENT-PROVIDED-UNVERIFIED / DEMO-ONLY / ASSUMPTION / MISSING / CONFLICT) and publication approval (APPROVED / PENDING / NOT_APPROVED) distinct.
 6. **Separate private from public information.** Internal owner/interview contact details are not public website CTA destinations. Only an explicitly identified and approved public destination may become a live CTA.
 7. **Inspect assets without inventing facts.** Record visible/technical properties, likely role, original source/owner, usage permission, credit, restrictions and people-consent status. Client-supplied does not automatically mean client-owned or approved. If permission is unknown, mark PENDING. Never infer product specifications, ingredients, certifications, real customers, identities, consent or business claims from pixels alone.
@@ -109,6 +110,7 @@ Batch related questions into one concise clarification request. Do not ask quest
 ### Stage 0 outputs
 
 - Raw Material Index with source IDs and locators.
+- Source Coverage Matrix showing where each material source topic was mapped, or why it was excluded/left unresolved.
 - Transcript / Interview Summary (where applicable).
 - Normalized Client Brief v2.1.
 - Atomic Fact Register with source, locator, evidence status and publication status.
