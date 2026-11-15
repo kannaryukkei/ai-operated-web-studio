@@ -1,47 +1,49 @@
-# Project Dashboard
+# Client Website Brief — Internal AI Output
 
-## Identity
-- Project ID:
-- Client/business:
-- Tier: Starter
-- Studio owner:
-- Client approver:
-- Created:
-- Target launch:
-- Proposal:
-- Repository:
-- Preview URL:
-- Production URL:
+**This file is populated by the Studio/AI from the normal discovery interview and existing client materials. It is not sent to the client as a questionnaire.**
 
-## Current state
-- Status: NEW
-- Stage:
-- Next action:
-- Next action owner: AI / Studio / Client
-- Target date:
-- Approval gate:
-- Last updated:
+## Record references
+- Project ID / brief version:
+- Source Register IDs:
+- Source Coverage Matrix status:
+- Fact Register IDs:
+- Asset/Permission Register IDs:
+- Source packet location (restricted):
 
-## Health
-- Scope: Not reviewed / Approved / Change requested
-- Payment: Not due / Awaiting / Confirmed / Complete
-- Content: Not started / In progress / Approved
-- Design: Not started / In progress / Approved
-- Build: Not started / In progress / QA
-- Launch: Not ready / Ready / Live
-- Handover: Not started / In progress / Complete
+## Business intelligence
+- Business name/category/model:
+- Business overview and core offer:
+- Main audience and buying triggers:
+- Customer problem, questions and objections:
+- Differentiators supported by sources:
+- Offer/package structure and verified price logic:
+- Process / expected next step:
+- Operational limits, location/coverage and availability:
 
-## Blockers / decisions
-| ID | Item | Owner | Needed by | Status | Resolution |
-|---|---|---|---|---|---|
-| | | | | | |
+## Customer journey and conversion
+- Primary visitor task:
+- Primary conversion action:
+- Exact public destination:
+- CTA destination status:
+- Important secondary paths:
+- What happens after the visitor acts:
 
-## Latest AI run
-- Stage:
-- Prompt version:
-- Inputs:
-- Outputs:
-- Status:
-- Tests:
-- Human decision:
-- Commit/artifact:
+## Trust and publication
+- Source-backed trust evidence (record IDs only):
+- Evidence unavailable / omitted:
+- Public-claim and policy sensitivity:
+- Asset permissions / consent / credits unresolved:
+
+## Material gaps and conflicts
+| record_id | item | answer_status | evidence_status | publication_status | milestone_priority | owner / next action |
+|---|---|---|---|---|---|---|
+| | | | | | | |
+
+## Studio review and decisions
+- Operator source-fidelity review:
+- Client confirmations (approval IDs):
+- Studio owner decisions (approval IDs):
+- WRP version:
+- Current brief status: DRAFT / STUDIO_REVIEW_REQUIRED / STUDIO_REVIEWED / SUPERSEDED
+
+Do not store duplicate raw facts without source IDs. The canonical discovery schema governs the record fields and statuses.
