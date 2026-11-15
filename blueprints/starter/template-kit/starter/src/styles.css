@@ -735,3 +735,14 @@ main .contact-footnote,
 }
 .stories-section .section-heading p { color: #afbeb8; }
 .contact-footnote { color: #ffffff; }
+
+/* Final contrast refinements for the remaining measured text roles. */
+.micro-label,
+.package-card:not(.package-card--featured) .package-meta,
+.package-card:not(.package-card--featured) .package-title-row > span,
+.package-card:not(.package-card--featured) .package-description,
+.package-card:not(.package-card--featured) .package-price small,
+.finder-price small,
+.optional { color: #526057; }
+.stories-section .section-heading p { color: #afbeb8; }
+.contact-footnote { color: #ffffff; }
