@@ -77,7 +77,10 @@ class WorkspacePagesTest extends TestCase
 
         $this->actingAs($client)->get('/dashboard')->assertOk();
         $this->get('/clients')->assertOk();
-        $this->get('/projects')->assertOk();
+        $this->get('/projects')->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('projects/index')
+                ->where('isStudio', false));
 
         $this->post('/clients', ['business_name' => 'Forbidden Account'])->assertForbidden();
         $this->post('/projects', [
