@@ -222,7 +222,7 @@ Do not invent numeric performance targets for delivery hours or margin before co
 | Requirement group | Canonical method / specification | Platform / blueprint implementation | Verification |
 |---|---|---|---|
 | FR-01, FR-14, NFR-03 | Product brief; security and approvals policy | Projects, client accounts, policies, authorization | Project authorization and invitation feature tests |
-| FR-02–FR-05, NFR-04 | Material Ingestion Protocol; Client Brief v2.1; client-material-ingestion skill | Current manual source packet; Project Intake + DiscoveryRun are only a partial record | Source Coverage Matrix and schema validation; to be formalized in Segments 04–05 |
+| FR-02–FR-05, NFR-04 | Material Ingestion Protocol; Client Brief v2.1; client-material-ingestion skill | Current manual source packet; Project Intake + DiscoveryRun are only a partial record | Source Coverage Matrix, canonical schema v1.0 and source-linked manual records are defined in Segments 04–05; persisted platform support and validation remain deferred to Segments 11–12. |
 | FR-06–FR-09 | Master Skill Stages 0–4; Client Brief; Canonical Discovery Data Schema; Website Requirements Pack v1.0 | Manual Discovery output and versioned project WRP artifact | Business Intelligence, Customer Question Map, schema validation and WRP pre-design acceptance |
 | FR-10–FR-11 | CTA register; Starter Content Evidence Gate | Starter ZACKS fixture and evidence guard | CTA/claim evidence inspection and browser tests |
 | FR-12–FR-13 | Master Skill design/implementation stages; Website Implementation Standard | Specialist skills; isolated Starter template/client repository workflow | Design fingerprint, content/design review, build and responsive tests |
