@@ -15,10 +15,28 @@ test('core portfolio sections render and no layout overflows at common viewport 
     const dimensions = await page.evaluate(() => ({
       viewport: document.documentElement.clientWidth,
       document: document.documentElement.scrollWidth,
+      offenders: [...document.querySelectorAll('body *')]
+        .map((node) => {
+          const rect = node.getBoundingClientRect();
+          const style = getComputedStyle(node);
+          return {
+            element: node.tagName.toLowerCase() + (typeof node.className === 'string' && node.className ? '.' + node.className.trim().replace(/\\s+/g, '.') : ''),
+            text: (node.innerText || node.textContent || '').replace(/\\s+/g, ' ').trim().slice(0, 64),
+            left: Math.round(rect.left),
+            right: Math.round(rect.right),
+            width: Math.round(rect.width),
+            scrollWidth: node.scrollWidth,
+            clientWidth: node.clientWidth,
+            position: style.position,
+          };
+        })
+        .filter((item) => item.right > document.documentElement.clientWidth + 1 || item.scrollWidth > item.clientWidth + 1)
+        .sort((a, b) => b.right - a.right)
+        .slice(0, 12),
     }));
     expect(
       dimensions.document,
-      `horizontal overflow at ${width}px: document=${dimensions.document}, viewport=${dimensions.viewport}`,
+      `horizontal overflow at ${width}px: document=${dimensions.document}, viewport=${dimensions.viewport}; offenders=${JSON.stringify(dimensions.offenders)}`,
     ).toBeLessThanOrEqual(dimensions.viewport);
   }
 });
