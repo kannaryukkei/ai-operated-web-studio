@@ -5,6 +5,8 @@ Status: Proposed canonical operating protocol after Experiment #3
 Purpose: Turn the smallest practical client input—normal interview material plus supplied assets—into a traceable, production-ready business brief using AI as the primary operator.
 Default: Material-first. No mandatory long client questionnaire. No paid model API.
 
+**Governing input policy:** `docs/CLIENT_INPUT_AND_MATERIAL_POLICY_v1.0.md` defines the canonical client-input boundary and the interim platform-intake rules. This protocol defines the operational material-ingestion procedure.
+
 ## 1. Product principle
 
 The client should provide what they already have and explain their business once, in an ordinary conversation.
@@ -187,7 +189,7 @@ The current platform file intake is not assumed to support private multi-file up
 1. The operator stores raw source materials in the access-controlled project folder/repository.
 2. The operator attaches or provides those materials to the chosen external AI application alongside this protocol and the current Master Skill.
 3. The AI produces the normalized brief, source register and discovery artifacts.
-4. The operator uses the existing Studio workspace as a durable project/discovery record; any existing structured intake fields are filled from the interview-derived summary, not sent to the client as a second form.
+4. The operator uses the existing Studio workspace as a durable project/discovery record; any existing structured intake fields are filled from the interview-derived summary, not sent to the client as a second form. The current Project Intake has 26 fields, of which the controller requires five on submission; its UI incorrectly says four. The page is currently editable by authorized client-account owners and project editors as well as studio staff. This is a legacy implementation mismatch, not the intended client journey. Follow `docs/CLIENT_INPUT_AND_MATERIAL_POLICY_v1.0.md`: do not ask the client to complete the 26-field page; the operator fills the interim snapshot. Platform access and UI alignment are deferred to the platform revision segments.
 5. The operator reviews generated artifacts and records approved outputs and unresolved exceptions.
 6. No API, paid model integration or automatic file-processing service is required.
 
