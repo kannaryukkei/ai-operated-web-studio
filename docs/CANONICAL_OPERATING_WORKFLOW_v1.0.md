@@ -152,7 +152,7 @@ A private preview may be produced before all production blockers are cleared, bu
 - Recommend the simplest information architecture that serves the approved journey.
 - Select Starter only when a single page can answer the critical questions without harmful compression.
 
-**Required outputs:** Customer Question Map, Buying Journey, Information Architecture, Source-to-Page Coverage Matrix, CTA map and unresolved content gaps.
+**Required outputs:** Customer Question Map, Buying Journey, Information Architecture, Source-to-Page Coverage Matrix, CTA map and unresolved content gaps. These become the traceable foundation for the Website Requirements Pack.
 
 **Exit gate:** every material visitor question has a destination or an explicit GAP/NOT_APPLICABLE state; the chosen architecture fits the scope and customer journey.
 
@@ -174,9 +174,9 @@ A private preview may be produced before all production blockers are cleared, bu
 - Make contact-unavailable, inquiry-only or preview-only states honest and visible.
 - Check content against the customer-question map, not only against keyword/section count.
 
-**Required outputs:** approved content outline/copy draft, CTA Register, claim/evidence list, content coverage and remaining gaps.
+**Required outputs:** approved content outline/copy draft, CTA Register, claim/evidence list, content coverage, remaining gaps and the versioned Website Requirements Pack (WRP) assembled from Stages 1–4.
 
-**Exit gate:** critical customer questions have supported answers or recorded blockers; every CTA has a truthful behavior and known destination; publication-pending content is not treated as approved.
+**Exit gate:** critical customer questions have supported answers or recorded blockers; every CTA has a truthful behavior and known destination; publication-pending content is not treated as approved; the WRP meets its APPROVED_FOR_DESIGN gate before Stage 5 begins.
 
 **Current implementation:** relevant prompt, evidence and CTA rules are documented and partly represented in discovery validation; owner approval is currently recorded manually.
 
@@ -186,7 +186,7 @@ A private preview may be produced before all production blockers are cleared, bu
 
 **Responsible:** AI design/development tools; operator owns repository, scope and code review; Studio owner approves visual direction where required.
 
-**Inputs:** Website Requirements Pack, approved content/CTA map, assets and permissions, chosen blueprint and implementation standard.
+**Inputs:** owner-approved Website Requirements Pack, approved content/CTA map, assets and permissions, chosen blueprint and implementation standard.
 
 **Actions:**
 - Research relevant references for quality and customer-information patterns, not to copy their brand or unsupported features.
@@ -359,7 +359,7 @@ No row in this table should be described as automated by the platform unless an 
 ## 9. Change control
 
 - Master Skill v1.10 Candidate remains the stage-level execution instruction until the later Master Skill revision.
-- This workflow document defines stage boundaries and responsibility; it does not replace the Master Skill, data schema or acceptance gates.
+- This workflow document defines stage boundaries and responsibility; it does not replace the Master Skill, `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md`, `docs/WEBSITE_REQUIREMENTS_PACK_v1.0.md` or acceptance gates.
 - If the workflow and a specialist skill overlap, Master Skill and registry authority rules decide which instruction is primary.
 - A proposed stage/approval change must update the PRD and this workflow before implementation.
 - Platform automation is added only when it supports a requirement and a repeated manual bottleneck has been demonstrated.
