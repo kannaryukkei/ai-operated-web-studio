@@ -68,3 +68,7 @@ The final narrow-screen typography refinement is in commit [6d0ae557ea28e59c10ec
 The Windows rerun following the hero fix showed no hero overflow, but the 320px assertion still failed in the booking section: `.booking-copy`, its heading/promises and the form expanded to 341px (document width 359px). The one-column booking grid inherited an intrinsic minimum track and the long booking heading required a constrained mobile treatment.
 
 Revision commit [5a24be7a4df0e9d772cf5aabf8b1425433d92ab3](https://github.com/kannaryukkei/ai-operated-web-studio/commit/5a24be7a4df0e9d772cf5aabf8b1425433d92ab3) switches the mobile booking track to `minmax(0,1fr)`, constrains copy/form/promise widths and applies a fluid, wrapping heading. Local Windows and fresh CI verification are pending for this latest change.
+
+## Booking correction CI verification — 2026-11-16
+
+The booking layout correction in `5a24be7a4df0e9d772cf5aabf8b1425433d92ab3` passed [Starter blueprint CI run #58](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43743441717): Vite production build PASS; Playwright **19/19 PASS** on Ubuntu 24.04 / Chromium. A Windows local rerun is still required before the cross-environment reproduction can be closed. The lockfile remains uncommitted and the workflow still uses npm install.
