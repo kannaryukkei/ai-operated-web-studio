@@ -208,7 +208,7 @@ test('unverified testimonials and performance metrics are excluded from the Star
   await page.goto('/');
   await expect(page.locator('.stories-section, .story-card, .proof-strip, .proof-metric')).toHaveCount(0);
   const visibleCopy = await page.locator('main').innerText();
-  for (const fabricatedClaim of [/1,250\\+/, /4\\.9\\/5/, /92%/, /Raka P\\./, /Dimas A\\./, /Nadia K\\./, /SIMULATED CUSTOMER STORY/i, /SAMPLE STORIES/i]) {
+  for (const fabricatedClaim of [/1,250\+/, /4\.9\/5/, /92%/, /Raka P\./, /Dimas A\./, /Nadia K\./, /SIMULATED CUSTOMER STORY/i, /SAMPLE STORIES/i]) {
     expect(visibleCopy).not.toMatch(fabricatedClaim);
   }
 });
