@@ -526,3 +526,9 @@ Applied a second mobile hero correction in commit ac47977d627b6258925b03a80255f9
 ### Narrow hero typography refinement — 2026-11-16
 
 Followed the 320px hero grid correction with a fluid H1 size at max-width 380px in commit 6d0ae557ea28e59c10ec5eabe2304d67b36df6f3 (44–56px). The intent is to preserve full-word wrapping in fallback-font conditions at 320px. This is the latest Starter source revision. Windows 19/19 and a matching fresh CI result remain unverified; Segment 14 remains IN PROGRESS.
+
+### Third Windows 320px overflow finding — 2026-11-16
+
+After the hero correction, the Windows repeat no longer listed hero elements as offenders. The remaining failure was booking: document width 359px; `.booking-copy`, `.section-heading`, H2, promise rows and `.booking-form` expanded to 341px. This is the booking section's one-column intrinsic sizing/long heading issue. The other 18 tests passed and `git status --short` still showed only the untracked Starter `package-lock.json`.
+
+Applied revision commit `5a24be7a4df0e9d772cf5aabf8b1425433d92ab3` to give the mobile booking grid a zero-minimum track, constrain copy/form/promises and use a fluid wrapping heading. Pull and run local Windows tests; confirm fresh CI. Do not commit the Starter lockfile or switch the workflow to `npm ci` before 19/19 passes. Segment 14 remains IN PROGRESS.
