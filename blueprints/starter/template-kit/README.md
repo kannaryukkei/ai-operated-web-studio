@@ -6,7 +6,7 @@ A reusable Starter website production foundation derived from the ZACKS Detailin
 
 **Starter is the only active implementation target.** Business and Custom definitions remain reference material; do not build their blueprints until Starter passes the current product acceptance gate and the Studio owner explicitly reprioritizes.
 
-The current Starter codebase is a development/portfolio reference, not a sellable production release. Its React/Vite source and automated checks are useful as a baseline, but legacy sample metrics and customer-story style proof must be removed or replaced with non-proof content. A demo label does not legitimize fabricated social proof.
+The current Starter codebase is a development/portfolio reference, not a sellable production release. The former simulated customer-story cards and numeric proof have been removed from the current rendered reference and content configuration; a 19-test browser regression prevents the known proof components/values from returning. A demo label never legitimizes fabricated social proof.
 
 ## Product principles
 
@@ -53,10 +53,11 @@ Do not copy the ZACKS project wholesale. Follow `docs/extraction-map.md` to isol
 
 - Starter v0.4.0 provides an automotive-editorial visual system and an expanded portfolio journey.
 - Includes interactive vehicle/class pricing, Care Finder, additional services, a photo gallery, WhatsApp consultation handoff, FAQ and responsive footer.
-- The existing implementation also includes legacy illustrative metrics/customer-story content. Treat those as known content-policy defects; they must not be reproduced and must be removed or redesigned before the reference can pass the updated acceptance gate.
+- The former simulated metrics/customer-story blocks were removed and a browser regression now checks that unverified testimonials/performance claims remain absent.
 - Hero/gallery photographs are visual references, not evidence of customer work; verify source, license, permissions and use before redistribution.
 - The site is React + Vite + plain CSS and does not persist booking data.
-- The documented Chromium baseline is useful regression evidence, but does not complete visual, accessibility/contrast, performance, cross-browser, real-client, deployment or handover acceptance.
+- The current Chromium baseline passes 19 tests on the recorded calibration commit, but does not complete actual-scale visual review, full accessibility, performance, cross-browser, real-client, deployment or handover acceptance.
+- The Starter folder currently has no committed `package-lock.json`; the blueprint CI therefore still uses `npm install`, not a lockfile-enforced `npm ci`. Add and validate the lockfile before claiming deterministic dependency installation.
 - Current AI automation is an operating design plus reusable prompts/templates; build/browser testing are automated in GitHub Actions, while lead intake, AI execution, approvals, invoicing and hosting deployment remain manual unless a separate tested implementation exists.
 
 ## Release boundary
