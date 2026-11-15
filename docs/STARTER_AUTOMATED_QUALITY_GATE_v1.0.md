@@ -12,7 +12,7 @@ Turn the Starter quality rules already present in the Master Skill and Starter P
 
 | Area | Automated contract | Coverage |
 |---|---|---|
-| Dependency reproducibility | Committed package lock is used for deterministic clean installation | `package-lock.json` + `npm ci`; current Starter folder is missing the lockfile, so this criterion is NOT YET PASS |
+| Dependency reproducibility | Committed package lock is used for deterministic clean installation | `package-lock.json` + `npm ci`; committed lockfile and revision-branch CI run #69 verified |
 | Production build | Vite production build succeeds | CI on every qualifying push / pull request |
 | Responsive layout | No document horizontal overflow | 320, 360, 390, 640, 768, 900, 1024, 1280 and 1440px |
 | Body text | Customer-facing body, list, label and FAQ text is at least 15px | All rendered matching instances at all nine widths |
@@ -42,6 +42,6 @@ Update the role selectors only when the interface semantics change. A new text r
 
 ## Current repository reproducibility status — 2026-11-16
 
-The canonical Starter folder currently has no committed `package-lock.json`; its workflow therefore uses `npm install`. This does not freeze the transitive dependency graph. To satisfy the reproducibility criterion, commit a lockfile generated from the Starter `package.json`, validate a clean install with `npm ci`, and change the workflow to use `npm ci`. Do not confuse the separate `platform/package-lock.json` with the Starter application's dependency lock.
+**PASS.** The Starter folder contains a committed `package-lock.json` (`0159e20`). A clean `npm ci --no-audit --no-fund` install was verified locally on Windows before the lockfile was committed. The root Starter CI workflow now uses `npm ci --no-audit --no-fund` and caches npm dependencies with `cache-dependency-path: blueprints/starter/template-kit/starter/package-lock.json`.
 
-The root Starter CI now includes `revision/**` pushes and the acceptance/evidence/implementation QA documents in its push and pull-request path filters. The new revision-branch trigger was verified by [Starter blueprint CI run #43](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43741402145): Vite build PASS and Playwright 19/19 PASS. That run still used `npm install`; the lockfile/clean-install requirement remains open.
+Revision-branch Starter CI [run #69](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43744267588), workflow commit `a418077ad01a009e3937c7ee63e38629556864fe`, completed successfully: `npm ci` installed 69 packages, Vite production build passed, and Playwright Chromium passed **19/19**. The operator separately reported **19/19** on Windows after the responsive corrections. The lockfile criterion is closed. The other untested items in this gate (photo/gradient visual review, full accessibility, cross-browser and performance) remain separate requirements.
