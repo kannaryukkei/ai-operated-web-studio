@@ -5,3 +5,7 @@ dist/
 !.env.example
 .DS_Store
 npm-debug.log*
+
+# Playwright output
+/test-results/
+/playwright-report/
