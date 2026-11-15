@@ -23,7 +23,7 @@ The Starter source is also ZACKS-specific. It is a reference for a home-service 
 | Gate 1 — Customer-facing completeness | **BLOCKED** | Several core questions are answered, but offer exclusions, trust evidence alternatives, payment methods, policies, durations and operational availability require owner decisions or explicit not-applicable reasons |
 | Gate 2 — Conversion integrity | **BLOCKED** | WhatsApp message construction, configured number consistency and popup fallback pass browser tests; destination ownership, actual receipt/response and owner operational readiness are unverified |
 | Gate 3 — Visual and content quality | **PARTIAL** | Typography floors, measurable solid-surface contrast and evidence omission are automated; photo/gradient screenshot review and asset-use approval remain open |
-| Gate 4 — Technical release quality | **PARTIAL** | Production build and 19/19 Chromium tests pass on the recorded commit; no Starter lockfile, full visual review, cross-browser, performance or complete accessibility evidence |
+| Gate 4 — Technical release quality | **PARTIAL** | Production build, committed dependency lockfile/`npm ci`, and the 19/19 Chromium baseline pass in CI and the operator's Windows run; full visual review, cross-browser, performance and complete accessibility evidence remain open |
 | Gate 5 — Real-world validation and commercial readiness | **BLOCKED** | No verified complete client delivery, live visitor/lead validation, actual delivery-time/margin study or production handover record is evidenced |
 
 No gate is inferred to pass from the green build alone. A blocked item may be resolved by owner approval, verified evidence or a documented NOT_APPLICABLE decision where the gate permits it; it must not be silently omitted or invented.
@@ -102,16 +102,17 @@ They do **not** establish that the number is currently controlled by the busines
 | Internal anchors and configured WhatsApp path | Browser regression checks | PASS as code consistency, not live destination ownership |
 | Image decode and alt presence | Browser regression checks | PASS as load/attribute checks, not licensing or full semantic audit |
 | Metadata/preview restriction | Title, description, Open Graph fields, favicon and `noindex,nofollow` are present | PARTIAL; production domain/canonical/robots release configuration still needs review |
-| Dependency reproducibility | No `package-lock.json` exists in the Starter folder; CI uses `npm install` | **NOT PASS** |
+| Dependency reproducibility | Committed Starter `package-lock.json`; clean `npm ci`; CI caches npm from the Starter lockfile | **PASS** — CI run #69; local Windows clean-install and 19/19 test reported |
 | Photo/gradient actual-pixel review | Not included in automated contrast sampling; no current screenshot review evidence | NOT TESTED |
 | Firefox/WebKit | Chromium-only Playwright project | NOT TESTED |
 | Performance/Lighthouse/Core Web Vitals | No measured result recorded | NOT TESTED |
 | Full accessibility/assistive technology/physical devices | No certification/evidence recorded | NOT TESTED |
 | Hosting, domain, SSL, DNS, backups, ownership | No production deployment/handover evidence | NOT TESTED |
 
-**Reproducibility correction required:** create and commit `blueprints/starter/template-kit/starter/package-lock.json`; verify a clean `npm ci`; then change Starter CI from `npm install` to `npm ci` and configure npm cache against that lockfile. The separate `platform/package-lock.json` does not lock the Starter app dependencies.
+**Reproducibility correction — CLOSED:** `blueprints/starter/template-kit/starter/package-lock.json` was committed in `0159e20`. A clean local Windows `npm ci --no-audit --no-fund` passed. Starter CI now runs `npm ci --no-audit --no-fund` and uses setup-node npm caching with `cache-dependency-path: blueprints/starter/template-kit/starter/package-lock.json`. [Run #69](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43744267588) confirms `npm ci` (69 packages), Vite production build and Playwright 19/19 PASS. The Platform lockfile remains separate.
 
-**CI trigger correction — verified:** the root Starter blueprint workflow now includes `revision/**`, pins its GitHub Actions by commit SHA and includes the relevant acceptance/evidence/implementation documents in both push and pull-request path filters. Revision-branch trigger verification: [Starter blueprint CI run #43](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43741402145), push to `revision/master-revision`, commit `5bed0839b4f55b976b69f9b8f8d6814be9d4aa72`; Vite production build PASS and Playwright 19/19 PASS. The run still used `npm install` because the Starter lockfile has not yet been created.
+**CI trigger correction — verified:** the root Starter blueprint workflow includes `revision/**`, pins its GitHub Actions by commit SHA and includes relevant acceptance/evidence/implementation QA documents in push and pull-request path filters. The older run #43 was the first successful revision-branch trigger; run #69 is the current lockfile-enforced pipeline verification.
+
 
 ## Gate 5 — Real-world and commercial readiness: blockers
 
@@ -133,12 +134,12 @@ A real pilot delivery and retrospective are required before converting the propo
 4. Complete the asset/permission register for logo, photographs, fonts and other media; replace assets whose use cannot be approved.
 5. Record the source/evidence/publication status of every material public claim and the approved CTA destinations before production content is frozen.
 
-### P1 — Repeatable technical and visual QA
-1. Generate the Starter package lockfile, test `npm ci`, switch Starter CI to the lockfile-enforced install and verify the revision-branch run.
-2. Capture actual-scale desktop/tablet/mobile screenshots and complete the required human visual review for gradients/photo-backed surfaces and responsive crop/composition.
-3. Run Lighthouse/performance measurement and record the tested build, metrics, device/network settings and limitations.
-4. Test Firefox and WebKit/Safari or explicitly retain NOT TESTED status and a documented risk decision.
-5. Complete an accessibility review beyond automated contrast and DOM assertions, including keyboard/screen-reader checks as appropriate.
+### P1 — Remaining visual, cross-browser and performance QA
+1. Capture actual-scale desktop/tablet/mobile screenshots and complete the required human visual review for gradients/photo-backed surfaces and responsive crop/composition.
+2. Run Lighthouse/performance measurement and record the tested build, metrics, device/network settings and limitations.
+3. Test Firefox and WebKit/Safari or explicitly retain NOT TESTED status and a documented risk decision.
+4. Complete an accessibility review beyond automated contrast and DOM assertions, including keyboard/screen-reader checks as appropriate.
+
 
 ### P2 — Real delivery and handover economics
 1. Deliver one complete Starter project for a real business under the approved WRP and G0–G7 gates.
