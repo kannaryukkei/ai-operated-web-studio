@@ -16,11 +16,13 @@
 
 The current website source is the ZACKS Detailing automotive/local-service demo. It is the best tested reference for a local service business decision journey, but it still contains ZACKS-specific language, automotive interactions, sample pricing, contact details and external photo references. Some legacy portfolio content also contains simulated metrics/customer-story style proof; those elements do not comply with the current evidence policy, even in demos. Do not deploy or copy it unchanged for a client.
 
+The current reference was corrected in commit `6d4e85633e35bb8160a46988c8665267191e3f0f`: simulated customer-story cards and numeric proof were removed from the content configuration and rendered page, with a browser regression to prevent their return. That does not verify the remaining ZACKS facts or asset rights.
+ 
 For each project:
 1. Read the approved brief, Master Skill v1.11 Candidate and the canonical operating/data/approval documents.
 2. Decide whether this local-service pattern actually fits the customer journey.
 3. Copy `template-kit/starter/` into that client's separate website repository only when it is a fit.
-4. Remove all simulated testimonials, reviews, ratings, awards, customer counts, performance metrics and case results. Replace business facts, identity, contact endpoints, images, credits, pricing, FAQs and policies only with source-traceable and appropriately approved material.
+4. Replace ZACKS identity, facts, contact endpoints, images, credits, pricing, FAQs and policies only with source-traceable and appropriately approved material. Never add fabricated proof.
 5. Remove or redesign interactions that do not serve the real business.
 6. Follow WRP/G0–G7 gates and run the complete Starter Product Acceptance Gate plus independent browser QA before any release.
 
@@ -37,4 +39,4 @@ Every client website remains a separate repository created from a selected bluep
 
 ## Verification and release boundary
 
-Migration integrity and technical smoke tests are verified. This does not make the sample website production-ready for a real client. Formal accessibility/contrast, performance/Lighthouse, Firefox/Safari, real-client content/asset approval, and real conversion validation remain open. Use the Starter Product Acceptance Gate before any commercial readiness claim.
+Migration integrity is verified. The current reference build and 19-test Chromium suite passed on commit `6d4e85633e35bb8160a46988c8665267191e3f0f` (GitHub Actions run [#36](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43722483382)). This does not make the sample website production-ready for a real client. Owner-approved facts and asset rights, actual-scale screenshot review, full accessibility review, Lighthouse/performance, Firefox/WebKit, live destination ownership, real-client validation and commercial economics remain open. Use the Starter Product Acceptance Gate before any commercial readiness claim.
