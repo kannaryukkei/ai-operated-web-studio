@@ -29,7 +29,7 @@
 | 05 | Establish canonical data schema | DONE |
 | 06 | Define Website Requirements Pack | DONE |
 | 07 | Define review, approval, and release gates | DONE |
-| 08 | Revise Master Skill | NOT STARTED |
+| 08 | Revise Master Skill | DONE |
 | 09 | Harmonize prompts, skills, and delivery playbook | NOT STARTED |
 | 10 | Harmonize documentation | NOT STARTED |
 | 11 | Align platform with canonical workflow | NOT STARTED |
@@ -64,8 +64,8 @@
 4. Continue from the first NOT STARTED segment; do not redo verified work.
 5. Update this log in the same segment checkpoint when a segment is completed.
 
-**Next segment:** 08 — Revise Master Skill.  
-**Resume point:** revise the v1.10 candidate to orchestrate the adopted material-first policy, canonical schema, WRP and approval gates. Map every stage to canonical artifacts and exit conditions. Keep the API-free/manual execution model and preserve only specialist techniques that add distinct value.
+**Next segment:** 09 — Harmonize Prompts, Skills & Delivery Playbook.  
+**Resume point:** map the numbered Starter prompts and all delivery playbook stages to Master Skill v1.11 Stages 0–9. Audit the stale frontend-implementation-skills branch selectively; review license/provenance, merge unique value only, and resolve overlaps with current review skills. Do not merge the branch wholesale.
 
 
 ## Checkpoint — Segment 02
@@ -141,3 +141,17 @@
 **Files changed:** `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md`; `docs/security-and-approvals.md`; `docs/MASTER_PRODUCT_REQUIREMENTS_v1.0.md`; `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md`; this execution log.  
 **Blockers:** the platform has no complete persisted approval workflow; manual approval register remains required until Segments 11–12 specify/implement minimum support.  
 **Commit:** approval policy `49abfd6e6e6425cfc2290f7e295bd431d0adef08`; security policy `627185a8461e1a056f59a00665e03aff973aa801`; PRD `2ecf164ee760db659552565207dfb06c46136062`; workflow `40c006cc81260423bffa2c4235ae2378d483377c`; execution log checkpoint follows.  
+
+
+## Checkpoint — Segment 08
+
+**Status:** DONE (Master Skill v1.11 candidate created; adoption/review remains an owner decision)  
+**Output:** `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.11_CANDIDATE.md`  
+**Base:** preserved v1.10 Candidate and aligned it with Master PRD v1.0, Canonical Operating Workflow v1.0, Client Input & Material Policy v1.0, Canonical Discovery Data Schema v1.0, Website Requirements Pack v1.0 and Approval & Release Policy v1.0.  
+**Actions:** added canonical document authority and execution discipline; clarified the current 26-field Project Intake mismatch (five required controller fields vs four-field UI copy and current client-editable access); aligned Stage 0/1/3 artifacts to avoid duplicating Business Intelligence vs Customer Question Map outputs; required schema IDs/fields/statuses; made WRP APPROVED_FOR_DESIGN and G2 a hard Stage 5 entry gate; mapped G0/G1/G2/G3 and G5–G7 approval decisions; aligned page coverage to canonical `page_coverage[]`; expanded preview/production/release/handover instructions; retained Design Differentiation, independent visual QA, category interaction contracts and evidence-led calibration; added Starter-first implementation sequencing; prohibited fabricated social proof even for demos.  
+**Key decisions:** v1.11 remains CANDIDATE pending owner adoption. v1.10 is preserved as historical candidate. Existing paid-API-free/manual AI execution remains valid; no platform automation or API dependency is introduced by this segment.  
+**Validation:** Master Skill re-fetched from the branch; checked Stage 0–9 presence, WRP-before-Stage-5 ordering, canonical references, G0–G3/G5–G7 gates, explicit RELEASE_AUTHORIZED/HANDED_OVER states, no legacy `APPROVED-FOR-PUBLICATION` enum, and the intake mismatch note. Documentation-only; no application tests run.  
+**Files changed:** `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.11_CANDIDATE.md`; this execution log.  
+**Deferred to Segment 10:** README/skills registry/manual prompt pointers still reference earlier Master Skill versions and will be harmonized with the prompts and documentation index.  
+**Blockers:** none for the candidate draft; owner approval of v1.11 remains pending.  
+**Commits:** v1.11 initial `d5c168a223c425297eab5df98ed4959ab43a46ac`; approval/source-output refinement `f9ae13ab9013b13fd79d8ed545567b6462bac91d`; Stage 0/1 lifecycle alignment `1e2589fa4ebf2df0cb333c7e6fd7df7906529424`; final file content SHA re-fetched as `1362491063065c350ee3df0f22f970c58be3f9ef`.  
