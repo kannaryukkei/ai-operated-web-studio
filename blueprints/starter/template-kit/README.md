@@ -56,8 +56,8 @@ Do not copy the ZACKS project wholesale. Follow `docs/extraction-map.md` to isol
 - The former simulated metrics/customer-story blocks were removed and a browser regression now checks that unverified testimonials/performance claims remain absent.
 - Hero/gallery photographs are visual references, not evidence of customer work; verify source, license, permissions and use before redistribution.
 - The site is React + Vite + plain CSS and does not persist booking data.
-- The current Chromium baseline passes 19 tests on the recorded calibration commit, but does not complete actual-scale visual review, full accessibility, performance, cross-browser, real-client, deployment or handover acceptance.
-- The Starter folder currently has no committed `package-lock.json`; the blueprint CI therefore still uses `npm install`, not a lockfile-enforced `npm ci`. Add and validate the lockfile before claiming deterministic dependency installation.
+- The current Chromium baseline passes 19/19 tests in GitHub Actions [run #69](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43744267588); the operator also reported 19/19 on Windows. The automated overflow test covers nine viewport widths, from 320px to 1440px. This does not complete actual-scale visual review, full accessibility, performance, cross-browser, real-client, deployment or handover acceptance.
+- `package-lock.json` is committed in the Starter folder (`0159e20`). Starter CI now uses `npm ci` and configures npm caching against that lockfile; [run #69](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43744267588) confirms a clean install (69 packages), production build and 19/19 browser tests.
 - Current AI automation is an operating design plus reusable prompts/templates; build/browser testing are automated in GitHub Actions, while lead intake, AI execution, approvals, invoicing and hosting deployment remain manual unless a separate tested implementation exists.
 
 ## Release boundary
