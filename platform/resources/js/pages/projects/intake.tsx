@@ -267,7 +267,6 @@ const groups: {
 export default function ProjectIntake({
     project,
     intake,
-    canEdit,
 }: {
     project: { id: number; name: string; clientName: string };
     intake: {
@@ -276,7 +275,6 @@ export default function ProjectIntake({
         payload: Partial<IntakePayload>;
         submittedAt: string | null;
     };
-    canEdit: boolean;
 }) {
     const form = useForm<{ payload: IntakePayload }>({
         payload: { ...emptyPayload, ...intake.payload },
@@ -313,13 +311,13 @@ export default function ProjectIntake({
                         {project.clientName} · {project.name}
                     </p>
                     <h1 className="mt-1 text-2xl font-semibold tracking-tight">
-                        Business discovery intake
+                        Internal project intake snapshot
                     </h1>
                     <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-                        Tell us how your business works, what customers need to
-                        know and how they buy. Short answers are fine. Save
-                        progress and return later; optional questions can be
-                        left blank.
+                        Studio staff populate this interim summary from the
+                        discovery interview and supplied business materials.
+                        It is not a client questionnaire or the canonical
+                        Client Website Brief. Optional details may remain blank.
                     </p>
                 </div>
 
@@ -376,9 +374,7 @@ export default function ProjectIntake({
                                             <Input
                                                 id={field.key}
                                                 type="url"
-                                                disabled={
-                                                    !canEdit || form.processing
-                                                }
+                                                disabled={form.processing}
                                                 value={
                                                     form.data.payload[field.key]
                                                 }
@@ -394,9 +390,7 @@ export default function ProjectIntake({
                                             <textarea
                                                 id={field.key}
                                                 rows={field.rows || 2}
-                                                disabled={
-                                                    !canEdit || form.processing
-                                                }
+                                                disabled={form.processing}
                                                 value={
                                                     form.data.payload[field.key]
                                                 }
@@ -420,37 +414,31 @@ export default function ProjectIntake({
                             </CardContent>
                         </Card>
                     ))}
-                    {canEdit ? (
-                        <div className="flex flex-wrap items-center justify-between gap-3">
-                            <p className="text-xs text-muted-foreground">
-                                Only four core fields are required. Optional
-                                details improve the website plan. Submitted
-                                versions are preserved as read-only snapshots.
-                            </p>
-                            <div className="flex gap-2">
-                                <Button
-                                    type="submit"
-                                    variant="outline"
-                                    disabled={form.processing}
-                                >
-                                    <Save className="mr-2 size-4" /> Save
-                                    progress
-                                </Button>
-                                <Button
-                                    type="button"
-                                    disabled={form.processing}
-                                    onClick={submit}
-                                >
-                                    <CheckCircle2 className="mr-2 size-4" />{' '}
-                                    Submit intake
-                                </Button>
-                            </div>
-                        </div>
-                    ) : (
-                        <p className="text-sm text-muted-foreground">
-                            You have view-only access to this intake.
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                        <p className="text-xs text-muted-foreground">
+                            Five core fields are required to submit this
+                            internal snapshot. The other 21 fields are
+                            optional. Submitted versions are preserved as
+                            read-only snapshots.
                         </p>
-                    )}
+                        <div className="flex gap-2">
+                            <Button
+                                type="submit"
+                                variant="outline"
+                                disabled={form.processing}
+                            >
+                                <Save className="mr-2 size-4" /> Save progress
+                            </Button>
+                            <Button
+                                type="button"
+                                disabled={form.processing}
+                                onClick={submit}
+                            >
+                                <CheckCircle2 className="mr-2 size-4" />{' '}
+                                Submit intake
+                            </Button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </>
