@@ -54,6 +54,7 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 - `docs/WEBSITE_PRODUCT_TIERS_v1.1.md` — Starter / Business / Custom scope and Starter price boundary.
 - `docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.0.md` — design, implementation and technical guardrails.
 - `docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md` — required release and commercial gate.
+- `docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md` — automated typography, control, metadata and solid-surface contrast regression for the Starter reference.
 - `docs/BLUEPRINT_MIGRATION_DECISION.md` — canonical blueprint locations, source provenance and repository retirement decision.
 - `blueprints/starter/README.md` — how to use the migrated Starter reference.
 - `blueprints/starter/KALA_PILOT_LEARNINGS.md` — best practices distilled from every KALA pilot branch.
