@@ -253,6 +253,13 @@ For each segment, record: purpose and visitor question; what works; issues and s
 
 Inspect cross-page systems separately: type scale, color and contrast, spacing rhythm, grid alignment, image framing, content density, heading hierarchy, interaction affordances, keyboard focus and responsive behavior.
 
+### Contrast and typography acceptance
+- Target WCAG AA contrast: at least 4.5:1 for normal text and 3:1 for large text; evaluate relevant non-text UI/focus indicators at 3:1.
+- Record explicit text/background pairs by role and surface. Composite rgba/opacity colors against the actual background; sample gradients, photography and overlays in the rendered browser rather than assuming a flat token.
+- Run automated checks over every matching instance at all nine standard widths. Include relevant hover, focus-visible, active, disabled, expanded and error states. Do not use `locator.first()` as the only evidence for a role.
+- A primary brand accent may be suitable as a background but fail as small text. Create surface-specific text tokens where needed; preserve the visual identity without sacrificing readability.
+- Important safety/allergen facts, price conditions, operating policies, legal notes, access limitations and transaction caveats must not be shrunk into metadata. Reflow, simplify or restructure first.
+
 Review screenshots at actual viewport scale (100%) on desktop, tablet and mobile. A downscaled full-page screenshot is useful for section rhythm but is not sufficient evidence that body text or metadata is legible. Check every instance of each defined text role, not only the first match, and inspect policy/safety details at the narrowest supported viewport.
 
 Prioritize issues in this order: factual/business integrity and broken conversion; comprehension and readability; navigation and interaction clarity; responsive layout and asset framing; visual hierarchy and composition; decorative refinement.
