@@ -284,9 +284,9 @@ Re-fetched and inspected all nine changed files. Confirmed:
 
 ### Automated test / CI status
 
-**NOT RUN — no PASS is claimed.** The available root `.github/workflows/platform-ci.yml` runs for pull requests touching `platform/**` or pushes to `main`; it does not run on this revision branch. The local execution environment has PHP but no Composer binary/vendor installation, and outbound GitHub access is unavailable for cloning/running the application. No PR was created and `main` was not modified, consistent with the revision-branch boundary.
+**NOT RUN — no PASS is claimed.** The available root `.github/workflows/platform-ci.yml` runs for pull requests touching `platform/**` or pushes to `main`; it does not run on this revision branch. Its Composer invocation now uses `composer run-script ci:check`, which correctly addresses the colon-named script. The local execution environment has PHP but no Composer binary/vendor installation, and outbound GitHub access is unavailable for cloning/running the application. No PR was created and `main` was not modified, consistent with the revision-branch boundary.
 
-The reproducible validation command is `composer ci:check` from the `platform/` directory. It runs frontend checks, TypeScript checks, Pint/PHPStan and Laravel tests via the configured Composer scripts. Run it locally or through the explicitly authorized revision PR before treating these changes as tested. The corresponding acceptance criteria above remain **pending execution** until then.
+The reproducible validation command is `composer run-script ci:check` from the `platform/` directory. The workflow command was also corrected from the invalid shorthand `composer ci:check` to `composer run-script ci:check`. It runs frontend checks, TypeScript checks, Pint/PHPStan and Laravel tests via the configured Composer scripts. Run it locally or through the explicitly authorized revision PR before treating these changes as tested. The corresponding acceptance criteria above remain **pending execution** until then.
 
 **Files changed in this implementation:**  
 - `platform/app/Policies/ProjectPolicy.php`
