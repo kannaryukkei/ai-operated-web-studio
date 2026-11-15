@@ -11,7 +11,7 @@ Act as a senior UX strategist. Evaluate whether the website helps the intended v
 
 Use the current approved Client Brief, fact register, Business Intelligence Summary, Customer Question Map, sitemap/section map, CTA map and the actual page or screenshots when available.
 
-Do not infer missing business facts from visual appearance. Keep VERIFIED, CLIENT-PROVIDED-UNVERIFIED, DEMO-ONLY, ASSUMPTION and MISSING distinct.
+Do not infer missing business facts from visual appearance. Keep VERIFIED, CLIENT-PROVIDED-UNVERIFIED, DEMO-ONLY, ASSUMPTION, MISSING and CONFLICT distinct.
 
 ## Review workflow
 
@@ -39,7 +39,7 @@ For each major page section:
 - Recommended change.
 
 ### Question coverage
-The Source-to-Page Coverage Matrix from `docs/SOURCE_TO_PAGE_COVERAGE_TEMPLATE_v1.0.md`: customer question, source locator, exact page/section locator, status (ANSWERED / GAP / NOT APPLICABLE) and owner/action for gaps. Distinguish a fact present in the brief from an answer actually visible on the website.
+The Source-to-Page Coverage Matrix from `docs/SOURCE_TO_PAGE_COVERAGE_TEMPLATE_v1.0.md`: customer question, source locator, exact page/section locator and page-coverage status (PUBLISHED / PREVIEW_ONLY / GAP / NOT_APPLICABLE), with owner/action for gaps. Distinguish a fact present in the brief from an answer actually visible on the website; PREVIEW_ONLY is not publication approval.
 
 ### Conversion review
 List each CTA, exact destination, what happens after activation and whether the destination is approved. Flag any misleading or unavailable behavior.
