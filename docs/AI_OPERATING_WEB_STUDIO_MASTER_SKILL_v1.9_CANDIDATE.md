@@ -315,7 +315,7 @@ Across all categories, reuse the method (source traceability, Base → Refine �
 
 ## Stage 7 — Independent QA
 
-Run actual production build and browser tests; source inspection is not browser evidence.
+Run the actual production build and browser tests; source inspection is not browser evidence. Test the exact checked-out branch/commit or record a scoped local-copy/in-memory limitation. Record the tested commit SHA with the evidence.
 
 ### Functional and responsive
 - Apply the implementation and accessibility checklist in `skills/interface-quality-review/SKILL.md` alongside the project's existing browser-test stack.
