@@ -281,7 +281,7 @@ For every material customer question or source-backed public fact:
 - Keep internal/private information out of public content. Do not add content solely to make a coverage row appear complete; an unavailable fact stays unavailable.
 - Flag any fact or customer question that disappears between raw material → normalized brief → customer-facing copy.
 
-Produce a **Source-to-Page Coverage Matrix** and prioritized content-gap register before owner review. This matrix becomes an input to the independent QA gate, not another client form.
+Produce a **Source-to-Page Coverage Matrix** using `docs/SOURCE_TO_PAGE_COVERAGE_TEMPLATE_v1.0.md`, plus a prioritized content-gap register before owner review. This matrix becomes an input to the independent QA gate, not another client form.
 
 Output: refined site, section-by-section design audit, Source-to-Page Coverage Matrix, issue register with impact and resolution, content gaps resolved/deferred, screenshot evidence and change log.
 
