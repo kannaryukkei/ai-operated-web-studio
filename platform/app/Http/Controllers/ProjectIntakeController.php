@@ -28,7 +28,7 @@ class ProjectIntakeController extends Controller
 
     public function show(Project $project): Response
     {
-        Gate::authorize('view', $project);
+        Gate::authorize('manageInternalIntake', $project);
 
         $intake = $project->intakes()
             ->where(fn (Builder $query) => $query->where('status', 'draft'))
@@ -49,13 +49,12 @@ class ProjectIntakeController extends Controller
                 'payload' => $intake ? $intake->payload : [],
                 'submittedAt' => $submittedAt instanceof Carbon ? $submittedAt->toISOString() : null,
             ],
-            'canEdit' => Gate::allows('update', $project),
         ]);
     }
 
     public function save(Request $request, Project $project): RedirectResponse
     {
-        Gate::authorize('update', $project);
+        Gate::authorize('manageInternalIntake', $project);
         $validated = $request->validate($this->rules());
 
         DB::transaction(function () use ($project, $validated): void {
@@ -79,7 +78,7 @@ class ProjectIntakeController extends Controller
 
     public function submit(Request $request, Project $project): RedirectResponse
     {
-        Gate::authorize('update', $project);
+        Gate::authorize('manageInternalIntake', $project);
         $validated = $request->validate($this->rules(true));
 
         DB::transaction(function () use ($project, $request, $validated): void {
