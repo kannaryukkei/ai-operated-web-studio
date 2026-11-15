@@ -4,7 +4,7 @@
 **Version:** 1.0  
 **Status:** Draft — Master Revision candidate  
 **Last updated:** 2026-11-15  
-**Authority:** Derived from Master Skill v1.10 Candidate and Master PRD v1.0
+**Authority:** Master Skill v1.11 Candidate, Master PRD v1.0, Canonical Discovery Data Schema v1.0, Website Requirements Pack v1.0 and Approval & Release Policy v1.0
 
 ## 1. Purpose
 
@@ -148,15 +148,15 @@ A private preview may be produced before all production blockers are cleared, bu
 - Map customer questions across before, during and after purchase where relevant.
 - Identify what customers need to understand, compare, trust, prepare and do next.
 - Map each question to a supported answer, source, owner and intended page/section.
-- Assign preview/production impact and the appropriate page-coverage status.
+- Assign preview/production milestone priority and record the intended source-to-page mapping. Do not assign rendered page-coverage status before the candidate is implemented and reviewed.
 - Recommend the simplest information architecture that serves the approved journey.
 - Select Starter only when a single page can answer the critical questions without harmful compression.
 
-**Required outputs:** Customer Question Map, Buying Journey, Information Architecture, Source-to-Page Coverage Matrix, CTA map and unresolved content gaps. These become the traceable foundation for the Website Requirements Pack.
+**Required outputs:** Customer Question Map, Buying Journey, Information Architecture, source-to-page plan, CTA map and unresolved content gaps. These become the traceable foundation for the Website Requirements Pack. Rendered coverage belongs to the canonical `page_coverage[]` records after implementation and QA.
 
 **Exit gate:** every material visitor question has a destination or an explicit GAP/NOT_APPLICABLE state; the chosen architecture fits the scope and customer journey.
 
-**Current implementation:** discovery output already includes customer question mapping, buying journey and sections; a single canonical Website Requirements Pack and page-coverage contract remain to be standardized.
+**Current implementation:** the canonical schema and WRP contract are documented. Their project-specific production remains manual/versioned until a justified platform capability is implemented.
 
 ### Stage 4 — Content and conversion
 
@@ -174,9 +174,9 @@ A private preview may be produced before all production blockers are cleared, bu
 - Make contact-unavailable, inquiry-only or preview-only states honest and visible.
 - Check content against the customer-question map, not only against keyword/section count.
 
-**Required outputs:** approved content outline/copy draft, CTA Register, claim/evidence list, content coverage, remaining gaps and the versioned Website Requirements Pack (WRP) assembled from Stages 1–4.
+**Required outputs:** content outline/copy draft, CTA Register, claim/evidence list, content coverage, remaining gaps and the versioned Website Requirements Pack (WRP) assembled from Stages 1–4. WRP is an AI/studio-produced project contract, not a client form.
 
-**Exit gate:** critical customer questions have supported answers or recorded blockers; every CTA has a truthful behavior and known destination; publication-pending content is not treated as approved; the WRP meets its APPROVED_FOR_DESIGN gate before Stage 5 begins.
+**Exit gate:** critical customer questions have supported answers or recorded blockers; every CTA has truthful behavior and a known/explicitly pending destination; publication-pending content is not treated as approved; the operator checks traceability/feasibility; required client confirmations and owner progression approval are recorded; WRP status is `APPROVED_FOR_DESIGN` and G2 is passed before Stage 5 begins.
 
 **Current implementation:** relevant prompt, evidence and CTA rules are documented and partly represented in discovery validation; owner approval is currently recorded manually.
 
@@ -186,7 +186,7 @@ A private preview may be produced before all production blockers are cleared, bu
 
 **Responsible:** AI design/development tools; operator owns repository, scope and code review; Studio owner approves visual direction where required.
 
-**Inputs:** owner-approved Website Requirements Pack, approved content/CTA map, assets and permissions, chosen blueprint and implementation standard.
+**Inputs:** Website Requirements Pack status `APPROVED_FOR_DESIGN`, recorded G2, approved content/CTA map, assets and permissions, chosen blueprint and implementation standard.
 
 **Actions:**
 - Research relevant references for quality and customer-information patterns, not to copy their brand or unsupported features.
@@ -197,7 +197,7 @@ A private preview may be produced before all production blockers are cleared, bu
 - Implement real interactions only; do not imply controls that do nothing.
 - Run the actual production build and scoped functional checks.
 
-**Required outputs:** design direction/fingerprint, working website implementation, repository/branch/commit references, asset credits and initial build evidence.
+**Required outputs:** design direction/fingerprint, versioned design specification, working website implementation, repository/branch/commit references, asset credits and initial build evidence. Record G3 content/claims and visual-direction decisions against the exact artifact version.
 
 **Exit gate:** implementation matches approved requirements and content; no unsupported fact or unlicensed asset is knowingly introduced; no fake interaction or conversion behavior; build succeeds.
 
@@ -243,7 +243,7 @@ A private preview may be produced before all production blockers are cleared, bu
 - Check source, evidence, publication approval, asset rights, contact destinations and project isolation.
 - Mark all checks PASS / FAIL / NOT TESTED. A Chromium suite is not cross-browser or full assistive-technology certification.
 
-**Required outputs:** Independent QA Report, exact tested commit SHA, test/CI references, screenshots, issue log, Source-to-Page Matrix and unresolved gate list.
+**Required outputs:** Independent QA Report, exact tested commit SHA, test/CI references, screenshots, issue log, canonical `page_coverage[]` records and unresolved gate list.
 
 **Exit gate:** no critical functional, business-completeness, factual-integrity, permission or technical blocker remains for the intended release state. Untested areas remain explicitly disclosed.
 
@@ -255,7 +255,7 @@ A private preview may be produced before all production blockers are cleared, bu
 
 **Responsible:** Studio owner authorizes release; operator performs the approved release and handover; client confirms ownership and receipt.
 
-**Inputs:** passing QA report, G0–G6 approvals under `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md`, final content and permission records, domain/hosting/account details, release plan and rollback notes.
+**Inputs:** passing QA report, G0–G7 approvals under `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md`, final content and permission records, domain/hosting/account details, release plan and rollback notes.
 
 **Actions:**
 - Confirm production blockers are closed and preview-only items are resolved or removed.
@@ -317,18 +317,18 @@ Artifacts are versioned in the project workspace/repository. Do not create compe
 1. Raw Material Index and preserved source packet.
 2. Source Register and Source Coverage Matrix.
 3. Fact Register and Asset/Permission Register.
-4. Client Brief v2.1 and Business Intelligence Summary.
+4. AI-populated Client Website Brief v2.1 and Business Intelligence Summary.
 5. Offer Matrix, Trust Register and Minimal Clarification List.
 6. Customer Question Map and Buying Journey.
 7. Tier Recommendation, approved Scope/Exclusions and commercial decision.
-8. Website Requirements Pack, Information Architecture and Source-to-Page Coverage Matrix.
+8. Website Requirements Pack, Information Architecture and source-to-page plan; after implementation, canonical rendered `page_coverage[]` records.
 9. Content/CTA/Claim Registers and approved content.
 10. Design fingerprint, asset selection and implementation record.
 11. Code repository references, screenshots, builds and test evidence.
 12. Independent QA Report and approval/release records.
 13. Handover pack and Evidence-led Calibration Record.
 
-The formal schema, mandatory fields and status enums for these artifacts are defined in the subsequent data-contract revision, not invented separately in this workflow document.
+The formal schema, required fields, record identifiers and status enums for these artifacts are defined in `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md`; do not invent parallel field names or status vocabularies.
 
 ## 7. Preview, production and blocker policy
 
@@ -358,7 +358,7 @@ No row in this table should be described as automated by the platform unless an 
 
 ## 9. Change control
 
-- Master Skill v1.10 Candidate remains the stage-level execution instruction until the later Master Skill revision.
+- Master Skill v1.11 Candidate is the current stage-level execution instruction for this revision; its owner adoption remains pending.
 - This workflow document defines stage boundaries and responsibility; it does not replace the Master Skill, `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md`, `docs/WEBSITE_REQUIREMENTS_PACK_v1.0.md` or acceptance gates.
 - If the workflow and a specialist skill overlap, Master Skill and registry authority rules decide which instruction is primary.
 - A proposed stage/approval change must update the PRD and this workflow before implementation.
