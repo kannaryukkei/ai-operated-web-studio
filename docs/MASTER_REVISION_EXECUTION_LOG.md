@@ -536,3 +536,9 @@ Applied revision commit `5a24be7a4df0e9d772cf5aabf8b1425433d92ab3` to give the m
 ### Booking responsive correction — CI evidence
 
 Revision commit `5a24be7a4df0e9d772cf5aabf8b1425433d92ab3` passed Starter blueprint CI [run #58](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43743441717): production build PASS and Playwright 19/19 PASS on Ubuntu 24.04 / Chromium. This validates the latest booking correction in Linux CI. Windows reproduction remains pending. Keep Segment 14 IN PROGRESS and do not commit the Starter lockfile until local Windows 19/19 is confirmed.
+
+### Fourth Windows 320px overflow finding — 2026-11-16
+
+After the booking fix, booking elements no longer appeared in the local Windows overflow list. The document remained 341px at a 320px viewport. The main offender was the Care Finder MOTO/MOTOR button, extending to 341px from intrinsic sizing in its two-column grid. The Care Finder container also had 323px scroll width; package grid/card had a 6px internal overflow; the decorative contact orbit expanded the clipped section's own scroll area to 417px.
+
+Applied commit `bde0cf55aaa4cf37d47723aa0339d55ea34ad191`: Care Finder zero-minimum mobile grid/children and tab columns, constrained button sizing/type, package metadata wrapping and narrower card padding, and a contained contact orbit at <=380px. Fresh CI run #63 and local Windows rerun are pending. Do not commit the lockfile until local 19/19; Segment 14 remains IN PROGRESS.
