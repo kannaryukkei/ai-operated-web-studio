@@ -116,7 +116,7 @@ For each item, record value, source, status and approval:
 - Contact endpoints and CTA destinations.
 - Reviews, ratings, metrics, awards and credentials.
 - Policies, guarantees, warranties and outcomes.
-- Images, project photos, asset owner/source, publication permission and credit/license restrictions.
+- Images and project photos: asset owner/source, commercial-use and publication permission, identifiable people, consent/model-release status (or NOT_APPLICABLE), required credit, licence restrictions/expiry and approval.
 
 Keep three independent dimensions:
 - **Answer status:** PROVIDED / NOT_AVAILABLE / NOT_APPLICABLE / NOT_SURE / CONFLICT.
