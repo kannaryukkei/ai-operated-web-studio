@@ -9,7 +9,7 @@
 
 ## Executive decision
 
-The canonical Starter reference has a coherent local-service customer journey and a meaningful automated Chromium baseline. It is materially stronger than the five-website audit baseline: the previous simulated testimonials/customer stories and numeric proof have been removed, the consultation handoff handles blocked popups honestly, typography/solid-surface contrast checks run at nine viewport widths, and the latest recorded Starter CI run passed a 19-test Playwright suite.
+The canonical Starter reference has a coherent local-service customer journey and a reproducible automated Chromium baseline. The previous simulated testimonials/customer stories and numeric proof have been removed; the consultation handoff handles blocked popups honestly; typography, solid-surface contrast and overflow checks run across nine viewport widths; and the current branch passes 19/19 in both the operator's Windows run and Starter CI. The Starter dependency lockfile is committed, and CI now installs with `npm ci` plus npm caching.
 
 That evidence establishes a technically improved **portfolio preview**, not a production-ready ZACKS website or a commercially validated Starter offer. The live business catalog and material facts still need owner approval; asset permissions and public destination ownership are not established; several customer questions remain partial or blocked; full visual/performance/cross-browser review has not been evidenced; and no complete real-client delivery or margin study is recorded.
 
@@ -44,11 +44,15 @@ No gate is inferred to pass from the green build alone. A blocked item may be re
 - The current demo remains labelled as a portfolio demo and must not be represented as operational ZACKS production.
 
 ### Automated technical baseline
-- Tested implementation commit: `6d4e85633e35bb8160a46988c8665267191e3f0f`.
-- GitHub Actions: [Starter blueprint CI run #36](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43722483382).
-- Observed result: Vite production build PASS; Playwright Chromium **19/19 PASS**.
-- Responsive overflow, typography role floors, measurable solid-surface text contrast, mobile navigation/keyboard behavior, package pricing, Care Finder, CTA payload, popup fallback, image loading/alt, anchor integrity and evidence omission are covered.
-- The current revision branch retains the tested Starter application source and 19-test suite; later revision commits in this audit range changed documentation, workflow and platform files rather than the Starter application/test source.
+- Core responsive implementation correction: `bde0cf55aaa4cf37d47723aa0339d55ea34ad191`.
+- Dependency lockfile: committed as `0159e20`.
+- Starter CI workflow: switched to `npm ci` with lockfile-keyed npm caching in commit `a418077ad01a009e3937c7ee63e38629556864fe`.
+- GitHub Actions: [Starter blueprint CI run #69](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43744267588).
+- Observed result: clean `npm ci` installed 69 packages; Vite production build PASS; Playwright Chromium **19/19 PASS**.
+- The operator separately confirmed **19/19** on Windows after pulling the responsive corrections; the operator then committed and pushed the Starter lockfile.
+- Responsive overflow across nine viewport widths, typography role floors, measurable solid-surface text contrast, mobile navigation/keyboard behavior, package pricing, Care Finder, CTA payload, popup fallback, image loading/alt, anchor integrity and evidence omission are covered.
+- This CI run verifies the current combined branch state: latest Starter source, committed lockfile and lockfile-enforced workflow.
+
 
 ## Gate 0 — Business understanding: blockers
 
