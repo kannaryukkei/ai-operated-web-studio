@@ -195,3 +195,9 @@ Applied a booking-specific mobile correction in revision commit [5a24be7a4df0e9d
 ### Booking responsive correction — CI verification
 
 The booking correction in commit `5a24be7a4df0e9d772cf5aabf8b1425433d92ab3` passed the revision-branch Starter blueprint CI [run #58](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43743441717): Vite production build PASS and Playwright **19/19 PASS** on Ubuntu 24.04 / Chromium. This confirms the current booking layout correction in the Linux CI environment. The matching Windows local rerun remains pending; keep the Starter lockfile uncommitted until that local suite also passes.
+
+### Fourth narrow-viewport regression follow-up — 2026-11-16
+
+The operator's Windows rerun after the booking correction removed booking from the overflow offenders. The 320px document width still reached 341px. The newly reported true horizontal offender was the Care Finder vehicle selector button (MOTO / MOTOR) extending to 341px; its two-column grid used intrinsic minimum sizing. The Care Finder container also reported internal scroll width 323px, and the package grid/card reported a smaller 6px internal overflow (290px vs 284px). The contact section's decorative orbit also expanded its own scroll area to 417px although the section clips overflow; it should remain visually inside the narrow contact container rather than relying on clipping.
+
+Applied a targeted responsive correction in [bde0cf55aaa4cf37d47723aa0339d55ea34ad191](https://github.com/kannaryukkei/ai-operated-web-studio/commit/bde0cf55aaa4cf37d47723aa0339d55ea34ad191): zero-minimum Care Finder tracks and children, constrained vehicle-tab grid/buttons, smaller tab label typography; narrower package-card padding with wrapping metadata; and a smaller, contained contact orbit below 380px. Local Windows rerun and matching CI are pending. Do not commit the Starter lockfile or mark cross-environment responsive QA closed yet.
