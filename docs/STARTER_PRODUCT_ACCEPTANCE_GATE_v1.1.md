@@ -49,6 +49,10 @@ A site cannot pass production completeness with a critical BLOCKED item. Preview
 - [ ] Mobile and desktop layouts are designed for the actual content, not just viewport screenshots.
 - [ ] Copy is specific, clear and customer-oriented rather than generic marketing language.
 
+## Automated Starter regression baseline
+
+The canonical Starter reference must pass docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md. This supplements, and does not replace, the complete technical release checks below. Numeric contrast automation covers measurable solid-color surfaces; gradient/photo surfaces still require actual-scale human screenshot review.
+
 ## Gate 4 — Technical release quality
 - [ ] Production build passes.
 - [ ] All routes, links, navigation and interactions pass browser tests.
