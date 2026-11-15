@@ -414,3 +414,22 @@ The operator's two locally formatted TSX files had passed `vp check` and should 
 **Out of scope:** no PHP/Node version matrix, dependency upgrades, API/provider integration, PR creation, merge, release automation, or changes to `main`. Keep the existing single-run platform workflow and the API-free operating model.
 
 **Resume point:** finish the Segment 13 workflow verification. The workflow changes are committed on the revision branch; confirm that the push triggered the expected run, inspect its summary and logs, and update this checkpoint with the run URL/result.
+
+## Segment 13 — first revision-branch CI runs — 2026-11-16
+
+**Trigger verification:** the new push trigger worked. Platform CI runs #89 and #90 were created for pushes to `revision/master-revision`:
+- Run #89: https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43739371621
+- Run #90: https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43739424592
+
+**Observed result:** both runs failed at `Validate Composer manifest and lock file`; subsequent install/build/test steps were skipped. Run #90 job log reports:
+```
+./composer.json is valid but your composer.lock has some errors
+The lock file is not up to date with the latest changes in composer.json.
+```
+The evidence-summary step itself completed successfully and recorded job failure, commit/ref and runtime versions. The branch trigger and summary mechanism therefore work; the new Composer integrity gate exposed a real lockfile/manifest synchronization problem before dependency installation.
+
+**Cross-check:** the revision branch and `main` currently contain the same `platform/composer.lock` blob. Their Composer manifests have the same dependency declarations; the visible changes are scripts and formatting. Do not assume that the lock drift was introduced by Segment 13 or by the Windows portability fixes. It may predate this revision work.
+
+**Next corrective action:** on the operator's local revision branch, pull the latest revision commits, then run `composer update --lock --no-install` from `platform/` to refresh lock metadata without installing packages or intentionally upgrading dependency versions. Inspect `git diff -- composer.lock`; expect only the lock metadata/content-hash to change. Do not commit if package versions, references or dependency entries change unexpectedly. Run `composer validate --strict --no-check-publish` and report the lockfile diff plus validation output before committing.
+
+**Status:** Segment 13 remains IN PROGRESS. No claim that GitHub Actions passed; no application tests have run in these two Actions attempts. `main` remains untouched.
