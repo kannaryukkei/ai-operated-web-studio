@@ -1,4 +1,4 @@
-project_id,client,tier,master_stage,task,owner,input_required,output_expected,approval_gate,dependency,status,target_date,artifact_link,branch_or_commit,evidence_link
+project_id,client,tier,master_stage,task,owner,input_required,output_expected,approval_gate_or_release_state,dependency,status,target_date,artifact_link,branch_or_commit,evidence_link
 , ,STARTER,PREP,Create internal project record and schedule discovery,Studio,Lead/contact summary,Project record and raw material plan,NONE,Lead qualified,NOT_STARTED,,,
 , ,STARTER,0,Normalize interview and supplied material,AI + Studio,Raw interview/material packet,Source Register; Source Coverage Matrix; Fact Register; Asset/Permission Register; Client Website Brief,G0,Raw material stored securely,NOT_STARTED,,,
 , ,STARTER,0,Confirm material facts public destinations and asset permissions,Client + Studio owner,Fact/asset/CTA IDs and evidence,Recorded G0 confirmations and publication decisions,G0,Stage 0 inventory complete,NOT_STARTED,,,
@@ -17,6 +17,6 @@ project_id,client,tier,master_stage,task,owner,input_required,output_expected,ap
 , ,STARTER,8,Obtain acceptance of exact preview version,Client + Studio,Preview URL/commit; known limitations; QA summary,PREVIEW_ACCEPTED or CHANGES_REQUESTED,G4,Preview ready and limitations disclosed,NOT_STARTED,,,
 , ,STARTER,8,Decide production readiness,Studio owner + Client confirmations,QA evidence; approvals; rights; CTA; ownership; blocker list,PRODUCTION_READY or NOT_READY,G5,G4 accepted and production blockers resolved,NOT_STARTED,,,
 , ,STARTER,8,Authorize exact production release candidate,Studio owner,Exact candidate; release/rollback plan; client approvals,RELEASE_AUTHORIZED or NOT_AUTHORIZED,G6,G5 passed,NOT_STARTED,,,
-, ,STARTER,8,Deploy authorized candidate and verify production,Studio operator,Release authorization and approved access,Production deployment and verification record,RELEASED,G6 authorization recorded,NOT_STARTED,,,
-, ,STARTER,8,Complete ownership/access handover and closure,Studio owner + Client,Handover pack and production record,Handover receipt and ownership confirmation,HANDED_OVER,Production verification complete,NOT_STARTED,,,
+, ,STARTER,8,Deploy authorized candidate and verify production,Studio operator,Release authorization and approved access,Production deployment and verification record,G6,G6 authorization recorded,NOT_STARTED,,,
+, ,STARTER,8,Complete ownership/access handover and closure,Studio owner + Client,Handover pack and production record,Handover receipt and ownership confirmation,G7,Production verification complete,NOT_STARTED,,,
 , ,STARTER,9,Calibrate workflow and record reusable learning,Studio owner + AI,QA/feedback/effort/cost evidence,Calibration record and regression evidence,NONE,Delivery outcome recorded,NOT_STARTED,,,
