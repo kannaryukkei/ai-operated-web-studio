@@ -55,7 +55,7 @@ Every material fact must remain linked to a stable source ID and locator. A norm
 6. Extract atomic facts with stable fact IDs, source IDs, locators and supporting excerpts.
 7. Complete source coverage for material transcript sections, documents, URLs and assets.
 8. Register asset owner/source, intended use, commercial-use permission, publication approval, credit/licence restrictions and identifiable-person consent where relevant.
-9. Reconcile conflicts and classify unresolved items as PREVIEW BLOCKER, PRODUCTION BLOCKER or OPTIONAL GAP.
+9. Reconcile conflicts and classify unresolved items as PREVIEW_BLOCKER, PRODUCTION_BLOCKER or OPTIONAL_GAP.
 10. Produce the normalized Client Brief and the required business-discovery artifacts.
 11. Ask the client/authorized owner only for material clarifications, fact corrections, rights/consent decisions, public CTA confirmation or approval required for the next milestone.
 12. Hand the validated artifacts to tier/scope, Website Requirements Pack, content, design and production stages.
