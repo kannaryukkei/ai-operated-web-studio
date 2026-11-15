@@ -90,19 +90,20 @@ class ManualDiscoveryController extends Controller
             'offer_matrix.*.details' => ['required', 'string', 'max:1500'],
             'offer_matrix.*.pricing' => ['required', 'string', 'max:500'],
             'offer_matrix.*.source' => ['required', 'string', 'max:1000'],
-            'offer_matrix.*.evidence_status' => ['required', 'in:VERIFIED,CLIENT-PROVIDED-UNVERIFIED,APPROVED-FOR-PUBLICATION,DEMO-ONLY,ASSUMPTION,MISSING'],
+            'offer_matrix.*.evidence_status' => ['required', 'in:VERIFIED,CLIENT-PROVIDED-UNVERIFIED,DEMO-ONLY,ASSUMPTION,MISSING,CONFLICT'],
             'customer_question_map' => ['required', 'array', 'min:1'],
             'customer_question_map.*.question' => ['required', 'string', 'max:1000'],
             'customer_question_map.*.answer_or_gap' => ['required', 'string', 'max:1500'],
-            'customer_question_map.*.stage' => ['required', 'in:before_purchase,during_purchase,after_purchase'],
-            'customer_question_map.*.status' => ['required', 'in:ANSWERED,GAP,NOT_APPLICABLE'],
+            'customer_question_map.*.stage' => ['required', 'in:BEFORE_PURCHASE,DURING_PURCHASE,AFTER_PURCHASE'],
+            'customer_question_map.*.answer_status' => ['required', 'in:ANSWERED,GAP,NOT_APPLICABLE'],
+            'customer_question_map.*.milestone_priority' => ['required', 'in:PREVIEW_BLOCKER,PRODUCTION_BLOCKER,OPTIONAL_GAP'],
             'customer_question_map.*.source' => ['required', 'string', 'max:1000'],
             'customer_question_map.*.owner_or_action' => ['required', 'string', 'max:500'],
             'fact_register' => ['required', 'array', 'min:1'],
             'fact_register.*.fact' => ['required', 'string', 'max:1000'],
             'fact_register.*.source' => ['required', 'string', 'max:1000'],
-            'fact_register.*.evidence_status' => ['required', 'in:VERIFIED,CLIENT-PROVIDED-UNVERIFIED,APPROVED-FOR-PUBLICATION,DEMO-ONLY,ASSUMPTION,MISSING'],
-            'fact_register.*.public_use_status' => ['required', 'in:APPROVED,NEEDS_CLIENT_APPROVAL,DO_NOT_PUBLISH'],
+            'fact_register.*.evidence_status' => ['required', 'in:VERIFIED,CLIENT-PROVIDED-UNVERIFIED,DEMO-ONLY,ASSUMPTION,MISSING,CONFLICT'],
+            'fact_register.*.publication_status' => ['required', 'in:APPROVED,PENDING,NOT_APPROVED'],
             'fact_register.*.notes' => ['required', 'string', 'max:1000'],
             'cta_register' => ['required', 'array', 'min:1'],
             'cta_register.*.action' => ['required', 'string', 'max:300'],
@@ -112,19 +113,24 @@ class ManualDiscoveryController extends Controller
             'asset_register' => ['present', 'array'],
             'asset_register.*.asset_or_need' => ['required', 'string', 'max:500'],
             'asset_register.*.source_or_owner' => ['required', 'string', 'max:1000'],
-            'asset_register.*.permission_status' => ['required', 'in:APPROVED,CLIENT_PROVIDED_UNVERIFIED,MISSING,DEMO_ONLY'],
+            'asset_register.*.permission_status' => ['required', 'in:APPROVED,PENDING,NOT_APPROVED,NOT_APPLICABLE'],
+            'asset_register.*.permission_evidence_status' => ['required', 'in:VERIFIED,CLIENT-PROVIDED-UNVERIFIED,DEMO-ONLY,ASSUMPTION,MISSING,CONFLICT'],
+            'asset_register.*.consent_status' => ['required', 'in:CONFIRMED,PENDING,NOT_APPROVED,NOT_APPLICABLE'],
             'asset_register.*.intended_use' => ['required', 'string', 'max:500'],
             'asset_register.*.credit_or_restrictions' => ['required', 'string', 'max:1000'],
             'buying_journey' => ['required', 'array', 'min:1'],
-            'buying_journey.*.stage' => ['required', 'string', 'max:200'],
+            'buying_journey.*.stage' => ['required', 'in:BEFORE_PURCHASE,DURING_PURCHASE,AFTER_PURCHASE'],
             'buying_journey.*.customer_need' => ['required', 'string', 'max:1000'],
             'buying_journey.*.website_support' => ['required', 'string', 'max:1000'],
             'trust_register' => ['required', 'array'],
             'trust_register.*.proof' => ['required', 'string', 'max:1000'],
-            'trust_register.*.status' => ['required', 'string', 'max:100'],
+            'trust_register.*.source' => ['required', 'string', 'max:1000'],
+            'trust_register.*.evidence_status' => ['required', 'in:VERIFIED,CLIENT-PROVIDED-UNVERIFIED,DEMO-ONLY,ASSUMPTION,MISSING,CONFLICT'],
+            'trust_register.*.publication_status' => ['required', 'in:APPROVED,PENDING,NOT_APPROVED'],
             'content_gaps' => ['required', 'array'],
             'content_gaps.*.gap' => ['required', 'string', 'max:1000'],
             'content_gaps.*.owner_or_source' => ['required', 'string', 'max:500'],
+            'content_gaps.*.milestone_priority' => ['required', 'in:PREVIEW_BLOCKER,PRODUCTION_BLOCKER,OPTIONAL_GAP'],
             'sections' => ['required', 'array', 'min:1'],
             'sections.*.key' => ['required', 'string', 'max:100'],
             'sections.*.purpose' => ['required', 'string', 'max:1000'],
@@ -173,15 +179,15 @@ MISSION
 Understand the business and its customers before deciding what the website should contain. The goal is a complete, useful customer journey—not a generic attractive landing page.
 
 RULES
-- Use only information supported by the submitted intake. Never invent facts, prices, inclusions, policies, credentials, testimonials, results or guarantees.
-- Label every material fact with one evidence status: VERIFIED, CLIENT-PROVIDED-UNVERIFIED, APPROVED-FOR-PUBLICATION, DEMO-ONLY, ASSUMPTION or MISSING.
+- Use only information supported by the submitted intake. Never invent facts, prices, inclusions, policies, credentials, testimonials, reviews, ratings, awards, customer counts, performance metrics, customer stories, results or guarantees — including for portfolio/demo work.
+- Label factual support with one evidence status: VERIFIED, CLIENT-PROVIDED-UNVERIFIED, DEMO-ONLY, ASSUMPTION, MISSING or CONFLICT. Keep publication status separately as APPROVED, PENDING or NOT_APPROVED.
 - For every fact, record its exact intake field, supplied URL/document, or other traceable source. If no source exists, write MISSING and do not publish the claim.
-- Record public-use approval separately from factual status. Do not assume that a client-provided fact is approved for publication.
-- Record every supplied or proposed asset, its owner/source, permission status, intended use, credit and restrictions. Unknown rights must be marked MISSING; do not infer that supplied images are licensed for commercial use.
+- Record fact publication status separately from evidence status. Use APPROVED, PENDING or NOT_APPROVED; do not assume that a client-provided fact is approved for publication.
+- Record each supplied/proposed asset's permission_status (APPROVED, PENDING, NOT_APPROVED, NOT_APPLICABLE), permission_evidence_status (VERIFIED, CLIENT-PROVIDED-UNVERIFIED, DEMO-ONLY, ASSUMPTION, MISSING, CONFLICT), people-consent status (CONFIRMED, PENDING, NOT_APPROVED, NOT_APPLICABLE), intended use, credit and restrictions. Unknown rights remain permission_status PENDING and evidence MISSING; never infer commercial permission.
 - Record every CTA with its exact destination, destination approval status and what actually happens after the visitor clicks. If no real destination is supplied, use NOT_CONFIGURED; do not invent a contact endpoint or imply a working submission.
 - Do not treat a missing answer as permission to guess. Record the gap and its owner/source.
-- Identify customer questions and objections before proposing sections. Mark every relevant question ANSWERED, GAP or NOT_APPLICABLE (with reason), and include its source and owner/action.
-- Recommend Starter, Business or Custom based on business complexity and visitor tasks, not visual preference or page count alone.
+- Identify customer questions before proposing sections. Use uppercase journey stages BEFORE_PURCHASE, DURING_PURCHASE or AFTER_PURCHASE; answer_status ANSWERED, GAP or NOT_APPLICABLE; and milestone_priority PREVIEW_BLOCKER, PRODUCTION_BLOCKER or OPTIONAL_GAP. Include source and owner/action.
+- Recommend Starter, Business or Custom based on business complexity and visitor tasks, not visual preference or page count alone. Starter is the only active implementation priority until its acceptance gate passes.
 - Starter means a complete one-page business presence; Business means deeper multi-page information architecture; Custom means bespoke workflows/data/integrations that need a real business reason.
 - Every proposed section must answer a customer question or support a defined business action.
 - Return one valid JSON object only. No Markdown fences or prose outside JSON.
@@ -199,28 +205,28 @@ REQUIRED JSON SHAPE
   "recommended_tier": "starter|business|custom",
   "recommendation_rationale": ["Evidence-based reasons and scope boundary"],
   "offer_matrix": [
-    {"name":"Offer name","details":"Variants, inclusions, exclusions and best-fit customer; unknowns stay explicit","pricing":"Verified price or pricing method, otherwise Not provided","source":"Exact intake field or supplied source; otherwise MISSING","evidence_status":"VERIFIED|CLIENT-PROVIDED-UNVERIFIED|APPROVED-FOR-PUBLICATION|DEMO-ONLY|ASSUMPTION|MISSING"}
+    {"name":"Offer name","details":"Variants, inclusions, exclusions and best-fit customer; unknowns stay explicit","pricing":"Verified price or pricing method, otherwise Not provided","source":"Exact intake field or supplied source; otherwise MISSING","evidence_status":"VERIFIED|CLIENT-PROVIDED-UNVERIFIED|DEMO-ONLY|ASSUMPTION|MISSING|CONFLICT"}
   ],
   "customer_question_map": [
-    {"question":"Real visitor question","answer_or_gap":"Supported answer or explicit gap","stage":"before_purchase|during_purchase|after_purchase","status":"ANSWERED|GAP|NOT_APPLICABLE","source":"Intake field or evidence; otherwise MISSING","owner_or_action":"Client/studio action or N/A reason"}
+    {"question":"Real visitor question","answer_or_gap":"Supported answer or explicit gap","stage":"BEFORE_PURCHASE|DURING_PURCHASE|AFTER_PURCHASE","answer_status":"ANSWERED|GAP|NOT_APPLICABLE","source":"Intake field or evidence; otherwise MISSING","owner_or_action":"Client/studio action or N/A reason","milestone_priority":"PREVIEW_BLOCKER|PRODUCTION_BLOCKER|OPTIONAL_GAP"}
   ],
   "fact_register": [
-    {"fact":"One material business fact","source":"Exact intake field, URL or document; otherwise MISSING","evidence_status":"VERIFIED|CLIENT-PROVIDED-UNVERIFIED|APPROVED-FOR-PUBLICATION|DEMO-ONLY|ASSUMPTION|MISSING","public_use_status":"APPROVED|NEEDS_CLIENT_APPROVAL|DO_NOT_PUBLISH","notes":"Limitations or approval needed; write None only when genuinely none"}
+    {"fact":"One material business fact","source":"Exact intake field, URL or document; otherwise MISSING","evidence_status":"VERIFIED|CLIENT-PROVIDED-UNVERIFIED|DEMO-ONLY|ASSUMPTION|MISSING|CONFLICT","publication_status":"APPROVED|PENDING|NOT_APPROVED","notes":"Limitations or approval needed; write None only when genuinely none"}
   ],
   "cta_register": [
     {"action":"CTA label and intent","destination":"Exact URL/number/anchor or NOT_CONFIGURED","destination_status":"APPROVED_REAL_DESTINATION|NOT_CONFIGURED|NEEDS_APPROVAL|DEMO_ONLY","expected_behavior":"What actually happens after click, including limitations"}
   ],
   "asset_register": [
-    {"asset_or_need":"Asset name or needed visual","source_or_owner":"Client, URL, studio-created or unknown","permission_status":"APPROVED|CLIENT_PROVIDED_UNVERIFIED|MISSING|DEMO_ONLY","intended_use":"Where/how it will appear","credit_or_restrictions":"Required credit, license or restrictions; otherwise None"}
+    {"asset_or_need":"Asset name or needed visual","source_or_owner":"Client, URL, studio-created or unknown","permission_status":"APPROVED|PENDING|NOT_APPROVED|NOT_APPLICABLE","permission_evidence_status":"VERIFIED|CLIENT-PROVIDED-UNVERIFIED|DEMO-ONLY|ASSUMPTION|MISSING|CONFLICT","consent_status":"CONFIRMED|PENDING|NOT_APPROVED|NOT_APPLICABLE","intended_use":"Where/how it will appear","credit_or_restrictions":"Required credit, license or restrictions; otherwise None"}
   ],
   "buying_journey": [
-    {"stage":"Discovery / evaluation / inquiry / delivery / aftercare","customer_need":"What the customer needs at this stage","website_support":"Content or action the website should provide"}
+    {"stage":"BEFORE_PURCHASE|DURING_PURCHASE|AFTER_PURCHASE","customer_need":"What the customer needs at this stage","website_support":"Content or action the website should provide"}
   ],
   "trust_register": [
-    {"proof":"Proof item or transparent alternative","source":"Exact source or MISSING","status":"VERIFIED|CLIENT-PROVIDED-UNVERIFIED|MISSING"}
+    {"proof":"Genuine evidence or transparent non-proof alternative","source":"Exact source or MISSING","evidence_status":"VERIFIED|CLIENT-PROVIDED-UNVERIFIED|DEMO-ONLY|ASSUMPTION|MISSING|CONFLICT","publication_status":"APPROVED|PENDING|NOT_APPROVED"}
   ],
   "content_gaps": [
-    {"gap":"Missing information/evidence","owner_or_source":"Client, studio research, or not known"}
+    {"gap":"Missing information/evidence","owner_or_source":"Client, studio research, or not known","milestone_priority":"PREVIEW_BLOCKER|PRODUCTION_BLOCKER|OPTIONAL_GAP"}
   ],
   "sections": [
     {"key":"section-key","purpose":"Why it exists","visitor_question":"Question answered","draft_message":"Concise content direction"}
