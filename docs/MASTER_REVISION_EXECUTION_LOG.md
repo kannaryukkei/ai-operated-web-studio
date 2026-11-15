@@ -2,7 +2,7 @@
 
 **Program:** AI Operated Web Studio — Master Revision  
 **Status:** IN PROGRESS  
-**Last updated:** 2026-11-15  
+**Last updated:** 2026-11-16  
 **Canonical branch:** `revision/master-revision`  
 **Base branch:** `main`  
 **Base commit:** `ff734d789612aa7fad756d4be9e6facaa960213b`
@@ -33,8 +33,8 @@
 | 09 | Harmonize prompts, skills, and delivery playbook | DONE |
 | 10 | Harmonize documentation | DONE |
 | 11 | Align platform with canonical workflow | DONE |
-| 12 | Implement minimum platform changes | PASS LOCALLY — FORMAT SYNC PENDING |
-| 13 | Strengthen CI, reproducibility, and QA evidence | NOT STARTED |
+| 12 | Implement minimum platform changes | DONE |
+| 13 | Strengthen CI, reproducibility, and QA evidence | IN PROGRESS |
 | 14 | Starter production readiness gate | NOT STARTED |
 | 15 | Final system audit and revision closure | NOT STARTED |
 
@@ -378,3 +378,39 @@ The operator's two locally formatted TSX files had passed `vp check` and should 
 **Remaining repository synchronization check:** Before treating the revision branch itself as fully reproducible, inspect `git status --short`. Earlier, `npm.cmd run check:fix` reported local modifications in `resources/js/pages/projects/discovery.tsx` and `resources/js/pages/projects/intake.tsx`; the successful run proves the local working tree is formatted, but the provided log does not show those two files being committed. If they remain modified, commit only those two formatter changes on `revision/master-revision` and push that branch, never `main`. If clean, no extra sync commit is needed.
 
 **Segment 12 status:** Functional implementation and all local checks PASS. Tracker records `PASS LOCALLY — FORMAT SYNC PENDING` only to capture the possible two-file formatting delta. Once `git status --short` is clean (or the two formatter-only changes are committed/pushed), mark Segment 12 DONE and begin Segment 13. GitHub Actions itself has not run because no PR was created; this local full Composer check is the observed equivalent validation for this segment.
+
+
+## Segment 12 completion — 2026-11-16
+
+**Status:** DONE.
+
+**Final local validation:** the operator ran `composer run-script ci:check` from `platform/`. All configured checks passed:
+- Frontend formatting: 74 files correctly formatted.
+- Frontend lint: no warnings or lint errors in 68 files.
+- TypeScript: `tsc --noEmit` passed.
+- Pint: 87 files passed.
+- PHPStan: 64/64 files analysed, no errors.
+- Laravel tests: 80 passed, 370 assertions.
+
+**Repository synchronization:** the two formatter-only changes in `resources/js/pages/projects/discovery.tsx` and `resources/js/pages/projects/intake.tsx` were committed as `a5f15fe`, rebased on the two newer documentation commits and pushed. The resulting revision branch commit was `67561da106ee3662126d82ea4cbc57d64031246b`. The operator's final `git status -sb` output was only `## revision/master-revision...origin/revision/master-revision`, confirming no uncommitted changes and a clean local/remote tracking state.
+
+**Boundary:** `main` remains unchanged; no PR was created, no merge occurred, and no branch was deleted. GitHub Actions had not yet run against this branch because the workflow did not include revision-branch pushes. Segment 13 addresses that verification gap.
+
+## Segment 13 — baseline audit and bounded scope — 2026-11-16
+
+**Status:** IN PROGRESS.
+
+**Audit findings:**
+- `.github/workflows/platform-ci.yml` ran on qualifying pull requests and pushes to `main`, but did not run for direct pushes to `revision/master-revision`. This prevented the isolated revision workspace from producing a branch-specific GitHub Actions check without opening a PR.
+- Both dependency lockfiles are committed: `platform/composer.lock` and `platform/package-lock.json`. The workflow already used `composer install` and `npm ci`, so dependency installation was lock-based, but Composer manifest/lock consistency was not checked explicitly before installation.
+- The workflow exposed detailed step logs but did not publish a concise GitHub Actions job summary with the commit, branch, result and runtime versions.
+
+**Bounded implementation scope:**
+1. Trigger the same Platform CI on pushes to `revision/master-revision`, preserving existing PR and `main` triggers and path filters.
+2. Validate `composer.json` and `composer.lock` with `composer validate --strict --no-check-publish` before Composer installation.
+3. Publish a GitHub Actions step summary with the job result, commit SHA, ref and PHP/Composer/Node/npm versions, including when an earlier step fails.
+4. Push and inspect one real run from the revision branch; record the exact run result and fix only concrete failures.
+
+**Out of scope:** no PHP/Node version matrix, dependency upgrades, API/provider integration, PR creation, merge, release automation, or changes to `main`. Keep the existing single-run platform workflow and the API-free operating model.
+
+**Resume point:** finish the Segment 13 workflow verification. The workflow changes are committed on the revision branch; confirm that the push triggered the expected run, inspect its summary and logs, and update this checkpoint with the run URL/result.
