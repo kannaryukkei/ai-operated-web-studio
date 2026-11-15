@@ -1,5 +1,7 @@
 # Starter v0.4.0 — Responsive & Interaction QA
 
+> **Historical QA snapshot and current policy correction (Master Revision):** the 15/15 result below belongs to the exact historical commit/run listed below; it is not the current Starter test-suite count or full product acceptance. The previous production-mode proof-suppression guard only addressed production output and had not been independently exercised in browser mode. That is no longer sufficient: fabricated social proof is prohibited in both portfolio/demo and client-production modes. The current reference still requires a source/content audit and removal of legacy simulated metrics/customer-story proof before it can pass the current acceptance gate. Use the canonical Starter Acceptance Gate and automated-quality standard for current release decisions.
+
 ## Latest completed result
 
 **PASS — GitHub Actions / Chromium**
