@@ -2,14 +2,18 @@ name: Starter blueprint CI
 
 on:
   push:
-    branches: [restructure/business-first-product-system]
+    branches: [main, 'improvement/**', 'restructure/**']
     paths:
       - "blueprints/starter/template-kit/starter/**"
       - ".github/workflows/starter-blueprint-ci.yml"
+      - "docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md"
+      - "docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md"
   pull_request:
     paths:
       - "blueprints/starter/template-kit/starter/**"
       - ".github/workflows/starter-blueprint-ci.yml"
+      - "docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md"
+      - "docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md"
   workflow_dispatch:
 
 permissions:
@@ -17,7 +21,7 @@ permissions:
 
 jobs:
   build-and-responsive-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: blueprints/starter/template-kit/starter

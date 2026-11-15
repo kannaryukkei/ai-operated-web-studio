@@ -41,7 +41,9 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 - `docs/data-model.md`
 - `docs/security-and-approvals.md`
 - `docs/roadmap.md`
-- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.9_CANDIDATE.md` — proposed material-first orchestrator with design differentiation and independent QA gates.
+- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.10_CANDIDATE.md` — current proposed material-first orchestrator with design differentiation, independent QA and the mandatory evidence-led calibration loop.
+- `docs/MASTER_SKILL_CALIBRATION_PROTOCOL_v1.0.md` and `docs/EXPERIMENT_CALIBRATION_RECORD_TEMPLATE_v1.0.md` — root-cause classification, minimal correction and regression evidence.
+- `docs/STARTER_CALIBRATION_RECORD_2026-11-15.md` — first applied Starter calibration record and CI evidence.
 - `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.8_CANDIDATE.md` — preserved historical candidate containing the design-differentiation gate.
 - `docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md` — default interview + asset intake and source-normalization workflow.
 - `docs/EXPERIMENT_03_SYSTEM_LEARNINGS.md` — reusable system findings from Experiment #3.
@@ -53,6 +55,7 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 - `docs/WEBSITE_PRODUCT_TIERS_v1.1.md` — Starter / Business / Custom scope and Starter price boundary.
 - `docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.0.md` — design, implementation and technical guardrails.
 - `docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md` — required release and commercial gate.
+- `docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md` — automated typography, control, metadata and solid-surface contrast regression for the Starter reference.
 - `docs/BLUEPRINT_MIGRATION_DECISION.md` — canonical blueprint locations, source provenance and repository retirement decision.
 - `blueprints/starter/README.md` — how to use the migrated Starter reference.
 - `blueprints/starter/KALA_PILOT_LEARNINGS.md` — best practices distilled from every KALA pilot branch.
