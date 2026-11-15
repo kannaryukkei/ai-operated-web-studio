@@ -141,9 +141,9 @@ Batch clarifications. Ask only questions that materially affect offer scope, pri
 
 Assign each unresolved item to one next-milestone class:
 
-- **PREVIEW BLOCKER:** prevents even a safe, clearly labelled internal preview. Continue only after resolving it or identifying a safe fallback.
-- **PRODUCTION BLOCKER:** allows a disclosed preview, but prevents public publication or live operation. Common examples include unresolved brand identity, current prices/offers, exact address/hours, public CTA, material safety/policy claims, asset rights or people consent.
-- **OPTIONAL GAP:** does not affect the approved current visitor journey. Record it and omit the related claim/feature instead of asking about it now.
+- **PREVIEW_BLOCKER:** prevents even a safe, clearly labelled internal preview. Continue only after resolving it or identifying a safe fallback.
+- **PRODUCTION_BLOCKER:** allows a disclosed preview, but prevents public publication or live operation. Common examples include unresolved brand identity, current prices/offers, exact address/hours, public CTA, material safety/policy claims, asset rights or people consent.
+- **OPTIONAL_GAP:** does not affect the approved current visitor journey. Record it and omit the related claim/feature instead of asking about it now.
 
 The Clarification List must show the question, source conflict/gap, why it matters, priority, responsible owner and safe omission/fallback if unanswered. Batch the smallest set needed for the next milestone; group by decision owner where practical. Continue unaffected preview work using clearly labelled working names, contact-not-configured states or Studio-created concept assets when safe. Never present any fallback as an approved client fact or asset.
 
