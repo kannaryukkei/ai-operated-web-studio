@@ -272,13 +272,13 @@ class ManualDiscoveryWorkflowTest extends TestCase
                 ['question' => 'A customer compares service options.', 'answer_or_gap' => 'Explain verified package differences; confirm missing details.', 'stage' => 'BEFORE_PURCHASE', 'answer_status' => 'ANSWERED', 'milestone_priority' => 'PREVIEW_BLOCKER', 'source' => 'Submitted intake: offer_details and customer_questions.', 'owner_or_action' => 'Studio to verify the current offer matrix with the owner.'],
             ],
             'buying_journey' => [
-                ['stage' => 'BEFORE_PURCHASE', 'customer_need => 'Understand the right package.', 'website_support' => 'Provide clear package scope and a guided inquiry path.'],
+                ['stage' => 'BEFORE_PURCHASE', 'customer_need' => 'Understand the right package.', 'website_support' => 'Provide clear package scope and a guided inquiry path.'],
             ],
             'trust_register' => [
                 ['proof' => 'Portfolio evidence', 'source' => 'No approved portfolio asset provided.', 'evidence_status' => 'MISSING', 'publication_status' => 'PENDING'],
             ],
             'fact_register' => [
-                ['fact' => 'The business provides car detailing services.', 'source' => 'Submitted intake: business_overview and products_services.', 'evidence_status' => 'CLIENT-PROVIDED-UNVERIFIED', 'publication_status' => 'PENDING', 'notes' => 'Client approval recorded for this fixture.'],
+                ['fact' => 'The business provides car detailing services.', 'source' => 'Submitted intake: business_overview and products_services.', 'evidence_status' => 'CLIENT-PROVIDED-UNVERIFIED', 'publication_status' => 'APPROVED', 'notes' => 'A separate client publication approval is recorded for this fixture.'],
             ],
             'cta_register' => [
                 ['action' => 'Request a consultation', 'destination' => 'https://wa.me/6280000000000', 'destination_status' => 'APPROVED_REAL_DESTINATION', 'expected_behavior' => 'Opens WhatsApp with a prepared consultation message; it does not confirm a booking.'],
