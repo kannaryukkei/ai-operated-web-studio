@@ -334,9 +334,9 @@ The formal schema, required fields, record identifiers and status enums for thes
 
 - **Preview:** useful internal review may proceed with clearly disclosed draft content, concept imagery or non-functional elements when they cannot be mistaken for approved live claims or working conversion paths.
 - **Production:** public content, facts, prices, policies, assets and CTA destinations require the appropriate source/evidence/permission and owner approval. The primary action must genuinely work.
-- **PREVIEW BLOCKER:** prevents a coherent and safe internal review.
-- **PRODUCTION BLOCKER:** may be shown in a disclosed preview but must be resolved before release.
-- **OPTIONAL GAP:** does not materially harm the current milestone; record it and omit unsupported public content.
+- **`PREVIEW_BLOCKER`:** prevents a coherent and safe internal review.
+- **`PRODUCTION_BLOCKER`:** may be shown in a disclosed preview but must be resolved before release.
+- **`OPTIONAL_GAP`:** does not materially harm the current milestone; record it and omit unsupported public content.
 
 Do not use a preview exception to bypass a production gate. Never present preview-only information as published/verified.
 
