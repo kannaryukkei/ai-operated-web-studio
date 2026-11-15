@@ -30,18 +30,26 @@
 - Do not grant agents arbitrary SQL, arbitrary shell, unrestricted filesystem, billing, DNS, email-send, or production deploy tools.
 - Keep secrets out of model context wherever possible.
 
-## 4. Approval gates
+## 4. Approval and release policy
 
-| Gate | Required approval | AI may prepare | AI may execute without approval |
-|---|---|---|---|
-| G1 Commercial | Tier, scope, price, margin, terms, timeline | Qualification and proposal draft | Internal draft only |
-| G2 Business truth | Business facts, offers, prices, claims, policies | Brief and copy drafts | Internal draft only |
-| G3 Content/design | Section map, copy direction, art direction, assets | Content/visual concepts | Internal draft only |
-| G4 Staging | Client approval or consolidated revision | Preview and review pack | In-scope preview changes only |
-| G5 Production | Release version, domain, publishing, payment condition | Deployment and rollback plan | No production publish |
-| G6 Handover | Ownership, access, limitations, support closure | Handover pack | No account/ownership transfer |
+The canonical operating procedure is `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md`. It defines decision authority, approval records, artifact states, G0–G7 gates, preview/production separation, changes after approval, and the current manual implementation boundary.
 
-Approval is an explicit recorded action. Silence, inactivity, or a passed due date is never approval.
+Summary of gates:
+
+| Gate | Decision | Required authority |
+|---|---|---|
+| G0 | Business facts, public claims, asset rights and public destinations | Client/business owner confirms; Studio owner controls publication acceptance |
+| G1 | Tier, scope, price, margin, timeline and exclusions | Studio owner approves; client agrees to the commercial offer |
+| G2 | Website Requirements Pack and progression to design | Studio owner approves scope/design gate; client confirms material business/asset/contact decisions |
+| G3 | Content, claims and visual direction | Client confirms business accuracy and agreed preview material; owner approves public claims/scope changes |
+| G4 | Preview acceptance and revision scope | Client reviews the exact preview; owner decides extra scope/cost |
+| G5 | Production readiness | Operator/independent QA verifies; owner accepts production gate; client confirms final business information |
+| G6 | Production release, spending, DNS and publishing | Explicit Studio owner authorization plus required client/business approval |
+| G7 | Handover and closure | Client confirms receipt/ownership; Studio owner closes |
+
+Approval must reference the exact artifact/version and evidence. Silence, inactivity, a passed CI run or preview acceptance is never production approval.
+
+The platform currently does not enforce this complete workflow. Until a tested approval model exists, maintain a versioned project approval register and manually verify each gate. Do not claim the application blocks an action based on a policy that is only documented.
 
 ## 5. AI actions requiring human authorization
 
