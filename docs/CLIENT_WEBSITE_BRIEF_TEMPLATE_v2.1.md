@@ -118,7 +118,12 @@ For each item, record value, source, status and approval:
 - Policies, guarantees, warranties and outcomes.
 - Images, project photos, asset owner/source, publication permission and credit/license restrictions.
 
-Status values: VERIFIED / CLIENT-PROVIDED-UNVERIFIED / APPROVED-FOR-PUBLICATION / DEMO-ONLY / ASSUMPTION / MISSING.
+Keep three independent dimensions:
+- **Answer status:** PROVIDED / NOT_AVAILABLE / NOT_APPLICABLE / NOT_SURE / CONFLICT.
+- **Evidence status:** VERIFIED / CLIENT-PROVIDED-UNVERIFIED / DEMO-ONLY / ASSUMPTION / MISSING / CONFLICT.
+- **Publication status:** APPROVED / PENDING / NOT_APPROVED.
+
+A fact can be provided by the client but remain unverified and pending publication. Do not collapse these dimensions into one status label.
 
 Keep internal project contacts separate from public contact destinations. A demo form must explicitly state whether it sends or stores data. Never show a false success state.
 
