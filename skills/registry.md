@@ -2,6 +2,11 @@
 
 Checked: 2026-11-15
 
+## Calibration and learning
+
+- docs/MASTER_SKILL_CALIBRATION_PROTOCOL_v1.0.md — required evidence-led root-cause classification and correction loop.
+- docs/EXPERIMENT_CALIBRATION_RECORD_TEMPLATE_v1.0.md — reusable record for findings, minimal corrections and regression evidence.
+
 ## Studio-owned core skills
 
 | Skill folder | Primary responsibility | Expected output |
