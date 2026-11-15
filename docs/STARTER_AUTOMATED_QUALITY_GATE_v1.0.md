@@ -12,13 +12,15 @@ Turn the Starter quality rules already present in the Master Skill and Starter P
 
 | Area | Automated contract | Coverage |
 |---|---|---|
+| Dependency reproducibility | Committed package lock is used for deterministic clean installation | `package-lock.json` + `npm ci`; current Starter folder is missing the lockfile, so this criterion is NOT YET PASS |
 | Production build | Vite production build succeeds | CI on every qualifying push / pull request |
 | Responsive layout | No document horizontal overflow | 320, 360, 390, 640, 768, 900, 1024, 1280 and 1440px |
 | Body text | Customer-facing body, list, label and FAQ text is at least 15px | All rendered matching instances at all nine widths |
 | Controls | Buttons, inputs, selects, textareas and navigation actions are at least 13px | All rendered matching instances at all nine widths |
 | Metadata | Compact metadata/disclosures are at least 11px | All rendered matching instances at all nine widths |
 | Text contrast | WCAG AA contrast thresholds for measurable solid-color text/background surfaces; translucent foreground/background layers are alpha-composited | All rendered matching text instances at all nine widths, plus selected navigation and vehicle/class states |
-| Existing behavior | Navigation, class-based package pricing, Care Finder, WhatsApp handoff, date minimum, anchors, images, FAQ, Escape and skip link | Existing Playwright functional suite |
+| Content evidence | Unverified testimonial, customer-story and performance-proof elements remain absent | Explicit Playwright regression against the known simulated-proof components/values |
+| Existing behavior | Navigation, class-based package pricing, Care Finder, WhatsApp handoff, date minimum, anchors, images, FAQ, Escape and skip link | Existing Playwright functional suite; current calibration baseline is 19/19 on commit `6d4e856` |
 
 ## Contrast measurement boundary
 
@@ -37,3 +39,9 @@ This automated check is not a complete WCAG audit, assistive-technology test, ph
 ## Ongoing maintenance
 
 Update the role selectors only when the interface semantics change. A new text role must be classified as BODY (15px), CONTROL (13px), or COMPACT METADATA (11px) with a written reason for any exception. New gradient/photo content must be added to the manual screenshot review checklist rather than silently excluded.
+
+## Current repository reproducibility status — 2026-11-16
+
+The canonical Starter folder currently has no committed `package-lock.json`; its workflow therefore uses `npm install`. This does not freeze the transitive dependency graph. To satisfy the reproducibility criterion, commit a lockfile generated from the Starter `package.json`, validate a clean install with `npm ci`, and change the workflow to use `npm ci`. Do not confuse the separate `platform/package-lock.json` with the Starter application's dependency lock.
+
+The root Starter CI now includes `revision/**` pushes and the acceptance/evidence/implementation QA documents in its change filters. GitHub Actions confirmation for that new branch trigger is recorded separately in the Segment 14 execution checkpoint.
