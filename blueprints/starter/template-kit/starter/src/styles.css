@@ -477,7 +477,7 @@ main section { scroll-margin-top: 82px; }
   .floating-whatsapp { right: 14px; bottom: 14px; width: 48px; height: 48px; }
 }
 @media (max-width: 380px) {
-  .hero h1 { font-size: 56px; }
+  .hero h1 { font-size: clamp(44px,14vw,56px); }
   .hero-aside-card strong { font-size: 20px; }
   .class-option { grid-template-columns: 25px 1fr; padding-inline: 7px; }
   .class-option > span { width: 24px; height: 24px; }
