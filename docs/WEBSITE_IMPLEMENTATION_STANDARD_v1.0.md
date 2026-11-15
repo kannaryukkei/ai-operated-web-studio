@@ -33,7 +33,7 @@ The art direction must be specific to the client's business, audience, product a
 ## 4. Content and conversion contract
 
 - Keep business facts in a clearly identifiable data/configuration layer where practical.
-- Classify each public fact: VERIFIED, CLIENT-PROVIDED-UNVERIFIED, APPROVED-FOR-PUBLICATION, DEMO-ONLY, ASSUMPTION or MISSING.
+- Track each material fact with separate answer, evidence and publication statuses as defined in the Master Skill and Client Brief. Do not treat VERIFIED or CLIENT-PROVIDED-UNVERIFIED as publication approval; only publication status APPROVED permits release. Record page coverage separately in the Source-to-Page Coverage Matrix.
 - Do not publish internal notes, guessed facts, fabricated reviews, invented metrics or unsupported guarantees.
 - Track each public CTA's label, exact destination, approval status and expected behavior.
 - A CTA must not promise booking, payment, saving, submission or response unless that behavior actually occurs.
