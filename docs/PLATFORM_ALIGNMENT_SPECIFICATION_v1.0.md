@@ -312,3 +312,20 @@ To avoid reliance on child-process spawning, `platform/composer.json` now runs P
 This modestly trades parallel speed for Windows compatibility and predictable local/CI execution. The active root workflow uses the same Composer scripts through `composer run-script ci:check`.
 
 **Status remains CI PENDING.** The operator must rerun `composer run-script ci:check` from `platform/` after pulling the latest revision branch changes. Pint, PHPStan and Laravel tests have not yet been reported as passing.
+
+### Follow-up portability correction — PHPStan memory and workers (2026-11-15)
+
+The operator's next local run passed:
+- `npm run check` after `npm.cmd run check:fix`: all 74 files formatted; no warnings/lint errors in 68 files.
+- `npm run types:check` had passed on its earlier run.
+- Pint `--test`: 87 files passed.
+
+PHPStan then failed before producing analysis diagnostics: a parallel worker exhausted the local PHP CLI's 128 MB memory limit while parsing a PHP file. This was a process-resource failure, not a reported static-analysis finding.
+
+**Committed correction:**
+- `platform/composer.json`: `types:check` invokes `phpstan analyse --memory-limit=1G`.
+- `platform/phpstan.neon`: `parallel.maximumNumberOfProcesses: 1` disables worker processes. PHPStan supports this setting to disable parallel processing and supports the `--memory-limit` CLI option; see the [PHPStan configuration reference](https://phpstan.org/config-reference) and [CLI usage](https://phpstan.org/user-guide/command-line-usage).
+
+This avoids both the 128 MB worker cap and Windows subprocess spawning. It trades some analysis speed for portability on the local Windows/Herd environment and the Linux CI runner.
+
+**Execution remains pending.** The revised PHPStan settings have been committed but have not yet been exercised by the operator. The two TSX formatting corrections from `npm.cmd run check:fix` exist in the operator's local working tree and are still uncommitted; keep them. After syncing the latest branch, rerun the complete Composer script before recording PASS.
