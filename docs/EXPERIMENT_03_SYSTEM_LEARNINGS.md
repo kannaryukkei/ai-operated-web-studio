@@ -72,3 +72,16 @@ This is a useful contract/provenance exercise, but **not** evidence of real-worl
 - real owner/visitor validation and commercial delivery effort.
 
 The next real-client pilot should test the actual minimum-input path using a genuine interview and client-supplied asset packet, with authorized access and explicit rights/approval tracking. It should not reintroduce a long mandatory client form.
+
+
+## 8. S09 — AI normalization execution and source-to-page loss
+
+S09 executed the Material-First Ingestion Protocol using the synthetic nine-segment interview transcript and separate asset packet in the active GPT-6 session. The AI produced a complete normalized handoff: Raw Material Index, nine-segment Source Coverage Matrix, Client Brief v2.1 core profile, 20-item Offer Matrix, fact/source records with separate answer/evidence/publication states, Asset and Permission Register, Business Intelligence, Buying Journey, Trust Register, Customer Question Map, CTA map, gap register and Starter handoff.
+
+**Semburat evidence:** [S09 AI normalization execution record](https://github.com/kannaryukkei/web-studio-experiment-03-semburat-bakehouse/blob/experiment/03-semburat-s09-ai-normalization/docs/EXPERIMENT_03_S09_AI_NORMALIZATION_EXECUTION.md) and [S09 PR #5](https://github.com/kannaryukkei/web-studio-experiment-03-semburat-bakehouse/pull/5).
+
+The normalization exposed a second handoff risk: facts can be successfully extracted into the brief yet disappear before they reach the actual website. The Customer Question Map comparison found that the current preview did not show several source-provided purchase/visit policies: accepted payment methods, box deposit and cancellation/refund terms, service recovery for incorrect/damaged orders, parking and outdoor-pet policy. The website was not fabricating these facts; it was omitting information that could affect a customer's decision.
+
+**Reusable system change:** add a mandatory Source-to-Page Coverage Matrix after implementation. Reconcile the original source index, normalized facts and customer-question map against exact page/section locators. Mark each material answer PUBLISHED, PREVIEW ONLY, GAP or NOT APPLICABLE. Include operational policies and aftercare where relevant, not only price and headline offer facts. Keep internal, private, unapproved and unavailable information out of public content. This matrix must be reviewed before owner sign-off and should feed independent QA.
+
+**Validation boundary:** this was an actual AI normalization execution but used a synthetic transcript derived from an already structured fixture; it is not a blind benchmark or real client evidence. No audio or asset-rights workflow was tested. S09 was a documentation/normalization segment and did not change website code.
