@@ -6,6 +6,7 @@ Checked: 2026-11-15
 
 | Skill folder | Primary responsibility | Expected output |
 |---|---|---|
+| `client-material-ingestion/` | Convert raw interviews and supplied assets into source-traceable normalized business knowledge | Raw Material Index, transcript summary, fact/source register, asset permissions, normalized brief and minimal clarification list |
 | `frontend-design/` | Establish a distinct, brief-specific visual direction before coding | Design concept, compact token plan, layout direction and design rationale |
 | `ux-review/` | Translate business facts and customer needs into a useful visitor journey | Visitor tasks, customer-question coverage, IA/section recommendations and journey gaps |
 | `typography-and-legibility/` | Define and verify typography roles and readable text | Type-role scale, responsive type checks and exceptions |
@@ -16,7 +17,8 @@ Checked: 2026-11-15
 
 | Production phase | Required skills | Optional skills |
 |---|---|---|
-| Discovery / business intelligence | Master Skill + `ux-review` | None unless client category requires a specialized module |
+| Material intake / normalization | Master Skill + `client-material-ingestion` | None; this is the default Stage 0 source-normalization skill |
+| Discovery / business intelligence | Master Skill + `client-material-ingestion` + `ux-review` | Category-specific module only where the business requires it |
 | Pre-production design | `frontend-design` + `typography-and-legibility` | `ux-review` for unresolved journey/IA decisions |
 | First implementation | `frontend-design` as design authority | Stack-specific implementation skill only where the chosen framework needs it |
 | Refinement | `visual-design-audit` + `interface-quality-review` | `typography-and-legibility` for type regressions |
