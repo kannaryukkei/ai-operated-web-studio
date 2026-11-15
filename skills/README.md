@@ -21,6 +21,10 @@ The raw interview and supplied materials are the primary sources. The Client Bri
 | `interface-quality-review` | UI implementation review, interaction truthfulness, accessibility and interface quality | After implementation and after meaningful UI changes |
 | `visual-design-audit` | Independent section-by-section visual critique and refinement | After first implementation and before owner review |
 
+## Shared quality artifacts
+
+- `docs/SOURCE_TO_PAGE_COVERAGE_TEMPLATE_v1.0.md` — reusable post-implementation matrix to trace source facts and customer questions to exact page sections and recorded gaps.
+
 ## How to use
 
 1. Read the latest approved Master Skill first. For the proposed material-first workflow, also review `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.9_CANDIDATE.md` and `docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md`.
