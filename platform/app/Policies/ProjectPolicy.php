@@ -29,6 +29,11 @@ class ProjectPolicy
         return $user->isStudioStaff();
     }
 
+    public function manageInternalIntake(User $user, Project $project): bool
+    {
+        return $user->isStudioStaff();
+    }
+
     public function update(User $user, Project $project): bool
     {
         if ($user->isStudioStaff()) {
