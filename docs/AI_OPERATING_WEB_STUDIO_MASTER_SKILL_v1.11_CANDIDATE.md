@@ -154,7 +154,7 @@ The Minimal Clarification List must contain only decisions needed for the next m
 
 ### Stage 0 outputs
 
-- Raw Material Index with source IDs and locators.
+- Raw Material Index and canonical Source Register with stable source IDs, original references, types, access/confidentiality and processing status.
 - Source Coverage Matrix showing where each material source topic was mapped, or why it was excluded/left unresolved.
 - Transcript / Interview Summary (where applicable).
 - Normalized Client Brief v2.1.
@@ -164,6 +164,7 @@ The Minimal Clarification List must contain only decisions needed for the next m
 - Customer Question Map, Buying Journey and CTA map.
 - Conflict / Missing-Information Register with severity, owner and next action.
 - Minimal Clarification List containing only decisions needed for the next milestone, triaged as PREVIEW BLOCKER / PRODUCTION BLOCKER / OPTIONAL GAP, with owner, reason and safe omission/fallback.
+- G0 confirmation/approval references for material facts, public claims, public CTA destinations and asset rights/people-consent decisions that require client/owner action.
 
 Reference: docs/CLIENT_INPUT_AND_MATERIAL_POLICY_v1.0.md and docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md.
 
@@ -209,7 +210,7 @@ Recommend based on business complexity and visitor tasks, not budget alone or pa
 - **Business:** distinct customer journeys, many categories, detailed decision support, multiple locations, substantial proof/content or page-level SEO justify separate pages.
 - **Custom:** a real need for persistent data, user roles, transactions, integrations, or bespoke operational workflows.
 
-State included scope, exclusions, dependencies, content responsibilities, third-party costs, maintenance owner and decision authority. Record the owner-approved tier/scope decision under G1 in `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md`. Starter is the only active implementation priority until its production acceptance gate passes. If the client's actual needs require Business or Custom, say so and pause for a separate owner decision; do not force an unsuitable Starter or start a deferred tier implementation.
+State included scope, exclusions, dependencies, content responsibilities, third-party costs, maintenance owner and decision authority. Record the owner-approved tier/scope decision under G1 in `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md`; record the client's agreement to the commercial offer before committing the Studio. Starter is the only active implementation priority until its production acceptance gate passes. If the client's actual needs require Business or Custom, say so and pause for a separate owner decision; do not force an unsuitable Starter or start a deferred tier implementation.
 
 Use `docs/WEBSITE_PRODUCT_TIERS_v1.1.md` for the current tier boundaries. Do not treat the proposed Rp500,000 Starter price as proven commercial viability; real delivery time, cost and margin still require validation.
 
@@ -439,7 +440,7 @@ Follow G5–G7 in `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md`; preview acceptance
 
 1. **Preview:** prepare a controlled preview, revision register, exact version/commit, customer-question/page-coverage summary, known limitations and consolidated client review request. Record `PREVIEW_READY` only when preview blockers are cleared; record `PREVIEW_ACCEPTED` only for the exact preview version after the required client review. Production blockers must remain visible.
 2. **Production readiness (G5):** verify all applicable Starter/project acceptance criteria; resolve production blockers; confirm source/evidence/publication statuses, asset rights and consent, exact CTA destination/behavior, business-question coverage, responsive/functional/accessibility/performance checks, visual evidence, metadata, hosting/domain ownership, rollback and handover. Record NOT TESTED for anything not actually tested. Obtain required client confirmations and Studio owner production decision. A passing CI run alone is insufficient.
-3. **Release authorization (G6):** obtain explicit Studio owner authorization for the exact release candidate, production URL/domain/DNS action, approved spend and release steps; obtain required client/business approval of final public facts, content, assets, destinations and account arrangements. No silence, preview acceptance or AI recommendation counts as authorization.
+3. **Release authorization (G6):** obtain explicit Studio owner authorization for the exact release candidate, production URL/domain/DNS action, approved spend and release steps; obtain required client/business approval of final public facts, content, assets, destinations and account arrangements. Record the exact G6 approval as `RELEASE_AUTHORIZED` for that candidate. No silence, preview acceptance or AI recommendation counts as authorization.
 4. **Release:** execute only the authorized steps. Verify the live production URL, primary CTA and critical behavior. Record release commit/version, date, verification evidence and any incident/rollback decision. Mark `RELEASED` only after production verification.
 5. **Handover (G7):** transfer repository/hosting/domain/account ownership and access securely; record renewal payer/date, third-party costs, asset/source register, known limitations, backup/rollback notes, support boundaries and maintenance responsibility. Obtain client receipt/ownership confirmation; mark `HANDED_OVER` only when evidence is retained.
 
