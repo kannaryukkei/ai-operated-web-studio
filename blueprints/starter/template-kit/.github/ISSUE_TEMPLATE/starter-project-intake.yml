@@ -1,15 +1,15 @@
 name: New Starter client project
-description: Create an internal record for a potential Starter website client.
+description: Internal operator record created from a discovery interview; this is not a client-facing questionnaire.
 title: "[STARTER] "
 body:
   - type: markdown
     attributes:
       value: |
-        Internal intake only. Never enter passwords, API keys, payment details, or sensitive customer records.
+        Internal operator record only — populate from a normal discovery interview and existing material. Do not send this form to clients or ask them to complete a second questionnaire. Never enter passwords, API keys, payment details, or sensitive customer records.
   - type: input
     id: business
     attributes:
-      label: Contact / business name
+      label: Business / project contact (operator-recorded)
     validations:
       required: true
   - type: input
@@ -32,14 +32,14 @@ body:
   - type: textarea
     id: business-summary
     attributes:
-      label: Business and offer
-      description: What does the business provide and who is its audience?
+      label: Interview/material summary (operator-recorded)
+      description: Summarize the provided source material. Do not ask the client to complete this issue.
     validations:
       required: true
   - type: textarea
     id: website-goal
     attributes:
-      label: Website goal and primary visitor action
+      label: Website goal / primary visitor action (derived from interview)
     validations:
       required: true
   - type: checkboxes
