@@ -35,7 +35,7 @@
 | 11 | Align platform with canonical workflow | DONE |
 | 12 | Implement minimum platform changes | DONE |
 | 13 | Strengthen CI, reproducibility, and QA evidence | DONE |
-| 14 | Starter production readiness gate | NOT STARTED |
+| 14 | Starter production readiness gate | IN PROGRESS |
 | 15 | Final system audit and revision closure | NOT STARTED |
 
 ## Checkpoint — Segment 00
@@ -465,3 +465,42 @@ The evidence-summary step itself completed successfully and recorded job failure
 
 **Next segment:** 14 — Starter production readiness gate.
 **Resume point:** audit the Starter production acceptance and content-evidence gates against the current Starter blueprint, implementation standards, and current calibration evidence. Keep Starter as the only active tier. Do not change the platform or move to Business/Custom unless the audit demonstrates a concrete need.
+
+
+## Segment 14 — Starter production readiness audit — 2026-11-16
+
+**Status:** IN PROGRESS.
+
+### Audit performed
+
+Inspected the Starter Product Acceptance Gate v1.1, Content Evidence Gate v1.0, Automated Quality Gate v1.0, Website Implementation Standard v1.1 Candidate, five-website audit, current ZACKS content config, App.jsx, metadata, responsive/Playwright suite, calibration records and CI workflows.
+
+**Decision:** `CONDITIONAL — PREVIEW ONLY`. The ZACKS reference is a strong static-first local-service portfolio preview, not a production-approved ZACKS site, a universal blank template, or a commercially validated Rp500,000 package.
+
+**Gate assessment:**
+- Gate 0 Business understanding — **BLOCKED**: live catalog reconciliation and owner approval, source/evidence/publication records and complete asset permission review are not evidenced.
+- Gate 1 Customer-facing completeness — **BLOCKED**: core offer/journey questions are substantially covered, but inclusions/exclusions, payment/operational policies, availability/durations and current public destinations need owner decisions or documented NOT_APPLICABLE reasons.
+- Gate 2 Conversion integrity — **BLOCKED**: code/browser tests prove message construction and popup fallback, not ownership of the public WhatsApp/social accounts, real message receipt or operational response.
+- Gate 3 Visual/content quality — **PARTIAL**: typography floors and measurable solid-surface contrast are automated; actual-scale review of photo/gradient surfaces and asset-use approval remain open.
+- Gate 4 Technical release quality — **PARTIAL**: Vite build and 19/19 Chromium tests pass; Starter dependency installation is not lockfile-deterministic, and performance, cross-browser, full accessibility and production hosting checks remain NOT TESTED.
+- Gate 5 Real-world/commercial readiness — **BLOCKED**: no complete real-client delivery, real visitor/lead validation, measured delivery economics or production handover is evidenced.
+
+### Corrections completed
+
+- Corrected stale README/QA statements that claimed simulated customer-story/metric blocks still existed in the current reference. The current code removed them; the content-evidence regression is retained.
+- Refreshed `starter-responsive-qa.md` to distinguish the old 15-test historical run from the current 19-test baseline and current limitations.
+- Updated the root `.github/workflows/starter-blueprint-ci.yml` to include `revision/**`, pin checkout/setup-node actions by SHA, and run for relevant acceptance/evidence/implementation QA document changes on push and pull request.
+- Added the gate-by-gate audit at `docs/STARTER_PRODUCTION_READINESS_AUDIT_2026-11-16.md` and linked it from the root README.
+- Added the missing Starter lockfile as an explicit reproducibility requirement in `docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md`.
+
+### Verified revision-branch CI
+
+Starter blueprint CI [run #43](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43741402145) succeeded on push to `revision/master-revision`, commit `5bed0839b4f55b976b69f9b8f8d6814be9d4aa72`:
+- Vite production build: PASS.
+- Playwright Chromium: **19 passed**.
+- Workflow trigger for revision branches and SHA-pinned actions: observed working.
+- Install step: still `npm install`; no `package-lock.json` exists in the Starter folder.
+
+### Current blocker / resume point
+
+Create and validate `blueprints/starter/template-kit/starter/package-lock.json`, then switch the root Starter CI workflow from `npm install` to `npm ci` and verify a new successful revision-branch run. After that, close Segment 14 as an evidence-based CONDITIONAL gate, retaining the owner-dependent P0 release blockers above. Do not mark the website production-ready, change tiers, or touch `main`.
