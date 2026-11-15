@@ -24,7 +24,7 @@ Clients explain their business once in a normal interview and provide existing a
 1. Client portal — onboarding, business brief, package selection, project timeline, preview, revisions, approvals.
 2. Studio dashboard — pipeline, project scope, AI runs, artifacts, approvals, cost visibility, exceptions.
 3. AI orchestration — stage-specific agents, tools, structured outputs, persisted workflow state, retries, audit history.
-4. Website production — versioned Starter / Business / Custom blueprints and isolated client repositories.
+4. Website production — active Starter blueprint and isolated client repositories; Business/Custom are parked tier definitions until Starter passes acceptance.
 5. Release and care — QA, launch approvals, handover, post-launch support and monitoring.
 
 ## Current status
@@ -54,8 +54,8 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 - `skills/README.md` — modular Agent Skills library and how to use it.
 - `skills/registry.md` — skill routing, upstream provenance, license decisions and optional dependencies.
 - `docs/CLIENT_WEBSITE_BRIEF_TEMPLATE_v2.1.md` — normalized AI-produced business brief; clients are not expected to complete it as a long questionnaire.
-- `docs/WEBSITE_PRODUCT_TIERS_v1.1.md` — Starter / Business / Custom scope and Starter price boundary.
-- `docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.0.md` — design, implementation and technical guardrails.
+- `docs/WEBSITE_PRODUCT_TIERS_v1.2_CANDIDATE.md` — current proposed tier boundaries and Starter price hypothesis; v1.1 is superseded.
+- `docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.1_CANDIDATE.md` — current proposed design/implementation guardrails; v1.0 is superseded.
 - `docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md` — required release and commercial gate.
 - `docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md` — automated typography, control, metadata and solid-surface contrast regression for the Starter reference.
 - `docs/STARTER_CONTENT_EVIDENCE_GATE_v1.0.md` — evidence and publication gate for testimonials, ratings and business-performance claims.
