@@ -275,6 +275,9 @@ main section { scroll-margin-top: 82px; }
 .optional { color: #8c968e; font-size: 8px; font-weight: 500; }
 .form-submit { width: 100%; margin-top: 2px; }
 .form-feedback { margin: -3px 0 0; color: var(--teal-dark); font-size: 9px; line-height: 1.6; }
+.form-feedback--fallback { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.form-feedback--fallback a { display: inline-flex; align-items: center; gap: 6px; width: max-content; padding: 7px 10px; border: 1px solid currentColor; border-radius: 2px; color: var(--teal-dark); font-weight: 700; text-decoration: none; }
+.form-feedback--fallback a:hover { background: rgba(0,104,94,.08); }
 .form-disclaimer { margin: 0; color: #818a83; font-size: 8px; line-height: 1.7; }
 
 .faq-section { background: #e8e4d9; }
