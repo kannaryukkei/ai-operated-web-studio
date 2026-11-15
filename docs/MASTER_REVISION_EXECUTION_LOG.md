@@ -522,3 +522,7 @@ Starter blueprint CI [run #47](https://github.com/kannaryukkei/ai-operated-web-s
 The operator repeated the Windows Playwright suite after the philosophy/contact CSS correction. The previous overflow offenders no longer appeared, but the 320px test still failed with document width 359px; the hero copy/H1 expanded to 343px because the one-column grid retained its intrinsic minimum track size. The other 18 tests passed. git status showed only the local untracked Starter package-lock.json; test-results output was ignored as intended.
 
 Applied a second mobile hero correction in commit ac47977d627b6258925b03a80255f94aebe252e1: zero-minimum single grid track, constrained hero child widths/min-widths, and safe H1 wrapping. This is now the latest revision-branch correction; local Windows re-run and fresh Starter CI verification remain pending. Keep Segment 14 IN PROGRESS. Do not commit the Starter lockfile or change the Starter workflow to npm ci until local 19/19 and the matching CI run are confirmed.
+
+### Narrow hero typography refinement — 2026-11-16
+
+Followed the 320px hero grid correction with a fluid H1 size at max-width 380px in commit 6d0ae557ea28e59c10ec5eabe2304d67b36df6f3 (44–56px). The intent is to preserve full-word wrapping in fallback-font conditions at 320px. This is the latest Starter source revision. Windows 19/19 and a matching fresh CI result remain unverified; Segment 14 remains IN PROGRESS.
