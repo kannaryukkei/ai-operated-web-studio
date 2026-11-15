@@ -457,7 +457,12 @@ main section { scroll-margin-top: 82px; }
   .coverage-art-label { left: 0; bottom: 10px; font-size: 14px; }
   .readiness-strip { grid-template-columns: 1fr; gap: 8px; padding-block: 16px 20px; }
   .readiness-strip > div strong { font-size: 22px; }
-  .booking-layout { gap: 31px; }
+  .booking-layout { grid-template-columns: minmax(0,1fr); gap: 31px; }
+  .booking-copy,.booking-form { width: 100%; min-width: 0; }
+  .booking-copy .section-heading { width: 100%; min-width: 0; }
+  .booking-copy .section-heading h2 { max-width: 100%; font-size: clamp(34px,11vw,43px); overflow-wrap: anywhere; }
+  .booking-promises,.booking-promises span { min-width: 0; }
+  .booking-promises span { align-items: flex-start; }
   .booking-form { gap: 13px; padding: 20px 16px; }
   .form-heading strong { font-size: 29px; }
   .form-row { grid-template-columns: 1fr 1fr; gap: 8px; }
