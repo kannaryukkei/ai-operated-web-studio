@@ -300,3 +300,15 @@ The reproducible validation command is `composer run-script ci:check` from the `
 - `platform/tests/Feature/ManualDiscoveryWorkflowTest.php`
 
 **Next action:** Complete Segment 12 by executing `composer ci:check` on this branch through a reproducible local run or authorized PR. If it fails, fix the exact reported issue and rerun. Do not mark Segment 12 DONE or start Segment 13 CI hardening until the result is observed.
+
+### Follow-up portability correction — Pint on Windows
+
+The operator executed `composer run-script ci:check` from `platform/`. Frontend formatting/lint checks and TypeScript checks passed. Pint then failed before running its test because the parallel worker could not be launched on Windows: `proc_open(): CreateProcess failed: Access is denied`. This is a process-launch failure, not a Pint formatting diagnostic.
+
+To avoid reliance on child-process spawning, `platform/composer.json` now runs Pint serially:
+- `lint`: `pint`
+- `lint:check`: `pint --test`
+
+This modestly trades parallel speed for Windows compatibility and predictable local/CI execution. The active root workflow uses the same Composer scripts through `composer run-script ci:check`.
+
+**Status remains CI PENDING.** The operator must rerun `composer run-script ci:check` from `platform/` after pulling the latest revision branch changes. Pint, PHPStan and Laravel tests have not yet been reported as passing.
