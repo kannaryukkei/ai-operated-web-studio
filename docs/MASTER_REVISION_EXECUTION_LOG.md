@@ -31,7 +31,7 @@
 | 07 | Define review, approval, and release gates | DONE |
 | 08 | Revise Master Skill | DONE |
 | 09 | Harmonize prompts, skills, and delivery playbook | DONE |
-| 10 | Harmonize documentation | NOT STARTED |
+| 10 | Harmonize documentation | DONE |
 | 11 | Align platform with canonical workflow | NOT STARTED |
 | 12 | Implement minimum platform changes | NOT STARTED |
 | 13 | Strengthen CI, reproducibility, and QA evidence | NOT STARTED |
@@ -181,4 +181,54 @@
 **Blockers:** none for this segment. Remaining stale documentation/template references and project-template alignment move to Segment 10. No merge, PR creation, branch deletion or change to `main`.
 
 **Resume point:** Segment 10 — audit repository-wide documentation/indexes and the starter-client templates/status/approval artifacts for stale Master Skill v1.9/v1.10 references, legacy client-questionnaire expectations, conflicting demo/social-proof language, old approval labels and outdated workflow/status states. Harmonize to v1.11 and the canonical schema/WRP/G0–G7 without expanding platform scope.
+
+## Checkpoint — Segment 10
+
+**Status:** DONE (active documentation, delivery standards and Starter workspace templates harmonized to Master Skill v1.11 candidate and the canonical records/gates)
+
+**Repository and product documentation**
+- Updated root `README.md` to point to Master Skill v1.11 Candidate and the current tier/implementation-standard candidates. Clarified that Starter is the active implementation priority; Business/Custom remain parked definitions.
+- Added `docs/WEBSITE_PRODUCT_TIERS_v1.2_CANDIDATE.md`, preserving v1.1 as superseded history. The new candidate makes Starter the only active build target and prohibits fabricated social proof in portfolio/demo and client-production work. Concept imagery is permitted only as disclosed non-proof visual material.
+- Added `docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.1_CANDIDATE.md`, preserving v1.0 as superseded history. Aligned fact/evidence/publication status, rendered `page_coverage[]`, concept imagery and the no-fabricated-social-proof policy.
+- Updated `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md` to cite Master Skill v1.11 Candidate as its authority, require WRP `APPROVED_FOR_DESIGN` + G2 before Stage 5, put rendered page coverage after implementation/QA, align Stage 8 with G0–G7 and use canonical milestone tokens.
+- Updated PRD traceability: schema/source coverage outputs are already defined by Segments 04–05; persisted platform support remains deferred to Segments 11–12.
+- Harmonized milestone status tokens in Client Input & Material Policy, Client Material Ingestion Protocol and Client Website Brief v2.1. Updated the Source-to-Page Coverage Matrix template as a post-implementation QA view of canonical `page_coverage[]`, not a parallel schema.
+- Updated the Starter Product Acceptance Gate reference to the current implementation-standard candidate.
+
+**Starter blueprint and delivery operations**
+- Rewrote `starter-ai-operations-blueprint.md` around one canonical Master Skill Stage 0–9 sequence, G0–G7 approval authority, exact release states, bounded evidence/checkpoint outputs, human autonomy boundaries and current manual/API-free platform limits.
+- Reconciled `starter-delivery-playbook.md`: the former 14 delivery stages are retained as operating steps beneath Master Skill Stages 0–9; old duplicate Stage headings removed; G0–G7 and WRP sequencing aligned.
+- Rewrote `starter-delivery-templates.md` for an operator-led interview/material input, AI-produced Client Website Brief, canonical record IDs, WRP review, G0–G7 decisions, QA evidence, release/handover and Stage 9 calibration. Removed the redundant long discovery/client questionnaire and outdated duplicate AI prompts.
+- Rebuilt `starter-production-kit.md` to reflect current workspace structure, stage map, approval records and the manual automation boundary.
+- Updated Template Kit and Blueprint READMEs and product specification to state Starter-only active development, park Business/Custom, and explicitly flag the existing Starter reference's legacy simulated metrics/customer-story proof as content-policy defects to remove before acceptance.
+- Clarified the historical Starter responsive QA snapshot: the earlier 15/15 run and production-only proof suppression do not establish compliance with the current no-fabricated-social-proof rule. No historical QA result was rewritten as a new test.
+
+**Starter client workspace**
+- Replaced the workspace README with internal-only usage instructions.
+- Updated approval log to record each G0–G7 decision against artifact/version and evidence; request status is separate from decision, so PENDING is not written as an approval decision.
+- Updated project dashboard to distinguish Master Stage, project-admin status, approval gates and PREVIEW_READY / PREVIEW_ACCEPTED / PRODUCTION_READY / RELEASE_AUTHORIZED / RELEASED / HANDED_OVER.
+- Reworked discovery brief as an AI-populated internal Client Website Brief.
+- Aligned asset/permission CSV and section-map view to canonical fields/statuses; rendered `page_coverage[]` is created only after implementation and QA.
+- Updated scope/commercial, design/G3, bounded implementation checkpoint, Stage 7 QA, G4–G7 launch/handover and Stage 9 retrospective templates.
+- Rebuilt `project-board-template.csv` with 21 internal tasks across PREP and Master Stages 0–9; project board CSV rows now have consistent 15-column structure. Updated the GitHub issue intake to state that it is for operator use only and not a client questionnaire.
+
+**Validation**
+- Re-fetched the updated root index, tier/implementation candidates, workflow, PRD, input policy/protocol, Client Brief template, source-to-page template, product acceptance gate, Starter playbook, AI operations blueprint, delivery templates, production kit, relevant READMEs, all Starter client workspace files and board CSV.
+- Confirmed Master Skill v1.11 candidate references; WRP/G2 prerequisite; canonical G0–G7; exact Stage 0–9 mapping; all 14 delivery operating steps retained with no duplicate Master Stage headings; no active demo allowance for fabricated social proof; rendered coverage only after QA; canonical milestone values; and separate preview/production/release/handover states.
+- Structural checks: approval table has 9 data rows with consistent 13 columns; asset/permission CSV has consistent 14 columns; project board has 21 data rows with consistent 15 columns and tasks covering Master Stages 0–9.
+- Documentation/templates-only segment: no application source code was changed and no application tests were run.
+
+**Open matters carried forward**
+- The ZACKS Starter reference still contains legacy simulated metrics/customer-story style proof. This is now explicitly documented as a policy defect; code/content removal and regression coverage belong to later implementation/QA segments.
+- The Laravel Project Intake remains a 26-field legacy bridge with five required controller fields, four-field UI helper copy and current client-account-owner/editor update access. Segment 11 must specify the correct server-side/UI policy; Segment 12 must implement and test it. Hiding a link alone is insufficient.
+- Master Skill v1.11, Product Tiers v1.2 and Implementation Standard v1.1 remain candidates pending owner adoption. Segment completion is not owner approval of those standards.
+
+**Files changed (Segment 10):**  
+`README.md`; `blueprints/starter/README.md`; `blueprints/starter/template-kit/README.md`; `blueprints/starter/template-kit/docs/product-specification.md`; `blueprints/starter/template-kit/docs/starter-ai-operations-blueprint.md`; `blueprints/starter/template-kit/docs/starter-delivery-playbook.md`; `blueprints/starter/template-kit/docs/starter-delivery-templates.md`; `blueprints/starter/template-kit/docs/starter-production-kit.md`; `blueprints/starter/template-kit/docs/starter-responsive-qa.md`; `blueprints/starter/template-kit/.github/ISSUE_TEMPLATE/starter-project-intake.yml`; `blueprints/starter/template-kit/templates/project-board-template.csv`; all nine files under `blueprints/starter/template-kit/templates/starter-client/`; `docs/WEBSITE_PRODUCT_TIERS_v1.2_CANDIDATE.md`; `docs/WEBSITE_PRODUCT_TIERS_v1.1.md` (superseded marker); `docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.1_CANDIDATE.md`; `docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.0.md` (superseded marker); `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md`; `docs/SOURCE_TO_PAGE_COVERAGE_TEMPLATE_v1.0.md`; `docs/CLIENT_INPUT_AND_MATERIAL_POLICY_v1.0.md`; `docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md`; `docs/CLIENT_WEBSITE_BRIEF_TEMPLATE_v2.1.md`; `docs/MASTER_PRODUCT_REQUIREMENTS_v1.0.md`; `docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md`; this execution log.
+
+**Branch state before checkpoint commit:** `revision/master-revision` is 94 commits ahead and 0 behind `main` (base `ff734d789612aa7fad756d4be9e6facaa960213b`). The preserved `improvement/frontend-implementation-skills` branch is unchanged from its reviewed experiment commit. No PR/merge, branch deletion or main-branch change was made.
+
+**Blockers:** none for Segment 10. Policy candidates await owner adoption. Platform alignment/implementation and Starter code proof-removal remain deliberately deferred.
+
+**Resume point:** Segment 11 — audit the current Laravel platform against Master Skill v1.11, PRD, canonical workflow/schema, WRP and G0–G7. Specify the minimum project/data/access/approval changes required, with special attention to internal-only Project Intake access, correct five-field validation/UI copy and server-side authorization. Preserve the API-free manual-AI model; do not build a broad automation engine.
 
