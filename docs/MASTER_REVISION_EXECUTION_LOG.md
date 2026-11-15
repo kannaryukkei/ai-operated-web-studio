@@ -516,3 +516,9 @@ Applied a narrow-viewport CSS correction in commit `57f91797a68af94a8d680c54b303
 ### Narrow viewport fix — remote verification
 
 Starter blueprint CI [run #47](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43742492354) completed SUCCESS on commit `57f91797a68af94a8d680c54b3034fba6ccf68f8`: Vite production build PASS; Playwright 19/19 PASS. The 320px philosophy-grid/contact-heading correction is therefore green on the Ubuntu 24.04 CI runner. Operator-side Windows reproduction still needs a rerun after pulling the fix. The generated Starter lockfile remains local/uncommitted, and the workflow still uses npm install until it is committed and verified. Segment 14 remains IN PROGRESS.
+
+### Second Windows narrow-viewport regression — 2026-11-16
+
+The operator repeated the Windows Playwright suite after the philosophy/contact CSS correction. The previous overflow offenders no longer appeared, but the 320px test still failed with document width 359px; the hero copy/H1 expanded to 343px because the one-column grid retained its intrinsic minimum track size. The other 18 tests passed. git status showed only the local untracked Starter package-lock.json; test-results output was ignored as intended.
+
+Applied a second mobile hero correction in commit ac47977d627b6258925b03a80255f94aebe252e1: zero-minimum single grid track, constrained hero child widths/min-widths, and safe H1 wrapping. This is now the latest revision-branch correction; local Windows re-run and fresh Starter CI verification remain pending. Keep Segment 14 IN PROGRESS. Do not commit the Starter lockfile or change the Starter workflow to npm ci until local 19/19 and the matching CI run are confirmed.
