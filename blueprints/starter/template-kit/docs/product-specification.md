@@ -5,7 +5,7 @@ Purpose: Prove one repeatable, high-quality Starter website production workflow 
 
 ## 1. Business reference
 
-All demonstrations use ZACKS Detailing as the same reference business. This controls differences in industry, brand identity, copy, service information, and imagery when comparing tiers.
+The active Starter reference uses ZACKS Detailing. Any future tier comparison is parked until Starter passes its acceptance gate and the Studio owner explicitly reprioritizes it.
 
 Source:
 - Repository: https://github.com/kannaryukkei/zacks-detailing
