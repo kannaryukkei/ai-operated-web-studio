@@ -74,7 +74,7 @@ A private preview may be produced before all production blockers are cleared, bu
 
 **Responsible:** AI with the client-material-ingestion specialist skill; operator supervises. Client/owner answers only material clarifications.
 
-**Inputs:** raw material packet, approved source links, prior project decisions kept separate from current facts.
+**Inputs:** raw material packet, approved source links, prior project decisions kept separate from current facts. Follow `docs/CLIENT_INPUT_AND_MATERIAL_POLICY_v1.0.md` for the client-input boundary and interim Project Intake use.
 
 **Actions:**
 - Inventory and assign stable source IDs.
@@ -91,7 +91,7 @@ A private preview may be produced before all production blockers are cleared, bu
 
 **Exit gate:** all material sources are accounted for; facts are traceable or explicitly unresolved; unknown rights remain pending; no material conflict is silently resolved; raw source files remain unchanged.
 
-**Current implementation:** protocol and skill define the method; the operator currently handles storage, transcription availability, source indexing and material handoff manually. The platform does not yet implement full private file ingestion or canonical provenance storage.
+**Current implementation:** the protocol and policy define the method; the operator handles storage, transcription availability, source indexing and material handoff manually. The platform does not implement full private file ingestion or canonical provenance storage. Its 26-field intake is an interim bridge (five required controller fields, 21 optional) and remains client-editable for authorized account owners/project editors today; this is a known mismatch. The intended policy is operator-populated, studio-only use until Segments 11–12 implement the server-side/UI correction.
 
 ### Stage 1 — Business intelligence
 
