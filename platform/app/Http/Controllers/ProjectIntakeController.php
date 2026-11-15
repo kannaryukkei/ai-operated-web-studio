@@ -99,7 +99,7 @@ class ProjectIntakeController extends Controller
             $intake->save();
         });
 
-        return back()->with('success', 'Business intake submitted for studio review.');
+        return back()->with('success', 'Internal intake snapshot submitted for Studio discovery.');
     }
 
     private function currentDraft(Project $project): ?ProjectIntake
