@@ -105,3 +105,23 @@ The matrix maps each topic from the raw transcript segment (INT-04 / INT-05), th
 **Validation boundary:** S10's combined S01–S10 browser, responsive, keyboard and business QA passed in Chromium. All new facts remain synthetic. This does not validate real policies, legal enforceability, real payment/support workflows or public launch readiness.
 
 S10's rendered Visit and FAQ captures were also reviewed at desktop, tablet and narrow mobile widths after the successful CI run. The additions retained the existing distinctive design direction; no redesign or additional UI component was justified. The reusable method is to review the actual rendered result after source-backed content changes and preserve a successful composition when the evidence supports retention, rather than equating every new segment with a redesign.
+
+
+## 10. S11 — Clarification triage protects the low-input model
+
+S11 exercised the material-first workflow using a controlled synthetic packet with conflicting brand names, croissant prices, hours, custom-box lead times and complaint terms; owner uncertainty; secondary staff notes; stale 2025 collateral; no public CTA/address; a superseded gluten-free label; and asset-rights / people-consent gaps.
+
+**Semburat evidence:** [S11 challenge packet](https://github.com/kannaryukkei/web-studio-experiment-03-semburat-bakehouse/blob/experiment/03-semburat-s11-ambiguity-stress-test/docs/EXPERIMENT_03_S11_AMBIGUOUS_RAW_MATERIAL_CHALLENGE.md), [S11 normalization and ambiguity QA](https://github.com/kannaryukkei/web-studio-experiment-03-semburat-bakehouse/blob/experiment/03-semburat-s11-ambiguity-stress-test/docs/EXPERIMENT_03_S11_AI_NORMALIZATION_AND_AMBIGUITY_QA.md).
+
+The controlled execution preserved each conflict, kept source/evidence/publication states separate, excluded unsafe or unapproved claims/assets and produced five grouped material questions. Optional delivery/payment/box/aftercare gaps were recorded and omitted rather than sent as extra questions.
+
+**Reusable system change — clarification triage:**
+- Label unresolved items PREVIEW BLOCKER, PRODUCTION BLOCKER or OPTIONAL GAP.
+- Ask only for decisions needed for the next milestone. A disclosed preview may continue while production-only blockers remain unresolved.
+- Group the smallest useful question set by responsible owner; state why each answer matters and the safe omission/fallback if unanswered.
+- Continue unaffected preview work using an internal working label, contact-not-configured state or Studio-created concept assets where safe.
+- Keep unanswered facts PENDING / NOT_APPROVED; do not repeatedly ask unless the next release gate depends on them.
+
+This tightens the low-input model: the client resolves only material decisions, while optional uncertainties stay visible in internal records and out of public copy.
+
+**Validation boundary:** S11 was a controlled synthetic challenge authored and normalized in the same GPT-6 session. It is not blind extraction, a real interview/audio test, binary asset inspection, rights validation or a real client response. It verifies the instruction path against deliberate edge cases, not real-world model accuracy.
