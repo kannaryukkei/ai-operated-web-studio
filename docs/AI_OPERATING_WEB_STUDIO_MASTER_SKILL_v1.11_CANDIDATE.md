@@ -160,9 +160,7 @@ The Minimal Clarification List must contain only decisions needed for the next m
 - Normalized Client Brief v2.1.
 - Atomic Fact Register with source, locator, evidence status and publication status.
 - Asset Register with provenance, owner, commercial-use/publication permission, intended use, identifiable-people consent/model-release status and applicable credit/restrictions.
-- Business Intelligence Summary and Offer Matrix.
-- Customer Question Map, Buying Journey and CTA map.
-- Conflict / Missing-Information Register with severity, owner and next action.
+- Material gaps/conflicts register with severity, source references, owner and next action.
 - Minimal Clarification List containing only decisions needed for the next milestone, triaged as PREVIEW BLOCKER / PRODUCTION BLOCKER / OPTIONAL GAP, with owner, reason and safe omission/fallback.
 - G0 confirmation/approval references for material facts, public claims, public CTA destinations and asset rights/people-consent decisions that require client/owner action.
 
@@ -200,7 +198,7 @@ Produce:
 
 Do not invent missing answers. Use the source-linked interview and supplied materials first; research can add category context but cannot silently override the client's facts. Every material output must trace back to a source ID and locator, or be explicitly marked ASSUMPTION / MISSING.
 
-Output: Business Intelligence Summary, Offer Matrix, Customer Question Map, Buying Journey, Trust Register and Content Gap Register, all linked by canonical IDs to Stage 0 source/fact records. Discovery answer status is separate from evidence/publication status and from later rendered page coverage.
+Output: Business Intelligence Summary, Offer Matrix, Trust/Evidence Register, operational constraints and unresolved business decisions, all linked by canonical IDs to Stage 0 source/fact records. This is the business-understanding baseline; the formal Customer Question Map, Buying Journey and information architecture are produced in Stage 3. Discovery answer status is separate from evidence/publication status and from later rendered page coverage.
 
 ## Stage 2 — Tier recommendation and scope
 
