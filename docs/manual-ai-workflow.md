@@ -26,7 +26,7 @@ Follow `docs/CLIENT_INPUT_AND_MATERIAL_POLICY_v1.0.md`, `docs/CLIENT_MATERIAL_IN
 
 ## Legacy intake page — operating caveat
 
-The current Project Intake page is still accessible to authorized client-account owners and project editors because the underlying Project policy permits them to update the project. This is not the intended material-first client journey. Until the platform is aligned, the studio must not direct clients to that page as a required second brief. Studio staff should use it only as an internal snapshot/bridge, populated from the interview and material packet. The UI and server-side authorization need a later implementation change; hiding a link alone is not sufficient.
+The current Project Intake page is still accessible to authorized client-account owners and project editors because the underlying Project policy permits them to update the project. This is not the intended material-first client journey. Until the platform is aligned, the studio must not direct clients to that page as a required second brief. Studio staff should use it only as an internal snapshot/bridge, populated from the interview and material packet. The UI and server-side authorization remain to be corrected in Segment 12 as specified in `docs/PLATFORM_ALIGNMENT_SPECIFICATION_v1.0.md`; hiding a link alone is not sufficient.
 
 The 26-field snapshot is not the Raw Material Index, Fact Register, Asset/Permission Register or Source Coverage Matrix. Keep those source-linked artifacts in the controlled project workspace.
 
