@@ -33,7 +33,7 @@
 | 09 | Harmonize prompts, skills, and delivery playbook | DONE |
 | 10 | Harmonize documentation | DONE |
 | 11 | Align platform with canonical workflow | DONE |
-| 12 | Implement minimum platform changes | NOT STARTED |
+| 12 | Implement minimum platform changes | IMPLEMENTED — CI PENDING |
 | 13 | Strengthen CI, reproducibility, and QA evidence | NOT STARTED |
 | 14 | Starter production readiness gate | NOT STARTED |
 | 15 | Final system audit and revision closure | NOT STARTED |
@@ -270,4 +270,23 @@
 **Blockers:** none for the audit/specification. Implementation acceptance remains open and is the work of Segment 12.
 
 **Resume point:** Segment 12 — implement the minimum changes in `docs/PLATFORM_ALIGNMENT_SPECIFICATION_v1.0.md` on `revision/master-revision`: internal-only intake policy/route protection and UI visibility/copy; preserve 26-field snapshot with five required fields and immutable submitted versions; align the limited DiscoveryRun working-summary status enums across prompt, PHP validator, TypeScript/UI and tests. Run the full platform CI checks and report actual evidence. Do not merge/create a PR/delete a branch or alter `main` unless explicitly requested.
+
+## Checkpoint — Segment 12 implementation (CI pending)
+
+**Status:** IMPLEMENTED — automated test/CI execution not yet verified. Segment 12 is deliberately not marked DONE until `composer ci:check` passes or specific failures are corrected and rerun.
+
+**Changed code:** Added Studio-only `manageInternalIntake` authorization and applied it to intake GET/PATCH/submit. Hid the Open Intake link from client project lists; removed the `canEdit` response prop; reframed intake as an internal Studio snapshot and corrected five-required/21-optional copy. Preserved all 26 payload keys, validation and versioned-draft/submitted-snapshot behavior. General `ProjectPolicy::update` remains unchanged.
+
+**Discovery alignment:** Updated ManualDiscoveryController validator/prompt, DiscoveryResult TypeScript shape/rendering and fixtures to use canonical evidence/publication/asset-permission/consent/question/journey/milestone statuses. Added negative tests for the retired mixed enums and lowercase journey stage. Manual external-AI handoff remains API-free. No migrations, WRP/approval models, provider integrations or CI workflow changes were added.
+
+**Regression coverage added/updated:** `ProjectIntakeTest` now covers Studio Owner/Operator access, 403 for client owner/admin/member and project owner/editor/viewer on GET/PATCH/submit, five core required fields, 21 optional fields, draft resumption and submitted version immutability. `WorkspacePagesTest` checks client project-list `isStudio=false`. `ManualDiscoveryWorkflowTest` validates the canonical prompt and working-summary enum contract, rejects legacy mixed evidence/publication values, legacy asset permission values and lowercase journey stages.
+
+**Static verification:** Re-fetched all nine changed files and checked policy/controller/UI/test contract consistency. Confirmed exactly three intake actions use the new policy, general project update remains unchanged, client link is guarded, no canEdit prop remains, and canonical statuses appear consistently in validator, prompt, types, rendering and fixtures.
+
+**Automated test status:** NOT RUN. The active root platform workflow is pull-request or main-push triggered; the revision branch is not configured for push CI. Local runtime does not have Composer/vendor dependencies and GitHub clone access is unavailable. No PR or main push was made under the agreed revision boundary. Do not report tests or CI as passing. Command to execute from `platform/`: `composer ci:check`.
+
+**Current changed files (9):**  
+`platform/app/Policies/ProjectPolicy.php`; `platform/app/Http/Controllers/ProjectIntakeController.php`; `platform/app/Http/Controllers/ManualDiscoveryController.php`; `platform/resources/js/pages/projects/intake.tsx`; `platform/resources/js/pages/projects/index.tsx`; `platform/resources/js/pages/projects/discovery.tsx`; `platform/tests/Feature/ProjectIntakeTest.php`; `platform/tests/Feature/WorkspacePagesTest.php`; `platform/tests/Feature/ManualDiscoveryWorkflowTest.php`.
+
+**Resume point:** Finish Segment 12 by running `composer ci:check` from `platform/` in the configured local environment or through an authorized PR that triggers `.github/workflows/platform-ci.yml`. Correct any concrete failures and rerun. Only then mark Segment 12 DONE and begin Segment 13. No merge, PR creation, branch deletion or change to `main` has been performed.
 
