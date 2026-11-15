@@ -348,3 +348,16 @@ Inspection showed that `ProjectIntakeTest` and `WorkspacePagesTest` already call
 The operator ran `composer run-script ci:check` from `platform/` after pulling the revision branch's Vite-test fix. All configured checks passed: frontend formatting/lint, TypeScript, Pint (87 files), PHPStan (64/64, no errors), and **Laravel tests 80 passed (370 assertions)**. The detailed terminal output was attached in the conversation.
 
 One local synchronization item remains to verify: the earlier `npm.cmd run check:fix` produced modifications to `resources/js/pages/projects/discovery.tsx` and `resources/js/pages/projects/intake.tsx`. The successful local validation used that working tree. Check whether they remain uncommitted; commit and push those two formatter-only changes to `revision/master-revision` if necessary. Do not push to `main`. Once the local branch is clean and matches the tested tree, Segment 12 can be marked DONE. GitHub Actions was not triggered because no PR was created.
+
+
+## 11. Segment 12 validation closeout — 2026-11-16
+
+**Status:** DONE. This closeout supersedes the earlier pending-validation and pending-format-sync notes in the implementation history above.
+
+**Observed command:** `composer run-script ci:check`, executed from `platform/` on local branch `revision/master-revision`.
+
+**Result:** PASS — frontend formatting (74 files), frontend lint (68 files, no warnings or lint errors), TypeScript, Pint (87 files), PHPStan (64/64 with no errors), and Laravel tests (80 passed, 370 assertions).
+
+**Source-tree synchronization:** the two formatter-only TSX changes were committed, rebased on the latest revision-branch documentation, and pushed. The local `git status -sb` was clean and tracking `origin/revision/master-revision`. No PR, merge, branch deletion or change to `main` occurred.
+
+**CI distinction:** this is a complete local Composer-script PASS, not a claim that GitHub Actions has already run. The original workflow did not trigger on direct pushes to the revision branch; the Segment 13 workflow update adds that trigger and a concise run summary so remote CI evidence can be collected without creating a PR.
