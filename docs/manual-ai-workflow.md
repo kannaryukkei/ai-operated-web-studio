@@ -1,50 +1,54 @@
-# API-Free AI-Assisted Studio Workflow
+# API-Free Material-First Studio Workflow
 
-## Why this exists
+## Principle
 
-The first working studio workflow must be usable without a paid model API. The platform coordinates client information, project state, saved outputs, and approvals. AI work can happen in ChatGPT, Claude, or another AI application already used by the studio operator.
+The client explains the business once in a normal interview and supplies the assets they already have. The AI does the structuring and website-production work. The client is not asked to complete a long website questionnaire or write website copy.
 
-This keeps the studio useful before there is enough revenue to justify automated model calls.
+Default inputs:
+- interview recording, transcript, meeting notes or operator summary;
+- supplied brand/product/service assets and documents;
+- optional existing website, social profiles, public CTA destinations and references.
 
-## Operating model
+Follow docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md and docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.9_CANDIDATE.md.
 
-1. The client submits the structured business intake in the client portal.
-2. The studio operator opens the project's Discovery workspace.
-3. The platform creates a discovery run from an immutable snapshot of the latest submitted intake.
-4. The operator copies the generated prompt into ChatGPT, Claude, or another AI application.
-5. The AI returns the requested JSON brief.
-6. The operator pastes the result into the Discovery workspace.
-7. The platform validates required fields and saves the result against the run.
-8. The studio reviews the **fact register, asset permissions, CTA destinations and customer-question coverage** before using the brief for website planning.
-9. The studio resolves critical gaps or records an owner/action; only approved facts and destinations move into public website content.
+## Operating sequence
 
-The current output contract is enforced by `ManualDiscoveryController`: every material fact needs a source and publication status; each relevant customer question needs `ANSWERED`, `GAP` or `NOT_APPLICABLE`; each CTA needs a destination status and expected behavior; each asset needs a source/owner and permission status.
+1. **Create the project and conduct the interview.** Capture the conversation in the form already available (recording, transcript or notes). Use natural prompts only where the conversation leaves material gaps.
+2. **Collect existing assets and links.** Preserve originals in a permission-controlled project folder. Do not assume the current platform supports multi-file upload; it does not yet provide the complete per-asset ingestion workflow described in the protocol.
+3. **Build the raw material packet.** Inventory interview files, assets and URLs. Keep original source files unchanged.
+4. **Hand the packet to the AI.** In ChatGPT, Claude or another available AI application, provide the raw materials with the Material Ingestion Protocol and Master Skill. No paid model API is required.
+5. **AI normalizes and traces.** The AI extracts atomic facts, links each material claim to a source locator, builds the asset/permission register, identifies conflicts and missing information, and creates the Client Brief v2.1 and business-discovery artifacts.
+6. **Ask minimal clarifications.** Only batch questions whose answers materially affect the offer, price, policy, visitor journey, CTA, public claim, asset permission or release. The client does not repeat information already supplied.
+7. **Operator reviews exceptions.** Review the fact register, source locators, public/private contact separation, asset rights, CTA destinations and critical gaps. Do not publish pending or unsupported claims.
+8. **Record the normalized snapshot.** The existing Studio project intake/discovery workspace can be used as a durable project/discovery record. Its current five-field intake is an interim internal bridge: fill it from the interview-derived summary; do not send it to the client as a second form. Preserve the raw packet separately until platform file ingestion is implemented.
+9. **Run the production lifecycle.** Continue through business intelligence, tier/scope, design differentiation, content, implementation, refinement, independent QA, owner approval and release using the Master Skill and specialist skills.
+10. **Keep the process API-free.** The operator chooses an existing AI application, copies the relevant prompt/materials, and pastes structured results back into the Studio. Add automation only after repeated manual bottlenecks are demonstrated.
 
-## What the platform does
+## What the platform currently does
 
-- Controls access to projects and discovery workspaces.
-- Stores submitted intake snapshots and version numbers.
-- Prepares a repeatable prompt from the exact intake snapshot.
-- Validates and persists structured discovery output.
-- Keeps a durable record of the discovery run.
+- Manages studio users, client accounts and projects.
+- Supports a project-scoped authenticated intake with versioned submissions.
+- Creates a persisted discovery run from the latest submitted intake snapshot.
+- Generates a repeatable prompt for an external AI application.
+- Validates and stores structured discovery output.
+- Records project/discovery state.
 
-## What the operator does
+## What the platform does not yet do
 
-- Chooses and uses the AI application.
-- Reviews the AI output for unsupported claims, assumptions, scope risks and source mismatches.
-- Checks that public facts, CTA destinations and asset rights have explicit approval status.
-- Corrects the result before saving it.
-- Owns all client-facing, tier, commercial and production-release decisions.
+- It is not a client-shareable raw interview recorder/transcriber.
+- It does not yet provide complete private multi-file asset intake and per-file permission capture.
+- It does not automatically parse arbitrary client documents or media into a source-linked fact register.
+- It does not autonomously operate an AI model through a paid provider API.
 
-Use `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.6_CANDIDATE.md` for the production stages, `docs/CLIENT_WEBSITE_BRIEF_TEMPLATE_v2.1.md` for the client brief and `docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md` for the Starter release decision.
+These are known product boundaries, not reasons to force clients through a second long form. The manual material-first method is the production fallback until platform functionality is justified.
 
-## Cost and integration boundary
+## Human authority and safety
 
-- No OpenAI API key, model API credential, or API billing is required for this workflow.
-- ChatGPT or Claude usage follows the operator's existing application subscription and its usage limits.
-- API integration is an optional future optimization, not a prerequisite for delivering websites.
-- Do not add provider SDKs, API secrets, token billing, or autonomous agent infrastructure until manual delivery has been validated with real clients and the studio can fund the usage.
+The AI may draft and recommend. The client/authorized owner remains responsible for confirming facts and granting publication permission. The Studio owner controls tier, commercial scope, spending, publishing, DNS and release. No external message, transaction, deployment or public release happens without explicit authorization.
 
-## Product boundary
+## Cost boundary
 
-This is an AI-assisted studio operating system, not yet a fully autonomous AI SaaS. It can support real client projects with a deliberate copy/paste handoff. Automation should be added only where repeated manual work becomes a demonstrated bottleneck.
+- No paid model API, API key or provider SDK is required.
+- The operator uses their existing AI application and its available file/transcription capabilities.
+- Keep raw files in controlled project storage; do not send unnecessary sensitive records to an AI application.
+- Build platform ingestion/transcription features only after real delivery demonstrates a repeated bottleneck.

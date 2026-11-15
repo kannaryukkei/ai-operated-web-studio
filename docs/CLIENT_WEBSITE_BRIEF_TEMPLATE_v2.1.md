@@ -1,19 +1,22 @@
 # Client Website Brief v2.1 — Business-First Intake
 
+> **Use:** This is an AI-produced normalized discovery artifact, not a questionnaire for the client to complete. Build it from interview material, supplied assets and approved source links using the Material-First Ingestion Protocol. Leave missing fields explicitly marked; ask only for material clarifications.
+
+
 Status: Proposed standard — 2026-11-14
 Supersedes: v2.0. Adds explicit asset provenance/permission and launch-approval capture.
 Purpose: collect the information needed to create a complete, useful website without overwhelming a small-business owner.
 
 ## How to use this brief
 
-- Start with the **Core Intake**. Keep it short and conversational.
+- The AI/studio populates this artifact from the interview, supplied assets and approved references; it is not sent to the client as a questionnaire.
 - Complete only the relevant business module: Services, Retail/Product, Portfolio/Project, or F&B/Hospitality.
-- The studio/AI researches and structures the information; do not ask the client to write website copy.
-- Use "Not sure" / "Not available" instead of guessing.
-- Record the source and approval status of public facts.
+- Use explicit NOT_AVAILABLE / NOT_APPLICABLE / NOT_SURE states instead of guessing.
+- Keep source, evidence status and publication approval attached to public-facing facts.
 - Internal commercial notes are never published by default.
+- Use the conversational prompts in the Material Ingestion Protocol only as interviewer reminders; never force a fixed script or repeat questions already answered.
 
-## A. Core Intake (required for every client)
+## A. Core Business Profile (AI-populated for every project)
 
 ### 1. Business basics
 - Business / brand name:
@@ -113,9 +116,14 @@ For each item, record value, source, status and approval:
 - Contact endpoints and CTA destinations.
 - Reviews, ratings, metrics, awards and credentials.
 - Policies, guarantees, warranties and outcomes.
-- Images, project photos, asset owner/source, publication permission and credit/license restrictions.
+- Images and project photos: asset owner/source, commercial-use and publication permission, identifiable people, consent/model-release status (or NOT_APPLICABLE), required credit, licence restrictions/expiry and approval.
 
-Status values: VERIFIED / CLIENT-PROVIDED-UNVERIFIED / APPROVED-FOR-PUBLICATION / DEMO-ONLY / ASSUMPTION / MISSING.
+Keep three independent dimensions:
+- **Answer status:** PROVIDED / NOT_AVAILABLE / NOT_APPLICABLE / NOT_SURE / CONFLICT.
+- **Evidence status:** VERIFIED / CLIENT-PROVIDED-UNVERIFIED / DEMO-ONLY / ASSUMPTION / MISSING / CONFLICT.
+- **Publication status:** APPROVED / PENDING / NOT_APPROVED.
+
+A fact can be provided by the client but remain unverified and pending publication. Do not collapse these dimensions into one status label.
 
 Keep internal project contacts separate from public contact destinations. A demo form must explicitly state whether it sends or stores data. Never show a false success state.
 
@@ -128,7 +136,9 @@ Keep internal project contacts separate from public contact destinations. A demo
 - Content production required:
 - Backend / CMS / integration requirement and business reason:
 - Risks, missing blockers and decisions requiring approval:
+- Clarification triage for every unresolved item: PREVIEW BLOCKER / PRODUCTION BLOCKER / OPTIONAL GAP.
 - Included scope, exclusions, revision rounds and ongoing support:
+- Minimal Clarification List (Studio-only): question, source/locator, why it matters, milestone priority, responsible owner and safe omission/fallback if unanswered. Batch only decisions needed for the next milestone; optional gaps remain recorded and are omitted from public copy.
 - Domain/registrar account owner, first-year domain/hosting inclusion, renewal payer and renewal date:
 
 ## E. Discovery outputs (AI/studio completes; client does not)
@@ -143,5 +153,6 @@ Keep internal project contacts separate from public contact destinations. A demo
 8. Recommended tier and scope rationale.
 9. Page/section map and CTA destination map.
 10. Factual claims requiring client approval.
+11. Minimal Clarification List with milestone triage (PREVIEW BLOCKER / PRODUCTION BLOCKER / OPTIONAL GAP), owner and safe fallback.
 
 The client provides business knowledge. The studio turns it into a structured website plan.

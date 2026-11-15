@@ -31,9 +31,14 @@ Fetch the live guideline source before a Vercel-guideline-specific review. If th
 ### Accessibility and keyboard
 - All functionality is keyboard reachable and operable.
 - Focus is visible, not obscured by sticky headers, footers or overlays.
+- For long pages or repeated navigation, provide a skip link as the first keyboard stop; keep it visually hidden until focused, reveal it clearly on focus, and move focus to a programmatically focusable main-content target.
+- Test representative keyboard-only journeys, not only isolated focus styles: skip-link activation, menu open/close and destination selection, native disclosure controls, form/select controls where present, and primary action buttons.
 - Skip links work and remain visually hidden until focused.
 - Menus/dialogs handle focus and Escape correctly where applicable.
 - Text contrast and non-text UI contrast are checked; record the actual sampled pairs and ratio.
+- Use WCAG AA as the target: 4.5:1 for normal text, 3:1 for large text and 3:1 for relevant non-text controls/focus indicators.
+- Enumerate every rendered instance for each tested role, not only the first match. Test actual surface pairs, alpha-composite translucent colors, and include important hover, focus, active, disabled, expanded and error states.
+- Map accent and muted-text tokens to the surfaces where they appear. A brand color is not automatically an accessible text color on every background.
 - Color is not the only status signal.
 - Reduced-motion preferences are respected.
 - Touch targets and gesture alternatives are appropriate.
@@ -44,9 +49,20 @@ Fetch the live guideline source before a Vercel-guideline-specific review. If th
 - No fake form success, order confirmation, booking, payment, sending or storage.
 - Disabled or unavailable actions explain the state honestly.
 
+### Dynamic interaction focus continuity
+- Provide a skip link as the first keyboard stop on long pages; confirm that it becomes visible on focus and moves focus to the main content landmark.
+- When a menu, navigation panel or dialog is dismissed with Escape, restore focus to its invoking control. When a navigation destination is activated, move focus to the destination if it is a programmatic focus target.
+- When an interaction re-renders or replaces the focused control, preserve focus on the equivalent updated action. If that action no longer exists (for example, removing the last row or clearing a list), move focus to a meaningful, available next action rather than the document body or a hidden element.
+- Test state transitions, not just initial control activation: add/increment/decrement/remove-last/clear, category/filter changes, disabled limits, derived totals and empty/unavailable states where applicable.
+- Test the exact checked-out branch/commit in a real browser where possible; record its SHA. In-memory `set_content` or copied local markup is a scoped render proof, not exact-commit acceptance evidence.
+- Scope test locators to the intended panel/component when repeated controls share accessible names. A test-locator ambiguity is not automatically a product defect.
+- Make screenshot state deterministic (viewport, scroll, selected tab/category, open disclosures, cart state and hover/focus state). Do not let a prior test interaction leak into later evidence captures.
+- A visible focus outline alone does not prove keyboard usability; test representative tasks from start to finish using keyboard input only.
+
 ### Responsive behavior
 - Check intended mobile, tablet and desktop layouts.
 - Test horizontal overflow at project-selected widths.
+- Review screenshots at actual viewport scale. Full-page captures support rhythm review but cannot prove small-text legibility. Keep fixed/sticky controls out of section screenshot crops when they are capture artifacts, without hiding them during behavior tests.
 - Review image crop, focal point, safe area and content order at each breakpoint.
 - Check fixed elements, sticky headers, menus, long labels and forms on small screens.
 

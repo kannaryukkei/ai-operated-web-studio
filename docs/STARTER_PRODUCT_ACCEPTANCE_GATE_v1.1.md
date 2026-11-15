@@ -17,7 +17,7 @@ Principle: Starter is compact, not incomplete. A one-page site must answer the i
 - [ ] Critical gaps have an owner and are either resolved or explicitly excluded from production launch.
 
 ## Gate 1 — Customer-facing completeness
-For each applicable item mark ANSWERED, NOT_APPLICABLE (with reason), or BLOCKED (with owner/action). Record its supporting source or evidence:
+For this commercial completeness gate, mark each applicable customer question ANSWERED, NOT_APPLICABLE (with reason), or BLOCKED (with owner/action), and retain its supporting source/evidence. Map this separate decision to the Source-to-Page Matrix: ANSWERED must have PUBLISHED status for production; PREVIEW_ONLY may be accepted for an internal preview only; GAP maps to BLOCKED. Never treat an approved preview exception as production-ready.
 - [ ] What does the business offer and who is it for?
 - [ ] What are the available products/services/packages?
 - [ ] How does a customer compare options and choose?
@@ -45,7 +45,7 @@ A site cannot pass production completeness with a critical BLOCKED item. Preview
 - [ ] Visual hierarchy makes the offer and primary action immediately understandable.
 - [ ] Content density feels complete without filler, repeated card grids or invented sections.
 - [ ] Images are relevant, correctly licensed/approved or clearly disclosed as concept imagery; no sample story or metric can appear in client-production mode.
-- [ ] Typography, spacing, contrast and component consistency are reviewed.
+- [ ] Typography, spacing, contrast and component consistency are reviewed. Important safety, allergen, pricing, policy and transaction disclosures are not treated as micro-metadata.
 - [ ] Mobile and desktop layouts are designed for the actual content, not just viewport screenshots.
 - [ ] Copy is specific, clear and customer-oriented rather than generic marketing language.
 
@@ -54,7 +54,7 @@ A site cannot pass production completeness with a critical BLOCKED item. Preview
 - [ ] All routes, links, navigation and interactions pass browser tests.
 - [ ] Responsive checks at 320, 360, 390, 640, 768, 900, 1024, 1280 and 1440px.
 - [ ] No horizontal overflow, broken assets, console errors or broken links.
-- [ ] Keyboard navigation, visible focus, form labels, semantic structure and contrast are checked.
+- [ ] Keyboard navigation, visible focus, form labels and semantic structure are checked. Text contrast is tested against actual backgrounds (4.5:1 normal / 3:1 large), with relevant non-text controls at 3:1; translucent colors are composited and every rendered instance is tested across target widths.
 - [ ] Metadata, social preview, favicon, sitemap/robots where applicable are correct.
 - [ ] Performance and image weight are measured; results are recorded rather than assumed.
 - [ ] Portfolio/demo mode and client-production mode are tested separately; demo metrics, simulated stories and sample proof are absent in client-production mode.

@@ -23,17 +23,22 @@
 
 **Exit:** Studio can create a client/project; invited client can log in and only see their own project.
 
-## Phase 2 — Guided onboarding and API-free discovery
-- Client business intake wizard.
-- Save/resume intake.
-- Immutable intake snapshot/versioning.
+## Phase 2 — Material-first onboarding and API-free discovery
+- Preserve interview recordings/transcripts/operator notes and supplied assets as a raw project source packet (manual, permission-controlled storage in the current workflow).
+- Use AI to inventory sources, transcribe where supported, extract atomic facts, maintain provenance and asset permissions, and normalize the Client Brief.
+- Keep the existing structured intake as an internal metadata/record bridge; do not require clients to complete it as a second form.
+- Save a source-linked, versioned discovery snapshot.
 - Studio-only discovery workspace.
-- Generate a repeatable prompt from the submitted intake snapshot.
+- Generate a repeatable prompt from the latest normalized snapshot and relevant source references.
 - Run the prompt in an external AI application.
 - Validate and save structured JSON output.
 - Show the saved brief to studio staff.
 
-**Exit:** A real client intake can produce a durable, validated discovery brief without API credentials or API spending. Studio review remains a human decision.
+**Current boundary:** The platform already has structured intake snapshots and manual AI discovery handoff. Raw interview/assets are stored and passed manually; private multi-file ingestion and automatic media parsing are not implemented.
+
+**Exit:** An interview + asset packet can produce a durable, source-traceable discovery brief without API credentials or API spending. Studio review remains a human decision.
+
+**Future platform option:** Add private multi-file ingestion and per-asset permission records only after manual delivery demonstrates a repeated bottleneck.
 
 ## Phase 3 — Scope, proposal, content planning
 - Reusable skills and prompts for qualification, tier recommendation, scope, and exclusions.

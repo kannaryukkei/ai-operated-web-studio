@@ -11,8 +11,9 @@ Build the smallest website that completely supports the customer's decision and 
 
 Every project gets a small, project-specific token set before detailed styling:
 
-- **Brand tokens:** primary, secondary, accent, background, surface, text, muted text, border and semantic states. Check contrast before approval.
-- **Typography:** one display family and one body family by default; define a restrained type scale, line heights and readable line lengths.
+- **Brand tokens:** primary, secondary, accent, background, surface, text, muted text, border and semantic states. Check actual foreground/background pairs before approval; never assume one accent works on every surface.
+- **Contrast contract:** target WCAG AA text contrast (4.5:1 normal text, 3:1 large text) and at least 3:1 for relevant non-text controls/focus indicators. Include translucent text compositing, overlays and real image/gradient surfaces. Record tested pairs and ratios.
+- **Typography:** one display family and one body family by default; define a restrained type scale, line heights and readable line lengths. Use 15px as the default primary/supporting copy floor; dense but important allergen/safety, pricing, policy, legal and transaction disclosures should normally be at least 13px. Reserve 11px for non-critical metadata.
 - **Spacing and layout:** use a consistent spacing scale, content max-width, grid/gap rules, section rhythm and responsive breakpoints.
 - **Components:** define only the components the actual site needs (buttons, links, cards, form controls, navigation, FAQ, gallery/product/project item).
 - **Interaction states:** default, hover, focus-visible, active, disabled, loading and error/success states where applicable.
@@ -32,7 +33,7 @@ The art direction must be specific to the client's business, audience, product a
 ## 4. Content and conversion contract
 
 - Keep business facts in a clearly identifiable data/configuration layer where practical.
-- Classify each public fact: VERIFIED, CLIENT-PROVIDED-UNVERIFIED, APPROVED-FOR-PUBLICATION, DEMO-ONLY, ASSUMPTION or MISSING.
+- Track each material fact with separate answer, evidence and publication statuses as defined in the Master Skill and Client Brief. Do not treat VERIFIED or CLIENT-PROVIDED-UNVERIFIED as publication approval; only publication status APPROVED permits release. Record page coverage separately in the Source-to-Page Coverage Matrix.
 - Do not publish internal notes, guessed facts, fabricated reviews, invented metrics or unsupported guarantees.
 - Track each public CTA's label, exact destination, approval status and expected behavior.
 - A CTA must not promise booking, payment, saving, submission or response unless that behavior actually occurs.
@@ -55,7 +56,7 @@ For each image, logo, font or video record its source/owner, permission or licen
 
 - Static-first for Starter. Use the existing repository/template stack where it is useful; do not create a framework or component library for a single small site.
 - A React/Vite static build is acceptable when the source template already uses it; simple HTML/CSS/JS is acceptable when that is genuinely simpler.
-- Separate content from presentation when it reduces editing risk; avoid excessive abstraction and premature shared packages.
+- Separate content from presentation when it reduces editing risk; use one canonical data source when facts drive multiple components or calculations; avoid excessive abstraction and premature shared packages.
 - Do not add backend, database, CMS, login, payment, inventory, booking engine, analytics or custom API by default.
 - Forms must have a real approved delivery path. A mailto: or WhatsApp handoff must describe exactly what it does and must not claim that the website stores or confirms the request.
 - Keep dependencies minimal and pinned/reproducible. Commit the lockfile and use the package manager's clean-install command in CI.
@@ -65,7 +66,7 @@ For each image, logo, font or video record its source/owner, permission or licen
 
 - Validate at 320, 360, 390, 640, 768, 900, 1024, 1280 and 1440px; no horizontal overflow.
 - Use semantic landmarks, one clear h1, logical heading order, labelled form controls, accessible names, keyboard-operable controls and visible focus.
-- Check text/control contrast, keyboard navigation, dialog focus/escape behavior, focus restoration and reduced-motion behavior where relevant.
+- Check text/control contrast, keyboard navigation, dialog focus/escape behavior, focus restoration and reduced-motion behavior where relevant. Contrast tests must inspect every rendered instance for each role at the target breakpoints, include relevant interaction states and alpha-composite translucent colors against the actual surface; checking only the first matching element is insufficient.
 - Avoid ARIA when native HTML semantics already provide the needed behavior.
 - Provide title, useful description, favicon, Open Graph metadata and canonical URL when a production domain exists.
 - Keep previews and demo deployments noindex/nofollow. Remove preview restrictions only after domain/content approval; configure robots/sitemap appropriately for launch.
@@ -78,10 +79,10 @@ For every release candidate:
 
 1. Install using the committed lockfile.
 2. Run the production build.
-3. Run browser tests for navigation, primary CTA, forms, key interactions and error/empty states.
+3. Run browser tests against the exact checked-out commit for navigation, primary CTA, forms, state transitions, boundary limits and error/empty/unavailable states. Scope locators to the intended component when accessible names repeat.
 4. Check responsive widths and screenshots on desktop and mobile.
 5. Verify all image loads, alternative text, link destinations and external dependencies.
-6. Run accessibility/contrast review and performance measurement; record results and limitations.
+6. Run accessibility/contrast review and performance measurement; record results and limitations. Preserve the exact tested color pairs, viewport set and untested boundaries; do not describe a targeted contrast regression as full WCAG conformance.
 7. Test another browser or explicitly mark it NOT TESTED.
 8. Verify production metadata, robots policy, SSL, DNS and client ownership.
 9. Record PASS / FAIL / NOT TESTED for each item. A green build is not proof of commercial readiness.

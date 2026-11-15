@@ -32,6 +32,7 @@ Use these as defaults for the Studio's current reference workflow, not as univer
 - Compact metadata / eyebrow labels: 11px minimum.
 - Primary button labels: 13px minimum.
 - Legal/credit notes should remain comfortably readable; do not reduce them to decorative micro-text.
+- Important allergen/safety information, pricing conditions, operating policies, access limitations and transaction disclosures are not metadata. Use at least 13px as a starting floor for dense important detail, or restructure the layout/copy to preserve comfortable reading.
 - Prefer readable line lengths (generally around 45–80 characters, adjusted for typeface and container).
 - Set line-height for the role and script; body copy often needs approximately 1.5–1.8.
 - Use fluid heading scales where appropriate; avoid uncontrolled heading wraps and awkward single-word lines.
@@ -55,6 +56,7 @@ Inspect at minimum one narrow mobile, one tablet and one desktop viewport. Use a
 For each viewport:
 - Capture computed font sizes for the defined body and metadata roles.
 - Check headings, buttons, nav labels, captions and footnotes.
+- Measure every instance of each text role; a check of only the first element can miss one-off responsive overrides.
 - Check long-copy wrapping, spacing and line length.
 - Check no horizontal overflow or clipped text.
 - Record PASS / FAIL / NOT TESTED.

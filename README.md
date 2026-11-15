@@ -1,10 +1,10 @@
 # AI Operated Web Studio
 
-An AI-powered website production platform that guides clients from onboarding to launch and orchestrates the internal studio workflow.
+An AI-operated website production system that turns a normal client interview and existing client assets into a source-traceable brief, then orchestrates research, strategy, content, design, implementation and QA from one controlled workflow.
 
 ## Product vision
 
-Clients enter a guided workspace, explain their business and goals, review project progress, provide feedback, and approve deliverables. The studio uses reusable AI skills and prompts through external AI applications for repeatable research, strategy, content, design, development, and QA. The studio owner retains authority over commercial decisions, scope, factual claims, and production release.
+Clients explain their business once in a normal interview and provide existing assets and optional source links. AI handles the structuring and production work; the client is asked only for material clarifications, fact/asset approvals and final decisions. The studio uses reusable skills and prompts through existing AI applications for research, strategy, content, design, development and QA. The studio owner retains authority over commercial decisions, scope, factual claims and production release.
 
 **AI Operated Web Studio is the single canonical production system.** The Laravel platform, production standards, prompts and versioned website blueprints live in this repository, with clear folder boundaries. Each real client website remains in its own isolated repository.
 
@@ -41,12 +41,15 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 - `docs/data-model.md`
 - `docs/security-and-approvals.md`
 - `docs/roadmap.md`
-- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.7_CANDIDATE.md` — proposed production skill with five-website and Experiment #1 design-quality gates.
+- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.9_CANDIDATE.md` — proposed material-first orchestrator with design differentiation and independent QA gates.
+- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.8_CANDIDATE.md` — preserved historical candidate containing the design-differentiation gate.
+- `docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md` — default interview + asset intake and source-normalization workflow.
+- `docs/EXPERIMENT_03_SYSTEM_LEARNINGS.md` — reusable system findings from Experiment #3.
 - `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.6_CANDIDATE.md` — preserved historical candidate.
 - `docs/EXPERIMENT_01_DESIGN_REVIEW_EVIDENCE.md` — supporting evidence for the v1.7 design-quality changes.
 - `skills/README.md` — modular Agent Skills library and how to use it.
 - `skills/registry.md` — skill routing, upstream provenance, license decisions and optional dependencies.
-- `docs/CLIENT_WEBSITE_BRIEF_TEMPLATE_v2.1.md` — current client brief and asset-permission intake.
+- `docs/CLIENT_WEBSITE_BRIEF_TEMPLATE_v2.1.md` — normalized AI-produced business brief; clients are not expected to complete it as a long questionnaire.
 - `docs/WEBSITE_PRODUCT_TIERS_v1.1.md` — Starter / Business / Custom scope and Starter price boundary.
 - `docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.0.md` — design, implementation and technical guardrails.
 - `docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md` — required release and commercial gate.
@@ -57,7 +60,7 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 
 ## Modular skill system
 
-The Master Skill is the orchestrator; specialist instructions live under `skills/` as portable Agent Skills. Only the minimum relevant skills are activated per phase. The core workflow remains API-free and does not require paid design services.
+The Master Skill is the orchestrator; specialist instructions live under `skills/` as portable Agent Skills. `client-material-ingestion` is required at Stage 0; other specialists are activated only when relevant. The core workflow remains API-free and uses existing AI applications rather than paid model APIs.
 
 ## Product boundary
 
@@ -65,4 +68,4 @@ The Master Skill is the orchestrator; specialist instructions live under `skills
 
 ## Current delivery workflow
 
-See `docs/manual-ai-workflow.md` for the API-free operating model. The platform manages clients, projects, intake snapshots, and discovery records; external AI applications handle the model work until paid API automation is justified.
+See `docs/manual-ai-workflow.md` and `docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md` for the API-free material-first process. The current platform manages clients, projects, structured intake snapshots and discovery records. Raw interview files and supplied assets are currently kept in controlled project storage and handed to an external AI application manually; private multi-file ingestion is not yet implemented.

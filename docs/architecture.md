@@ -62,7 +62,7 @@ Suggested Laravel application boundaries:
 - **Clients:** business profile, contacts, client workspace.
 - **Products:** Starter / Business / Custom definitions and versions.
 - **Projects:** project lifecycle, scope, brief, participants.
-- **Conversations:** client-to-AI guided intake, messages, summaries.
+- **Conversations:** interview references, transcript/operator notes, AI summaries and normalized discovery records. Raw source files remain in controlled project storage until private file intake is justified.
 - **Workflow:** definitions, runs, steps, retries, dependencies, state transitions.
 - **AI:** agent registry, prompt versions, provider adapters, tool policies, usage.
 - **Content:** section maps, copy artifacts, asset registers.
@@ -79,7 +79,7 @@ Avoid creating a service or package for every module. Organize by business capab
 
 ### Client portal
 - Onboarding.
-- Business profile and discovery conversation.
+- Interview/material packet references, normalized business profile and discovery conversation. Current raw file handoff is manual and permission-controlled.
 - Project overview and stage timeline.
 - Scope / content / design review.
 - Preview and revision submission.
