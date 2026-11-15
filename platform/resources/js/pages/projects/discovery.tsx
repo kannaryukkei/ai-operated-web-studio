@@ -419,7 +419,8 @@ export default function ProjectDiscovery({
                                             <p className="mt-1 text-lg font-semibold">
                                                 {run.result.customer_question_map?.filter(
                                                     (item) =>
-                                                        item.answer_status === 'GAP',
+                                                        item.answer_status ===
+                                                        'GAP',
                                                 ).length ?? '—'}
                                                 <span className="ml-1 text-xs font-normal text-muted-foreground">
                                                     open gaps

@@ -315,9 +315,9 @@ export default function ProjectIntake({
                     </h1>
                     <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
                         Studio staff populate this interim summary from the
-                        discovery interview and supplied business materials.
-                        It is not a client questionnaire or the canonical
-                        Client Website Brief. Optional details may remain blank.
+                        discovery interview and supplied business materials. It
+                        is not a client questionnaire or the canonical Client
+                        Website Brief. Optional details may remain blank.
                     </p>
                 </div>
 
@@ -417,9 +417,9 @@ export default function ProjectIntake({
                     <div className="flex flex-wrap items-center justify-between gap-3">
                         <p className="text-xs text-muted-foreground">
                             Five core fields are required to submit this
-                            internal snapshot. The other 21 fields are
-                            optional. Submitted versions are preserved as
-                            read-only snapshots.
+                            internal snapshot. The other 21 fields are optional.
+                            Submitted versions are preserved as read-only
+                            snapshots.
                         </p>
                         <div className="flex gap-2">
                             <Button
@@ -434,8 +434,8 @@ export default function ProjectIntake({
                                 disabled={form.processing}
                                 onClick={submit}
                             >
-                                <CheckCircle2 className="mr-2 size-4" />{' '}
-                                Submit intake
+                                <CheckCircle2 className="mr-2 size-4" /> Submit
+                                intake
                             </Button>
                         </div>
                     </div>
