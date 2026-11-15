@@ -151,29 +151,3 @@ The final Semburat review inspected the complete rendered page, section screensh
 - CI should cover the active experiment branch and its PR base branches; artifact names, success messages and checkpoint docs must match the actual scope/count.
 
 **Validation boundary:** the S11 contrast run passed the targeted role/background checks across nine Chromium widths. This is stronger evidence than visual intuition, but it is not a complete WCAG audit, assistive-technology test, Firefox/WebKit run, physical-device test, Lighthouse report or full performance measurement. The experiment remains synthetic and not production-approved.
-
-## 11. Final product audit — visible quality must be measured, not guessed
-
-The final Semburat review inspected the complete rendered page, section screenshots at actual viewport scale and the underlying source/QA implementation. The overall art direction remained DISTINCTIVE; no broad redesign was justified. The audit found a real contrast defect: the original tomato text accent on paper measured 3.40:1 and on butter 2.61:1, below WCAG AA for normal text. Small supporting disclosures were also too compact.
-
-**Semburat evidence:** [Final product and system audit](https://github.com/kannaryukkei/web-studio-experiment-03-semburat-bakehouse/blob/experiment/03-semburat-s11-ambiguity-stress-test/docs/EXPERIMENT_03_FINAL_PRODUCT_AND_SYSTEM_AUDIT.md), [contrast and responsive QA run #43706074502](https://github.com/kannaryukkei/web-studio-experiment-03-semburat-bakehouse/actions/runs/43706074502).
-
-**Implemented corrections:**
-- Added separate light-surface and dark-surface accent text tokens, rather than reusing one brand accent on every background.
-- Darkened muted text on the warm Visit surface and enlarged important allergen, pricing, visit, order and legal disclosures.
-- Added automated color-pair checks with alpha compositing and explicit background mapping for selected text roles.
-- Changed typography regression from checking the first matching node to checking every matching instance at every responsive width.
-- Corrected the S05 test summary from nine FAQs to twelve.
-- Added S10/S11 branch filters so website changes on the latest experiment line trigger the full browser suite.
-- Removed fixed skip-link overlap from section screenshot crops without changing the actual keyboard journey.
-
-**Reusable system rules:**
-- Establish explicit foreground/background token pairs. Never assume a brand accent is readable on paper, butter, tinted surfaces, photography or dark panels.
-- For WCAG AA text checks, use 4.5:1 for normal text and 3:1 for large text; check non-text controls/focus indicators separately at 3:1 where applicable. Composite translucent text against its actual background; gradients and image overlays require rendered sampling.
-- Enumerate all rendered instances, not just the first element for a selector. Run checks at every standard viewport and on relevant hover, focus, active, disabled and expanded states.
-- Important prices, allergen/safety notes, operating policies, consent notices and transaction limitations are content—not decorative metadata. Do not shrink them to fit; simplify or restructure first.
-- Review section screenshots at 100% viewport scale. Full-page screenshots are for rhythm, not for judging body text or small labels.
-- Screenshot evidence must not contain fixed/sticky controls accidentally composited over a section crop. Hide them only during crop capture, never during the actual behavior test.
-- CI should cover the active experiment branch and its PR base branches; artifact names, success messages and checkpoint docs must match the actual scope/count.
-
-**Validation boundary:** the S11 contrast run passed the targeted role/background checks across nine Chromium widths. This is stronger evidence than visual intuition, but it is not a complete WCAG audit, assistive-technology test, Firefox/WebKit run, physical-device test, Lighthouse report or full performance measurement. The experiment remains synthetic and not production-approved.
