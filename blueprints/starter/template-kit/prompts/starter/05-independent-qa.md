@@ -1,26 +1,65 @@
-# Prompt — Independent QA and Remediation
+# Prompt — Independent Website QA and Acceptance
 
-**Master Skill mapping:** Stage 7 — Independent QA.
+**Master Skill mapping:** Stage 7 — independent QA.
 
-Act as an independent quality reviewer of the exact candidate website/version against the approved WRP, Starter acceptance gate and source/approval records. Use the smallest useful specialist set:
-- `frontend-visual-qa` for browser-rendered reference comparison and responsive visual evidence.
-- `interface-quality-review` for semantics, accessibility, interaction truthfulness and interface defects.
-- `visual-design-audit` for the required aesthetic/distinctiveness verdict.
-- `frontend-quality-reviewer` for cross-layer implementation acceptance and the overall scoped verdict.
+Review the exact candidate branch/commit against the approved WRP, design pack, source/approval records and Starter acceptance gate. The purpose is to decide whether the result is actually good enough, not merely whether it runs.
 
-Review:
-- Every WRP acceptance criterion and source-to-page/customer-question coverage.
-- Factual accuracy, evidence/publication states, asset rights/credits and demo labeling.
-- Desktop/tablet/mobile rendering, overflow, hierarchy, density, image crops and responsive navigation.
-- Links, CTAs, forms, interactions, keyboard/focus, semantics, accessibility and reduced motion.
-- Build, automated tests, console/network failures, metadata, asset loading, privacy/security risks and unnecessary dependencies where relevant.
+## Use the smallest independent reviewer set
 
-Capture actual browser screenshots for any visual-review claim. Record the tested branch/commit, viewport, state, command, output and limitation. A build pass is not visual QA; a screenshot is not proof of code quality. Distinguish fresh independent review from self-review. Any unavailable browser/viewport/state remains `NOT_TESTED`.
+- Always run `visual-design-audit` for the aesthetic verdict.
+- Always run one overall `frontend-quality-reviewer` acceptance pass in a fresh context where available.
+- Use `frontend-visual-qa` when a visual specification/reference needs browser-fidelity comparison.
+- Use `interface-quality-review` when the changed surface includes interaction, semantics, accessibility, forms or responsive behavior.
+- Do not activate all four specialists mechanically. Record the reviewer/context and disclose self-review when a fresh reviewer is unavailable.
 
-Classify each finding with severity, location, evidence, impact, reproduction and required correction. Fix only authorized in-scope defects; classify a new feature, page, integration or material change in direction as a change request. Re-run affected checks after repair and preserve evidence.
+## Acceptance dimensions — keep verdicts separate
 
-Never fabricate social proof, even in demo/portfolio content. A preview may contain clearly disclosed non-proof concept visuals only when allowed by the approval policy. Do not waive production blockers.
+### A. Aesthetic quality (hard gate)
 
-## Required output
+Capture real rendered screenshots at desktop, tablet and mobile. Compare the exact candidate against:
+1. Its approved design pack.
+2. At least two recent Studio websites/experiments, including the closest category match where available.
 
-Exact project/branch/commit; WRP and Starter gate version; verdict PASS / PASS WITH CONCERNS / FAIL / BLOCKED; acceptance matrix; blocking/high/medium/low findings; visual screenshots and viewports; build/test results; source-to-page gaps; permissions/content risks; not-tested items; authorized fixes; and the next gate decision. A QA PASS is not production release authorization.
+Record one explicit verdict:
+- `DISTINCTIVE` — strong business-specific composition and visual grammar; not mistaken for a re-skin.
+- `COMPETENT BUT GENERIC` — coherent and usable, but relies too heavily on familiar or repeated template patterns.
+- `DERIVATIVE` — primarily a re-skin or near-copy of previous Studio work.
+- `NOT TESTED` — required rendered or cross-project evidence is unavailable.
+
+Only `DISTINCTIVE` passes the default aesthetic gate. `COMPETENT BUT GENERIC` and `DERIVATIVE` require a focused redesign. `NOT TESTED` means the aesthetic gate is BLOCKED; it must never be silently treated as a pass.
+
+Do not award `DISTINCTIVE` because the palette, font or hero illustration changed. Judge macro-composition, hierarchy, section rhythm, imagery, typography, density, interaction grammar and signature moments.
+
+### B. Business and content completeness
+
+- Verify every material customer question against the rendered page and canonical Source-to-Page records.
+- Check facts, prices, claims, permissions, publication states, CTA destinations and actual post-click behavior.
+- Distinguish PUBLISHED, PREVIEW_ONLY, GAP and NOT_APPLICABLE. Preview-only content never counts as production-published.
+- No fake testimonials, metrics, ratings, credentials, promises, bookings, storage or success states.
+
+### C. Functional and technical quality
+
+- Run the actual build and project tests on the exact candidate commit.
+- Check navigation, links, CTAs, controls, empty/error/unavailable states and keyboard behavior where relevant.
+- Check responsive layout, overflow, asset loading/crops, focus, semantics, contrast, reduced motion, console/network errors and basic performance as scoped.
+- Record each check PASS / FAIL / NOT TESTED. A build pass is not visual QA; screenshots are not proof of code quality.
+
+## Findings and remediation
+
+For each issue record severity, exact location, evidence, user/business impact, reproduction and one concrete correction. Group related findings into bounded correction slices. Fix only authorized in-scope defects; new features or a major change in direction are change requests. Re-run only affected tests after each correction and retain before/after evidence.
+
+## Overall verdict
+
+Return separate verdicts for:
+- Aesthetic gate.
+- Business/content completeness.
+- Functional/technical acceptance.
+- Overall candidate: PASS / PASS WITH CONCERNS / FAIL / BLOCKED.
+
+The overall candidate cannot be PASS while the aesthetic gate is GENERIC, DERIVATIVE or NOT TESTED, or while a critical factual/conversion/technical blocker remains.
+
+## Required report
+
+Exact project/branch/commit; WRP/design-pack versions; reviewer/context; aesthetic verdict and side-by-side screenshots; business coverage matrix; functional/technical evidence; findings by severity; fixes and retest results; NOT TESTED areas; owner decision required; next gate.
+
+Never fabricate social proof, including in demo/portfolio content. A QA PASS is not production release authorization.
