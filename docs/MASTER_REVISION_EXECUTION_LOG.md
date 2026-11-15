@@ -25,7 +25,7 @@
 | 01 | Establish revision workspace and rules | DONE |
 | 02 | Create Master PRD Lite | DONE |
 | 03 | Define canonical operating workflow | DONE |
-| 04 | Harmonize client input and material ingestion | NOT STARTED |
+| 04 | Harmonize client input and material ingestion | DONE |
 | 05 | Establish canonical data schema | NOT STARTED |
 | 06 | Define Website Requirements Pack | NOT STARTED |
 | 07 | Define review, approval, and release gates | NOT STARTED |
@@ -64,8 +64,8 @@
 4. Continue from the first NOT STARTED segment; do not redo verified work.
 5. Update this log in the same segment checkpoint when a segment is completed.
 
-**Next segment:** 04 — Harmonize Client Input & Material Ingestion.  
-**Resume point:** decide and document the single source-of-input policy (interview + assets as primary); reconcile the 26-field platform intake, five required controller fields, four-field UI copy and five-field manual-workflow description. Align material-ingestion protocol and client brief without making the client complete a second long form.
+**Next segment:** 05 — Establish Canonical Data Schema.  
+**Resume point:** define one schema for Source, Fact, Asset/Permission, Offer, Customer Question, CTA, Trust Evidence, Content Gap and Page Coverage records. Separate answer/evidence/publication/page-coverage statuses and map current DiscoveryRun validation to the canonical contract.
 
 
 ## Checkpoint — Segment 02
@@ -93,3 +93,15 @@
 **Files changed:** `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md`; `docs/MASTER_REVISION_EXECUTION_LOG.md`.  
 **Blockers:** none for drafting; owner adoption of the workflow remains pending.  
 **Commit:** workflow document `f513fc9e1252b27ab31dd4b7a829cc3ce2ff9448`; execution-log checkpoint committed after it.  
+
+
+## Checkpoint — Segment 04
+
+**Status:** DONE (policy and documentation harmonized; platform behavior change deferred to Segments 11–12)  
+**Output:** `docs/CLIENT_INPUT_AND_MATERIAL_POLICY_v1.0.md`  
+**Decision:** the canonical client input is one normal interview plus existing client assets and optional approved references. The Client Website Brief is AI-populated. The existing 26-field Project Intake is an interim operator-populated summary bridge, not a second client questionnaire or complete provenance store.  
+**Baseline reconciliation:** exact field inventory confirmed at 26. `ProjectIntakeController` requires five submission strings: `business_overview`, `target_audience`, `products_services`, `website_goal`, `primary_conversion`; 21 fields are optional. The UI helper copy says four. `ProjectPolicy` permits studio staff, client-account owners and project owner/editor members to update the project, making the intake page client-editable today. This is documented as a legacy implementation mismatch; Segments 11–12 own the server-side authorization and UI correction. No code was changed in this segment.  
+**Files changed:** `docs/CLIENT_INPUT_AND_MATERIAL_POLICY_v1.0.md`; `docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md`; `docs/manual-ai-workflow.md`; `docs/MASTER_PRODUCT_REQUIREMENTS_v1.0.md`; `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md`; `docs/CLIENT_WEBSITE_BRIEF_TEMPLATE_v2.1.md`; `docs/MASTER_REVISION_EXECUTION_LOG.md`.  
+**Validation:** all changed documents re-fetched from the revision branch; controller field inventory and validation rules inspected directly; ProjectPolicy update rule inspected; platform UI helper text inspected. Documentation-only segment; no application tests run.  
+**Blockers:** no blocker for the operating policy. Client access/UI still needs a tested implementation in Segments 11–12.  
+**Commits:** input policy `36fc077aea6039a7b1ab8a206194ebc23894734c`; protocol `01a021adf0f136ac243feef03c63550c591df566`; manual workflow `950e32969f78bf25b7199d300b110c0b095b5b32`; Master PRD `bf311156fc290d875b9a587f7b8f5c6b34a2eed8`; canonical workflow `81ff624257b4d5b3152900971718210714d151a5`; client brief policy reference `87bff7bbfdcc00527255c98c4839b332017c4e22`; execution log checkpoint follows.  
