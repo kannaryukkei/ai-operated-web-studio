@@ -98,8 +98,16 @@ class DiscoveryContract
         ]);
 
         if ($validator->fails()) {
+            $fieldErrors = [];
+
+            foreach ($validator->errors()->messages() as $field => $messages) {
+                foreach ($messages as $message) {
+                    $fieldErrors[] = "{$field}: {$message}";
+                }
+            }
+
             throw ValidationException::withMessages([
-                'result_json' => 'The JSON is valid, but its structure is incomplete. Include field-level facts and sources, asset permissions, CTA destinations, customer-question statuses, offer matrix, buying journey, trust register and content gaps.',
+                'result_json' => implode("\n", $fieldErrors),
             ]);
         }
 
