@@ -37,7 +37,7 @@ class ProjectIntakeController extends Controller
             ],
             'intake' => [
                 'version' => $intake?->version,
-                'schemaVersion' => $intake?->status === 'draft'
+                'schemaVersion' => $intake !== null && $intake->status === 'draft'
                     ? $intake->schema_version
                     : ProjectIntakeSchema::CURRENT_VERSION,
                 'storedSchemaVersion' => $intake?->schema_version,
