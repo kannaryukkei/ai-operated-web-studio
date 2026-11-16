@@ -22,13 +22,21 @@ class DiscoveryRunTest extends TestCase
         $studio = $this->createUser(UserRole::StudioOwner);
         $project = $this->createProject($studio);
         $first = $this->createIntake($project, 1, 'submitted', ['business_overview' => 'Original brief']);
-        $latest = $this->createIntake($project, 2, 'submitted', ['business_overview' => 'Latest brief']);
+        $latest = $this->createIntake($project, 2, 'submitted', [
+            'business_overview' => 'Latest brief',
+            'business_model_summary' => 'The business sells packages and fulfils booked services.',
+        ], 2);
 
         $run = app(CreateDiscoveryRun::class)->handle($project, (int) $studio->getKey());
 
         $this->assertSame($latest->getKey(), $run->project_intake_id);
         $this->assertSame(2, $run->intake_version);
-        $this->assertSame(['business_overview' => 'Latest brief'], $run->input_snapshot);
+        $this->assertSame(2, $run->intake_schema_version);
+        $this->assertSame([
+            'business_overview' => 'Latest brief',
+            'business_model_summary' => 'The business sells packages and fulfils booked services.',
+        ], $run->input_snapshot);
+        $this->assertArrayNotHasKey('schema_version', $run->input_snapshot);
         $this->assertSame(DiscoveryRunStatus::Queued, $run->status);
         $this->assertSame($studio->getKey(), $run->requested_by);
         $this->assertNotSame($first->getKey(), $run->project_intake_id);
@@ -125,10 +133,16 @@ class DiscoveryRunTest extends TestCase
     /**
      * @param  array<string, mixed>  $payload
      */
-    private function createIntake(Project $project, int $version, string $status, array $payload): ProjectIntake
-    {
+    private function createIntake(
+        Project $project,
+        int $version,
+        string $status,
+        array $payload,
+        int $schemaVersion = 1,
+    ): ProjectIntake {
         return $project->intakes()->create([
             'version' => $version,
+            'schema_version' => $schemaVersion,
             'payload' => $payload,
             'status' => $status,
         ]);
