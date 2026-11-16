@@ -11,15 +11,6 @@ class ProjectIntakeSchema
     public const CURRENT_VERSION = 2;
 
     /** @var list<string> */
-    private const CORE_FIELDS = [
-        'business_overview',
-        'target_audience',
-        'products_services',
-        'website_goal',
-        'primary_conversion',
-    ];
-
-    /** @var list<string> */
     private const LEGACY_FIELDS = [
         'business_overview',
         'industry',
