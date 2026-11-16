@@ -10,15 +10,16 @@ use App\Models\Project;
 use App\Services\Discovery\DiscoveryContract;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class ManualDiscoveryController extends Controller
 {
-    public function show(Request $request, Project $project, DiscoveryContract $discoveryContract): Response
+    public function show(Project $project, DiscoveryContract $discoveryContract): Response
     {
-        $this->authorizeStudio($request);
+        Gate::authorize('manageInternalIntake', $project);
         $intake = $project->intakes()->where('status', 'submitted')->latest('version')->first();
         $run = $intake?->discoveryRuns()->latest('id')->first();
 
@@ -43,7 +44,7 @@ class ManualDiscoveryController extends Controller
 
     public function start(Request $request, Project $project, CreateDiscoveryRun $createDiscoveryRun): RedirectResponse
     {
-        $this->authorizeStudio($request);
+        Gate::authorize('manageInternalIntake', $project);
         $run = $createDiscoveryRun->handle($project, (int) $request->user()->getKey());
 
         if ($run->status === DiscoveryRunStatus::Queued) {
@@ -56,7 +57,7 @@ class ManualDiscoveryController extends Controller
 
     public function complete(Request $request, Project $project, DiscoveryRun $discoveryRun, CompleteDiscoveryRun $completeDiscoveryRun, DiscoveryContract $discoveryContract): RedirectResponse
     {
-        $this->authorizeStudio($request);
+        Gate::authorize('manageInternalIntake', $project);
         abort_unless($discoveryRun->project_id === $project->getKey(), 404);
 
         if (! $discoveryRun->status->isActive()) {
@@ -70,10 +71,5 @@ class ManualDiscoveryController extends Controller
         $completeDiscoveryRun->handle($project, $discoveryRun, $validated['result_json']);
 
         return to_route('projects.discovery.show', $project)->with('success', 'Discovery brief saved successfully.');
-    }
-
-    private function authorizeStudio(Request $request): void
-    {
-        abort_unless($request->user()?->isStudioStaff(), 403);
     }
 }
