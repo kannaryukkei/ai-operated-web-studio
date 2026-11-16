@@ -120,7 +120,7 @@ A current ZACKS preview URL was not available, but a local deployment was not re
 
 **Evidence boundary:** no ZACKS screenshot or live render was captured. The formal rendered-peer `DISTINCTIVE` gate remains open; no pixel-level quality claim is made. This gap does not block the next bounded system-development experiment, but it must remain visible until a rendered comparison is completed. A local preview is optional for formal aesthetic sign-off, not a prerequisite for continuing system work.
 
-**Latest ACFIX evidence:** implementation head remains `1291e58a1dc75c76c271e6624ac3b3562c6c8dc0`; documentation head `135039eb4f449f39aa970a3e409b4d9d0a23aed6`; [Run #80 — PASS](https://github.com/kannaryukkei/web-studio-experiment-04-acfix-studio/actions/runs/43820104834) passed both `static-acceptance` and `browser-audit`.
+**Latest ACFIX evidence:** implementation head remains `1291e58a1dc75c76c271e6624ac3b3562c6c8dc0`; documentation head `b9a21c38bdfcff4d3af3e82e7b3f288787a6f6a3`; [Run #81 — PASS](https://github.com/kannaryukkei/web-studio-experiment-04-acfix-studio/actions/runs/43820324354) passed both `static-acceptance` and `browser-audit`.
 
 **Current result:** Stage 1–4 PASS; Stage 5 and Stage 6 PASS WITH CONCERNS; bounded technical/responsive QA PASS; identity-level cross-project differentiation SUPPORTED; rendered-peer aesthetic sign-off OPEN. Production remains blocked because the benchmark inputs are synthetic. Physical touch/trackpad pricing behavior and full accessibility certification remain unverified.
 
