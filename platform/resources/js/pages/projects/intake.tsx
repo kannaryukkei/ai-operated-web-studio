@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 
 type IntakePayload = {
     business_overview: string;
+    business_model_summary: string;
     industry: string;
     location: string;
     target_audience: string;
@@ -36,6 +37,7 @@ type IntakePayload = {
 
 const emptyPayload: IntakePayload = {
     business_overview: '',
+    business_model_summary: '',
     industry: '',
     location: '',
     target_audience: '',
@@ -73,6 +75,7 @@ const groups: {
         required?: boolean;
         rows?: number;
         type?: 'url' | 'text';
+        schemaVersion?: number;
     }[];
 }[] = [
     {
@@ -86,6 +89,13 @@ const groups: {
                 hint: 'What does the business do? Explain it in your own words.',
                 required: true,
                 rows: 3,
+            },
+            {
+                key: 'business_model_summary',
+                label: 'Business model summary',
+                hint: 'How does the business earn revenue, what do customers pay for, and how is the offer delivered?',
+                rows: 3,
+                schemaVersion: 2,
             },
             {
                 key: 'industry',
@@ -271,15 +281,47 @@ export default function ProjectIntake({
     project: { id: number; name: string; clientName: string };
     intake: {
         version: number | null;
+        schemaVersion: number;
+        storedSchemaVersion: number | null;
         status: string | null;
         payload: Partial<IntakePayload>;
         submittedAt: string | null;
     };
 }) {
-    const form = useForm<{ payload: IntakePayload }>({
+    const form = useForm<{ schema_version: number; payload: IntakePayload }>({
+        schema_version: intake.schemaVersion,
         payload: { ...emptyPayload, ...intake.payload },
     });
+    form.transform((data) => {
+        if (data.schema_version === 1) {
+            const legacyPayload = { ...data.payload } as Partial<IntakePayload>;
+            delete legacyPayload.business_model_summary;
+
+            return { ...data, payload: legacyPayload as IntakePayload };
+        }
+
+        return data;
+    });
     const errors = form.errors as Record<string, string | undefined>;
+    const revisionType = intake.status === 'draft' ? 'Draft' : 'Last submitted';
+    const storedSchemaVersion =
+        intake.storedSchemaVersion ?? intake.schemaVersion;
+    const versionLabel =
+        intake.version === null
+            ? `New intake · Schema v${intake.schemaVersion}`
+            : [
+                  `${revisionType} revision ${intake.version}`,
+                  `Stored schema v${storedSchemaVersion}`,
+                  `Editing schema v${intake.schemaVersion}`,
+              ].join(' · ');
+    const visibleGroups = groups.map((group) => ({
+        ...group,
+        fields: group.fields.filter(
+            (field) =>
+                !field.schemaVersion ||
+                intake.schemaVersion >= field.schemaVersion,
+        ),
+    }));
 
     function setField(key: keyof IntakePayload, value: string) {
         form.setData('payload', { ...form.data.payload, [key]: value });
@@ -332,9 +374,7 @@ export default function ProjectIntake({
                             </span>
                         </div>
                         <p className="text-sm text-muted-foreground">
-                            {intake.version
-                                ? `Version ${intake.version}`
-                                : 'No saved version yet'}
+                            {versionLabel}
                             {intake.submittedAt
                                 ? ` · Submitted ${new Date(intake.submittedAt).toLocaleDateString()}`
                                 : ''}
@@ -343,7 +383,7 @@ export default function ProjectIntake({
                 </Card>
 
                 <form onSubmit={save} className="flex flex-col gap-5">
-                    {groups.map((group) => (
+                    {visibleGroups.map((group) => (
                         <Card key={group.title}>
                             <CardHeader className="gap-1">
                                 <CardTitle className="text-base">
@@ -417,9 +457,9 @@ export default function ProjectIntake({
                     <div className="flex flex-wrap items-center justify-between gap-3">
                         <p className="text-xs text-muted-foreground">
                             Five core fields are required to submit this
-                            internal snapshot. The other 21 fields are optional.
-                            Submitted versions are preserved as read-only
-                            snapshots.
+                            internal snapshot. Additional details are optional;
+                            schema v2 adds a business model summary. Submitted
+                            versions are preserved as read-only snapshots.
                         </p>
                         <div className="flex gap-2">
                             <Button

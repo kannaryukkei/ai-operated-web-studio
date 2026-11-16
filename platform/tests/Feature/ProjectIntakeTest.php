@@ -35,12 +35,14 @@ class ProjectIntakeTest extends TestCase
         $this->assertDatabaseHas('project_intakes', [
             'project_id' => $project->getKey(),
             'version' => 1,
+            'schema_version' => 2,
             'status' => 'draft',
         ]);
 
         $this->get(route('projects.intake.show', $project))->assertOk()
             ->assertInertia(fn ($page) => $page->component('projects/intake')
                 ->where('intake.version', 1)
+                ->where('intake.schemaVersion', 2)
                 ->where('intake.payload.industry', 'Professional services')
                 ->where('intake.payload.customer_objections', 'Price is too high.')
                 ->where('intake.payload.existing_assets', 'https://example.com/logo-and-gallery')
@@ -105,6 +107,178 @@ class ProjectIntakeTest extends TestCase
         );
     }
 
+    public function test_schema_v1_accepts_the_legacy_26_field_payload(): void
+    {
+        $clientOwner = $this->createUser(UserRole::Client);
+        $project = $this->createProject($clientOwner);
+        $studio = $this->createUser(UserRole::StudioOwner);
+
+        $this->actingAs($studio)
+            ->post(route('projects.intake.submit', $project), [
+                'schema_version' => 1,
+                'payload' => $this->validPayload(),
+            ])
+            ->assertRedirect();
+
+        $intake = ProjectIntake::query()->sole();
+
+        $this->assertSame(1, $intake->schema_version);
+        $this->assertSame($this->normalizeEmptyStrings($this->validPayload()), $intake->payload);
+
+        $this->get(route('projects.intake.show', $project))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->where('intake.schemaVersion', 2)
+                ->where('intake.storedSchemaVersion', 1)
+                ->where('intake.payload.business_overview', 'A local professional service business.'));
+    }
+
+    public function test_new_draft_after_legacy_submission_uses_current_schema_without_mutating_history(): void
+    {
+        $clientOwner = $this->createUser(UserRole::Client);
+        $project = $this->createProject($clientOwner);
+        $studio = $this->createUser(UserRole::StudioOwner);
+        $legacyPayload = $this->validPayload();
+
+        $this->actingAs($studio)
+            ->post(route('projects.intake.submit', $project), [
+                'schema_version' => 1,
+                'payload' => $legacyPayload,
+            ])
+            ->assertRedirect();
+
+        $this->get(route('projects.intake.show', $project))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->where('intake.schemaVersion', 2)
+                ->where('intake.storedSchemaVersion', 1));
+
+        $currentPayload = $this->validPayload();
+        $currentPayload['business_model_summary'] = 'The business sells packages and fulfils booked services.';
+
+        $this->patch(route('projects.intake.save', $project), [
+            'schema_version' => 2,
+            'payload' => $currentPayload,
+        ])->assertRedirect();
+
+        $this->assertDatabaseHas('project_intakes', [
+            'project_id' => $project->getKey(),
+            'version' => 1,
+            'schema_version' => 1,
+            'status' => 'submitted',
+        ]);
+        $this->assertDatabaseHas('project_intakes', [
+            'project_id' => $project->getKey(),
+            'version' => 2,
+            'schema_version' => 2,
+            'status' => 'draft',
+        ]);
+
+        $legacy = ProjectIntake::query()->where('version', 1)->sole();
+        $current = ProjectIntake::query()->where('version', 2)->sole();
+
+        $this->assertSame($this->normalizeEmptyStrings($legacyPayload), $legacy->payload);
+        $this->assertSame($this->normalizeEmptyStrings($currentPayload), $current->payload);
+    }
+
+    public function test_schema_v2_accepts_the_additive_business_model_summary_field(): void
+    {
+        $clientOwner = $this->createUser(UserRole::Client);
+        $project = $this->createProject($clientOwner);
+        $studio = $this->createUser(UserRole::StudioOwner);
+        $payload = $this->validPayload();
+        $payload['business_model_summary'] = 'The business sells service packages to local customers and fulfils booked work.';
+
+        $this->actingAs($studio)
+            ->post(route('projects.intake.submit', $project), [
+                'schema_version' => 2,
+                'payload' => $payload,
+            ])
+            ->assertRedirect();
+
+        $intake = ProjectIntake::query()->sole();
+
+        $this->assertSame(2, $intake->schema_version);
+        $this->assertSame($this->normalizeEmptyStrings($payload), $intake->payload);
+    }
+
+    public function test_schema_v2_validates_the_business_model_summary_length(): void
+    {
+        $clientOwner = $this->createUser(UserRole::Client);
+        $project = $this->createProject($clientOwner);
+        $studio = $this->createUser(UserRole::StudioOwner);
+        $payload = $this->validPayload();
+        $payload['business_model_summary'] = str_repeat('a', 4001);
+
+        $this->actingAs($studio)
+            ->from(route('projects.intake.show', $project))
+            ->post(route('projects.intake.submit', $project), [
+                'schema_version' => 2,
+                'payload' => $payload,
+            ])
+            ->assertSessionHasErrors('payload.business_model_summary');
+
+        $this->assertDatabaseCount('project_intakes', 0);
+    }
+
+    public function test_unsupported_intake_schema_versions_are_rejected(): void
+    {
+        $clientOwner = $this->createUser(UserRole::Client);
+        $project = $this->createProject($clientOwner);
+        $studio = $this->createUser(UserRole::StudioOwner);
+
+        $this->actingAs($studio)
+            ->from(route('projects.intake.show', $project))
+            ->post(route('projects.intake.submit', $project), [
+                'schema_version' => 3,
+                'payload' => $this->validPayload(),
+            ])
+            ->assertSessionHasErrors('schema_version');
+
+        $this->assertDatabaseCount('project_intakes', 0);
+    }
+
+    public function test_existing_drafts_keep_their_schema_version_when_saved_again(): void
+    {
+        $clientOwner = $this->createUser(UserRole::Client);
+        $project = $this->createProject($clientOwner);
+        $studio = $this->createUser(UserRole::StudioOwner);
+        $legacyPayload = $this->validPayload();
+
+        $this->actingAs($studio)
+            ->patch(route('projects.intake.save', $project), [
+                'schema_version' => 1,
+                'payload' => $legacyPayload,
+            ])
+            ->assertRedirect();
+
+        $newPayload = $this->validPayload();
+        $newPayload['business_model_summary'] = 'New schema content';
+
+        $this->patch(route('projects.intake.save', $project), [
+            'schema_version' => 2,
+            'payload' => $newPayload,
+        ])->assertSessionHasErrors('schema_version');
+
+        $intake = ProjectIntake::query()->sole();
+        $this->assertSame(1, $intake->schema_version);
+        $this->assertSame($this->normalizeEmptyStrings($legacyPayload), $intake->payload);
+    }
+
+    public function test_existing_intake_rows_default_to_legacy_schema_v1(): void
+    {
+        $clientOwner = $this->createUser(UserRole::Client);
+        $project = $this->createProject($clientOwner);
+
+        $intake = $project->intakes()->create([
+            'version' => 1,
+            'status' => 'draft',
+            'payload' => $this->validPayload(),
+        ]);
+
+        $this->assertSame(1, $intake->fresh()->schema_version);
+    }
+
     public function test_submission_requires_exactly_five_core_business_fields(): void
     {
         $clientOwner = $this->createUser(UserRole::Client);
@@ -125,7 +299,7 @@ class ProjectIntakeTest extends TestCase
         $this->assertDatabaseCount('project_intakes', 0);
     }
 
-    public function test_all_twenty_one_non_core_fields_remain_optional(): void
+    public function test_legacy_non_core_fields_remain_optional_under_schema_v2(): void
     {
         $clientOwner = $this->createUser(UserRole::Client);
         $project = $this->createProject($clientOwner);
@@ -229,6 +403,18 @@ class ProjectIntakeTest extends TestCase
                 'payload' => $this->validPayload(),
             ])->assertForbidden();
         }
+    }
+
+    /**
+     * @param  array<string, string>  $payload
+     * @return array<string, string|null>
+     */
+    private function normalizeEmptyStrings(array $payload): array
+    {
+        return array_map(
+            static fn (string $value): ?string => $value === '' ? null : $value,
+            $payload,
+        );
     }
 
     /** @return array<string, string> */

@@ -13,6 +13,7 @@ use Illuminate\Support\Carbon;
  * @property int $project_intake_id
  * @property int|null $requested_by
  * @property int $intake_version
+ * @property int $intake_schema_version
  * @property string|null $failure_reason
  * @property array<string, mixed> $input_snapshot
  * @property array<string, mixed>|null $result
@@ -25,6 +26,7 @@ use Illuminate\Support\Carbon;
     'project_intake_id',
     'requested_by',
     'intake_version',
+    'intake_schema_version',
     'input_snapshot',
     'status',
     'result',
@@ -38,6 +40,7 @@ class DiscoveryRun extends Model
     {
         return [
             'intake_version' => 'integer',
+            'intake_schema_version' => 'integer',
             'input_snapshot' => 'array',
             'result' => 'array',
             'status' => DiscoveryRunStatus::class,

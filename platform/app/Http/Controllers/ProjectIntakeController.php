@@ -4,28 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\ProjectIntake;
+use App\Services\Intake\ProjectIntakeSchema;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class ProjectIntakeController extends Controller
 {
-    private const FIELDS = [
-        'business_overview', 'industry', 'location', 'target_audience',
-        'products_services', 'offer_details', 'customer_questions',
-        'customer_objections', 'purchase_process', 'operational_policies',
-        'trust_evidence', 'aftercare_support', 'differentiators',
-        'website_goal', 'primary_conversion', 'public_contact_details',
-        'current_website', 'competitor_references', 'brand_direction',
-        'required_pages', 'required_features', 'constraints', 'success_metrics',
-        'existing_assets', 'asset_permissions', 'content_approver',
-    ];
-
     public function show(Project $project): Response
     {
         Gate::authorize('manageInternalIntake', $project);
@@ -45,6 +37,10 @@ class ProjectIntakeController extends Controller
             ],
             'intake' => [
                 'version' => $intake?->version,
+                'schemaVersion' => $intake !== null && $intake->status === 'draft'
+                    ? $intake->schema_version
+                    : ProjectIntakeSchema::CURRENT_VERSION,
+                'storedSchemaVersion' => $intake?->schema_version,
                 'status' => $intake?->status,
                 'payload' => $intake ? $intake->payload : [],
                 'submittedAt' => $submittedAt instanceof Carbon ? $submittedAt->toISOString() : null,
@@ -52,12 +48,15 @@ class ProjectIntakeController extends Controller
         ]);
     }
 
-    public function save(Request $request, Project $project): RedirectResponse
+    public function save(Request $request, Project $project, ProjectIntakeSchema $schema): RedirectResponse
     {
         Gate::authorize('manageInternalIntake', $project);
-        $validated = $request->validate($this->rules());
 
-        DB::transaction(function () use ($project, $validated): void {
+        $draft = $this->currentDraft($project);
+        $schemaVersion = $this->resolveSchemaVersion($request, $schema, $draft);
+        $validated = $request->validate($schema->rules($schemaVersion));
+
+        DB::transaction(function () use ($project, $validated, $schemaVersion): void {
             $lockedProject = Project::query()->whereKey($project->getKey())->lockForUpdate()->firstOrFail();
             $intake = $this->currentDraft($lockedProject);
 
@@ -65,7 +64,12 @@ class ProjectIntakeController extends Controller
                 $intake = new ProjectIntake([
                     'project_id' => $lockedProject->getKey(),
                     'version' => ((int) $lockedProject->intakes()->max('version')) + 1,
+                    'schema_version' => $schemaVersion,
                     'status' => 'draft',
+                ]);
+            } elseif ($intake->schema_version !== $schemaVersion) {
+                throw ValidationException::withMessages([
+                    'schema_version' => 'This draft uses a different schema version. Reload the intake before saving.',
                 ]);
             }
 
@@ -76,12 +80,18 @@ class ProjectIntakeController extends Controller
         return back()->with('success', 'Internal intake snapshot saved.');
     }
 
-    public function submit(Request $request, Project $project): RedirectResponse
-    {
+    public function submit(
+        Request $request,
+        Project $project,
+        ProjectIntakeSchema $schema,
+    ): RedirectResponse {
         Gate::authorize('manageInternalIntake', $project);
-        $validated = $request->validate($this->rules(true));
 
-        DB::transaction(function () use ($project, $request, $validated): void {
+        $draft = $this->currentDraft($project);
+        $schemaVersion = $this->resolveSchemaVersion($request, $schema, $draft);
+        $validated = $request->validate($schema->rules($schemaVersion, true));
+
+        DB::transaction(function () use ($project, $request, $validated, $schemaVersion): void {
             $lockedProject = Project::query()->whereKey($project->getKey())->lockForUpdate()->firstOrFail();
             $intake = $this->currentDraft($lockedProject);
 
@@ -89,13 +99,19 @@ class ProjectIntakeController extends Controller
                 $intake = new ProjectIntake([
                     'project_id' => $lockedProject->getKey(),
                     'version' => ((int) $lockedProject->intakes()->max('version')) + 1,
+                    'schema_version' => $schemaVersion,
+                    'status' => 'draft',
+                ]);
+            } elseif ($intake->schema_version !== $schemaVersion) {
+                throw ValidationException::withMessages([
+                    'schema_version' => 'This draft uses a different schema version. Reload the intake before submitting.',
                 ]);
             }
 
             $intake->payload = $validated['payload'];
             $intake->status = 'submitted';
             $intake->submitted_by = $request->user()->getKey();
-            $intake->submitted_at = now();
+            $intake->submitted_at = Carbon::now();
             $intake->save();
         });
 
@@ -107,39 +123,27 @@ class ProjectIntakeController extends Controller
         return $project->intakes()->where('status', 'draft')->latest('version')->lockForUpdate()->first();
     }
 
-    /** @return array<string, array<int, mixed>> */
-    private function rules(bool $forSubmission = false): array
-    {
-        $required = $forSubmission ? 'required' : 'nullable';
+    private function resolveSchemaVersion(
+        Request $request,
+        ProjectIntakeSchema $schema,
+        ?ProjectIntake $draft,
+    ): int {
+        $versionInput = $request->validate([
+            'schema_version' => ['sometimes', 'required', 'integer', Rule::in($schema->supportedVersions())],
+        ]);
 
-        return [
-            'payload' => ['required', 'array:'.implode(',', self::FIELDS)],
-            'payload.business_overview' => [$required, 'string', 'max:4000'],
-            'payload.industry' => ['nullable', 'string', 'max:160'],
-            'payload.location' => ['nullable', 'string', 'max:200'],
-            'payload.target_audience' => [$required, 'string', 'max:4000'],
-            'payload.products_services' => [$required, 'string', 'max:4000'],
-            'payload.offer_details' => ['nullable', 'string', 'max:5000'],
-            'payload.customer_questions' => ['nullable', 'string', 'max:4000'],
-            'payload.customer_objections' => ['nullable', 'string', 'max:4000'],
-            'payload.purchase_process' => ['nullable', 'string', 'max:4000'],
-            'payload.operational_policies' => ['nullable', 'string', 'max:4000'],
-            'payload.trust_evidence' => ['nullable', 'string', 'max:4000'],
-            'payload.aftercare_support' => ['nullable', 'string', 'max:3000'],
-            'payload.differentiators' => ['nullable', 'string', 'max:4000'],
-            'payload.website_goal' => [$required, 'string', 'max:2000'],
-            'payload.primary_conversion' => [$required, 'string', 'max:1000'],
-            'payload.public_contact_details' => ['nullable', 'string', 'max:2000'],
-            'payload.current_website' => ['nullable', 'url', 'max:255'],
-            'payload.competitor_references' => ['nullable', 'string', 'max:4000'],
-            'payload.brand_direction' => ['nullable', 'string', 'max:4000'],
-            'payload.required_pages' => ['nullable', 'string', 'max:3000'],
-            'payload.required_features' => ['nullable', 'string', 'max:3000'],
-            'payload.constraints' => ['nullable', 'string', 'max:4000'],
-            'payload.success_metrics' => ['nullable', 'string', 'max:2000'],
-            'payload.existing_assets' => ['nullable', 'string', 'max:5000'],
-            'payload.asset_permissions' => ['nullable', 'string', 'max:4000'],
-            'payload.content_approver' => ['nullable', 'string', 'max:500'],
-        ];
+        $schemaVersion = (int) (
+            $versionInput['schema_version']
+            ?? $draft->schema_version
+            ?? ProjectIntakeSchema::CURRENT_VERSION
+        );
+
+        if ($draft !== null && $schemaVersion !== $draft->schema_version) {
+            throw ValidationException::withMessages([
+                'schema_version' => 'A draft keeps the schema version it was created with.',
+            ]);
+        }
+
+        return $schemaVersion;
     }
 }
