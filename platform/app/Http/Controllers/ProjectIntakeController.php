@@ -111,7 +111,7 @@ class ProjectIntakeController extends Controller
             $intake->payload = $validated['payload'];
             $intake->status = 'submitted';
             $intake->submitted_by = $request->user()->getKey();
-            $intake->submitted_at = now();
+            $intake->submitted_at = Carbon::now();
             $intake->save();
         });
 
@@ -134,7 +134,7 @@ class ProjectIntakeController extends Controller
 
         $schemaVersion = (int) (
             $versionInput['schema_version']
-            ?? $draft?->schema_version
+            ?? $draft->schema_version
             ?? ProjectIntakeSchema::CURRENT_VERSION
         );
 
