@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Workspace\CreateClientAccount;
+use App\Actions\Workspace\CreateProject;
 use App\Http\Requests\StoreClientAccountRequest;
+use App\Http\Requests\StoreProjectRequest;
 use App\Models\ClientAccount;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Builder;
@@ -114,23 +116,17 @@ class WorkspacePageController extends Controller
         ]);
     }
 
-    public function storeProject(Request $request): RedirectResponse
-    {
-        Gate::authorize('create', Project::class);
+    public function storeProject(
+        StoreProjectRequest $request,
+        CreateProject $createProject,
+    ): RedirectResponse {
+        $attributes = [
+            ...$request->validated(),
+            'status' => 'draft',
+            'current_stage' => 'discovery',
+        ];
 
-        $validated = $request->validate([
-            'client_account_id' => ['required', 'integer', 'exists:client_accounts,id'],
-            'product_tier' => ['required', 'in:starter,business,custom'],
-            'name' => ['required', 'string', 'max:160'],
-            'objective' => ['nullable', 'string', 'max:4000'],
-            'target_launch_date' => ['nullable', 'date'],
-        ]);
-
-        $project = new Project($validated);
-        $project->created_by = $request->user()->getKey();
-        $project->status = 'draft';
-        $project->current_stage = 'discovery';
-        $project->save();
+        $createProject->handle($attributes, $request->user());
 
         return to_route('projects.index')->with('success', 'Project created.');
     }
