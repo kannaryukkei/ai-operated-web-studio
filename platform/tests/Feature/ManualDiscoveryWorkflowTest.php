@@ -136,6 +136,35 @@ class ManualDiscoveryWorkflowTest extends TestCase
         $this->assertNull($run->completed_at);
     }
 
+    public function test_structural_validation_reports_nested_field_paths_under_result_json(): void
+    {
+        $studio = $this->createUser(UserRole::StudioOwner);
+        $project = $this->createProject($studio);
+        $this->createSubmittedIntake($project);
+
+        $this->actingAs($studio)->post(route('projects.discovery.start', $project));
+        $run = DiscoveryRun::query()->sole();
+        $incomplete = $this->validResult();
+        unset($incomplete['offer_matrix'][0]['name'], $incomplete['fact_register'][0]['source']);
+
+        $this->actingAs($studio)->from(route('projects.discovery.show', $project))
+            ->post(route('projects.discovery.complete', [$project, $run]), [
+                'result_json' => json_encode($incomplete, JSON_THROW_ON_ERROR),
+            ])->assertSessionHasErrors('result_json');
+
+        $messages = session('errors')->getBag('default')->get('result_json');
+        $message = implode("\n", $messages);
+
+        $this->assertStringContainsString('offer_matrix.0.name:', $message);
+        $this->assertStringContainsString('fact_register.0.source:', $message);
+        $this->assertStringContainsString('required', $message);
+
+        $run->refresh();
+        $this->assertSame(DiscoveryRunStatus::Processing, $run->status);
+        $this->assertNull($run->result);
+        $this->assertNull($run->completed_at);
+    }
+
     public function test_discovery_rejects_results_without_fact_and_cta_provenance(): void
     {
         $studio = $this->createUser(UserRole::StudioOwner);
