@@ -98,6 +98,7 @@ class DiscoveryRunTest extends TestCase
 
         $this->assertTrue($run->project->is($project));
         $this->assertTrue($run->intake->is($intake));
+        $this->assertSame(1, $run->intake_schema_version);
         $this->assertTrue($run->requester->is($studio));
         $this->assertTrue($project->discoveryRuns()->whereKey($run->getKey())->exists());
         $this->assertTrue($intake->discoveryRuns()->whereKey($run->getKey())->exists());
