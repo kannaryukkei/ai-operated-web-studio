@@ -303,6 +303,25 @@ export default function ProjectIntake({
         return data;
     });
     const errors = form.errors as Record<string, string | undefined>;
+    const revisionType = intake.status === 'draft' ? 'Draft' : 'Last submitted';
+    const storedSchemaVersion =
+        intake.storedSchemaVersion ?? intake.schemaVersion;
+    const versionLabel =
+        intake.version === null
+            ? `New intake · Schema v${intake.schemaVersion}`
+            : [
+                  `${revisionType} revision ${intake.version}`,
+                  `Stored schema v${storedSchemaVersion}`,
+                  `Editing schema v${intake.schemaVersion}`,
+              ].join(' · ');
+    const visibleGroups = groups.map((group) => ({
+        ...group,
+        fields: group.fields.filter(
+            (field) =>
+                !field.schemaVersion ||
+                intake.schemaVersion >= field.schemaVersion,
+        ),
+    }));
 
     function setField(key: keyof IntakePayload, value: string) {
         form.setData('payload', { ...form.data.payload, [key]: value });
@@ -355,9 +374,7 @@ export default function ProjectIntake({
                             </span>
                         </div>
                         <p className="text-sm text-muted-foreground">
-                            {intake.version
-                                ? `${intake.status === 'draft' ? 'Draft' : 'Last submitted'} revision ${intake.version} · Stored schema v${intake.storedSchemaVersion ?? intake.schemaVersion} · Editing schema v${intake.schemaVersion}`
-                                : `New intake · Schema v${intake.schemaVersion}`}
+                            {versionLabel}
                             {intake.submittedAt
                                 ? ` · Submitted ${new Date(intake.submittedAt).toLocaleDateString()}`
                                 : ''}
@@ -366,7 +383,7 @@ export default function ProjectIntake({
                 </Card>
 
                 <form onSubmit={save} className="flex flex-col gap-5">
-                    {groups.map((group) => (
+                    {visibleGroups.map((group) => (
                         <Card key={group.title}>
                             <CardHeader className="gap-1">
                                 <CardTitle className="text-base">
@@ -377,69 +394,63 @@ export default function ProjectIntake({
                                 </p>
                             </CardHeader>
                             <CardContent className="grid gap-5 md:grid-cols-2">
-                                {group.fields
-                                    .filter(
-                                        (field) =>
-                                            !field.schemaVersion ||
-                                            intake.schemaVersion >= field.schemaVersion,
-                                    )
-                                    .map((field) => (
-                                        <div
-                                            key={field.key}
-                                            className={
-                                                field.rows
-                                                    ? 'space-y-2 md:col-span-2'
-                                                    : 'space-y-2'
-                                            }
+                                {group.fields.map((field) => (
+                                    <div
+                                        key={field.key}
+                                        className={
+                                            field.rows
+                                                ? 'space-y-2 md:col-span-2'
+                                                : 'space-y-2'
+                                        }
+                                    >
+                                        <label
+                                            htmlFor={field.key}
+                                            className="text-sm font-medium"
                                         >
-                                            <label
-                                                htmlFor={field.key}
-                                                className="text-sm font-medium"
-                                            >
-                                                {field.label}
-                                                {field.required ? ' *' : ''}
-                                            </label>
-                                            {field.type === 'url' ? (
-                                                <Input
-                                                    id={field.key}
-                                                    type="url"
-                                                    disabled={form.processing}
-                                                    value={
-                                                        form.data.payload[field.key]
-                                                    }
-                                                    onChange={(event) =>
-                                                        setField(
-                                                            field.key,
-                                                            event.target.value,
-                                                        )
-                                                    }
-                                                    placeholder="https://example.com"
-                                                />
-                                            ) : (
-                                                <textarea
-                                                    id={field.key}
-                                                    rows={field.rows || 2}
-                                                    disabled={form.processing}
-                                                    value={
-                                                        form.data.payload[field.key]
-                                                    }
-                                                    onChange={(event) =>
-                                                        setField(
-                                                            field.key,
-                                                            event.target.value,
-                                                        )
-                                                    }
-                                                    placeholder={field.hint}
-                                                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60"
-                                                />
-                                            )}
-                                            {errors[`payload.${field.key}`] && (
-                                                <p className="text-xs text-destructive">
-                                                    {errors[`payload.${field.key}`]}
-                                                </p>
-                                            )}
-                                        </div>
-                                    ))}
+                                            {field.label}
+                                            {field.required ? ' *' : ''}
+                                        </label>
+                                        {field.type === 'url' ? (
+                                            <Input
+                                                id={field.key}
+                                                type="url"
+                                                disabled={form.processing}
+                                                value={
+                                                    form.data.payload[field.key]
+                                                }
+                                                onChange={(event) =>
+                                                    setField(
+                                                        field.key,
+                                                        event.target.value,
+                                                    )
+                                                }
+                                                placeholder="https://example.com"
+                                            />
+                                        ) : (
+                                            <textarea
+                                                id={field.key}
+                                                rows={field.rows || 2}
+                                                disabled={form.processing}
+                                                value={
+                                                    form.data.payload[field.key]
+                                                }
+                                                onChange={(event) =>
+                                                    setField(
+                                                        field.key,
+                                                        event.target.value,
+                                                    )
+                                                }
+                                                placeholder={field.hint}
+                                                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60"
+                                            />
+                                        )}
+                                        {errors[`payload.${field.key}`] && (
+                                            <p className="text-xs text-destructive">
+                                                {errors[`payload.${field.key}`]}
+                                            </p>
+                                        )}
+                                    </div>
+                                ))}
                             </CardContent>
                         </Card>
                     ))}
