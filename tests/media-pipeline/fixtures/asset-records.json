@@ -33,7 +33,12 @@
     "decorative": "NO",
     "is_selected_for_build": "YES",
     "fixture_only": "YES",
-    "suitability_score": "20"
+    "suitability_score": "20",
+    "provider_terms_url": "https://www.pexels.com/terms-of-service/",
+    "provider_terms_checked_on": "2026-11-16",
+    "project_context_use": "ORDINARY_CLIENT_WEBSITE",
+    "provider_terms_status": "APPROVED",
+    "acquisition_method": "MANUAL_DOWNLOAD_ALLOWED_BY_TERMS"
   },
   {
     "asset_id": "FIXTURE-MIXKIT-FREE-VIDEO",
@@ -72,7 +77,12 @@
     "decorative": "NO",
     "is_selected_for_build": "YES",
     "fixture_only": "YES",
-    "suitability_score": "20"
+    "suitability_score": "20",
+    "provider_terms_url": "https://mixkit.co/license/",
+    "provider_terms_checked_on": "2026-11-16",
+    "project_context_use": "ORDINARY_CLIENT_WEBSITE",
+    "provider_terms_status": "APPROVED",
+    "acquisition_method": "MANUAL_DOWNLOAD_ALLOWED_BY_TERMS"
   },
   {
     "asset_id": "FIXTURE-CLIENT-REAL-WORK",
@@ -144,7 +154,12 @@
     "decorative": "NO",
     "is_selected_for_build": "NO",
     "fixture_only": "YES",
-    "suitability_score": "0"
+    "suitability_score": "0",
+    "provider_terms_url": "https://mixkit.co/license/",
+    "provider_terms_checked_on": "2026-11-16",
+    "project_context_use": "ORDINARY_CLIENT_WEBSITE",
+    "provider_terms_status": "BLOCKED",
+    "acquisition_method": "MANUAL_DOWNLOAD_ALLOWED_BY_TERMS"
   },
   {
     "asset_id": "FIXTURE-STOCK-MISLABELLED-PROOF",
@@ -180,7 +195,12 @@
     "decorative": "NO",
     "is_selected_for_build": "YES",
     "fixture_only": "YES",
-    "suitability_score": "20"
+    "suitability_score": "20",
+    "provider_terms_url": "https://unsplash.com/terms",
+    "provider_terms_checked_on": "2026-11-16",
+    "project_context_use": "ORDINARY_CLIENT_WEBSITE",
+    "provider_terms_status": "APPROVED",
+    "acquisition_method": "MANUAL_DOWNLOAD_ALLOWED_BY_TERMS"
   },
   {
     "asset_id": "FIXTURE-CLIENT-PERMISSION-PENDING",

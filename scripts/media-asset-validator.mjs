@@ -3,6 +3,7 @@ const SOURCE_TYPES = new Set([...STOCK_SOURCES, 'CLIENT_SUPPLIED', 'STUDIO_CREAT
 const YES_NO = new Set(['YES', 'NO']);
 const RIGHTS_STATES = new Set(['APPROVED', 'PENDING', 'BLOCKED']);
 const PUBLICATION_STATES = new Set(['APPROVED', 'PENDING', 'NOT_APPROVED']);
+const PROVIDER_TERMS_STATES = new Set(['APPROVED', 'PENDING', 'BLOCKED']);
 
 const value = (record, key) => String(record?.[key] ?? '').trim();
 const upper = (record, key) => value(record, key).toUpperCase();
@@ -33,6 +34,12 @@ export function validateAsset(record) {
     if (!value(record, 'license_name')) issue(issues, 'stock assets need the exact license_name.');
     if (!value(record, 'license_url')) issue(issues, 'stock assets need the applicable license_url.');
     if (upper(record, 'license_status') !== 'VERIFIED') issue(issues, 'stock licence status must be VERIFIED.');
+    if (!value(record, 'provider_terms_url')) issue(issues, 'stock assets need the provider Terms of Service URL, separate from the content licence.');
+    if (!value(record, 'provider_terms_checked_on')) issue(issues, 'stock assets need the provider-terms check date.');
+    if (!value(record, 'project_context_use')) issue(issues, 'stock assets need the actual project_context_use recorded.');
+    if (!PROVIDER_TERMS_STATES.has(upper(record, 'provider_terms_status'))) issue(issues, 'provider_terms_status must be APPROVED, PENDING or BLOCKED.');
+    if (upper(record, 'provider_terms_status') !== 'APPROVED') issue(issues, 'provider Terms of Service are not APPROVED for this project context and acquisition method.');
+    if (!value(record, 'acquisition_method')) issue(issues, 'stock assets need a documented acquisition_method.');
   }
   if (upper(record, 'commercial_use') !== 'YES') issue(issues, 'commercial use is not confirmed as YES.');
   for (const field of ['identifiable_people', 'visible_brand_or_trademark', 'private_property_or_artwork']) {

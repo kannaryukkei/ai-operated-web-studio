@@ -10,10 +10,30 @@ const fixtureRoot = path.join(here, 'fixtures');
 const assets = JSON.parse(fs.readFileSync(path.join(fixtureRoot, 'asset-records.json'), 'utf8'));
 const find = (id) => assets.find((asset) => asset.asset_id === id);
 
-test('selected Pexels commercial stock is accepted only as STOCK_CONTEXT', () => {
+test('selected stock is accepted only after both content licence and provider-terms approval', () => {
   const result = validateAsset(find('FIXTURE-PEXELS-CONTEXT'));
   assert.equal(result.eligible, true, result.issues.join('\n'));
   assert.equal(find('FIXTURE-PEXELS-CONTEXT').proof_class, 'STOCK_CONTEXT');
+});
+
+
+test('ambiguous performance-benchmark provider terms block a stock asset until resolved', () => {
+  const asset = structuredClone(find('FIXTURE-PEXELS-CONTEXT'));
+  asset.project_context_use = 'INTERNAL_PERFORMANCE_BENCHMARK';
+  asset.provider_terms_status = 'PENDING';
+  const result = validateAsset(asset);
+  assert.equal(result.eligible, false);
+  assert.ok(result.issues.some((issue) => /provider Terms of Service are not APPROVED/i.test(issue)));
+});
+
+test('stock provider terms must be recorded separately from the item content licence', () => {
+  const asset = structuredClone(find('FIXTURE-PEXELS-CONTEXT'));
+  asset.provider_terms_url = '';
+  asset.provider_terms_checked_on = '';
+  const result = validateAsset(asset);
+  assert.equal(result.eligible, false);
+  assert.ok(result.issues.some((issue) => /provider Terms of Service URL/i.test(issue)));
+  assert.ok(result.issues.some((issue) => /provider-terms check date/i.test(issue)));
 });
 
 test('Mixkit Free License video passes with poster and reduced-motion behavior', () => {
@@ -100,7 +120,8 @@ test('canonical asset register template includes source, rights, proof and imple
     'permission_status', 'permission_evidence_status', 'consent_status',
     'media_source_type', 'exact_asset_page_url', 'media_type', 'visual_role',
     'target_section', 'proof_class', 'licence_name', 'licence_url',
-    'commercial_use', 'licence_checked_on', 'third_party_rights_status',
+    'commercial_use', 'licence_checked_on', 'provider_terms_url', 'provider_terms_checked_on',
+    'project_context_use', 'provider_terms_status', 'acquisition_method', 'third_party_rights_status',
     'model_release_status', 'property_permission_status', 'trademark_permission_status',
     'optimized_project_path', 'optimized_format', 'dimensions_and_bytes',
     'focal_point', 'crop_ratio', 'loading_priority', 'motion_and_reduced_motion_notes',

@@ -86,7 +86,8 @@ Update the one canonical content-asset-register.csv. Record:
 - source URL and exact asset page URL;
 - creator/owner and media type;
 - intended role/section and proof class;
-- exact licence name/URL, date checked, commercial-use state and attribution;
+- exact content licence name/URL/date, commercial-use state and attribution;
+- provider Terms of Service URL/date, actual project-context use, provider-terms decision and permitted acquisition method;
 - people/property/trademark checks and evidence;
 - permission and publication status/approval reference;
 - alt/caption, focal point and crop ratio;

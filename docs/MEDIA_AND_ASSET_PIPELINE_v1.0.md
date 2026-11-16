@@ -22,6 +22,7 @@ This pipeline supplements the existing Client Material Ingestion Protocol, Asset
 6. **Local, optimized and traceable.** Put selected media in the project repository. Do not hotlink third-party stock/CDN files as the normal production strategy.
 7. **Purposeful motion only.** Animation and video must explain, guide, demonstrate or reinforce the brand. Never use motion solely to make the page look busy.
 8. **No invented proof.** AI-generated or stock media must never imply actual client work, customer outcomes, staff or premises. Never fabricate testimonials, reviews, ratings, certification or before/after results.
+9. **Provider terms are a separate gate.** A content licence does not automatically authorize accessing the provider for every project purpose or acquiring content by every method. Check the provider's current Terms of Service, API/download rules and project-context restrictions before accessing, downloading, caching or embedding media.
 
 ## 3. Where the pipeline fits
 
@@ -92,6 +93,11 @@ Official licence references (check again when each asset is acquired):
 
 A "free" stock licence normally grants a copyright-use permission within stated limits. It does not automatically clear model releases, trademarks, private property, artwork, logos, music or implied endorsements. Check the actual depicted content and the terms.
 
+
+**Provider-terms gate — read before accessing a source.** The source table above is a discovery list, not blanket approval to use any service in any context. Review the current provider Terms of Service separately from the exact content licence. Record the provider-terms URL/date, the actual project context (for example, client production, portfolio, internal experiment, performance benchmark or competitive-product development), the acquisition method and a decision of APPROVED/PENDING/BLOCKED. If the terms expressly prohibit the context/method, mark BLOCKED. If ambiguous, mark PENDING and do not access, download, automate, cache or embed until express written provider permission or an approved legal/policy decision resolves it.
+
+As one example, Pexels' Terms of Service page reviewed 2026-11-16 displays a last-updated date of November 15, 2024. Section 8 includes wording restricting access to its Service for purposes of performance benchmarking or building/marketing a competitive product, and also addresses unauthorized automated extraction and bulk/systematic copying. The scope of that wording for a downstream website-production workflow benchmark is not determined by this guide. Do not infer either that it certainly applies or that a general commercial-use content licence overrides it. Treat that project context as PENDING until the provider confirms the permitted scope. Separately, Section 5 and Pexels' help guidance warn that depicted trademarks, logos and third-party rights may require separate permission.
+
 ### C. Studio-created illustration / motion — fallback, not fake evidence
 
 Use original SVG, CSS, simple diagrams or AI-generated concept imagery when real assets and useful stock are unavailable. Label or frame the result so visitors cannot mistake it for the client's real premises, staff, products, customers, completed work or results. Do not use generative media to fabricate proof.
@@ -99,15 +105,16 @@ Use original SVG, CSS, simple diagrams or AI-generated concept imagery when real
 ## 6. Sourcing procedure
 
 1. Convert the approved Media Requirements Plan into one search task per visual role.
-2. Search the official source/library manually. Do not scrape sites, bulk download, bypass restrictions or build a reusable stock database.
-3. Open the exact asset page, not just a search thumbnail.
-4. Confirm the asset matches the section, customer, product/service and desired tone.
-5. Inspect for visible brands/logos, identifiable people, private property, copyrighted artwork, screens, number plates and misleading context.
-6. Read the item's applicable licence and terms. Record the exact licence page, asset page, creator, date checked, commercial-use state, attribution and any release/consent concerns.
-7. Score visual suitability (Section 7). Rights are a pass/fail gate, not a score that can be offset by visual quality.
-8. Show the shortlist at the agreed visual-direction checkpoint. Record G3 approval against the exact asset IDs.
-9. Download the selected original from the authorised page, keep provenance, and place only approved project copies in the project's local media directory.
-10. Optimize responsive variants and update the asset register. Do not overwrite the original or remove licence/provenance evidence.
+2. Before accessing the provider, review its current Terms of Service and acquisition/API rules against the actual project purpose and method. Record the provider-terms URL/date, project context, acquisition method and APPROVED/PENDING/BLOCKED decision. Do not access or acquire content while this check is PENDING or BLOCKED.
+3. Search the official source/library manually only after the provider-terms gate passes. Do not scrape sites, bulk download, bypass restrictions or build a reusable stock database.
+4. Open the exact asset page, not just a search thumbnail.
+5. Confirm the asset matches the section, customer, product/service and desired tone.
+6. Inspect for visible brands/logos, identifiable people, private property, copyrighted artwork, screens, number plates and misleading context.
+7. Read the item's applicable content licence and record the exact licence page, asset page, creator, date checked, commercial-use state, attribution and any release/consent concerns.
+8. Score visual suitability (Section 7). Rights are a pass/fail gate, not a score that can be offset by visual quality.
+9. Show the shortlist at the agreed visual-direction checkpoint. Record G3 approval against the exact asset IDs.
+10. Acquire the selected original only through a method allowed by the provider's terms; keep provenance and place only approved project copies in the project's local media directory.
+11. Optimize responsive variants and update the asset register. Do not overwrite the original or remove licence/provenance evidence.
 
 If no asset passes, omit the visual, use a clearly disclosed concept fallback, or ask the owner for the missing original. Do not lower the rights bar to fill a gallery.
 
