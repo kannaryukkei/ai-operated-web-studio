@@ -299,7 +299,7 @@ class ProjectIntakeTest extends TestCase
         $this->assertDatabaseCount('project_intakes', 0);
     }
 
-    public function test_all_twenty_one_non_core_fields_remain_optional(): void
+    public function test_legacy_non_core_fields_remain_optional_under_schema_v2(): void
     {
         $clientOwner = $this->createUser(UserRole::Client);
         $project = $this->createProject($clientOwner);
