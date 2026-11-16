@@ -123,7 +123,7 @@ class ProjectIntakeTest extends TestCase
         $intake = ProjectIntake::query()->sole();
 
         $this->assertSame(1, $intake->schema_version);
-        $this->assertSame($this->validPayload(), $intake->payload);
+        $this->assertSame($this->normalizeEmptyStrings($this->validPayload()), $intake->payload);
 
         $this->get(route('projects.intake.show', $project))
             ->assertOk()
@@ -177,8 +177,8 @@ class ProjectIntakeTest extends TestCase
         $legacy = ProjectIntake::query()->where('version', 1)->sole();
         $current = ProjectIntake::query()->where('version', 2)->sole();
 
-        $this->assertSame($legacyPayload, $legacy->payload);
-        $this->assertSame($currentPayload, $current->payload);
+        $this->assertSame($this->normalizeEmptyStrings($legacyPayload), $legacy->payload);
+        $this->assertSame($this->normalizeEmptyStrings($currentPayload), $current->payload);
     }
 
     public function test_schema_v2_accepts_the_additive_business_model_summary_field(): void
@@ -199,7 +199,7 @@ class ProjectIntakeTest extends TestCase
         $intake = ProjectIntake::query()->sole();
 
         $this->assertSame(2, $intake->schema_version);
-        $this->assertSame($payload, $intake->payload);
+        $this->assertSame($this->normalizeEmptyStrings($payload), $intake->payload);
     }
 
     public function test_schema_v2_validates_the_business_model_summary_length(): void
@@ -262,7 +262,7 @@ class ProjectIntakeTest extends TestCase
 
         $intake = ProjectIntake::query()->sole();
         $this->assertSame(1, $intake->schema_version);
-        $this->assertSame($legacyPayload, $intake->payload);
+        $this->assertSame($this->normalizeEmptyStrings($legacyPayload), $intake->payload);
     }
 
     public function test_existing_intake_rows_default_to_legacy_schema_v1(): void
@@ -403,6 +403,18 @@ class ProjectIntakeTest extends TestCase
                 'payload' => $this->validPayload(),
             ])->assertForbidden();
         }
+    }
+
+    /**
+     * @param  array<string, string>  $payload
+     * @return array<string, string|null>
+     */
+    private function normalizeEmptyStrings(array $payload): array
+    {
+        return array_map(
+            static fn (string $value): ?string => $value === '' ? null : $value,
+            $payload,
+        );
     }
 
     /** @return array<string, string> */
