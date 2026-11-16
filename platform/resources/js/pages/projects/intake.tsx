@@ -282,6 +282,7 @@ export default function ProjectIntake({
     intake: {
         version: number | null;
         schemaVersion: number;
+        storedSchemaVersion: number | null;
         status: string | null;
         payload: Partial<IntakePayload>;
         submittedAt: string | null;
@@ -355,7 +356,7 @@ export default function ProjectIntake({
                         </div>
                         <p className="text-sm text-muted-foreground">
                             {intake.version
-                                ? `Revision ${intake.version} · Schema v${intake.schemaVersion}`
+                                ? `${intake.status === 'draft' ? 'Draft' : 'Last submitted'} revision ${intake.version} · Stored schema v${intake.storedSchemaVersion ?? intake.schemaVersion} · Editing schema v${intake.schemaVersion}`
                                 : `New intake · Schema v${intake.schemaVersion}`}
                             {intake.submittedAt
                                 ? ` · Submitted ${new Date(intake.submittedAt).toLocaleDateString()}`
@@ -445,9 +446,9 @@ export default function ProjectIntake({
                     <div className="flex flex-wrap items-center justify-between gap-3">
                         <p className="text-xs text-muted-foreground">
                             Five core fields are required to submit this
-                            internal snapshot. The other 21 fields are optional.
-                            Submitted versions are preserved as read-only
-                            snapshots.
+                            internal snapshot. Additional details are optional;
+                            schema v2 adds a business model summary. Submitted
+                            versions are preserved as read-only snapshots.
                         </p>
                         <div className="flex gap-2">
                             <Button
