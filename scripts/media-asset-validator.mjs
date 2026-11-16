@@ -32,8 +32,12 @@ export function validateAsset(record) {
   if (source === 'AI_GENERATED') {
     if (proofClass !== 'CONCEPT_ART') issue(issues, 'AI_GENERATED media must use proof_class=CONCEPT_ART.');
     if (clientProof || upper(record, 'client_proof') !== 'NO') issue(issues, 'AI_GENERATED media must use client_proof=NO and can never be client proof.');
+    if (['CLIENT_WORK', 'GALLERY_PROOF', 'CUSTOMER_RESULT', 'BEFORE_AFTER', 'BEFORE_AFTER_RESULT'].includes(upper(record, 'usage_role'))) {
+      issue(issues, 'AI_GENERATED media cannot use a client-work, gallery-proof, customer-result or before/after usage role.');
+    }
   }
   if (stock) {
+    if (proofClass !== 'STOCK_CONTEXT' || clientProof) issue(issues, 'Stock media must use proof_class=STOCK_CONTEXT and client_proof=NO.');
     if (!value(record, 'asset_page_url')) issue(issues, 'stock assets need the exact asset_page_url.');
     if (!value(record, 'license_name')) issue(issues, 'stock assets need the exact license_name.');
     if (!value(record, 'license_url')) issue(issues, 'stock assets need the applicable license_url.');
