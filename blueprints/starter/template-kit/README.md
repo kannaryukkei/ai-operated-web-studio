@@ -14,6 +14,7 @@ The current Starter codebase is a development/portfolio reference, not a sellabl
 - The default client input is one normal interview plus existing client assets and optional references. The AI/operator produces the Client Website Brief; do not turn project setup into a long client questionnaire.
 - Never invent testimonials, reviews, ratings, awards, customer counts, performance metrics, credentials, guarantees or case results — including for portfolio/demo work.
 - Clearly disclosed concept imagery and illustrative layouts are allowed when they cannot be mistaken for actual client staff, premises, products, customers or completed work.
+- Use the Media & Asset Pipeline: authentic client media first for business proof; free stock only as supporting context after checking the exact asset licence and third-party rights; keep selected files local and optimized.
 - Missing client photography is not a blocker; missing factual evidence must not be filled with fabricated proof.
 - Keep Starter lightweight and static-first. Add backend functionality only when it is required by an approved business need and scope.
 - Keep business facts separate from presentation components.
@@ -48,6 +49,8 @@ Do not copy the ZACKS project wholesale. Follow `docs/extraction-map.md` to isol
 - `docs/starter-delivery-templates.md` for internal project records and reusable messages.
 - `docs/starter-production-kit.md` for workspace/control structure.
 - `prompts/starter/` for current stage prompts.
+- `templates/starter-client/02-content/media-requirements.csv` to plan required visuals against visitor questions; `content-asset-register.csv` remains the canonical per-file rights and provenance register.
+- `docs/MEDIA_AND_ASSET_PIPELINE_v1.0.md` and the `media-sourcing-and-licensing` skill for sourcing, rights and media implementation.
 
 ## Current reference status
 

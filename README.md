@@ -50,6 +50,7 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 - `docs/WEBSITE_PRODUCT_TIERS_v1.2_CANDIDATE.md` — current proposed tier boundaries; Starter is the only active implementation priority.
 - Earlier Master Skill files (including v1.8 and v1.10) are retained as historical candidates, not current operating instructions.
 - `docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md` — default interview + asset intake and source-normalization workflow.
+- `docs/MEDIA_AND_ASSET_PIPELINE_v1.0.md` — business-specific media planning, free-stock sourcing, exact-item licence checks, local optimization, video/motion rules and media QA.
 - `docs/EXPERIMENT_03_SYSTEM_LEARNINGS.md` — reusable system findings from Experiment #3.
 
 - `docs/EXPERIMENT_01_DESIGN_REVIEW_EVIDENCE.md` — supporting evidence for the v1.7 design-quality changes.
@@ -69,7 +70,7 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 
 ## Modular skill system
 
-The Master Skill is the orchestrator; specialist instructions live under `skills/` as portable Agent Skills. `client-material-ingestion` is required at Stage 0; the current skill registry maps specialist activation to Master Skill Stages 0–9. The core workflow remains API-free and uses existing AI applications rather than paid model APIs.
+The Master Skill is the orchestrator; specialist instructions live under `skills/` as portable Agent Skills. `client-material-ingestion` is required at Stage 0; `media-sourcing-and-licensing` supports existing Stages 0, 5 and 7 without creating another Master stage. The current skill registry maps specialist activation to Master Skill Stages 0–9. The core workflow remains API-free and uses existing AI applications rather than paid model APIs.
 
 ## Product boundary
 

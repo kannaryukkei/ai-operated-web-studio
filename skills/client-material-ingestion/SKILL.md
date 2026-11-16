@@ -74,9 +74,10 @@ For each asset, record:
 - credit, licence, restrictions and expiry;
 - identifiable people and consent/release status;
 - accurate visible-content description and alt-text candidate;
-- focal point and crop notes where useful.
+- focal point and crop notes where useful;
+- media-specific fields when applicable: visual role, target section, proof class (CLIENT_WORK / STOCK_CONTEXT / CONCEPT_ART / PRODUCT_ASSET), aspect ratio, optimized path/format, file weight, loading behavior and video/animation fallback.
 
-A client-supplied file is not automatically owned by the client or approved for publication. Keep permission PENDING when unclear. Never infer business claims, ingredients, product specifications, quality, team identity, testimonial status, consent or licensing from image pixels, metadata or filenames alone.
+Create a Media Readiness Summary from supplied files: real business media available, missing high-value proof, optional visuals, people/property/brand permission gaps and a short example-led asset request. Do not source external stock or choose visual assets in Stage 0; external sourcing happens after the approved WRP in Stage 5. A client-supplied file is not automatically owned by the client or approved for publication. Keep permission PENDING when unclear. Never infer business claims, ingredients, product specifications, quality, team identity, testimonial status, consent or licensing from image pixels, metadata or filenames alone.
 
 ### 5. Reconcile gaps and conflicts
 
@@ -110,11 +111,12 @@ Produce and cross-reference:
 4. Normalized Client Brief v2.1.
 5. Atomic Fact Register and Source Register.
 6. Asset and Permission Register.
-7. Business Intelligence Summary and Offer Matrix.
-8. Customer Question Map, Buying Journey and Trust Register.
-9. Content Gap Register.
-10. Public CTA / Contact Map, with private project contacts kept separate.
-11. Critical Clarification List and production handoff recommendation.
+7. Media Readiness Summary (client media available, priority gaps and client asset request; no external stock selection yet).
+8. Business Intelligence Summary and Offer Matrix.
+9. Customer Question Map, Buying Journey and Trust Register.
+10. Content Gap Register.
+11. Public CTA / Contact Map, with private project contacts kept separate.
+12. Critical Clarification List and production handoff recommendation.
 
 Every material fact used in content, design or conversion must be traceable to a Fact Register record. Unapproved or unsupported facts must not appear as public claims.
 
@@ -128,6 +130,7 @@ Before handing off to UX and production, confirm:
 - conflicting facts remain visible;
 - answer, evidence and publication states are separate;
 - asset source, owner and permission are explicit;
+- supplied media is classified as potential CLIENT_WORK or another proof class without inferring authenticity; missing real imagery is listed separately from generic visual context;
 - private contacts are not treated as public CTA destinations;
 - follow-up questions are limited to true material blockers;
 - no client-facing content has been fabricated.

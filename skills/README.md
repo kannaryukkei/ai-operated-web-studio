@@ -13,6 +13,7 @@ The AI/operator produces the Client Website Brief. Clients are not expected to c
 | Skill | Responsibility | Activation |
 |---|---|---|
 | `client-material-ingestion` | Normalize interview/materials into source-traceable facts, assets and brief | Required at Stage 0 |
+| `media-sourcing-and-licensing` | Plan business-specific visual needs; source/validate stock and client media; record rights and prepare optimized local assets | Stage 5 sourcing and Stage 7 media QA |
 | `frontend-design` | Establish distinctive, brief-specific visual direction | Before design |
 | `ux-review` | Customer questions, buying journey, IA and conversion clarity | During Stages 1–4 |
 | `typography-and-legibility` | Type roles, hierarchy, readability and responsive legibility | Design and refinement |
@@ -28,7 +29,7 @@ The review roles are intentionally distinct: aesthetic design critique is not th
 ## How to use
 
 1. Read `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.11_CANDIDATE.md` and the canonical operating documents first.
-2. Use `skills/registry.md` to select the minimum useful specialist set.
+2. Use `skills/registry.md` to select the minimum useful specialist set. For media work, read `docs/MEDIA_AND_ASSET_PIPELINE_v1.0.md` and activate `media-sourcing-and-licensing`.
 3. Read only the selected `SKILL.md` files for the current stage.
 4. Keep outputs in versioned project artifacts: source/fact/asset records, WRP, design spec, implementation checkpoints, issue log, test evidence and approval register.
 5. The Master Skill and G0–G7 policy resolve conflicts. Client-confirmed facts and permissions, approved scope and Studio owner decisions outrank stylistic or tool defaults.

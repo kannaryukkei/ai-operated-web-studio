@@ -161,7 +161,8 @@ The AI converts the source packet into the established Studio artifacts:
 8. Trust Register and Content Gap Register.
 9. Public CTA / Contact Map, separate from private project contacts.
 10. Critical Clarification List with owner and next action.
-11. Tier recommendation, scope, sitemap/section plan and production handoff.
+11. Media Readiness Summary: client-owned media available, high-value missing photos/video, proof-vs-context boundaries, consent gaps and short asset request; do not source stock before Stage 5.
+12. Tier recommendation, scope, sitemap/section plan and production handoff.
 
 Every material fact in downstream copy must remain traceable to the Fact Register. Unsupported copy must be removed or explicitly marked as an internal assumption. Every meaningful source topic must also be accounted for in the Source Coverage Matrix; a topic cannot silently disappear between raw input and the normalized brief.
 
@@ -205,6 +206,7 @@ A project passes Material Ingestion when:
 - Answer, evidence and publication statuses are separate.
 - Conflicts and critical gaps are routed to an owner.
 - Assets have provenance and permission states; unknown rights remain pending.
+- Business-specific media needs and missing authentic proof are visible before art direction; external stock selection is deferred to Stage 5.
 - Normalized Client Brief and discovery artifacts are produced by AI.
 - The client is asked only for material clarifications not already answered.
 - The process can be completed manually with the existing AI application; no paid API is required.

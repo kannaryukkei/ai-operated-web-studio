@@ -1,0 +1,43 @@
+name: Starter Media Asset Pipeline CI
+
+on:
+  push:
+    branches: [main, 'improvement/**', 'revision/**']
+    paths:
+      - "docs/MEDIA_AND_ASSET_PIPELINE_v1.0.md"
+      - "skills/media-sourcing-and-licensing/**"
+      - "skills/client-material-ingestion/**"
+      - "scripts/media-asset-validator.mjs"
+      - "tests/media-pipeline/**"
+      - "blueprints/starter/template-kit/prompts/starter/**"
+      - "blueprints/starter/template-kit/templates/starter-client/02-content/**"
+      - ".github/workflows/media-asset-pipeline-ci.yml"
+  pull_request:
+    paths:
+      - "docs/MEDIA_AND_ASSET_PIPELINE_v1.0.md"
+      - "skills/media-sourcing-and-licensing/**"
+      - "skills/client-material-ingestion/**"
+      - "scripts/media-asset-validator.mjs"
+      - "tests/media-pipeline/**"
+      - "blueprints/starter/template-kit/prompts/starter/**"
+      - "blueprints/starter/template-kit/templates/starter-client/02-content/**"
+      - ".github/workflows/media-asset-pipeline-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  media-rights-and-planning-regressions:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+      - name: Check validator syntax
+        run: node --check scripts/media-asset-validator.mjs
+      - name: Run media pipeline tests
+        run: node --test tests/media-pipeline/media-assets.test.mjs

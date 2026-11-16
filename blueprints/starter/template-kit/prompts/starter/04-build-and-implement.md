@@ -6,14 +6,17 @@ Preconditions: the WRP is `APPROVED_FOR_DESIGN`; G2 is recorded; the approved ar
 
 Act as a senior frontend engineer. Use `frontend-layout-implementer` as the implementation method and `design-screenshot-spec` when an approved screenshot/mockup is the build target. Inspect the actual repository and preserve its current stack, file ownership, scripts and conventions.
 
-Build a polished responsive one-page Starter site with:
+Read the approved Media Requirements Plan and the canonical Asset/Permission Register before implementation. Use `media-sourcing-and-licensing` rules for all approved image/video/animation assets. Build a polished responsive one-page Starter site with:
 - Approved content hierarchy and source-linked copy.
 - Working navigation, section anchors, CTAs and only the interactions included in scope.
 - Semantic/accessibility behavior, keyboard access, visible focus, reduced motion and useful alt text.
 - Responsive compositions, image crops and metadata/social preview.
+- Approved media stored locally with responsive image sources, intrinsic dimensions/aspect ratios, accurate alt text, focal-point crops and below-fold lazy loading.
+- Meaningful video with a local poster, explicit controls when user-driven, captions/transcript where speech matters, no sound autoplay and a reduced-motion/static fallback.
+- Purposeful CSS/SVG/Lottie motion only when it improves comprehension or feedback; verify the exact animation licence and respect `prefers-reduced-motion`.
 - Lean dependencies, maintainable content configuration and truthful control behavior.
 
-Static-first. Do not add a backend, database, CMS, authentication, payment, persistent form storage, paid API or third-party integration unless the approved WRP explicitly requires it and the Studio owner approves the change. Never imply a form persists, a booking is confirmed or an operation completed unless it is implemented and tested.
+Static-first. Do not add a backend, database, CMS, authentication, payment, persistent form storage, paid API or third-party integration unless the approved WRP explicitly requires it and the Studio owner approves the change. Never imply a form persists, a booking is confirmed or an operation completed unless it is implemented and tested. Never hotlink stock media as the default delivery strategy, strip required credits, or use any stock/concept asset as client proof.
 
 ## Bounded implementation discipline
 
