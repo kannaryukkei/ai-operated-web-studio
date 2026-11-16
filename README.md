@@ -12,7 +12,7 @@ Clients explain their business once in a normal interview and provide existing a
 
 - **Backend:** Laravel 13 monolith.
 - **Client and studio UI:** React + Inertia, TypeScript, Tailwind, shadcn/ui via the official Laravel React starter kit.
-- **AI workflow:** API-free first. The platform prepares structured prompts and stores results produced in ChatGPT, Claude, or another external AI application. Provider API integration is optional later.
+- **AI workflow:** API-free first. The platform prepares structured prompts and stores results produced in ChatGPT, Claude, or another external AI application. No provider API integration; the studio operates entirely free.
 - **Workflow execution:** persisted project records and discovery runs; manual handoffs first, queues only when a proven bottleneck justifies them.
 - **Database:** SQLite for local bootstrap; PostgreSQL target for production.
 - **Files:** local storage in development; private object storage in production.
@@ -47,7 +47,7 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 - `docs/STARTER_CALIBRATION_RECORD_2026-11-15.md` — first applied Starter calibration record and CI evidence.
 - `docs/STARTER_PRODUCTION_READINESS_AUDIT_2026-11-16.md` — gate-by-gate evidence-based Starter production readiness decision and closure plan.
 - `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md`, `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md`, `docs/WEBSITE_REQUIREMENTS_PACK_v1.0.md`, and `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md` — current stage, data, pre-design and G0–G7 contracts.
-- `docs/WEBSITE_PRODUCT_TIERS_v1.2_CANDIDATE.md` — current proposed tier boundaries; Starter is the only active implementation priority.
+- `docs/CANONICAL_STATUS.md` — single pointer for what is current, the free operation rule, the minimal context set, and the open decisions. Read this first.
 - Earlier Master Skill files (including v1.8 and v1.10) are retained as historical candidates, not current operating instructions.
 - `docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md` — default interview + asset intake and source-normalization workflow.
 - `docs/MEDIA_AND_ASSET_PIPELINE_v1.0.md` — business-specific media planning, professional/free stock licensing and provider-terms checks, AI concept imagery, local media inbox, optimization and media QA.
