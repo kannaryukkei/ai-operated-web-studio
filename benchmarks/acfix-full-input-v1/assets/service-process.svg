@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 260" role="img" aria-labelledby="title desc">
+<title id="title">Four-step service process</title><desc id="desc">An original illustrative four-step process for the ACFIX synthetic benchmark.</desc>
+<defs><marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0 0L8 3L0 6" fill="none" stroke="#5F9B87" stroke-width="1.7"/></marker></defs>
+<path d="M120 95H880" stroke="#9CBDAF" stroke-width="5" stroke-linecap="round" marker-end="url(#arr)"/>
+<g font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
+<g><circle cx="120" cy="95" r="38" fill="#145C4C"/><text x="120" y="103" font-size="24" font-weight="700" fill="#FFFFFF">01</text><text x="120" y="166" font-size="20" font-weight="700" fill="#173D33">Jelaskan</text><text x="120" y="192" font-size="14" fill="#56766A">Kebutuhan &amp; gejala</text></g>
+<g><circle cx="373" cy="95" r="38" fill="#6AAB91"/><text x="373" y="103" font-size="24" font-weight="700" fill="#FFFFFF">02</text><text x="373" y="166" font-size="20" font-weight="700" fill="#173D33">Periksa</text><text x="373" y="192" font-size="14" fill="#56766A">Kondisi di lokasi</text></g>
+<g><circle cx="627" cy="95" r="38" fill="#C5D95C"/><text x="627" y="103" font-size="24" font-weight="700" fill="#173D33">03</text><text x="627" y="166" font-size="20" font-weight="700" fill="#173D33">Setujui</text><text x="627" y="192" font-size="14" fill="#56766A">Lingkup &amp; estimasi</text></g>
+<g><circle cx="880" cy="95" r="38" fill="#E5A94B"/><text x="880" y="103" font-size="24" font-weight="700" fill="#173D33">04</text><text x="880" y="166" font-size="20" font-weight="700" fill="#173D33">Kerjakan</text><text x="880" y="192" font-size="14" fill="#56766A">Cek &amp; serah terima</text></g>
+</g>
+</svg>
