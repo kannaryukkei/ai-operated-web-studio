@@ -294,7 +294,7 @@ export default function ProjectIntake({
     });
     form.transform((data) => {
         if (data.schema_version === 1) {
-            const legacyPayload = { ...data.payload };
+            const legacyPayload = { ...data.payload } as Partial<IntakePayload>;
             delete legacyPayload.business_model_summary;
 
             return { ...data, payload: legacyPayload as IntakePayload };
