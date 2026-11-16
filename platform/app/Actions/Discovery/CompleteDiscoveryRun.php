@@ -11,9 +11,7 @@ use Illuminate\Validation\ValidationException;
 
 class CompleteDiscoveryRun
 {
-    public function __construct(private readonly DiscoveryContract $discoveryContract)
-    {
-    }
+    public function __construct(private readonly DiscoveryContract $discoveryContract) {}
 
     public function handle(Project $project, DiscoveryRun $discoveryRun, string $resultJson): void
     {
