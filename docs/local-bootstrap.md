@@ -28,7 +28,7 @@ When the Laravel installer asks for options, choose:
 - **Starter kit:** React.
 - **Authentication:** Laravel's built-in authentication (not WorkOS).
 - **Database:** SQLite for local development.
-- **Testing framework:** Pest.
+- **Testing framework:** PHPUnit.
 - **Teams:** Do not enable teams for the first MVP.
 
 The official Laravel React starter kit provides React, Inertia, TypeScript, Tailwind, shadcn/ui, and authentication scaffolding. Keep the app self-contained in `platform/`.
@@ -94,7 +94,7 @@ After the app boots and the scaffold commit is pushed, implementation proceeds i
 3. Create client account and project migrations/models.
 4. Build a minimal studio dashboard and client project view.
 5. Add the onboarding intake flow.
-6. Add the first queued AI discovery workflow with a test/fake provider before connecting paid AI credentials.
+6. Add the first queued AI discovery workflow using the manual AI workflow (external AI applications with manual copy and paste). No API keys and no paid AI services.
 
 ## References
 
