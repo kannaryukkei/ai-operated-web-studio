@@ -75,8 +75,8 @@ class SharedProjectCreationTest extends TestCase
 
         $response->assertCreated()
             ->assertJsonPath('data.created_by', $studio->getKey())
-            ->assertJsonPath('data.status', 'draft')
-            ->assertJsonPath('data.current_stage', 'onboarding');
+            ->assertJsonPath('data.status', null)
+            ->assertJsonPath('data.current_stage', null);
 
         $this->assertDatabaseHas('projects', [
             'client_account_id' => $account->getKey(),
