@@ -11,6 +11,7 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\TestCase;
 
 class ManualDiscoveryWorkflowTest extends TestCase
@@ -287,7 +288,7 @@ class ManualDiscoveryWorkflowTest extends TestCase
                 json_encode($this->validResult(), JSON_THROW_ON_ERROR),
             );
             $this->fail('A run cannot be completed for a different project.');
-        } catch (\Symfony\Component\HttpKernel\Exception\HttpException $exception) {
+        } catch (HttpException $exception) {
             $this->assertSame(404, $exception->getStatusCode());
         }
 
