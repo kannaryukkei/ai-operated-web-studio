@@ -37,7 +37,10 @@ class ProjectIntakeController extends Controller
             ],
             'intake' => [
                 'version' => $intake?->version,
-                'schemaVersion' => $intake?->schema_version ?? ProjectIntakeSchema::CURRENT_VERSION,
+                'schemaVersion' => $intake?->status === 'draft'
+                    ? $intake->schema_version
+                    : ProjectIntakeSchema::CURRENT_VERSION,
+                'storedSchemaVersion' => $intake?->schema_version,
                 'status' => $intake?->status,
                 'payload' => $intake ? $intake->payload : [],
                 'submittedAt' => $submittedAt instanceof Carbon ? $submittedAt->toISOString() : null,
