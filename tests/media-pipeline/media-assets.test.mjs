@@ -147,6 +147,39 @@ test('AI-generated concept imagery is recognized but remains excluded until righ
   assert.ok(fakeProof.issues.some((issue) => /can never be client proof/i.test(issue)));
 });
 
+test('validator rejects stock media that is not explicitly STOCK_CONTEXT', () => {
+  const asset = {
+    asset_id: 'FIXTURE-STOCK-MISCLASSIFIED', source_type: 'ADOBE_STOCK',
+    creator_and_owner: 'Fixture creator', media_type: 'IMAGE', usage_role: 'CONCEPT_VISUAL',
+    proof_class: 'CONCEPT_ART', client_proof: 'NO', asset_page_url: 'https://example.com/item',
+    license_name: 'Commercial stock license', license_url: 'https://example.com/license',
+    license_status: 'VERIFIED', provider_terms_url: 'https://example.com/terms',
+    provider_terms_checked_on: '2026-11-16', project_context_use: 'ORDINARY_CLIENT_WEBSITE',
+    provider_terms_status: 'APPROVED', acquisition_method: 'HUMAN_LICENSE_AND_DOWNLOAD',
+    commercial_use: 'YES', identifiable_people: 'NO', visible_brand_or_trademark: 'NO',
+    private_property_or_artwork: 'NO', rights_status: 'APPROVED', publication_status: 'APPROVED',
+    permission_evidence_ref: 'FIXTURE-RIGHTS', suitability_score: '20',
+    is_selected_for_build: 'NO'
+  };
+  const result = validateAsset(asset);
+  assert.equal(result.eligible, false);
+  assert.ok(result.issues.some((issue) => /Stock media must use proof_class=STOCK_CONTEXT/i.test(issue)));
+});
+
+test('validator rejects AI concept art assigned a client-proof usage role', () => {
+  const asset = {
+    asset_id: 'FIXTURE-AI-WRONG-ROLE', source_type: 'AI_GENERATED',
+    creator_and_owner: 'AI-generated image', media_type: 'IMAGE', usage_role: 'CLIENT_WORK',
+    proof_class: 'CONCEPT_ART', client_proof: 'NO', commercial_use: 'YES',
+    identifiable_people: 'NO', visible_brand_or_trademark: 'NO', private_property_or_artwork: 'NO',
+    rights_status: 'APPROVED', publication_status: 'APPROVED', permission_evidence_ref: 'FIXTURE',
+    is_selected_for_build: 'NO'
+  };
+  const result = validateAsset(asset);
+  assert.equal(result.eligible, false);
+  assert.ok(result.issues.some((issue) => /AI_GENERATED media cannot use/i.test(issue)));
+});
+
 test('Adobe Stock and Envato Elements are recognized only through both independent rights gates', () => {
   for (const source_type of ['ADOBE_STOCK', 'ENVATO_ELEMENTS']) {
     const result = validateAsset({
