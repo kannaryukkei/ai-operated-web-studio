@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Actions\Workspace\CreateClientAccount;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\StoreClientAccountRequest as StoreApiClientAccountRequest;
 use App\Models\ClientAccount;
 use App\Models\Project;
 use App\Models\User;
@@ -10,7 +12,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
 
 class WorkspaceController extends Controller
 {
@@ -33,34 +34,11 @@ class WorkspaceController extends Controller
         return response()->json(['data' => $accounts]);
     }
 
-    public function storeClientAccount(Request $request): JsonResponse
-    {
-        Gate::authorize('create', ClientAccount::class);
-
-        $validated = $request->validate([
-            'business_name' => ['required', 'string', 'max:160'],
-            'slug' => ['nullable', 'string', 'max:180', 'alpha_dash', 'unique:client_accounts,slug'],
-            'business_category' => ['nullable', 'string', 'max:120'],
-            'website' => ['nullable', 'url', 'max:255'],
-            'contact_name' => ['nullable', 'string', 'max:160'],
-            'contact_email' => ['nullable', 'email', 'max:255'],
-            'contact_phone' => ['nullable', 'string', 'max:40'],
-        ]);
-
-        if (blank($validated['slug'] ?? null)) {
-            $baseSlug = Str::slug($validated['business_name']) ?: 'client';
-            $slug = $baseSlug;
-            $suffix = 2;
-
-            while (ClientAccount::query()->where('slug', $slug)->exists()) {
-                $slug = $baseSlug.'-'.$suffix;
-                $suffix++;
-            }
-
-            $validated['slug'] = $slug;
-        }
-
-        $account = ClientAccount::create($validated);
+    public function storeClientAccount(
+        StoreApiClientAccountRequest $request,
+        CreateClientAccount $createClientAccount,
+    ): JsonResponse {
+        $account = $createClientAccount->handle($request->validated());
 
         return response()->json(['data' => $account], 201);
     }
