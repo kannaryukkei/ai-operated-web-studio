@@ -47,6 +47,7 @@ class CreateDiscoveryRun
                 'project_intake_id' => $intake->getKey(),
                 'requested_by' => $requestedBy,
                 'intake_version' => $intake->version,
+                'intake_schema_version' => $intake->schema_version,
                 'input_snapshot' => $intake->payload,
                 'status' => DiscoveryRunStatus::Queued,
             ]);
