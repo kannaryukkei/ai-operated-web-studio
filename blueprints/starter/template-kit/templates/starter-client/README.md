@@ -15,7 +15,7 @@ This is an **internal studio workspace**, not a client questionnaire. Duplicate 
 
 - `00-project-control/`: dashboard, G0–G7 approvals and change log.
 - `01-discovery/`: AI-populated Client Website Brief and links to source/fact/asset records.
-- `02-content/`: customer-question map, IA/section map, CTA and asset coverage views.
+- `02-content/`: customer-question map, IA/section map, CTA, Media Requirements Plan, optional client media request and canonical asset/permission register.
 - `03-scope/`: owner-approved commercial scope and WRP reference.
 - `04-design/`: art direction, design specification, assets and G3 decision.
 - `05-production/`: repository, bounded implementation slices and branch/commit checkpoints.

@@ -14,7 +14,8 @@ Checked: 2026-11-15
 
 | Skill folder | Primary responsibility | Expected output |
 |---|---|---|
-| `client-material-ingestion/` | Convert raw interviews and supplied assets into source-traceable normalized business knowledge | Raw Material Index, transcript summary, fact/source register, asset permissions, normalized brief and prioritized clarification list with safe preview fallbacks |
+| `client-material-ingestion/` | Convert raw interviews and supplied assets into source-traceable normalized business knowledge | Raw Material Index, transcript summary, fact/source register, asset permissions, normalized brief, Media Readiness Summary and prioritized clarification list with safe preview fallbacks |
+| `media-sourcing-and-licensing/` | Turn the approved business-specific Media Requirements Plan into traceable professional-stock and AI-concept assets; operate the no-API local media inbox | Media shortlist, exact item licence/provider-terms evidence, proof-class decision, rights/consent checks, imported local files, responsive variants and media QA handoff |
 | `frontend-design/` | Establish a distinct, brief-specific visual direction before coding | Design concept, compact token plan, layout direction and design rationale |
 | `ux-review/` | Translate business facts and customer needs into a useful visitor journey | Visitor tasks, customer-question coverage, IA/section recommendations and journey gaps |
 | `typography-and-legibility/` | Define and verify typography roles and readable text | Type-role scale, responsive type checks and exceptions |
@@ -40,10 +41,10 @@ Role boundaries: `visual-design-audit` judges aesthetic quality and distinctiven
 |---|---|---|
 | Stage 0 — Material intake | Master Skill + `client-material-ingestion` | None; default source-normalization method |
 | Stages 1–4 — Business intelligence, journey, content and WRP | `client-material-ingestion` + `ux-review` as needed | Category-specific module only where the business requires it |
-| Stage 5 — Creative direction | `frontend-design` + `typography-and-legibility` | `design-screenshot-spec` only when an approved screenshot/mockup is the target |
+| Stage 5 — Creative direction | `frontend-design` + `typography-and-legibility` | `media-sourcing-and-licensing` for media plans/sourcing; `design-screenshot-spec` only when an approved screenshot/mockup is the target |
 | Stages 5–6 — Implementation/refinement | `frontend-layout-implementer` | `design-screenshot-spec` for reference-driven work; `typography-and-legibility` for type-specific changes |
 | Stage 6 — Design/UX refinement | `visual-design-audit` + `interface-quality-review` for material UI changes | `frontend-visual-qa` for reference fidelity and responsive screenshot evidence |
-| Stage 7 — Independent QA | Project tests + `frontend-quality-reviewer` | `frontend-visual-qa`, `interface-quality-review` and `visual-design-audit` according to acceptance criteria and surface changed |
+| Stage 7 — Independent QA | Project tests + `frontend-quality-reviewer` | `media-sourcing-and-licensing` for asset rights/rendering checks; `frontend-visual-qa`, `interface-quality-review` and `visual-design-audit` according to acceptance criteria and surface changed |
 | Stages 8–9 — Release/handover/calibration | Master Skill + approval/release policy and evidence records | Specialist reviewer only for affected release evidence or retrospective findings |
 
 The Master Skill enforces the approval policy's **G0–G7** decision gates; a specialist skill cannot approve or bypass a gate. Do not activate all skills mechanically. A green build, visual critique or screenshot comparison cannot replace the overall acceptance matrix.

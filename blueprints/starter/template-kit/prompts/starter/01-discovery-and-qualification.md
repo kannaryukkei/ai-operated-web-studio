@@ -13,8 +13,9 @@ Create or update the canonical records with stable IDs:
 - Asset/Permission Register, including owner/source, intended use, rights/consent, evidence and publication status.
 - AI-populated Client Website Brief.
 - Prioritized clarification list containing only material unresolved facts, permissions or contradictions.
+- Media Readiness Summary: client originals available, business-proof media missing, optional/stock-context needs, release/permission gaps and a concise client asset request.
 
-Keep public contact destinations distinct from private owner/admin contact details. Do not treat a client statement as independently verified merely because it is recorded. Do not invent missing details.
+Do not browse stock libraries or select external media during Stage 0. First establish what authentic business media the client has and what visual evidence is missing; external media sourcing belongs to Stage 5 after the WRP is approved. Keep public contact destinations distinct from private owner/admin contact details. Do not treat a client statement as independently verified merely because it is recorded. Do not invent missing details.
 
 **G0:** client/business owner confirms material business facts, current offer/prices/policies, public destinations, asset rights and relevant consent; operator checks traceability; owner controls publication policy for claims. Record exact decisions against record IDs.
 
@@ -27,8 +28,10 @@ Analyze:
 - Trust/evidence inventory and what is not available.
 - Customer questions that affect conversion, risk or scope.
 - Safe content/visual fallback options that do not imply nonexistent proof.
+- Which business/customer questions need actual photos or video to create trust, and which can be explained with diagrams or concise copy.
+- Prioritized media gaps: real premises, product/service, process, team, client-work proof and brand assets.
 
-Produce the Offer Matrix, Trust/Evidence Register, business intelligence summary and unresolved business decisions. Keep source-backed facts separate from hypotheses and recommendations.
+Produce the Offer Matrix, Trust/Evidence Register, business intelligence summary, Media Readiness Summary and unresolved business decisions. Keep source-backed facts separate from hypotheses and recommendations.
 
 ## Stage 2 — Tier and scope recommendation
 
@@ -42,4 +45,4 @@ Prepare tier recommendation, included scope, exclusions, dependencies, assumptio
 
 ## Required output
 
-Return record IDs, source coverage gaps, evidence status, unresolved client confirmations, business intelligence, Offer Matrix, Trust/Evidence Register, tier recommendation, scope risks and the exact G0/G1 state. Do not proceed through an unapproved commercial gate.
+Return record IDs, source coverage gaps, evidence status, unresolved client confirmations, business intelligence, Offer Matrix, Trust/Evidence Register, Media Readiness Summary, tier recommendation, scope risks and the exact G0/G1 state. Do not proceed through an unapproved commercial gate.

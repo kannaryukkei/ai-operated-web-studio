@@ -11,9 +11,10 @@ Read these first:
 - `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md`
 - `docs/WEBSITE_REQUIREMENTS_PACK_v1.0.md`
 - `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md`
+- `docs/MEDIA_AND_ASSET_PIPELINE_v1.0.md`
 - the project dashboard, latest approval register, approved scope and current artifact versions.
 
-Master Skill Stages 0–9 are the canonical AI workflow. The six specialist prompts below are execution aids:
+Master Skill Stages 0–9 are the canonical AI workflow. Media sourcing is an execution capability within Stages 0, 5 and 7, not a new stage. Use the `media-sourcing-and-licensing` skill with prompt 03 and revisit its register during prompt 05. The six specialist prompts below are execution aids:
 - 01: Stages 0–2 — material normalization, business intelligence, tier/scope.
 - 02: Stages 3–4 — customer questions, information architecture, content and WRP.
 - 03: Stage 5 — creative direction and approved visual specification.

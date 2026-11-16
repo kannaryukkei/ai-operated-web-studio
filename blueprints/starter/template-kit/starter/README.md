@@ -68,3 +68,8 @@ This repository is a **portfolio demonstration**, not an operational ZACKS produ
 ## Product scope
 
 The site remains static-first. WhatsApp links open a prefilled conversation; the website does not record bookings or save submitted customer data.
+
+
+## Media inbox
+
+Copy `media-import-queue.example.json` to `media-import-queue.json`, populate it from the approved media plan, then run `npm run media:watch`. Save each next image using ChatGPT Images' Save control or the licensed stock provider's official download UI. The watcher imports and records new files without manual renaming, moving or register editing. It never approves publication; rights, licence and provider-terms decisions remain pending for explicit review. A failed file can be retried by passing its exact path with `npm run media:watch -- --retry "<file-path>"`. Optional responsive WebP variants require `npm install --save-dev sharp`. Full instructions: `../../../../docs/MEDIA_IMPORT_AUTOMATION_v1.0.md`.

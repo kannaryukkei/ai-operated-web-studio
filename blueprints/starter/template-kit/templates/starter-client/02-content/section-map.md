@@ -4,6 +4,8 @@ Use the Customer Question Map and Buying Journey as the source of structure. Do 
 
 ## Planned section map (Stages 3–4)
 
+Create and maintain media-requirements.csv alongside this map. Every planned visual must answer a visitor question and reference its section. The Media Requirements Plan defines what is needed; the Asset/Permission Register remains the single source of truth for individual files and rights. Do not create or source stock media before the approved WRP and Stage 5.
+
 | section_map_id | question_id | order | section | visitor question | answer summary or gap | source_ids | fact_ids | asset_ids | cta_ids | question_answer_status | evidence_status | publication_status | milestone_priority |
 |---|---|---:|---|---|---|---|---|---|---|---|---|---|
 | SEC-001 | Q-001 | 1 | Hero | Is this for me? | | | | | | | | | |

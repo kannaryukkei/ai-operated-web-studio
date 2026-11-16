@@ -36,6 +36,10 @@ This automated check is not a complete WCAG audit, assistive-technology test, ph
 - Preserve exact tested commit SHA and CI run when reporting results.
 - Do not infer live client validity from this demo blueprint's passing checks. Real facts, asset rights, CTA ownership, owner approval, conversion, domain and commercial gates remain separate.
 
+## Visual evidence capture sequence
+
+For each required responsive viewport and each selected interaction state, capture the initial rendered page before running assertions that may fail or abort the test. At minimum, retain full-page captures at representative mobile, tablet and desktop widths; add focused viewport captures for important interactive states such as an open mobile menu or a validation/error state when those states are in scope. Upload screenshots, traces and diagnostic logs even if the test job fails (`if: always()`). This evidence-first order prevents a failing assertion from removing the visual record needed to diagnose the baseline. Screenshots do not replace assertions, and passing assertions do not replace independent visual review.
+
 ## Ongoing maintenance
 
 Update the role selectors only when the interface semantics change. A new text role must be classified as BODY (15px), CONTROL (13px), or COMPACT METADATA (11px) with a written reason for any exception. New gradient/photo content must be added to the manual screenshot review checklist rather than silently excluded.

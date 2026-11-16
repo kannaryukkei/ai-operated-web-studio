@@ -14,6 +14,7 @@ The current Starter codebase is a development/portfolio reference, not a sellabl
 - The default client input is one normal interview plus existing client assets and optional references. The AI/operator produces the Client Website Brief; do not turn project setup into a long client questionnaire.
 - Never invent testimonials, reviews, ratings, awards, customer counts, performance metrics, credentials, guarantees or case results — including for portfolio/demo work.
 - Clearly disclosed concept imagery and illustrative layouts are allowed when they cannot be mistaken for actual client staff, premises, products, customers or completed work.
+- Use the Media & Asset Pipeline: authentic client media first for business proof; free stock only as supporting context after checking the exact asset licence and third-party rights; keep selected files local and optimized.
 - Missing client photography is not a blocker; missing factual evidence must not be filled with fabricated proof.
 - Keep Starter lightweight and static-first. Add backend functionality only when it is required by an approved business need and scope.
 - Keep business facts separate from presentation components.
@@ -48,6 +49,8 @@ Do not copy the ZACKS project wholesale. Follow `docs/extraction-map.md` to isol
 - `docs/starter-delivery-templates.md` for internal project records and reusable messages.
 - `docs/starter-production-kit.md` for workspace/control structure.
 - `prompts/starter/` for current stage prompts.
+- `templates/starter-client/02-content/media-requirements.csv` to plan required visuals against visitor questions; `content-asset-register.csv` remains the canonical per-file rights and provenance register.
+- `docs/MEDIA_AND_ASSET_PIPELINE_v1.0.md` and the `media-sourcing-and-licensing` skill for sourcing, rights and media implementation.
 
 ## Current reference status
 
@@ -63,3 +66,10 @@ Do not copy the ZACKS project wholesale. Follow `docs/extraction-map.md` to isol
 ## Release boundary
 
 A successful build or passing browser suite does not make this reference sellable or production-ready. Use `docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md`, WRP `APPROVED_FOR_DESIGN` and approval gates G0–G7 before any client production release or commercial-readiness claim.
+
+
+## Media sourcing and no-API import
+
+Starter supports professional stock photography (prioritize Adobe Stock; Envato Elements is supported with project-specific registration and manual provider UI) and original AI-generated concept imagery. Exact item licences and provider Terms of Service remain separate gates. The workflow never scrapes or automates stock sites.
+
+For saved ChatGPT or licensed-stock images, copy `starter/media-import-queue.example.json` to each client workspace as `media-import-queue.json`, then run `npm run media:watch` in that website folder. The watcher handles import, naming, original preservation, the canonical asset register and optional WebP responsive output. See `docs/MEDIA_IMPORT_AUTOMATION_v1.0.md`. Rights and publication approval remain explicit.
