@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Discovery\CompleteDiscoveryRun;
 use App\Actions\Discovery\CreateDiscoveryRun;
 use App\Enums\DiscoveryRunStatus;
 use App\Models\DiscoveryRun;
 use App\Models\Project;
+use App\Services\Discovery\DiscoveryContract;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
-use JsonException;
 
 class ManualDiscoveryController extends Controller
 {
-    public function show(Request $request, Project $project): Response
+    public function show(Request $request, Project $project, DiscoveryContract $discoveryContract): Response
     {
         $this->authorizeStudio($request);
         $intake = $project->intakes()->where('status', 'submitted')->latest('version')->first();
@@ -37,7 +37,7 @@ class ManualDiscoveryController extends Controller
                 'failureReason' => $run->failure_reason,
             ] : null,
             'canStart' => $intake !== null && ($run === null || ! $run->status->isActive()),
-            'prompt' => $run && $run->status->isActive() ? $this->buildPrompt($run->input_snapshot) : null,
+            'prompt' => $run && $run->status->isActive() ? $discoveryContract->buildPrompt($run->input_snapshot) : null,
         ]);
     }
 
@@ -54,7 +54,7 @@ class ManualDiscoveryController extends Controller
             ->with('success', 'Discovery workspace is ready. Run the prompt in your AI app, then paste the JSON result here.');
     }
 
-    public function complete(Request $request, Project $project, DiscoveryRun $discoveryRun): RedirectResponse
+    public function complete(Request $request, Project $project, DiscoveryRun $discoveryRun, CompleteDiscoveryRun $completeDiscoveryRun, DiscoveryContract $discoveryContract): RedirectResponse
     {
         $this->authorizeStudio($request);
         abort_unless($discoveryRun->project_id === $project->getKey(), 404);
@@ -63,101 +63,11 @@ class ManualDiscoveryController extends Controller
             throw ValidationException::withMessages(['result_json' => 'This discovery run is no longer active. Start a new run to continue.']);
         }
 
-        $validated = $request->validate(['result_json' => ['required', 'string', 'max:60000', 'json']]);
-
-        try {
-            $decoded = json_decode($validated['result_json'], true, 512, JSON_THROW_ON_ERROR);
-        } catch (JsonException) {
-            throw ValidationException::withMessages(['result_json' => 'The result must be valid JSON. Paste the JSON object without Markdown code fences.']);
-        }
-
-        if (! is_array($decoded) || array_is_list($decoded)) {
-            throw ValidationException::withMessages(['result_json' => 'The result must be a JSON object with the required discovery fields.']);
-        }
-
-        $validator = Validator::make($decoded, [
-            'business_summary' => ['required', 'string', 'max:5000'],
-            'business_model_summary' => ['required', 'string', 'max:4000'],
-            'primary_audience' => ['required', 'array', 'min:1'],
-            'primary_audience.*' => ['required', 'string', 'max:500'],
-            'website_goal' => ['required', 'string', 'max:2000'],
-            'primary_conversion' => ['required', 'string', 'max:1000'],
-            'recommended_tier' => ['required', 'in:starter,business,custom'],
-            'recommendation_rationale' => ['required', 'array', 'min:1'],
-            'recommendation_rationale.*' => ['required', 'string', 'max:1000'],
-            'offer_matrix' => ['required', 'array', 'min:1'],
-            'offer_matrix.*.name' => ['required', 'string', 'max:300'],
-            'offer_matrix.*.details' => ['required', 'string', 'max:1500'],
-            'offer_matrix.*.pricing' => ['required', 'string', 'max:500'],
-            'offer_matrix.*.source' => ['required', 'string', 'max:1000'],
-            'offer_matrix.*.evidence_status' => ['required', 'in:VERIFIED,CLIENT-PROVIDED-UNVERIFIED,DEMO-ONLY,ASSUMPTION,MISSING,CONFLICT'],
-            'customer_question_map' => ['required', 'array', 'min:1'],
-            'customer_question_map.*.question' => ['required', 'string', 'max:1000'],
-            'customer_question_map.*.answer_or_gap' => ['required', 'string', 'max:1500'],
-            'customer_question_map.*.stage' => ['required', 'in:BEFORE_PURCHASE,DURING_PURCHASE,AFTER_PURCHASE'],
-            'customer_question_map.*.answer_status' => ['required', 'in:ANSWERED,GAP,NOT_APPLICABLE'],
-            'customer_question_map.*.milestone_priority' => ['required', 'in:PREVIEW_BLOCKER,PRODUCTION_BLOCKER,OPTIONAL_GAP'],
-            'customer_question_map.*.source' => ['required', 'string', 'max:1000'],
-            'customer_question_map.*.owner_or_action' => ['required', 'string', 'max:500'],
-            'fact_register' => ['required', 'array', 'min:1'],
-            'fact_register.*.fact' => ['required', 'string', 'max:1000'],
-            'fact_register.*.source' => ['required', 'string', 'max:1000'],
-            'fact_register.*.evidence_status' => ['required', 'in:VERIFIED,CLIENT-PROVIDED-UNVERIFIED,DEMO-ONLY,ASSUMPTION,MISSING,CONFLICT'],
-            'fact_register.*.publication_status' => ['required', 'in:APPROVED,PENDING,NOT_APPROVED'],
-            'fact_register.*.notes' => ['required', 'string', 'max:1000'],
-            'cta_register' => ['required', 'array', 'min:1'],
-            'cta_register.*.action' => ['required', 'string', 'max:300'],
-            'cta_register.*.destination' => ['required', 'string', 'max:1000'],
-            'cta_register.*.destination_status' => ['required', 'in:APPROVED_REAL_DESTINATION,NOT_CONFIGURED,NEEDS_APPROVAL,DEMO_ONLY'],
-            'cta_register.*.expected_behavior' => ['required', 'string', 'max:1000'],
-            'asset_register' => ['present', 'array'],
-            'asset_register.*.asset_or_need' => ['required', 'string', 'max:500'],
-            'asset_register.*.source_or_owner' => ['required', 'string', 'max:1000'],
-            'asset_register.*.permission_status' => ['required', 'in:APPROVED,PENDING,NOT_APPROVED,NOT_APPLICABLE'],
-            'asset_register.*.permission_evidence_status' => ['required', 'in:VERIFIED,CLIENT-PROVIDED-UNVERIFIED,DEMO-ONLY,ASSUMPTION,MISSING,CONFLICT'],
-            'asset_register.*.consent_status' => ['required', 'in:CONFIRMED,PENDING,NOT_APPROVED,NOT_APPLICABLE'],
-            'asset_register.*.intended_use' => ['required', 'string', 'max:500'],
-            'asset_register.*.credit_or_restrictions' => ['required', 'string', 'max:1000'],
-            'buying_journey' => ['required', 'array', 'min:1'],
-            'buying_journey.*.stage' => ['required', 'in:BEFORE_PURCHASE,DURING_PURCHASE,AFTER_PURCHASE'],
-            'buying_journey.*.customer_need' => ['required', 'string', 'max:1000'],
-            'buying_journey.*.website_support' => ['required', 'string', 'max:1000'],
-            'trust_register' => ['required', 'array'],
-            'trust_register.*.proof' => ['required', 'string', 'max:1000'],
-            'trust_register.*.source' => ['required', 'string', 'max:1000'],
-            'trust_register.*.evidence_status' => ['required', 'in:VERIFIED,CLIENT-PROVIDED-UNVERIFIED,DEMO-ONLY,ASSUMPTION,MISSING,CONFLICT'],
-            'trust_register.*.publication_status' => ['required', 'in:APPROVED,PENDING,NOT_APPROVED'],
-            'content_gaps' => ['required', 'array'],
-            'content_gaps.*.gap' => ['required', 'string', 'max:1000'],
-            'content_gaps.*.owner_or_source' => ['required', 'string', 'max:500'],
-            'content_gaps.*.milestone_priority' => ['required', 'in:PREVIEW_BLOCKER,PRODUCTION_BLOCKER,OPTIONAL_GAP'],
-            'sections' => ['required', 'array', 'min:1'],
-            'sections.*.key' => ['required', 'string', 'max:100'],
-            'sections.*.purpose' => ['required', 'string', 'max:1000'],
-            'sections.*.visitor_question' => ['required', 'string', 'max:1000'],
-            'sections.*.draft_message' => ['required', 'string', 'max:2000'],
-            'missing_information' => ['present', 'array'],
-            'missing_information.*' => ['required', 'string', 'max:1000'],
-            'claims_requiring_approval' => ['present', 'array'],
-            'claims_requiring_approval.*' => ['required', 'string', 'max:1000'],
-            'scope_risks' => ['present', 'array'],
-            'scope_risks.*' => ['required', 'string', 'max:1000'],
-            'next_step' => ['required', 'string', 'max:2000'],
+        $validated = $request->validate([
+            'result_json' => $discoveryContract->resultJsonInputRules(),
         ]);
 
-        if ($validator->fails()) {
-            throw ValidationException::withMessages([
-                'result_json' => 'The JSON is valid, but its structure is incomplete. Include field-level facts and sources, asset permissions, CTA destinations, customer-question statuses, offer matrix, buying journey, trust register and content gaps.',
-            ]);
-        }
-
-        $discoveryRun->update([
-            'result' => $validator->validated(),
-            'status' => DiscoveryRunStatus::Completed,
-            'started_at' => $discoveryRun->started_at ?? now(),
-            'completed_at' => now(),
-            'failure_reason' => null,
-        ]);
+        $completeDiscoveryRun->handle($project, $discoveryRun, $validated['result_json']);
 
         return to_route('projects.discovery.show', $project)->with('success', 'Discovery brief saved successfully.');
     }
