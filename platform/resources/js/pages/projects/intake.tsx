@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 
 type IntakePayload = {
     business_overview: string;
+    business_model_summary: string;
     industry: string;
     location: string;
     target_audience: string;
@@ -36,6 +37,7 @@ type IntakePayload = {
 
 const emptyPayload: IntakePayload = {
     business_overview: '',
+    business_model_summary: '',
     industry: '',
     location: '',
     target_audience: '',
@@ -73,6 +75,7 @@ const groups: {
         required?: boolean;
         rows?: number;
         type?: 'url' | 'text';
+        schemaVersion?: number;
     }[];
 }[] = [
     {
@@ -86,6 +89,13 @@ const groups: {
                 hint: 'What does the business do? Explain it in your own words.',
                 required: true,
                 rows: 3,
+            },
+            {
+                key: 'business_model_summary',
+                label: 'Business model summary',
+                hint: 'How does the business earn revenue, what do customers pay for, and how is the offer delivered?',
+                rows: 3,
+                schemaVersion: 2,
             },
             {
                 key: 'industry',
@@ -271,13 +281,25 @@ export default function ProjectIntake({
     project: { id: number; name: string; clientName: string };
     intake: {
         version: number | null;
+        schemaVersion: number;
         status: string | null;
         payload: Partial<IntakePayload>;
         submittedAt: string | null;
     };
 }) {
-    const form = useForm<{ payload: IntakePayload }>({
+    const form = useForm<{ schema_version: number; payload: IntakePayload }>({
+        schema_version: intake.schemaVersion,
         payload: { ...emptyPayload, ...intake.payload },
+    });
+    form.transform((data) => {
+        if (data.schema_version === 1) {
+            const legacyPayload = { ...data.payload };
+            delete legacyPayload.business_model_summary;
+
+            return { ...data, payload: legacyPayload as IntakePayload };
+        }
+
+        return data;
     });
     const errors = form.errors as Record<string, string | undefined>;
 
@@ -333,8 +355,8 @@ export default function ProjectIntake({
                         </div>
                         <p className="text-sm text-muted-foreground">
                             {intake.version
-                                ? `Version ${intake.version}`
-                                : 'No saved version yet'}
+                                ? `Revision ${intake.version} · Schema v${intake.schemaVersion}`
+                                : `New intake · Schema v${intake.schemaVersion}`}
                             {intake.submittedAt
                                 ? ` · Submitted ${new Date(intake.submittedAt).toLocaleDateString()}`
                                 : ''}
@@ -354,7 +376,13 @@ export default function ProjectIntake({
                                 </p>
                             </CardHeader>
                             <CardContent className="grid gap-5 md:grid-cols-2">
-                                {group.fields.map((field) => (
+                                {group.fields
+                                    .filter(
+                                        (field) =>
+                                            !field.schemaVersion ||
+                                            intake.schemaVersion >= field.schemaVersion,
+                                    )
+                                    .map((field) => (
                                     <div
                                         key={field.key}
                                         className={
