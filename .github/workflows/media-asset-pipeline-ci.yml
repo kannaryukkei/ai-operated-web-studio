@@ -49,5 +49,7 @@ jobs:
         run: node --check scripts/media-asset-validator.mjs
       - name: Check local media inbox syntax
         run: node --check blueprints/starter/template-kit/starter/scripts/media-inbox.mjs
+      - name: Check media inbox test syntax
+        run: node --check tests/media-pipeline/media-inbox.test.mjs
       - name: Run media pipeline tests
         run: node --test tests/media-pipeline/media-assets.test.mjs tests/media-pipeline/media-inbox.test.mjs

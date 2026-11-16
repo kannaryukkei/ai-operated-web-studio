@@ -27,7 +27,7 @@ test('AI-generated image import consumes one queue item and records concept art 
   await fs.writeFile(queuePath, JSON.stringify({ version: 1, items: [{
     asset_id: 'AI-HERO-001', source_id: 'SRC-AI-001', source_type: 'AI_GENERATED',
     description: 'Editorial workshop atmosphere concept for hero section', usage_role: 'CONCEPT_VISUAL',
-    target_section: 'hero', proof_class: 'CONCEPT_ART", client_proof: 'NO', media_type: 'IMAGE',
+    target_section: 'hero', proof_class: 'CONCEPT_ART', client_proof: 'NO', media_type: 'IMAGE',
     commercial_use: 'YES', alt_text_candidate: 'Conceptual close-up of a clean detailing studio environment',
     identifiable_people: 'NO', visible_brand_or_trademark: 'NO', private_property_or_artwork: 'NO',
     decorative: 'NO', motion_behavior: 'STATIC_IMAGE', provider_terms_status: 'NOT_APPLICABLE'
