@@ -88,3 +88,23 @@ The work resumed from the existing benchmark and preserved all later commits alr
 **Current status:** Stage 5 PASS WITH CONCERNS; Stage 6 implementation PASS WITH CONCERNS; latest bounded technical/responsive QA PASS. Hero asset replacement and final aesthetic distinctiveness remain pending. Production remains blocked because the benchmark inputs are synthetic.
 
 **Resume from:** ACFIX `benchmark/full-input-v1-home-comfort` at the latest source head. Next task is a verified binary-asset transfer, followed by the existing quality gate and screenshot review. Do not redo discovery, WRP, design exploration or the website.
+
+
+## Continuation checkpoint — 2026-11-16, ACFIX through Run #70
+
+The earlier continuation note that said the replacement hero image was still local-only is superseded. The repository had already progressed beyond that checkpoint before this review resumed.
+
+Verified ACFIX progress:
+- Hero replacement committed at `09b5aff905dece2756a9bacc07c241770cbc780f`; current asset is 1280 × 853 WebP (26,152 bytes).
+- Tablet navigation refinement committed at `b844a6948d1464cf1798dfd455f400a441856b5d`.
+- Browser breakpoint coverage added at `6c5a3e9006e31dd85fde15ace8330dccf89884ec`.
+- Hero image intrinsic-width assertion added at `1291e58a1dc75c76c271e6624ac3b3562c6c8dc0`.
+- Latest CI: [ACFIX Run #70 — PASS](https://github.com/kannaryukkei/web-studio-experiment-04-acfix-studio/actions/runs/43807520843), both static acceptance and browser audit passed.
+- Full-page screenshots at 1440 / 768 / 390 / 320px were inspected. The replacement hero and compact tablet header render as intended in those captures.
+- The ACFIX audit now records the full CI history through #70; a consolidated stage scorecard was added at `05-audit/03-final-benchmark-scorecard.md`.
+
+**Current result:** Stage 1–4 PASS; Stage 5 PASS WITH CONCERNS; Stage 6 PASS WITH CONCERNS; bounded technical/responsive QA PASS. The hero asset-quality requirement is now satisfied. Final aesthetic distinctiveness remains NOT FINAL because the current rendered ZACKS comparison is missing. Physical touch/trackpad pricing behavior and full accessibility certification remain unverified. Production remains blocked because the benchmark inputs are synthetic.
+
+**Next work:** obtain or render current ZACKS desktop/mobile evidence, then complete the cross-project visual comparison; perform focused touch/accessibility checks only where required by the Starter acceptance contract. Do not repeat discovery, WRP, Stage 5, hero generation or website implementation.
+
+The ACFIX benchmark branch is separate from this system branch. No merge to Master `main` is authorized. Master remains at `4991ba2fd849d45d54b982cf8d131d7a8eb91743`.
