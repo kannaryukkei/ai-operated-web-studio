@@ -98,6 +98,28 @@ A "free" stock licence normally grants a copyright-use permission within stated 
 
 As one example, Pexels' Terms of Service page reviewed 2026-11-16 displays a last-updated date of November 15, 2024. Section 8 includes wording restricting access to its Service for purposes of performance benchmarking or building/marketing a competitive product, and also addresses unauthorized automated extraction and bulk/systematic copying. The scope of that wording for a downstream website-production workflow benchmark is not determined by this guide. Do not infer either that it certainly applies or that a general commercial-use content licence overrides it. Treat that project context as PENDING until the provider confirms the permitted scope. Separately, Section 5 and Pexels' help guidance warn that depicted trademarks, logos and third-party rights may require separate permission.
 
+### Professional stock and AI-generated image lanes
+
+Professional stock is a normal option for ordinary commercial client websites when exact-item content licensing, provider terms, project context, acquisition method and depicted third-party rights all pass. Candidates:
+- **Adobe Stock** — non-editorial stock items can be used in websites and commercial creative projects under the applicable licence. Use the provider's official License action for the exact item. Treat each client project independently; do not assume one licensed download covers unrelated client projects. Editorial-only media is not commercially cleared.
+  - Usage/licensing: https://helpx.adobe.com/stock/help/usage-licensing.html
+  - Official website workflow: https://helpx.adobe.com/stock/help/using-adobe-stock-website.html
+  - Adobe Stock terms: https://www.adobe.com/go/stockterms
+- **Envato Elements** — each download is registered to a specific project; new projects require the relevant project licence. Client transfer is limited to the final End Product and does not give the client standalone rights to extract/reuse the raw asset. Its acceptable-use rules prohibit automated/bot/script access and retrieval; use the official site manually.
+  - Licence: https://elements.envato.com/license-terms
+  - Client work: https://help.elements.envato.com/hc/en-us/articles/360000621263-Can-I-use-Envato-Elements-items-for-client-work
+  - Client transfer: https://help.elements.envato.com/hc/en-us/articles/360000621283-Can-I-transfer-an-Envato-Elements-license-to-a-client
+  - Acceptable use: https://envato.com/acceptable-use-policy/
+- **Shutterstock** — optional alternative; verify the exact item, plan, intended website use and current terms: https://www.shutterstock.com/license
+
+The exact content licence and provider Terms of Service are separate mandatory gates. Professional photography can be genuine, high-quality category context; it is never the client's own workshop, staff, customers, products or completed work merely because it looks relevant.
+
+AI-generated imagery is a first-class `CONCEPT_ART` source for editorial hero imagery, atmosphere, abstract service context and generic visual storytelling. It must never fabricate actual business evidence. Record `source_type=AI_GENERATED`, `proof_class=CONCEPT_ART`, `client_proof=NO`, the generating tool/session and prompt reference. Avoid recognizable third-party logos/trademarks and unintended likeness. Keep rights/publication PENDING until project approval is completed. Use ChatGPT native Image Generation in the same working session and the standard Save action; no image API key is required.
+
+### API-free local media inbox
+
+The local watcher `blueprints/starter/template-kit/starter/scripts/media-inbox.mjs` removes repetitive file handling after an image is saved: deterministic ID/hash naming, original preservation, canonical CSV register insertion, import logging and optional responsive WebP variants. Stage 5 creates an ordered `media-import-queue.json`; the operator starts `npm run media:watch` once and saves each next image to Downloads through ChatGPT or the licensed provider's official UI. It does not browse or automate provider websites, click Save/License, download stock, approve rights or select images for build. Without optional Sharp it preserves the source and records the optimization limitation. See `docs/MEDIA_IMPORT_AUTOMATION_v1.0.md`.
+
 ### C. Studio-created illustration / motion — fallback, not fake evidence
 
 Use original SVG, CSS, simple diagrams or AI-generated concept imagery when real assets and useful stock are unavailable. Label or frame the result so visitors cannot mistake it for the client's real premises, staff, products, customers, completed work or results. Do not use generative media to fabricate proof.

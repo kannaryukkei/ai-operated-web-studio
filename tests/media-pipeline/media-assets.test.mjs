@@ -128,3 +128,41 @@ test('canonical asset register template includes source, rights, proof and imple
   ];
   for (const field of required) assert.ok(fields.has(field), 'missing register field: ' + field);
 });
+
+
+test('AI-generated concept imagery is recognized but remains excluded until rights and publication are approved', () => {
+  const record = {
+    asset_id: 'FIXTURE-AI-CONCEPT', source_type: 'AI_GENERATED',
+    creator_and_owner: 'AI-generated with ChatGPT Image Generation', media_type: 'IMAGE',
+    usage_role: 'CONCEPT_VISUAL', proof_class: 'CONCEPT_ART', client_proof: 'NO',
+    commercial_use: 'YES', identifiable_people: 'NO', visible_brand_or_trademark: 'NO',
+    private_property_or_artwork: 'NO', rights_status: 'PENDING', publication_status: 'PENDING',
+    is_selected_for_build: 'NO',
+  };
+  const validConcept = validateAsset(record);
+  assert.ok(!validConcept.issues.some((issue) => /source_type is not recognized|AI_GENERATED media/i.test(issue)));
+  assert.equal(validConcept.eligible, false);
+  const fakeProof = validateAsset({ ...record, proof_class: 'CLIENT_WORK', client_proof: 'YES' });
+  assert.ok(fakeProof.issues.some((issue) => /proof_class=CONCEPT_ART/i.test(issue)));
+  assert.ok(fakeProof.issues.some((issue) => /can never be client proof/i.test(issue)));
+});
+
+test('Adobe Stock and Envato Elements are recognized only through both independent rights gates', () => {
+  for (const source_type of ['ADOBE_STOCK', 'ENVATO_ELEMENTS']) {
+    const result = validateAsset({
+      asset_id: 'FIXTURE-' + source_type, source_type, creator_and_owner: 'Fixture creator',
+      media_type: 'IMAGE', usage_role: 'STOCK_CONTEXT', proof_class: 'STOCK_CONTEXT',
+      asset_page_url: 'https://example.com/exact-item', license_name: 'Commercial stock license',
+      license_url: 'https://example.com/license', license_status: 'VERIFIED',
+      provider_terms_url: 'https://example.com/terms', provider_terms_checked_on: '2026-11-16',
+      project_context_use: 'ORDINARY_CLIENT_WEBSITE', provider_terms_status: 'APPROVED',
+      acquisition_method: 'HUMAN_LICENSE_AND_DOWNLOAD', commercial_use: 'YES',
+      identifiable_people: 'NO', visible_brand_or_trademark: 'NO', private_property_or_artwork: 'NO',
+      rights_status: 'APPROVED', publication_status: 'APPROVED', permission_evidence_ref: 'FIXTURE-RIGHTS',
+      credit_required: 'NO', suitability_score: '20', is_selected_for_build: 'YES',
+      optimized_project_path: 'public/media/fixture.webp', alt_text_candidate: 'Illustrative service context',
+      file_size_bytes: '120000',
+    });
+    assert.equal(result.eligible, true, result.issues.join('\\n'));
+  }
+});

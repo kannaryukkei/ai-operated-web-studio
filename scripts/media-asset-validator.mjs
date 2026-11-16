@@ -1,5 +1,5 @@
-const STOCK_SOURCES = new Set(['PEXELS', 'UNSPLASH', 'PIXABAY', 'MIXKIT', 'OPENVERSE', 'WIKIMEDIA_COMMONS', 'LOTTIEFILES']);
-const SOURCE_TYPES = new Set([...STOCK_SOURCES, 'CLIENT_SUPPLIED', 'STUDIO_CREATED', 'OTHER']);
+const STOCK_SOURCES = new Set(['ADOBE_STOCK', 'ENVATO_ELEMENTS', 'SHUTTERSTOCK', 'PEXELS', 'UNSPLASH', 'PIXABAY', 'MIXKIT', 'OPENVERSE', 'WIKIMEDIA_COMMONS', 'LOTTIEFILES']);
+const SOURCE_TYPES = new Set([...STOCK_SOURCES, 'AI_GENERATED', 'CLIENT_SUPPLIED', 'STUDIO_CREATED', 'OTHER']);
 const YES_NO = new Set(['YES', 'NO']);
 const RIGHTS_STATES = new Set(['APPROVED', 'PENDING', 'BLOCKED']);
 const PUBLICATION_STATES = new Set(['APPROVED', 'PENDING', 'NOT_APPROVED']);
@@ -29,6 +29,10 @@ export function validateAsset(record) {
   if (!value(record, 'usage_role')) issue(issues, 'usage_role is required.');
 
   const stock = STOCK_SOURCES.has(source);
+  if (source === 'AI_GENERATED') {
+    if (proofClass !== 'CONCEPT_ART') issue(issues, 'AI_GENERATED media must use proof_class=CONCEPT_ART.');
+    if (clientProof || upper(record, 'client_proof') !== 'NO') issue(issues, 'AI_GENERATED media must use client_proof=NO and can never be client proof.');
+  }
   if (stock) {
     if (!value(record, 'asset_page_url')) issue(issues, 'stock assets need the exact asset_page_url.');
     if (!value(record, 'license_name')) issue(issues, 'stock assets need the exact license_name.');

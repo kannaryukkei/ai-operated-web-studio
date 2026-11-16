@@ -6,7 +6,7 @@ Preconditions: the WRP is `APPROVED_FOR_DESIGN`; G2 is recorded; the approved ar
 
 Act as a senior frontend engineer. Use `frontend-layout-implementer` as the implementation method and `design-screenshot-spec` when an approved screenshot/mockup is the build target. Inspect the actual repository and preserve its current stack, file ownership, scripts and conventions.
 
-Read the approved Media Requirements Plan and the canonical Asset/Permission Register before implementation. Use `media-sourcing-and-licensing` rules for all approved image/video/animation assets. Build a polished responsive one-page Starter site with:
+Read the approved Media Requirements Plan, ordered `media-import-queue.json` and canonical Asset/Permission Register before implementation. When the queue has pending images, start `npm run media:watch` in the client website workspace and provide only the precise Save/License handoff. Do not ask the operator to rename/move files or edit the register manually. Build may reference only assets explicitly selected with `is_selected_for_build=YES`, rights/publication APPROVED and a local path. Use `media-sourcing-and-licensing` rules for all approved image/video/animation assets. Build a polished responsive one-page Starter site with:
 - Approved content hierarchy and source-linked copy.
 - Working navigation, section anchors, CTAs and only the interactions included in scope.
 - Semantic/accessibility behavior, keyboard access, visible focus, reduced motion and useful alt text.

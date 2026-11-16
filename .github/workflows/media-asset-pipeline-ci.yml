@@ -11,6 +11,10 @@ on:
       - "tests/media-pipeline/**"
       - "blueprints/starter/template-kit/prompts/starter/**"
       - "blueprints/starter/template-kit/templates/starter-client/02-content/**"
+      - "blueprints/starter/template-kit/starter/scripts/media-inbox.mjs"
+      - "blueprints/starter/template-kit/starter/package.json"
+      - "blueprints/starter/template-kit/starter/media-import-queue.example.json"
+      - "docs/MEDIA_IMPORT_AUTOMATION_v1.0.md"
       - ".github/workflows/media-asset-pipeline-ci.yml"
   pull_request:
     paths:
@@ -21,6 +25,10 @@ on:
       - "tests/media-pipeline/**"
       - "blueprints/starter/template-kit/prompts/starter/**"
       - "blueprints/starter/template-kit/templates/starter-client/02-content/**"
+      - "blueprints/starter/template-kit/starter/scripts/media-inbox.mjs"
+      - "blueprints/starter/template-kit/starter/package.json"
+      - "blueprints/starter/template-kit/starter/media-import-queue.example.json"
+      - "docs/MEDIA_IMPORT_AUTOMATION_v1.0.md"
       - ".github/workflows/media-asset-pipeline-ci.yml"
   workflow_dispatch:
 
@@ -39,5 +47,7 @@ jobs:
           node-version: 22
       - name: Check validator syntax
         run: node --check scripts/media-asset-validator.mjs
+      - name: Check local media inbox syntax
+        run: node --check blueprints/starter/template-kit/starter/scripts/media-inbox.mjs
       - name: Run media pipeline tests
-        run: node --test tests/media-pipeline/media-assets.test.mjs
+        run: node --test tests/media-pipeline/media-assets.test.mjs tests/media-pipeline/media-inbox.test.mjs

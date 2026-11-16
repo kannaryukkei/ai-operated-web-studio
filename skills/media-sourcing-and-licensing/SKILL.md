@@ -49,9 +49,9 @@ Map it to the Section Map. Do not invent a gallery slot when it does not support
 
 A client upload does not prove ownership or publication permission. Keep rights PENDING if not evidenced.
 
-### C. Discover candidate assets manually
+### C. Discover professional stock candidates
 
-Use search phrases derived from the business, service, subject, shot type, environment and desired crop. Suitable starting libraries may include:
+Use Adobe Stock, Envato Elements and Shutterstock when professional photography materially improves the customer journey. Free stock libraries remain optional candidates under the provider-terms gate. Derive search phrases from the business, service, subject, shot type, environment and crop. Access stock sites through permitted official UI only; never scrape or automate provider-site access/download.
 - Pexels — photos/video; check Pexels License and depicted third-party rights.
 - Unsplash — photography; check Unsplash License and depicted third-party rights.
 - Pixabay — images/video/audio; check current Pixabay Content License.
@@ -80,7 +80,11 @@ Use proof classes carefully:
 - Real work photo = CLIENT_WORK only when client source, owner permission, people/property releases where applicable and approval are recorded.
 - Product art = PRODUCT_ASSET only with source and intended-use permission.
 
-### E. Record and prepare files
+### E. Generate and import AI concept images without a paid API
+
+Use native ChatGPT Image Generation in the same working session when available. Create an ordered `media-import-queue.json` from the approved Media Requirements Plan and use the Starter local inbox documented in `docs/MEDIA_IMPORT_AUTOMATION_v1.0.md`. Start the watcher once and save each generated or officially licensed stock image to Downloads in queue order; the tool imports, hashes/names files, preserves originals, updates the canonical register and optionally creates responsive WebP variants with local Sharp. It does not automate browsers or stock providers and requires no API key. AI media is always `AI_GENERATED` + `CONCEPT_ART` + `client_proof=NO`; rights/publication remain pending review.
+
+### F. Record and prepare files
 
 Update the one canonical content-asset-register.csv. Record:
 - source URL and exact asset page URL;

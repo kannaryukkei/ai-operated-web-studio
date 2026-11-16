@@ -10,7 +10,8 @@ Act as an independent quality reviewer of the exact candidate website/version ag
 
 Review:
 - Every WRP acceptance criterion and source-to-page/customer-question coverage.
-- Factual accuracy, evidence/publication states, exact asset-source/licence evidence, required credits, people/property/trademark consent, proof-class accuracy and demo labeling.
+- Factual accuracy, evidence/publication states, exact asset-source/licence and provider-terms evidence, required credits, people/property/trademark consent, proof-class accuracy and demo labeling. Check Adobe Stock/Envato project registration and client transfer limits where used.
+- Local inbox traceability: import hash/log, original preservation, canonical CSV row, responsive variants or explicit optimization limitation. AI-generated media must remain CONCEPT_ART and never be passed off as client premises/work/customer proof.
 - Image relevance to the actual business and visitor question; check that stock is clearly contextual and never passed off as client premises, products, staff or completed work.
 - Image focal point/crop and local responsive variants; dimensions, loading priority, alt text and layout shift.
 - Video poster/fallback, controls, captions where needed, no sound autoplay and reduced-motion behavior; animation licence and reduced-motion fallback.

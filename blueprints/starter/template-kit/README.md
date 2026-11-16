@@ -66,3 +66,10 @@ Do not copy the ZACKS project wholesale. Follow `docs/extraction-map.md` to isol
 ## Release boundary
 
 A successful build or passing browser suite does not make this reference sellable or production-ready. Use `docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md`, WRP `APPROVED_FOR_DESIGN` and approval gates G0–G7 before any client production release or commercial-readiness claim.
+
+
+## Media sourcing and no-API import
+
+Starter supports professional stock photography (prioritize Adobe Stock; Envato Elements is supported with project-specific registration and manual provider UI) and original AI-generated concept imagery. Exact item licences and provider Terms of Service remain separate gates. The workflow never scrapes or automates stock sites.
+
+For saved ChatGPT or licensed-stock images, copy `starter/media-import-queue.example.json` to each client workspace as `media-import-queue.json`, then run `npm run media:watch` in that website folder. The watcher handles import, naming, original preservation, the canonical asset register and optional WebP responsive output. See `docs/MEDIA_IMPORT_AUTOMATION_v1.0.md`. Rights and publication approval remain explicit.
