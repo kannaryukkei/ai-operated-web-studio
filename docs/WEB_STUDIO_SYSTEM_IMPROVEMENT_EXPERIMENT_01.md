@@ -3,7 +3,7 @@
 **Branch:** `experiment/web-studio-system-improvement-01`  
 **Baseline:** `main@4991ba2fd849d45d54b982cf8d131d7a8eb91743`  
 **Focus:** execution clarity and creative-quality enforcement  
-**Status:** FIRST CHANGESET IMPLEMENTED — benchmark validation pending
+**Status:** FIRST CHANGESET IMPLEMENTED — full-input Stage 5 and Stage 6 benchmark checkpoint recorded; final visual validation pending
 
 ## Why this experiment exists
 
@@ -55,3 +55,20 @@ After this fixed-case check, change only the layer implicated by observed failur
 ## Known limitation
 
 This is a prompt/workflow contract change. It has not yet been run through an external AI executor or browser against the ACFIX project. No improvement in actual website aesthetics is claimed until that fixed-case validation is completed.
+
+
+## Latest continuation checkpoint — 2026-11-16
+
+The fixed-input benchmark has now progressed beyond the original Stage 5 prompt-only validation:
+- Full synthetic ACFIX fixture: 7/7 source documents and four assets inventoried.
+- Normalized discovery and WRP completed.
+- Stage 5 produced two materially different concepts, selected HOME, IN COMFORT and created an original two-direction visual board.
+- Existing ACFIX experiment branch `benchmark/full-input-v1-home-comfort` was continued; the website was not rebuilt from scratch.
+- A rendered review found and fixed a mobile hero disclosure that stretched over the image. A new Playwright geometry assertion prevents regression.
+- Latest ACFIX CI: [Run #43793287165 — PASS](https://github.com/kannaryukkei/web-studio-experiment-04-acfix-studio/actions/runs/43793287165), commit `43e12adb5b4e2db7074751d03b1902b497c0bdfd`.
+- Detailed Stage 6 checkpoint: `benchmarks/acfix-full-input-v1/outputs/13-stage-6-implementation-checkpoint.md`.
+- Rendered review: `web-studio-experiment-04-acfix-studio/05-audit/02-full-input-design-review.md`.
+
+**Current result:** Stage 5 PASS WITH CONCERNS; Stage 6 implementation PASS WITH CONCERNS; bounded technical/responsive QA PASS. Final aesthetic distinctiveness remains NOT FINAL because the hero asset is still the 520 × 309 study and the ZACKS rendered comparison is unavailable. Production remains blocked because all inputs are synthetic.
+
+**Resume instruction:** continue from the existing ACFIX benchmark branch and current commit. The next bounded task is to replace only the low-resolution hero concept asset, then rerun the existing browser gate. Do not repeat discovery, regenerate the WRP, redo Stage 5 or recreate the website.
