@@ -68,16 +68,56 @@ class ManualDiscoveryWorkflowTest extends TestCase
                     && str_contains($prompt, 'including for portfolio/demo work')));
     }
 
-    public function test_client_cannot_access_or_start_studio_discovery(): void
+    public function test_client_cannot_access_or_mutate_any_studio_discovery_route(): void
     {
         $studio = $this->createUser(UserRole::StudioOwner);
         $client = $this->createUser(UserRole::Client);
         $project = $this->createProject($studio);
         $this->createSubmittedIntake($project);
 
-        $this->actingAs($client)->get(route('projects.discovery.show', $project))->assertForbidden();
-        $this->actingAs($client)->post(route('projects.discovery.start', $project))->assertForbidden();
-        $this->assertDatabaseCount('discovery_runs', 0);
+        $this->actingAs($studio)
+            ->post(route('projects.discovery.start', $project))
+            ->assertRedirect(route('projects.discovery.show', $project));
+
+        $run = DiscoveryRun::query()->sole();
+
+        $this->actingAs($client)
+            ->get(route('projects.discovery.show', $project))
+            ->assertForbidden();
+
+        $this->post(route('projects.discovery.start', $project))
+            ->assertForbidden();
+
+        $this->post(route('projects.discovery.complete', [$project, $run]), [
+            'result_json' => json_encode($this->validResult(), JSON_THROW_ON_ERROR),
+        ])->assertForbidden();
+
+        $run->refresh();
+        $this->assertSame(DiscoveryRunStatus::Processing, $run->status);
+        $this->assertNull($run->result);
+        $this->assertDatabaseCount('discovery_runs', 1);
+    }
+
+    public function test_studio_operator_can_access_all_studio_discovery_routes(): void
+    {
+        $studioOperator = $this->createUser(UserRole::StudioOperator);
+        $project = $this->createProject($studioOperator);
+        $this->createSubmittedIntake($project);
+
+        $this->actingAs($studioOperator)
+            ->post(route('projects.discovery.start', $project))
+            ->assertRedirect(route('projects.discovery.show', $project));
+
+        $run = DiscoveryRun::query()->sole();
+
+        $this->get(route('projects.discovery.show', $project))
+            ->assertOk();
+
+        $this->post(route('projects.discovery.complete', [$project, $run]), [
+            'result_json' => json_encode($this->validResult(), JSON_THROW_ON_ERROR),
+        ])->assertRedirect(route('projects.discovery.show', $project));
+
+        $this->assertSame(DiscoveryRunStatus::Completed, $run->fresh()->status);
     }
 
     public function test_discovery_cannot_start_without_a_submitted_intake(): void
