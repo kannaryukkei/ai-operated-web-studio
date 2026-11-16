@@ -3,7 +3,7 @@
 **Branch:** `experiment/web-studio-system-improvement-01`  
 **Baseline:** `main@4991ba2fd849d45d54b982cf8d131d7a8eb91743`  
 **Focus:** execution clarity and creative-quality enforcement  
-**Status:** FIRST CHANGESET IMPLEMENTED — full-input Stage 5 and Stage 6 benchmark checkpoint recorded; final visual validation pending
+**Status:** FIRST CHANGESET IMPLEMENTED — full-input Stage 5/6 benchmark, bounded technical QA and source-level peer differentiation reviewed; rendered-peer aesthetic sign-off remains open
 
 ## Why this experiment exists
 
@@ -108,3 +108,20 @@ Verified ACFIX progress:
 **Next work:** obtain or render current ZACKS desktop/mobile evidence, then complete the cross-project visual comparison; perform focused touch/accessibility checks only where required by the Starter acceptance contract. Do not repeat discovery, WRP, Stage 5, hero generation or website implementation.
 
 The ACFIX benchmark branch is separate from this system branch. No merge to Master `main` is authorized. Master remains at `4991ba2fd849d45d54b982cf8d131d7a8eb91743`.
+
+
+## Continuation checkpoint — 2026-11-16, ZACKS source-level comparison
+
+A current ZACKS preview URL was not available, but a local deployment was not required to continue. The connected GitHub source was sufficient to establish the peer's current design fingerprint.
+
+**Reference evidence:** `kannaryukkei/zacks-detailing` `main` @ `0c52bc3d66ba606821c3054ded630deea164bdf9`, frontend package `3.2.4`. Inspected `Frontend/src/site/pages/Home.jsx`, `Frontend/src/site/site.css`, `Frontend/src/site/content.js`, `Frontend/index.html`, README and the public image inventory.
+
+**Finding:** ZACKS uses an automotive/mobile-detailing context, charcoal and teal palette, Barlow Condensed + DM Sans, a dark hero and car/motor vehicle-selection cards. ACFIX uses a bright residential interior, forest/chalk/sage/citrus tokens and home-comfort service pathways. Identity-level differentiation is therefore supported by active source and asset evidence, not only documentation.
+
+**Evidence boundary:** no ZACKS screenshot or live render was captured. The formal rendered-peer `DISTINCTIVE` gate remains open; no pixel-level quality claim is made. This gap does not block the next bounded system-development experiment, but it must remain visible until a rendered comparison is completed. A local preview is optional for formal aesthetic sign-off, not a prerequisite for continuing system work.
+
+**Latest ACFIX evidence:** implementation head remains `1291e58a1dc75c76c271e6624ac3b3562c6c8dc0`; documentation head `0e12cd85171b7a89fd4f188d9970c5d2988aa526`; [Run #76 — PASS](https://github.com/kannaryukkei/web-studio-experiment-04-acfix-studio/actions/runs/43818711974) passed both `static-acceptance` and `browser-audit`.
+
+**Current result:** Stage 1–4 PASS; Stage 5 and Stage 6 PASS WITH CONCERNS; bounded technical/responsive QA PASS; identity-level cross-project differentiation SUPPORTED; rendered-peer aesthetic sign-off OPEN. Production remains blocked because the benchmark inputs are synthetic. Physical touch/trackpad pricing behavior and full accessibility certification remain unverified.
+
+**Next work:** continue the next bounded system-development cycle without deploying ZACKS. Revisit local desktop/mobile rendering only when formal rendered-peer aesthetic sign-off is needed. Do not repeat discovery, WRP, Stage 5 exploration, hero generation, website implementation or the nine-width browser audit.
