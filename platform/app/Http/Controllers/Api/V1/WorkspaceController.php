@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Actions\Workspace\CreateClientAccount;
+use App\Actions\Workspace\CreateProject;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\StoreClientAccountRequest as StoreApiClientAccountRequest;
+use App\Http\Requests\Api\V1\StoreProjectRequest as StoreApiProjectRequest;
 use App\Models\ClientAccount;
 use App\Models\Project;
 use App\Models\User;
@@ -114,28 +116,16 @@ class WorkspaceController extends Controller
         return response()->json(['data' => $projects]);
     }
 
-    public function storeProject(Request $request): JsonResponse
-    {
-        Gate::authorize('create', Project::class);
-
-        $validated = $request->validate([
-            'client_account_id' => ['required', 'integer', 'exists:client_accounts,id'],
-            'product_tier' => ['required', 'in:starter,business,custom'],
-            'status' => ['sometimes', 'in:draft,onboarding,active,on_hold,completed,cancelled'],
-            'name' => ['required', 'string', 'max:160'],
-            'objective' => ['nullable', 'string', 'max:4000'],
-            'target_launch_date' => ['nullable', 'date'],
-            'current_stage' => ['sometimes', 'string', 'max:64'],
-            'next_action' => ['nullable', 'string', 'max:4000'],
-            'next_action_owner' => ['nullable', 'in:studio,client'],
-        ]);
+    public function storeProject(
+        StoreApiProjectRequest $request,
+        CreateProject $createProject,
+    ): JsonResponse {
+        $validated = $request->validated();
 
         $clientAccount = ClientAccount::query()->findOrFail($validated['client_account_id']);
         Gate::authorize('view', $clientAccount);
 
-        $project = new Project($validated);
-        $project->created_by = $request->user()->getKey();
-        $project->save();
+        $project = $createProject->handle($validated, $request->user());
 
         return response()->json([
             'data' => $project->load('clientAccount:id,business_name'),
