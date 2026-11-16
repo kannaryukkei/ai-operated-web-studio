@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Workspace\CreateClientAccount;
+use App\Http\Requests\StoreClientAccountRequest;
 use App\Models\ClientAccount;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Builder;
