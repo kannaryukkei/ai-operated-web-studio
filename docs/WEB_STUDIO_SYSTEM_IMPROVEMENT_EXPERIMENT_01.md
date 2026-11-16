@@ -72,3 +72,19 @@ The fixed-input benchmark has now progressed beyond the original Stage 5 prompt-
 **Current result:** Stage 5 PASS WITH CONCERNS; Stage 6 implementation PASS WITH CONCERNS; bounded technical/responsive QA PASS. Final aesthetic distinctiveness remains NOT FINAL because the hero asset is still the 520 × 309 study and the ZACKS rendered comparison is unavailable. Production remains blocked because all inputs are synthetic.
 
 **Resume instruction:** continue from the existing ACFIX benchmark branch and current commit. The next bounded task is to replace only the low-resolution hero concept asset, then rerun the existing browser gate. Do not repeat discovery, regenerate the WRP, redo Stage 5 or recreate the website.
+
+
+## Continuation checkpoint — 2026-11-16, after ACFIX run #65
+
+The work resumed from the existing benchmark and preserved all later commits already present on the experiment branch. No discovery, WRP, Stage 5, or website rebuild was repeated.
+
+- ACFIX branch was found at `5b1a1b23868c25addd6cc694983cc11c2523fc25`, ahead of the previously recorded `43e12ad` checkpoint.
+- Latest CI run #65 passed both static acceptance and browser audit: [#43797592340](https://github.com/kannaryukkei/web-studio-experiment-04-acfix-studio/actions/runs/43797592340).
+- Run #64's browser failure was traced to an assertion expecting wheel/trackpad scrolling at 320px. The next commit revised the test to verify Home/End keyboard reachability; run #65 passed. Physical touch-device behavior is still unverified.
+- Run #65 screenshots were inspected at desktop 1440px and mobile 390px. No obvious new responsive regression was observed in those captures.
+- A higher-resolution synthetic hero candidate (960 × 640 WebP) has been prepared locally but has **not** been committed. The live benchmark still uses the prior 520 × 309 image, so the asset-quality gate remains open.
+- ACFIX's rendered review was updated with the latest branch head, CI evidence, artifact inspection, failed intermediate run and exact remaining work.
+
+**Current status:** Stage 5 PASS WITH CONCERNS; Stage 6 implementation PASS WITH CONCERNS; latest bounded technical/responsive QA PASS. Hero asset replacement and final aesthetic distinctiveness remain pending. Production remains blocked because the benchmark inputs are synthetic.
+
+**Resume from:** ACFIX `benchmark/full-input-v1-home-comfort` at the latest source head. Next task is a verified binary-asset transfer, followed by the existing quality gate and screenshot review. Do not redo discovery, WRP, design exploration or the website.
