@@ -8,24 +8,27 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
+/**
+ * @property int $schema_version
+ * @property array<string, mixed> $payload
+ * @property Carbon|null $submitted_at
+ */
 #[Fillable([
     'project_id',
     'submitted_by',
     'version',
+    'schema_version',
     'payload',
     'status',
     'submitted_at',
 ])]
-/**
- * @property array<string, mixed> $payload
- * @property Carbon|null $submitted_at
- */
 class ProjectIntake extends Model
 {
     protected function casts(): array
     {
         return [
             'version' => 'integer',
+            'schema_version' => 'integer',
             'payload' => 'array',
             'submitted_at' => 'datetime',
         ];
