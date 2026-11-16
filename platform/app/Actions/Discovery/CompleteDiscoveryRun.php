@@ -25,7 +25,7 @@ class CompleteDiscoveryRun
 
             abort_unless($lockedRun->project_id === $project->getKey(), 404);
 
-            if (! $lockedRun->status->isActive()) {
+            if (!$lockedRun->status->isActive()) {
                 throw ValidationException::withMessages([
                     'result_json' => 'This discovery run is no longer active. Start a new run to continue.',
                 ]);
