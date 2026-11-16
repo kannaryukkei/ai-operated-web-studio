@@ -28,6 +28,8 @@ docs only when the task needs them. Do not read all of docs/.
 | Intake | CLIENT_MATERIAL_INGESTION_PROTOCOL v1.0, current | None |
 | Starter gates | STARTER_AUTOMATED_QUALITY_GATE v1.0, STARTER_CONTENT_EVIDENCE_GATE v1.0 | None |
 | Calibration | MASTER_SKILL_CALIBRATION_PROTOCOL v1.0, EXPERIMENT_CALIBRATION_RECORD_TEMPLATE v1.0 | Calibration records dated 2026-11-15 and 2026-11-16 are point-in-time evidence, not living specs |
+| Media pipeline | MEDIA_AND_ASSET_PIPELINE v1.0 and MEDIA_IMPORT_AUTOMATION v1.0 are candidates for Starter; local media inbox + specialist skill integrated by PR #17 (2026-11-16, commit `533854c`) | None |
+| Experiment 05 calibration | `docs/pilot-learnings/EXPERIMENT_05_STARPOINT_GARAGE_CALIBRATION_2026-11-16.md` — preliminary standalone baseline finding | NOT YET PROVEN; not yet an operating rule |
 | Platform baseline | product-brief, architecture, mvp-specification, data-model, security-and-approvals, ai-orchestration, manual-ai-workflow, roadmap, local-bootstrap | local-bootstrap needs correction: no paid credentials, PHPUnit not Pest |
 | Skills | skills/README.md, skills/registry.md | None |
 | Decisions and learnings | BLUEPRINT_MIGRATION_DECISION (provenance reference) | FOUR_PILOT_RETROSPECTIVE, EXPERIMENT_03_SYSTEM_LEARNINGS, RESTRUCTURE_EXECUTION_PLAN, MASTER_REVISION_EXECUTION_LOG: records, not operating instructions |
@@ -37,9 +39,13 @@ Experiment 01 and 02 are full clones of the studio repo: do not edit
 them, do not copy docs or platform code from them. They are to be archived.
 Experiment 03 work lives on its experiment branch. Experiment 04 folder
 pattern (01 to 08) is the template for new experiments. Experiment 05 is
-in progress. New experiments contain only artifacts plus the Master
-baseline commit SHA. Never copy platform/ or docs/ into an experiment repo.
+in progress. Its current Star Point website is a local standalone preview,
+not a committed experiment website or a full Master/Starter workflow run.
+Its calibration remains NOT YET PROVEN. New experiments contain only
+artifacts plus the Master baseline commit SHA. Never copy platform/ or
+docs/ into an experiment repo.
 ## Decisions still needed
 - [ ] Adopt or replace Master Skill v1.11 as canonical.
-- [ ] Decide PR #17 (Starter media pipeline): merge, rework, or close.
+- [x] Integrate PR #17 (Starter media pipeline): merged 2026-11-16 as commit `533854c`.
 - [ ] Decide the single Starter stack for Tranche 3.
+- [ ] Run Experiment 05 through the full Studio/Starter workflow before promoting its conditional offer-variant pattern.
