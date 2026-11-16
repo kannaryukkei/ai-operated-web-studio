@@ -128,8 +128,57 @@ class ProjectIntakeTest extends TestCase
         $this->get(route('projects.intake.show', $project))
             ->assertOk()
             ->assertInertia(fn ($page) => $page
-                ->where('intake.schemaVersion', 1)
+                ->where('intake.schemaVersion', 2)
+                ->where('intake.storedSchemaVersion', 1)
                 ->where('intake.payload.business_overview', 'A local professional service business.'));
+    }
+
+    public function test_new_draft_after_legacy_submission_uses_current_schema_without_mutating_history(): void
+    {
+        $clientOwner = $this->createUser(UserRole::Client);
+        $project = $this->createProject($clientOwner);
+        $studio = $this->createUser(UserRole::StudioOwner);
+        $legacyPayload = $this->validPayload();
+
+        $this->actingAs($studio)
+            ->post(route('projects.intake.submit', $project), [
+                'schema_version' => 1,
+                'payload' => $legacyPayload,
+            ])
+            ->assertRedirect();
+
+        $this->get(route('projects.intake.show', $project))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->where('intake.schemaVersion', 2)
+                ->where('intake.storedSchemaVersion', 1));
+
+        $currentPayload = $this->validPayload();
+        $currentPayload['business_model_summary'] = 'The business sells packages and fulfils booked services.';
+
+        $this->patch(route('projects.intake.save', $project), [
+            'schema_version' => 2,
+            'payload' => $currentPayload,
+        ])->assertRedirect();
+
+        $this->assertDatabaseHas('project_intakes', [
+            'project_id' => $project->getKey(),
+            'version' => 1,
+            'schema_version' => 1,
+            'status' => 'submitted',
+        ]);
+        $this->assertDatabaseHas('project_intakes', [
+            'project_id' => $project->getKey(),
+            'version' => 2,
+            'schema_version' => 2,
+            'status' => 'draft',
+        ]);
+
+        $legacy = ProjectIntake::query()->where('version', 1)->sole();
+        $current = ProjectIntake::query()->where('version', 2)->sole();
+
+        $this->assertSame($legacyPayload, $legacy->payload);
+        $this->assertSame($currentPayload, $current->payload);
     }
 
     public function test_schema_v2_accepts_the_additive_business_model_summary_field(): void
