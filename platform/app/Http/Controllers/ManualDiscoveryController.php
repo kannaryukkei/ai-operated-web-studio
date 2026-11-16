@@ -72,5 +72,4 @@ class ManualDiscoveryController extends Controller
 
         return to_route('projects.discovery.show', $project)->with('success', 'Discovery brief saved successfully.');
     }
-
 }
