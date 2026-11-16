@@ -76,5 +76,4 @@ class ManualDiscoveryController extends Controller
     {
         abort_unless($request->user()?->isStudioStaff(), 403);
     }
-
 }
