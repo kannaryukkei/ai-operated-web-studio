@@ -384,62 +384,62 @@ export default function ProjectIntake({
                                             intake.schemaVersion >= field.schemaVersion,
                                     )
                                     .map((field) => (
-                                    <div
-                                        key={field.key}
-                                        className={
-                                            field.rows
-                                                ? 'space-y-2 md:col-span-2'
-                                                : 'space-y-2'
-                                        }
-                                    >
-                                        <label
-                                            htmlFor={field.key}
-                                            className="text-sm font-medium"
+                                        <div
+                                            key={field.key}
+                                            className={
+                                                field.rows
+                                                    ? 'space-y-2 md:col-span-2'
+                                                    : 'space-y-2'
+                                            }
                                         >
-                                            {field.label}
-                                            {field.required ? ' *' : ''}
-                                        </label>
-                                        {field.type === 'url' ? (
-                                            <Input
-                                                id={field.key}
-                                                type="url"
-                                                disabled={form.processing}
-                                                value={
-                                                    form.data.payload[field.key]
-                                                }
-                                                onChange={(event) =>
-                                                    setField(
-                                                        field.key,
-                                                        event.target.value,
-                                                    )
-                                                }
-                                                placeholder="https://example.com"
-                                            />
-                                        ) : (
-                                            <textarea
-                                                id={field.key}
-                                                rows={field.rows || 2}
-                                                disabled={form.processing}
-                                                value={
-                                                    form.data.payload[field.key]
-                                                }
-                                                onChange={(event) =>
-                                                    setField(
-                                                        field.key,
-                                                        event.target.value,
-                                                    )
-                                                }
-                                                placeholder={field.hint}
-                                                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60"
-                                            />
-                                        )}
-                                        {errors[`payload.${field.key}`] && (
-                                            <p className="text-xs text-destructive">
-                                                {errors[`payload.${field.key}`]}
-                                            </p>
-                                        )}
-                                    </div>
-                                ))}
+                                            <label
+                                                htmlFor={field.key}
+                                                className="text-sm font-medium"
+                                            >
+                                                {field.label}
+                                                {field.required ? ' *' : ''}
+                                            </label>
+                                            {field.type === 'url' ? (
+                                                <Input
+                                                    id={field.key}
+                                                    type="url"
+                                                    disabled={form.processing}
+                                                    value={
+                                                        form.data.payload[field.key]
+                                                    }
+                                                    onChange={(event) =>
+                                                        setField(
+                                                            field.key,
+                                                            event.target.value,
+                                                        )
+                                                    }
+                                                    placeholder="https://example.com"
+                                                />
+                                            ) : (
+                                                <textarea
+                                                    id={field.key}
+                                                    rows={field.rows || 2}
+                                                    disabled={form.processing}
+                                                    value={
+                                                        form.data.payload[field.key]
+                                                    }
+                                                    onChange={(event) =>
+                                                        setField(
+                                                            field.key,
+                                                            event.target.value,
+                                                        )
+                                                    }
+                                                    placeholder={field.hint}
+                                                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60"
+                                                />
+                                            )}
+                                            {errors[`payload.${field.key}`] && (
+                                                <p className="text-xs text-destructive">
+                                                    {errors[`payload.${field.key}`]}
+                                                </p>
+                                            )}
+                                        </div>
+                                    ))}
                             </CardContent>
                         </Card>
                     ))}
