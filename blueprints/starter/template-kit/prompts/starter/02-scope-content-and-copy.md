@@ -14,6 +14,18 @@ Build and maintain:
 
 For each proposed section, state its purpose, visitor question, source-backed content, next action and dependency. Use only sections that help the intended visitor; do not pad the page to reach a target count.
 
+### Conditional offer-variant decision
+
+When discovery shows that customers must choose among variants of the same core offer (for example, vehicle class, size, material, service level or product configuration), determine whether a comparison or selector would materially answer a high-priority customer question.
+
+- Add a comparison or interactive selector only when the source-backed variants are meaningful to the decision. Do not add one merely because a benchmark used it.
+- Map every option to canonical Offer and Fact IDs. Identify the exact dimension, allowed values, inclusions/scope, price or pricing method, exceptions and source/approval status for each option.
+- Distinguish fixed, indicative and quote-based prices. If a value is missing, conflicting or not approved, preserve that state; do not fill the matrix by inference.
+- If the available evidence cannot support a fair comparison, prefer a clear category explanation and consultation path over a misleading price grid.
+- Keep the interaction optional where the visitor can understand the offer without configuring it. Do not increase client interview burden to collect implementation details.
+
+For an approved selector, the WRP must specify the default state, available values, fields that change, treatment of unknown/unavailable values, price disclosure, related CTA context and observable acceptance criteria. The implementation and QA prompts must derive their work from this contract.
+
 ## Stage 4 — Content and conversion
 
 Draft the copy deck, section-level headlines/body/microcopy, FAQ candidates, metadata, CTA Register, form/contact behavior (if in scope), content gaps and safe fallback visuals.

@@ -17,7 +17,10 @@ Review:
 - Video poster/fallback, controls, captions where needed, no sound autoplay and reduced-motion behavior; animation licence and reduced-motion fallback.
 - Desktop/tablet/mobile rendering, overflow, hierarchy, density, image crops and responsive navigation.
 - Links, CTAs, forms, interactions, keyboard/focus, semantics, accessibility and reduced motion.
+- Every WRP-approved offer comparison/selector: initial/default state, every available option, selected label and price/scope, indicative-vs-fixed-vs-quote disclosure, related CTA context, and unknown/unavailable states. Confirm that all displayed values map to canonical Offer/Fact records and that no missing price or service detail was inferred.
 - Build, automated tests, console/network failures, metadata, asset loading and actual transfer size/performance (when measurable), third-party requests/hotlinks, privacy/security risks and unnecessary dependencies where relevant.
+
+For each approved offer selector, exercise all selectable states and the default/unknown state at desktop and mobile sizes; record the chosen state and dependent CTA behavior. A passing representative state does not prove all options.
 
 Capture actual browser screenshots for any visual-review claim. **Capture evidence before assertions that can abort the viewport/state check**: at minimum the required responsive widths and the key interaction states specified by the WRP. Persist and upload those artifacts even when a later assertion fails (`if: always()` in GitHub Actions); do not place screenshot capture after the assertions it is meant to evidence. Record the tested branch/commit, viewport, state, command, output and limitation. A build pass is not visual QA; a screenshot is not proof of code quality. Distinguish fresh independent review from self-review. Any unavailable browser/viewport/state remains `NOT_TESTED`.
 
