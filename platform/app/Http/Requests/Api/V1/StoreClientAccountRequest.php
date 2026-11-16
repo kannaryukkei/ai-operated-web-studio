@@ -6,6 +6,7 @@ use App\Http\Requests\StoreClientAccountRequest as BaseStoreClientAccountRequest
 
 class StoreClientAccountRequest extends BaseStoreClientAccountRequest
 {
+    /** @return array<string, list<string>> */
     public function rules(): array
     {
         return [
