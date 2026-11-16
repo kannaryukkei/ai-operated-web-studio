@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Actions\Discovery\CompleteDiscoveryRun;
 use App\Enums\DiscoveryRunStatus;
 use App\Enums\UserRole;
 use App\Models\ClientAccount;
@@ -9,6 +10,8 @@ use App\Models\DiscoveryRun;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\TestCase;
 
 class ManualDiscoveryWorkflowTest extends TestCase
@@ -127,7 +130,10 @@ class ManualDiscoveryWorkflowTest extends TestCase
                 'result_json' => json_encode($incomplete, JSON_THROW_ON_ERROR),
             ])->assertSessionHasErrors('result_json');
 
-        $this->assertSame(DiscoveryRunStatus::Processing, $run->fresh()->status);
+        $run->refresh();
+        $this->assertSame(DiscoveryRunStatus::Processing, $run->status);
+        $this->assertNull($run->result);
+        $this->assertNull($run->completed_at);
     }
 
     public function test_discovery_rejects_results_without_fact_and_cta_provenance(): void
@@ -222,6 +228,74 @@ class ManualDiscoveryWorkflowTest extends TestCase
         ])->assertNotFound();
 
         $this->assertSame(DiscoveryRunStatus::Processing, $run->fresh()->status);
+    }
+
+    public function test_a_completed_run_cannot_be_overwritten_by_a_repeated_completion_action(): void
+    {
+        $studio = $this->createUser(UserRole::StudioOwner);
+        $project = $this->createProject($studio);
+        $this->createSubmittedIntake($project);
+
+        $this->actingAs($studio)->post(route('projects.discovery.start', $project));
+        $run = DiscoveryRun::query()->sole();
+        $originalResult = ['recommended_tier' => 'business'];
+        $completedAt = now()->subMinute();
+        $run->update([
+            'result' => $originalResult,
+            'status' => DiscoveryRunStatus::Completed,
+            'completed_at' => $completedAt,
+        ]);
+
+        try {
+            app(CompleteDiscoveryRun::class)->handle(
+                $project,
+                $run,
+                json_encode($this->validResult(), JSON_THROW_ON_ERROR),
+            );
+            $this->fail('A completed run must not accept another completion.');
+        } catch (ValidationException $exception) {
+            $this->assertSame(
+                'This discovery run is no longer active. Start a new run to continue.',
+                $exception->errors()['result_json'][0],
+            );
+        }
+
+        $run->refresh();
+        $this->assertSame($originalResult, $run->result);
+        $this->assertSame(DiscoveryRunStatus::Completed, $run->status);
+        $this->assertSame(
+            $completedAt->format('Y-m-d H:i:s'),
+            $run->completed_at?->format('Y-m-d H:i:s'),
+        );
+    }
+
+    public function test_completion_action_rechecks_project_ownership(): void
+    {
+        $studio = $this->createUser(UserRole::StudioOwner);
+        $project = $this->createProject($studio, 'Run project');
+        $otherProject = $this->createProject($studio, 'Other project');
+        $this->createSubmittedIntake($project);
+
+        $this->actingAs($studio)->post(route('projects.discovery.start', $project));
+        $run = DiscoveryRun::query()->sole();
+        $originalStatus = $run->status;
+        $originalResult = $run->result;
+
+        try {
+            app(CompleteDiscoveryRun::class)->handle(
+                $otherProject,
+                $run,
+                json_encode($this->validResult(), JSON_THROW_ON_ERROR),
+            );
+            $this->fail('A run cannot be completed for a different project.');
+        } catch (HttpException $exception) {
+            $this->assertSame(404, $exception->getStatusCode());
+        }
+
+        $run->refresh();
+        $this->assertSame($originalStatus, $run->status);
+        $this->assertSame($originalResult, $run->result);
+        $this->assertNull($run->completed_at);
     }
 
     private function createUser(UserRole $role): User
