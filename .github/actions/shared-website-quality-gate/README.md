@@ -42,6 +42,14 @@ The runner starts the supplied preview command in the website root and waits for
 
 The rendered page is checked at 390px, 768px, and 1440px viewports. The runner captures screenshots and checks responsive overflow, configured typography floors, and text contrast. Photo, gradient, and other unresolved visual surfaces can be marked for manual review instead of receiving an invented contrast measurement.
 
+### Visual review evidence
+
+In addition to the existing full-page screenshots, every run captures viewport-only screenshots at 390px (mobile), 768px (tablet), and 1440px (desktop). The viewport captures preserve a 100%-scale view of the initial page viewport for detailed review.
+
+For section-level evidence, the runner captures the first viewport of up to 12 sections at mobile and desktop widths. It prefers explicit `main [data-qa-visual-section]` markers when present; otherwise it uses direct semantic `main > section` elements. The report records the selection strategy, number found, number captured, and any omitted sections. Sites without semantic sections still receive all page-level screenshots and are reported as `NO_SEMANTIC_SECTIONS`.
+
+The additional captures are review evidence, not a visual score or an automatic design verdict. They do not replace the Master Skill's AI/human section-by-section critique, interactive-state checks, reference comparison, or owner approval.
+
 ## Evidence manifest
 
 The default manifest is `.website-quality/evidence-manifest.json` under the website root. It records the approved evidence used to support proof-like claims detected in the rendered page. The manifest schema and matching rules are implemented in [lib.mjs](./lib.mjs); keep the manifest's human review requirement enabled. An empty manifest is valid when the page makes no detected proof claims. Any detected claim must match the required verified evidence and approval record to pass as publishable proof. The runner reports human review requirements separately.
@@ -52,8 +60,13 @@ The configured artifacts directory receives:
 
 - `screenshots/initial-mobile-390.png`
 - `screenshots/initial-tablet-768.png`
-- `screenshots/initial-desktop-1440.png`
-- `report.json`
+- `screenshots/initial-desktop-1440.png` (full-page)
+- `screenshots/viewport-mobile-390.png`
+- `screenshots/viewport-tablet-768.png`
+- `screenshots/viewport-desktop-1440.png`
+- `screenshots/sections/mobile-390/*.png` (up to 12 section-start viewport captures)
+- `screenshots/sections/desktop-1440/*.png` (up to 12 section-start viewport captures)
+- `report.json` (including `visualEvidence`)
 - `diagnostics.log`
 
 The action uploads the artifact directory with `if: always()`, so available diagnostics are retained after a gate failure. A failed check causes the runner to exit nonzero; setup or preview startup failures can also fail the action.
