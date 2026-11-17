@@ -22,7 +22,7 @@ async function approve(r,s,id,decision){
  const g=contract.gates.find(x=>x.id===id),bindings=[];
  for(const x of g.artifact_ids){let a=s.artifacts.filter(y=>y.artifact_id===x).at(-1);if(!a)a=await add(r,s,x);bindings.push({artifact_id:x,version:a.version,sha256:a.sha256});}
  s.approvals=s.approvals.filter(x=>x.gate_id!==id);
- s.approvals.push({approval_id:'APR-'+id,gate_id:id,decision:decision??g.allowed_decisions[0],subject:'Test '+id,artifact_bindings:bindings,approvers:g.required_roles.map(role=>({role,person:'Test '+role,decision:'APPROVED',decided_at:'2026-11-18T10:30:00Z',evidence_reference:'test://'+id+'/'+role})),recorded_at:'2026-11-18T10:31:00Z'});
+ s.approvals.push({approval_id:'APR-'+id,gate_id:id,decision:decision??g.allowed_decisions[0],subject:'Test '+id,artifact_bindings:bindings,approvers:g.required_roles.map(role=>({role,person:'Test '+role,decision:'APPROVED',decided_at:'2026-11-18T10:30:00Z',evidence_reference:'test://'+id+'/'+role,identity_source:'self_declared'})),recorded_at:'2026-11-18T10:31:00Z'});
 }
 async function progress(r,s,n){for(let i=0;i<=n;i++){await stage(r,s,i);if(i===2)await approve(r,s,'G1');if(i===4)await approve(r,s,'G2');if(i===5)await approve(r,s,'G3');}await approve(r,s,'G0',s.delivery_mode==='preview_only'?'CONDITIONAL_PREVIEW':'APPROVED');}
 const evaluate=(r,s)=>evaluateProject({contract,state:s,projectRoot:r});
@@ -157,14 +157,19 @@ test('path traversal and symlink escapes are rejected',async t=>{
 test('new WRP version invalidates prior G2 approval',async t=>{
  const r=await root();t.after(()=>rm(r,{recursive:true,force:true}));
  const s=state();await progress(r,s,4);await add(r,s,'website-requirements-pack','2.0','# revised');
- assert.ok((await evaluate(r,s)).issues.some(x=>x.code==='STALE_APPROVAL'&&x.gate_id==='G2'));
+ const evaluation=await evaluate(r,s);
+ assert.equal(evaluation.ok,true);
+ assert.equal(evaluation.gates.find(x=>x.gate_id==='G2').status,'STALE');
 });
-test('missing human approval role invalidates G0',async t=>{
+test('missing human approval role leaves G0 pending',async t=>{
  const r=await root();t.after(()=>rm(r,{recursive:true,force:true}));
  const s=state();await stage(r,s,0);const g=contract.gates[0];
  const bindings=g.artifact_ids.map(id=>{const a=s.artifacts.find(x=>x.artifact_id===id);return {artifact_id:id,version:a.version,sha256:a.sha256};});
- s.approvals.push({approval_id:'APR-G0',gate_id:'G0',decision:'APPROVED',subject:'Incomplete',artifact_bindings:bindings,approvers:[{role:'studio_owner',person:'Owner',decision:'APPROVED',decided_at:'2026-11-18T10:30:00Z',evidence_reference:'test://owner'}],recorded_at:'2026-11-18T10:31:00Z'});
- assert.ok((await evaluate(r,s)).issues.some(x=>x.code==='REQUIRED_APPROVER_MISSING'));
+ s.approvals.push({approval_id:'APR-G0',gate_id:'G0',decision:'APPROVED',subject:'Incomplete',artifact_bindings:bindings,approvers:[{role:'studio_owner',person:'Owner',decision:'APPROVED',decided_at:'2026-11-18T10:30:00Z',evidence_reference:'test://owner',identity_source:'self_declared'}],recorded_at:'2026-11-18T10:31:00Z'});
+ const evaluation=await evaluate(r,s);
+ assert.equal(evaluation.ok,true);
+ assert.equal(evaluation.gates.find(x=>x.gate_id==='G0').status,'PENDING');
+ assert.deepEqual(evaluation.gates.find(x=>x.gate_id==='G0').pending_roles,['client_business_owner']);
 });
 test('unknown gate IDs in approval records are rejected',async t=>{
  const r=await root();t.after(()=>rm(r,{recursive:true,force:true}));
@@ -209,16 +214,17 @@ test('approval operations reject duplicate roles and roles not required by a gat
 test('a changed bound artifact makes an approval stale and starts a fresh approval round',async t=>{
  const r=await root();t.after(()=>rm(r,{recursive:true,force:true}));
  const initialized=await initializeProject({rootPath:r,projectId:'PROJECT-001',deliveryMode:'preview_only'},contract);
- const s=initialized.state;await stage(r,s,0);
+ const s=initialized.state;
+ for(const id of contract.gates.find(x=>x.id==='G0').artifact_ids)await add(r,s,id);
  await writeFile(path.join(r,'.studio/project-state.json'),JSON.stringify(s,null,2)+'\n');
  const common={rootPath:r,gateId:'G0',gateDecision:'CONDITIONAL_PREVIEW',subject:'Stage 0 approval'};
  await recordApproval({...common,role:'studio_owner',person:'Owner',evidenceReference:'evidence://owner'},contract);
  await recordApproval({...common,role:'client_business_owner',person:'Client',evidenceReference:'evidence://client'},contract);
  const previousId=JSON.parse(await readFile(path.join(r,'.studio/project-state.json'),'utf8')).approvals[0].approval_id;
- const revisedState=JSON.parse(await readFile(path.join(r,'.studio/project-state.json'),'utf8'));
- await add(r,revisedState,'source-register','2.0','# updated source register');
- await writeFile(path.join(r,'.studio/project-state.json'),JSON.stringify(revisedState,null,2)+'\n');
- const stale=await evaluate(r,s);
+ await mkdir(path.join(r,'drafts'),{recursive:true});
+ await writeFile(path.join(r,'drafts/source-register-v2.md'),'# updated source register\n');
+ await submitArtifact({rootPath:r,artifactId:'source-register',filePath:'drafts/source-register-v2.md'},contract);
+ const stale=await evaluate(r,JSON.parse(await readFile(path.join(r,'.studio/project-state.json'),'utf8')));
  assert.equal(stale.ok,true);
  assert.equal(stale.gates.find(x=>x.gate_id==='G0').status,'STALE');
  const restarted=await recordApproval({...common,role:'studio_owner',person:'Owner',evidenceReference:'evidence://owner-v2'},contract);
@@ -228,7 +234,8 @@ test('a changed bound artifact makes an approval stale and starts a fresh approv
  assert.notEqual(saved.approvals[0].approval_id,previousId);
  assert.ok(saved.events.some(x=>x.event_type==='APPROVAL_ROUND_RESET'&&x.previous_approval_id===previousId));
  await recordApproval({...common,role:'client_business_owner',person:'Client',evidenceReference:'evidence://client-v2'},contract);
- assert.equal((await evaluate(r,JSON.parse(await readFile(path.join(r,'.studio/project-state.json'),'utf8')))).gates.find(x=>x.gate_id==='G0').status,'PASSED');
+ const finalState=JSON.parse(await readFile(path.join(r,'.studio/project-state.json'),'utf8'));
+ assert.equal((await evaluate(r,finalState)).gates.find(x=>x.gate_id==='G0').status,'PASSED');
 });
 
 test('GitHub inbox adapter initializes projects and snapshots submitted artifacts without a local terminal',async t=>{
