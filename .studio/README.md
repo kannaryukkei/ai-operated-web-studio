@@ -38,6 +38,8 @@ Local CLI identities are self-declared labels, not authentication. Use the GitHu
 
 The adapter lets an AI conversation create files in a client's GitHub repository; GitHub Actions then snapshots artifacts, calculates SHA-256, records events and commits the manifest. It requires no local terminal, API key, Laravel service or paid model API. It does require GitHub Actions and write permission on the client repository.
 
+Install the adapter workflow in the client repository's default branch first, without an inbox request in that same bootstrap commit. After the workflow is present on the default branch, create the initialization request and later inbox submissions on the permitted project working branch. This keeps the automation available for subsequent pushes.
+
 Install the adapter into a separate client repository by copying:
 - .studio/workflow.contract.json
 - .studio/project-state.schema.json

@@ -293,3 +293,27 @@ test('GitHub inbox adapter leaves an approval request untouched when the actor i
  await assert.rejects(()=>processGithubInbox({rootPath:r,actor:'unlisted-user',contract}),/not configured as an approver/);
  assert.equal((await stat(request)).isFile(),true);
 });
+
+
+test('one GitHub account cannot satisfy two required approval roles',async t=>{
+ const r=await root();t.after(()=>rm(r,{recursive:true,force:true}));
+ const initialized=await initializeProject({rootPath:r,projectId:'PROJECT-001',deliveryMode:'preview_only'},contract);
+ const projectState=initialized.state;
+ for(const id of contract.gates.find(x=>x.id==='G0').artifact_ids)await add(r,projectState,id);
+ await writeFile(path.join(r,'.studio/project-state.json'),JSON.stringify(projectState,null,2)+'\n');
+ const common={rootPath:r,gateId:'G0',gateDecision:'CONDITIONAL_PREVIEW',person:'same-github-user',actor:'same-github-user',identitySource:'github_actor',githubActor:'same-github-user',authorizedRoles:['studio_owner','client_business_owner'],subject:'Stage 0 approval'};
+ await recordApproval({...common,role:'studio_owner',evidenceReference:'github://same-user/one'},contract);
+ await assert.rejects(()=>recordApproval({...common,role:'client_business_owner',evidenceReference:'github://same-user/two'},contract),/cannot satisfy multiple required roles/);
+});
+
+test('GitHub adapter template and project-state schema are valid JSON and declare least required permissions',async()=>{
+ const schema=JSON.parse(await readFile(path.resolve(here,'../.studio/project-state.schema.json'),'utf8'));
+ const approvers=JSON.parse(await readFile(path.resolve(here,'../.studio/github-native-adapter/approver-roles.template.json'),'utf8'));
+ const workflow=await readFile(path.resolve(here,'../.studio/github-native-adapter/web-studio-operations.yml'),'utf8');
+ assert.ok(schema.properties.events.items.properties.event_type.enum.includes('APPROVAL_RECORDED'));
+ assert.deepEqual(approvers.github_users,{});
+ assert.match(workflow,/contents: write/);
+ assert.match(workflow,/process-github-inbox/);
+ assert.match(workflow,/github\.actor/);
+ assert.doesNotMatch(workflow,/personal access token|PAT/i);
+});

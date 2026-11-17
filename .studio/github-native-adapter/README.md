@@ -14,6 +14,9 @@ Copy these files from the Web Studio source repository into the client project r
 | .studio/github-native-adapter/web-studio-operations.yml | .github/workflows/web-studio-operations.yml |
 | .studio/github-native-adapter/approver-roles.template.json | .studio/approver-roles.json |
 
+
+
+Install and commit the workflow file to the client's default branch first, without a pending inbox request in that bootstrap commit. Once installed, send project initialization and later operations as separate pushes to the selected working branch. Ensure the Actions bot is permitted to push its processed commit to that branch.
 Do not copy .studio/system-repository.json. That marker belongs only in the canonical Web Studio source repository.
 
 Edit .studio/approver-roles.json so the account logins are real GitHub usernames. Example shape:

@@ -235,6 +235,7 @@ function checkApproval(approval, gate, currentArtifacts, validVersions, contract
   if (bindingMap.size !== gate.artifact_ids.length) errors.push(issue('UNEXPECTED_APPROVAL_BINDING', gate.id + ' has unrelated or missing bindings.'));
 
   const approvers = new Map();
+  const githubActors = new Set();
   if (!Array.isArray(approval.approvers)) errors.push(issue('MISSING_APPROVERS', gate.id + ' needs an approvers array.'));
   for (const approver of Array.isArray(approval.approvers) ? approval.approvers : []) {
     if (!isObject(approver) || !contract.roles.includes(approver.role) || approvers.has(approver.role)) {
@@ -253,6 +254,10 @@ function checkApproval(approval, gate, currentArtifacts, validVersions, contract
         typeof approver.github_actor !== 'string' || !approver.github_actor.trim() ||
         approver.person !== approver.github_actor
       ) errors.push(issue('INVALID_GITHUB_APPROVER', gate.id + ' GitHub identity binding is incomplete.'));
+      if (githubActors.has(approver.github_actor)) {
+        errors.push(issue('DUPLICATE_GITHUB_APPROVER', gate.id + ' one GitHub account cannot satisfy multiple roles.'));
+      }
+      if (typeof approver.github_actor === 'string') githubActors.add(approver.github_actor);
     } else if (approver.identity_source !== 'self_declared') {
       errors.push(issue('INVALID_APPROVER_IDENTITY_SOURCE', gate.id + ' has an unsupported identity source.'));
     }
@@ -794,6 +799,13 @@ export async function processGithubInbox({
 
   const artifactInbox = '.studio/inbox/artifacts';
   const artifactFolders = await listInboxEntries(root, artifactInbox);
+  artifactFolders.sort((left, right) => {
+    const leftDefinition = contract.artifacts.find(item => item.id === left.name);
+    const rightDefinition = contract.artifacts.find(item => item.id === right.name);
+    const leftStage = contract.stages.find(item => item.id === leftDefinition?.stage_id)?.number ?? Number.MAX_SAFE_INTEGER;
+    const rightStage = contract.stages.find(item => item.id === rightDefinition?.stage_id)?.number ?? Number.MAX_SAFE_INTEGER;
+    return leftStage - rightStage || left.name.localeCompare(right.name);
+  });
   for (const folder of artifactFolders) {
     if (folder.isSymbolicLink() || !folder.isDirectory()) {
       throw new Error(artifactInbox + ' must contain one directory per artifact ID.');
