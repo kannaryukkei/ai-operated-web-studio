@@ -2,7 +2,7 @@
 
 **Version:** 1.1 — Master Revision candidate  
 **Purpose:** Internal project artifacts and reusable client messages for the Starter workflow.  
-**Authority:** Master Skill v1.12 Candidate (owner adoption pending), canonical discovery schema, WRP and Approval & Release Policy.
+**Authority:** Master Skill v1.12 (adopted 2026-11-18), canonical discovery schema, WRP and Approval & Release Policy.
 
 These are studio/operator working templates. The client is not expected to complete a long intake form or write the Client Website Brief. Default client input is one normal interview plus existing assets and optional references; AI/operator produces the normalized records.
 

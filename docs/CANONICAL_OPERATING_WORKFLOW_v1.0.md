@@ -4,7 +4,7 @@
 **Version:** 1.0  
 **Status:** Draft — Master Revision candidate  
 **Last updated:** 2026-11-15  
-**Authority:** Master Skill v1.12 Candidate (owner adoption pending), Master PRD v1.0, Canonical Discovery Data Schema v1.0, Website Requirements Pack v1.0 and Approval & Release Policy v1.0
+**Authority:** Master Skill v1.12 (adopted 2026-11-18), Master PRD v1.0, Canonical Discovery Data Schema v1.0, Website Requirements Pack v1.0 and Approval & Release Policy v1.0
 
 ## 1. Purpose
 
@@ -358,7 +358,7 @@ No row in this table should be described as automated by the platform unless an 
 
 ## 9. Change control
 
-- Master Skill v1.12 Candidate is the current stage-level execution instruction for this revision; owner adoption remains pending.
+- Master Skill v1.12 is the adopted current Stage 0–9 execution authority (Studio owner decision, 2026-11-18).
 - This workflow document defines stage boundaries and responsibility; it does not replace the Master Skill, `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md`, `docs/WEBSITE_REQUIREMENTS_PACK_v1.0.md` or acceptance gates.
 - If the workflow and a specialist skill overlap, Master Skill and registry authority rules decide which instruction is primary.
 - A proposed stage/approval change must update the PRD and this workflow before implementation.

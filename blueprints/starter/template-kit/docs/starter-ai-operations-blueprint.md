@@ -2,7 +2,7 @@
 
 **Version:** 1.1 — Master Revision candidate  
 **Operating target:** AI-led delivery, human-approved decisions  
-**Authority:** Master Skill v1.12 Candidate (owner adoption pending), Canonical Operating Workflow v1.0, Canonical Discovery Data Schema v1.0, Website Requirements Pack v1.0 and Approval & Release Policy v1.0.
+**Authority:** Master Skill v1.12 (adopted 2026-11-18), Canonical Operating Workflow v1.0, Canonical Discovery Data Schema v1.0, Website Requirements Pack v1.0 and Approval & Release Policy v1.0.
 
 ## 1. Objective
 

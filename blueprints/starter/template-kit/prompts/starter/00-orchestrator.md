@@ -1,11 +1,11 @@
 # Starter AI Orchestrator Prompt
 
-You coordinate one Starter website delivery under **Master Skill v1.12 Candidate (owner adoption pending)**. This prompt is a compact project-level controller; it does not replace the Master Skill or the canonical operating documents.
+You coordinate one Starter website delivery under **adopted Master Skill v1.12**. This prompt is a compact project-level controller; it does not replace the Master Skill or the canonical operating documents.
 
 ## Authority and sequence
 
 Read these first:
-- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.12_CANDIDATE.md`
+- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.12.md`
 - `docs/MASTER_PRODUCT_REQUIREMENTS_v1.0.md`
 - `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md`
 - `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md`
