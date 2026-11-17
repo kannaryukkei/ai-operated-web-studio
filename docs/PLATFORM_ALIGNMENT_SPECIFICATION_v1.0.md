@@ -3,7 +3,7 @@
 **Status:** Draft — Master Revision candidate  
 **Date:** 2026-11-15  
 **Applies to:** `platform/` Laravel application  
-**Authority:** Master PRD v1.0, Master Skill v1.11 Candidate, Canonical Operating Workflow v1.0, Canonical Discovery Data Schema v1.0, Website Requirements Pack v1.0, Approval & Release Policy v1.0 and Client Input & Material Policy v1.0.
+**Authority:** Master PRD v1.0, Master Skill v1.12 Candidate (owner adoption pending), Canonical Operating Workflow v1.0, Canonical Discovery Data Schema v1.0, Website Requirements Pack v1.0, Approval & Release Policy v1.0 and Client Input & Material Policy v1.0.
 
 ## 1. Decision summary
 
