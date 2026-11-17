@@ -4,6 +4,7 @@ import path from 'node:path';
 import process from 'node:process';
 import { chromium } from 'playwright';
 import { stopPreview } from './preview-process.mjs';
+import { captureVisualEvidence } from './visual-evidence.mjs';
 import {
   VIEWPORTS, classifyTypographyRole, typographyFloor, contrastFloor, parseCssColor,
   composite, contrastRatio, classifySurface, evaluateContrastSample, detectEvidenceCandidate,
@@ -24,6 +25,7 @@ const report = {
   generatedAt: new Date().toISOString(),
   viewports: [],
   screenshots: [],
+  visualEvidence: { schemaVersion: 1, viewportScreenshots: [], sectionScreenshots: [], sectionCaptureSummaries: [], sectionCaptureLimitPerViewport: 12 },
   typography: { samples: [], failures: [] },
   contrast: { samples: [], failures: [], excludedSurfaces: [], notVisible: 0, manualReviewStatus: 'REQUIRED_WHEN_EXCLUSIONS_EXIST' },
   evidence: { manifest: manifestPath, valid: false, candidates: [], failures: [], humanReviewRequired: true },
@@ -274,6 +276,9 @@ async function main() {
 
   // Keep an initial visual record for all three form factors before any quality assertion runs.
   for (const width of [390, 768, 1440]) await captureSurface(page, width);
+  // Capture viewport- and section-level evidence before quality assertions can abort the run.
+  await captureVisualEvidence({ page, url, artifactPath, report, log });
+
   for (const width of VIEWPORTS) {
     await page.setViewportSize({ width, height: width <= 640 ? 844 : 900 });
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30_000 });
