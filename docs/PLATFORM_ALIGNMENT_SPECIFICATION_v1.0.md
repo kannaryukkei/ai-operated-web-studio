@@ -1,9 +1,11 @@
 # Platform Alignment Specification v1.0
 
-**Status:** Draft — Master Revision candidate  
-**Date:** 2026-11-15  
+**Status:** Current implementation-alignment record; Segment 12 DONE (2026-11-16)  
+**Date:** 2026-11-18  
 **Applies to:** `platform/` Laravel application  
 **Authority:** Master PRD v1.0, Master Skill v1.12 (adopted 2026-11-18), Canonical Operating Workflow v1.0, Canonical Discovery Data Schema v1.0, Website Requirements Pack v1.0, Approval & Release Policy v1.0 and Client Input & Material Policy v1.0.
+
+> **Current-state clarification (2026-11-18):** Segment 12 is complete; see §11 for its validation closeout. Project Intake and Manual Discovery are Studio-only. All Project Intake show/save/submit actions enforce the dedicated policy before accessing or changing data; client project lists hide the intake link; the general project-edit policy remains unchanged. Schema v1 accepts 26 intake fields and schema v2 adds optional `business_model_summary` (27 total); exactly five fields are required at submission. Sections 2–2.2 preserve the pre-Segment-12 audit baseline and must not be read as current defects. The current input and workflow rules are in `docs/CLIENT_INPUT_AND_MATERIAL_POLICY_v1.0.md` and `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md`.
 
 ## 1. Decision summary
 
@@ -15,13 +17,13 @@ The current material-first process remains:
 
 No paid model API, AI SDK, hosted agent runtime, multi-file ingestion platform, WRP workflow engine or persisted approval engine is required for the next platform change.
 
-The immediate correction is a security and operating-boundary fix: **Project Intake is an internal Studio snapshot, not a client-facing form.** Every intake endpoint must be restricted server-side to Studio staff. UI link hiding is supplementary, not authorization.
+The completed Segment 12 correction establishes the security and operating boundary: **Project Intake is an internal Studio snapshot, not a client-facing form.** Every intake endpoint is restricted server-side to Studio staff; hiding the project-list link is supplementary and is not treated as authorization.
 
-## 2. Audited baseline
+## 2. Historical audited baseline (before Segment 12)
 
-Audit performed against `revision/master-revision`, platform tree unchanged from the repository baseline at the time of this audit.
+Audit performed against `revision/master-revision`, before the Segment 12 implementation was completed. The table below records the state observed at that time, not the current implementation.
 
-| Area | Current implementation | Finding |
+| Area | Implementation at audit time | Historical finding |
 |---|---|---|
 | Roles | `studio_owner`, `studio_operator`, `client`; `User::isStudioStaff()` covers the two Studio roles | Correct coarse role distinction exists |
 | Project authorization | `ProjectPolicy::view()` permits account members/project members; `update()` permits Studio staff, client-account owners and project owners/editors | Project editing rights are broader than internal-intake rights should be |
@@ -36,19 +38,17 @@ Audit performed against `revision/master-revision`, platform tree unchanged from
 | Approvals/release | G0–G7 policy and approval-log template | Manual artifact-based decisions; no first-class approval model, transition enforcement or release engine |
 | Project dashboard fields | `current_stage`, `next_action`, `next_action_owner`, generic project `status` | Summary fields only; not canonical stage/gate approvals |
 
-### 2.1 Intake authorization defect
+### 2.1 Historical intake authorization defect — resolved in Segment 12
 
-The current controller calls `Gate::authorize('view', $project)` for `show` and `Gate::authorize('update', $project)` for `save` and `submit`. `ProjectPolicy::update()` explicitly permits a client-account owner and project members with `owner` or `editor` roles. The same page serializes the entire 26-field payload to any user who can view the project.
+At the time of the baseline audit, the controller authorized `show` with `Gate::authorize('view', $project)` and authorized `save` and `submit` with `Gate::authorize('update', $project)`. `ProjectPolicy::update()` permitted client-account owners and project members with `owner` or `editor` roles. The intake page could therefore serialize the 26-field payload to project users who could view the project.
 
-The project list also renders “Open intake” without checking `isStudio`.
+The project list at that time also rendered “Open intake” for all visible projects. The baseline `ProjectIntakeTest` permitted a client account owner to save, resume and submit the intake, and permitted an account-member viewer to view it while denying edits.
 
-The current `ProjectIntakeTest` makes the old behavior explicit: it tests that a client account owner can save, resume and submit the intake. The account-member viewer test permits viewing the intake while denying editing. Both expectations must change because the intended input policy now defines the intake as Studio-populated internal material.
+This was not safely fixed by hiding the project-list link alone: direct GET/PATCH/submit requests also needed server-side denial. Segment 12 implemented the dedicated `manageInternalIntake` policy and regression tests; the current implementation is summarized at the top of this document and recorded in §11.
 
-**This is not fixed by hiding the project-list link.** A client could still request the GET/PATCH/submit URL directly. Server-side policy enforcement must deny all client roles, including account owners and project owners/editors.
+### 2.2 Required fields and UI copy — historical baseline, corrected in Segment 12
 
-### 2.2 Required fields
-
-The controller defines exactly five required submission fields:
+At the time of the baseline audit, submission validation required exactly these five fields:
 
 1. `business_overview`
 2. `target_audience`
@@ -56,7 +56,7 @@ The controller defines exactly five required submission fields:
 4. `website_goal`
 5. `primary_conversion`
 
-The UI marks those same five fields required but currently says “Only four core fields are required.” The remaining 21 fields are optional. Keep this legacy bridge validation for now; correct the UI copy to five.
+At the time of the audit, the UI marked the same five fields required but said “Only four core fields are required.” Segment 12 corrected the UI copy. The current schema contract is versioned: v1 has 26 fields (21 optional) and v2 adds optional `business_model_summary` for 27 total (22 optional). Exactly the same five fields remain required for submission in both versions.
 
 ### 2.3 Discovery result is a legacy working summary
 
@@ -71,7 +71,7 @@ The current manual discovery result validator does not represent the full canoni
 
 Therefore, do not describe the current `DiscoveryRun.result` as a canonical discovery packet or WRP. It is a manual AI working summary that helps the operator prepare the detailed, source-linked project artifacts.
 
-## 3. Target access contract
+## 3. Implemented access contract
 
 ### 3.1 Project Intake
 
@@ -86,33 +86,27 @@ Therefore, do not describe the current `DiscoveryRun.result` as a canonical disc
 
 A client may still view the project information that current project authorization intentionally exposes. This specification restricts only the internal Project Intake record; it does not silently redefine all project-level read/update abilities.
 
-### 3.2 Authorization implementation
+### 3.2 Implemented authorization
 
-Add an explicit policy ability on the project, preferably `ProjectPolicy::manageInternalIntake(User $user, Project $project): bool`, returning `$user->isStudioStaff()`. Use it in all three ProjectIntakeController actions:
+The implemented policy ability is `ProjectPolicy::manageInternalIntake(User $user, Project $project): bool`, which returns `$user->isStudioStaff()`.
 
-- `show`: authorize `manageInternalIntake` before fetching/serializing any intake payload.
-- `save`: authorize `manageInternalIntake` before validating or mutating a payload.
-- `submit`: authorize `manageInternalIntake` before validating or mutating a payload.
+All three `ProjectIntakeController` actions — `show`, `save` and `submit` — authorize `manageInternalIntake` before fetching, serializing, validating or changing intake data. `ProjectPolicy::update()` remains unchanged and continues to govern ordinary project editing; it does not grant access to internal intake.
 
-Do not reuse `ProjectPolicy::update()` for internal intake. That method continues to govern ordinary project editing and must not be narrowed accidentally as a side effect.
+`ManualDiscoveryController` uses the same Studio-only authorization for `show`, `start` and `complete`, and completion verifies that the submitted run belongs to the route project.
 
-Keep `ManualDiscoveryController` Studio-only. It already calls a Studio-role guard for show/start/complete and verifies that the submitted run belongs to the route project on completion. Retain those protections.
+### 3.3 Implemented UI behavior and copy
 
-### 3.3 UI behavior and copy
-
-- Render “Open intake” in the project list only when `isStudio` is true, alongside the existing Studio-only Discovery workspace link.
-- Rename the intake page heading to make its internal purpose explicit, such as **Internal project intake snapshot**.
-- State clearly that Studio staff populate it from the interview and supplied material; it is not a client questionnaire and clients should not be sent this route.
-- Explain the page as an interim summary bridge, not the canonical Client Website Brief or source-provenance record.
-- Correct helper text to **“Five core fields are required to submit this internal snapshot. The other 21 fields are optional.”**
-- Keep visible required markers aligned with the five controller rules. Do not make additional fields mandatory merely to imitate the canonical schema.
-- Because only Studio staff can enter this page, the `canEdit` prop may be removed or simplified. Do not treat a disabled button as a security control.
+- The project list renders “Open intake” and “Discovery workspace” only when `isStudio` is true.
+- The intake page is titled **Internal project intake snapshot** and explains that Studio staff populate the interim summary from the interview and supplied business materials.
+- The page says it is not a client questionnaire or the canonical Client Website Brief.
+- The five required fields are visibly marked. The helper text says five core fields are required, additional details are optional, and schema v2 adds a business-model summary.
+- The server-side policy remains the authorization control; UI link hiding or button state is not relied on for security.
 
 ## 4. Data and workflow boundaries
 
 ### 4.1 Keep Project Intake as a small internal bridge
 
-For this revision, retain the existing 26-field payload, versioning, draft-save behavior, submission timestamp and submitted-by metadata. The operator derives this compact snapshot from the material packet.
+Retain the versioned payloads and their existing draft-save behavior, submission timestamp and submitted-by metadata: schema v1 has 26 fields; schema v2 adds optional `business_model_summary` for 27 total. Exactly five fields are required at submission; the remaining 21 (v1) or 22 (v2) are optional. The operator derives this compact snapshot from the material packet.
 
 The snapshot must not replace:
 - the preserved raw interview/transcript and client-supplied files;
@@ -136,9 +130,9 @@ Keep the existing workflow:
 
 Do not add provider credentials, background model calls, automatic AI orchestration, retry queues, MCP dependencies or paid APIs.
 
-### 4.3 Minimal discovery validator alignment
+### 4.3 Implemented discovery validator alignment
 
-In the platform implementation segment, align the overlapping status values in the existing working-summary contract with canonical values, without pretending to implement the entire canonical record schema:
+Segment 12 aligned the overlapping status values in the existing working-summary contract with the canonical values below. This remains a working summary rather than the full canonical record schema:
 
 - Evidence status: `VERIFIED`, `CLIENT-PROVIDED-UNVERIFIED`, `DEMO-ONLY`, `ASSUMPTION`, `MISSING`, `CONFLICT`.
 - Publication status: `APPROVED`, `PENDING`, `NOT_APPROVED`.
@@ -148,7 +142,7 @@ In the platform implementation segment, align the overlapping status values in t
 - CTA destination status: `APPROVED_REAL_DESTINATION`, `NOT_CONFIGURED`, `NEEDS_APPROVAL`, `DEMO_ONLY`.
 - Milestone priority: `PREVIEW_BLOCKER`, `PRODUCTION_BLOCKER`, `OPTIONAL_GAP`.
 
-Do not accept `APPROVED-FOR-PUBLICATION` as evidence, or use `CLIENT_PROVIDED_UNVERIFIED`, `MISSING` or `DEMO_ONLY` as an asset permission decision. Use the canonical schema's explicit alias mapping when reading any existing legacy records. Update the prompt, validation rules, result TypeScript types/rendering and feature fixtures together.
+Do not reintroduce `APPROVED-FOR-PUBLICATION` as evidence, or use `CLIENT_PROVIDED_UNVERIFIED`, `MISSING` or `DEMO_ONLY` as an asset permission decision. Preserve explicit alias handling for any existing legacy records. Any future enum change must be coordinated across the prompt, validation rules, result TypeScript types/rendering and feature fixtures.
 
 The working summary still does **not** become the complete canonical packet: stable record IDs, locators, full source coverage, all approval references and post-QA `page_coverage[]` remain project artifacts/manual records for now. Do not report full canonical schema persistence as implemented.
 
@@ -164,14 +158,14 @@ No new approval table, approval engine, workflow engine or release automation is
 
 A persisted approval model may be reconsidered only after real projects show that versioned approval records are too difficult to operate or audit manually. It is not a Segment 12 requirement.
 
-## 6. Segment 12 implementation scope
+## 6. Original Segment 12 implementation scope (completed)
 
 ### MUST
 
 1. Add Studio-only `manageInternalIntake` authorization and enforce it in show/save/submit.
 2. Remove client access to intake data, including account owners and project members with owner/editor roles.
 3. Hide “Open intake” from client project lists while preserving the direct-route server-side denial.
-4. Change page copy to explicitly describe an internal snapshot and correct five-required/21-optional helper text.
+4. Change page copy to describe an internal snapshot and explain five required fields plus version-aware optional details.
 5. Preserve current versioned draft/submitted snapshot behavior.
 6. Align the overlapping DiscoveryRun working-summary status enums and prompt/TypeScript/UI/fixtures as defined in §4.3.
 7. Update/add feature tests proving both access denials and Studio access.
@@ -193,7 +187,7 @@ A persisted approval model may be reconsidered only after real projects show tha
 - Paid API/provider SDK, autonomous agents or new infrastructure.
 - Business/Custom implementation.
 
-## 7. Acceptance criteria for Segment 12
+## 7. Segment 12 acceptance criteria and completion record
 
 ### Internal intake access
 
@@ -202,16 +196,16 @@ A persisted approval model may be reconsidered only after real projects show tha
 - [x] Client account owner receives 403 from GET, PATCH and submit.
 - [x] Client account admin/member receives 403 from GET, PATCH and submit.
 - [x] Project owner/editor/viewer with client role receives 403 from GET, PATCH and submit.
-- [x] Unauthorized responses never include the stored 26-field payload.
+- [x] Unauthorized responses never include stored intake payloads (schema v1 or v2).
 - [x] Project list displays “Open intake” only to Studio staff.
 - [x] Direct URL access remains denied even when the link is hidden.
 
 ### Validation and versioning
 
-- [x] Exactly the five named fields are required at submit; all 21 other fields remain optional.
+- [x] Exactly the five named fields are required at submit; 21 optional for schema v1 and 22 optional for schema v2.
 - [x] Draft save continues to allow partial/empty optional fields.
 - [x] Submitted intake version is immutable; subsequent Studio edits create a new draft version.
-- [x] Payload keys remain restricted to the defined 26 fields.
+- [x] Payload keys remain restricted to the selected schema version's field set (26 in v1; 27 in v2).
 
 ### Discovery
 

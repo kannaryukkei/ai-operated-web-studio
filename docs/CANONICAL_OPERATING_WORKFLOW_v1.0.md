@@ -2,8 +2,8 @@
 
 **Document ID:** AWOS-WF-001  
 **Version:** 1.0  
-**Status:** Draft — Master Revision candidate  
-**Last updated:** 2026-11-15  
+**Status:** Draft — current working version; not separately owner-adopted  
+**Last updated:** 2026-11-18  
 **Authority:** Master Skill v1.12 (adopted 2026-11-18), Master PRD v1.0, Canonical Discovery Data Schema v1.0, Website Requirements Pack v1.0 and Approval & Release Policy v1.0
 
 ## 1. Purpose
@@ -91,7 +91,7 @@ A private preview may be produced before all production blockers are cleared, bu
 
 **Exit gate:** all material sources are accounted for; facts are traceable or explicitly unresolved; unknown rights remain pending; no material conflict is silently resolved; raw source files remain unchanged.
 
-**Current implementation:** the protocol and policy define the method; the operator handles storage, transcription availability, source indexing and material handoff manually. The platform does not implement full private file ingestion or canonical provenance storage. Its 26-field intake is an interim bridge (five required controller fields, 21 optional) and remains client-editable for authorized account owners/project editors today; this is a known mismatch. The intended policy is operator-populated, studio-only use. `docs/PLATFORM_ALIGNMENT_SPECIFICATION_v1.0.md` records the audited correction; Segment 12 must implement and test the server-side/UI restriction.
+**Current implementation:** the protocol and policy define the method; raw packet storage, transcription availability, source indexing and handoff to external AI remain manual. The platform does not implement full private file ingestion or canonical provenance storage. Its versioned Project Intake is an internal Studio-only summary bridge: schema v1 has 26 fields, while schema v2 adds the optional `business_model_summary` field for 27 total; exactly five fields are required at submission, with the remaining 21 (v1) or 22 (v2) optional. `ProjectPolicy::manageInternalIntake()` restricts intake view/save/submit and manual discovery to Studio staff, and the client project list does not expose the intake link. The intake remains a lossy summary, not the source of truth or canonical provenance store. See `docs/CLIENT_INPUT_AND_MATERIAL_POLICY_v1.0.md` and the Segment 12 closeout in `docs/PLATFORM_ALIGNMENT_SPECIFICATION_v1.0.md`.
 
 ### Stage 1 — Business intelligence
 

@@ -2,8 +2,8 @@
 
 **Document ID:** AWOS-INPUT-001  
 **Version:** 1.0  
-**Status:** Draft — Master Revision candidate  
-**Last updated:** 2026-11-15  
+**Status:** Draft — current working version; not separately owner-adopted  
+**Last updated:** 2026-11-18  
 **Authority:** Derived from Master PRD v1.0 and Canonical Operating Workflow v1.0
 
 ## 1. Purpose
@@ -29,7 +29,7 @@ The client is not expected to:
 - define technical features or implementation details;
 - fill the Client Website Brief;
 - repeat information already present in the interview or supplied assets;
-- complete the existing 26-field platform intake as a second mandatory brief.
+- complete the versioned platform Project Intake as a second mandatory brief.
 
 ## 3. Source authority and provenance
 
@@ -64,13 +64,14 @@ No paid model API, API key, automatic transcription service or new upload portal
 
 ## 5. Existing platform intake — internal bridge, not canonical client input
 
-The current Laravel Project Intake is a **26-field structured snapshot** used by the platform's versioned intake and manual discovery handoff. It is not the source of truth for client facts, not the canonical Client Brief, and not the required client input method.
+The current Laravel Project Intake is a versioned internal snapshot used by the platform's intake and manual discovery handoff: schema v1 contains 26 fields and schema v2 contains 27 after adding the optional `business_model_summary` field. It is not the source of truth for client facts, not the canonical Client Brief, and not the required client input method.
 
 ### 5.1 Field inventory
 
 | Group | Fields | Use |
 |---|---|---|
 | Business profile and audience | `business_overview`, `industry`, `location`, `target_audience` | Concise internal summary of the business, category, operating location and audience |
+| Business model (schema v2) | `business_model_summary` | Optional summary of how the business earns revenue and delivers its offer; added in schema v2 |
 | Offers and customer understanding | `products_services`, `offer_details`, `customer_questions`, `customer_objections`, `purchase_process`, `operational_policies`, `trust_evidence`, `aftercare_support`, `differentiators` | Summary of offers, decision questions, objections, operations and supported trust context |
 | Website objective and conversion | `website_goal`, `primary_conversion`, `public_contact_details`, `success_metrics` | Desired outcome, intended visitor action, approved public destinations and measurement intent |
 | Website references and constraints | `current_website`, `competitor_references`, `brand_direction`, `required_pages`, `required_features`, `constraints` | Context and initial client preferences; suggestions are not binding requirements until qualified |
@@ -78,7 +79,12 @@ The current Laravel Project Intake is a **26-field structured snapshot** used by
 
 ### 5.2 Current validation behavior
 
-The current `ProjectIntakeController` permits 26 known fields. On submission it technically requires exactly these five strings:
+The current `ProjectIntakeSchema` supports two payload versions:
+
+- **Schema v1:** 26 fields (the legacy field set).
+- **Schema v2:** 27 fields; it adds the optional `business_model_summary` field.
+
+On submission, exactly these five strings are required in both versions:
 
 - `business_overview`
 - `target_audience`
@@ -86,21 +92,27 @@ The current `ProjectIntakeController` permits 26 known fields. On submission it 
 - `website_goal`
 - `primary_conversion`
 
-The other 21 fields are optional. The current intake UI incorrectly says "Only four core fields are required." The controller and UI must not be treated as equivalent: the controller enforces five.
+The remaining 21 fields in schema v1 and 22 fields in schema v2 are optional. Draft saves may remain partial. The Studio-only intake UI marks the same five fields as required and explains that additional details are optional and schema v2 adds the business-model summary.
 
-These are interim technical validation rules, not a requirement to ask the client five questions or to force unknown facts into invented answers. The operator should populate the snapshot from the interview and source packet. When a required summary is genuinely unavailable, preserve that state explicitly (for example, `NOT_AVAILABLE — no source supplied` or `NOT_SURE — requires owner clarification`) rather than guessing. The canonical fact/evidence/publication status belongs in the source-linked records, not in free-text shorthand.
+These are interim technical validation rules, not a requirement to ask the client five questions or to force unknown facts into invented answers. The operator populates the internal snapshot from the interview and source packet. When a required summary is genuinely unavailable, preserve that state explicitly (for example, `NOT_AVAILABLE — no source supplied` or `NOT_SURE — requires owner clarification`) rather than guessing. The canonical fact/evidence/publication status belongs in the source-linked records, not in free-text shorthand.
 
-### 5.3 Current access mismatch
+### 5.3 Current access control
 
-The current intake page is still reachable by project users. The controller authorizes project updates through the Project policy; that policy allows studio staff, client-account owners and project members with owner/editor roles to update the project. Consequently, authorized client users can currently edit and submit the structured intake.
+Project Intake is currently an **internal Studio-only snapshot**, not a client-editable form.
 
-This existing behavior conflicts with the intended material-first policy. The code audit and target-state correction are recorded in `docs/PLATFORM_ALIGNMENT_SPECIFICATION_v1.0.md`; until Segment 12 implements the UI and authorization changes, treat the client-editable intake as a legacy implementation, not the desired operating procedure. For new projects, the studio operator should derive the internal snapshot from the interview packet. Do not ask the client to complete the 26-field page as a second mandatory form.
+- `ProjectPolicy::manageInternalIntake()` allows only users for whom `User::isStudioStaff()` is true.
+- `ProjectIntakeController::show()`, `save()` and `submit()` authorize that ability before reading, serializing or changing intake data.
+- The project list renders “Open intake” only when the server-provided `isStudio` flag is true. Hiding the link is supplementary; direct client requests are denied server-side.
+- `ManualDiscoveryController` uses the same Studio-only authorization for discovery view, start and completion.
+- The general `ProjectPolicy::update()` remains unchanged. Client users may retain other project permissions granted by that policy, but those permissions do not grant access to internal intake or discovery.
 
-The later platform change must preserve secure project access and ensure the internal bridge is editable only by authorized studio roles, while the client experience remains a normal interview + material handoff + targeted clarification/approval flow. Do not change access by hiding a link alone; enforce it server-side and test it.
+This is the implemented material-first boundary, not a pending Segment 12 change. The Studio operator derives the internal snapshot from the interview packet and supplied materials. Do not send clients the intake route or ask them to complete its 26/27-field internal form; the client-facing process remains one normal interview, existing materials, targeted clarification and explicit approvals.
+
+
 
 ### 5.4 Bridge limitations
 
-The 26-field snapshot is intentionally lossy and summary-oriented. It does not by itself provide:
+The versioned snapshot is intentionally lossy and summary-oriented (26 fields in schema v1; 27 in schema v2). It does not by itself provide:
 - original raw source files or a complete Raw Material Index;
 - stable source IDs and timestamp/page/paragraph locators for every fact;
 - a Source Coverage Matrix;
@@ -199,4 +211,4 @@ The input process is accepted when:
 - the normalized Client Brief and discovery artifacts can be produced through existing AI applications;
 - only necessary clarifications are sent to the client;
 - the process works without a paid AI API;
-- the platform's legacy 26-field intake is clearly treated as an internal bridge until its access and UI are aligned with this policy.
+- the platform's versioned Project Intake is treated as a Studio-only internal summary bridge, not client input or a source-of-truth record; raw materials and canonical source-linked artifacts remain separately maintained.
