@@ -3,6 +3,8 @@ import { createHash } from 'node:crypto';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 
 const CONTRACT_PATH = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../.studio/workflow.contract.json');
 const STATE_PATH = '.studio/project-state.json';
@@ -10,8 +12,15 @@ const HASH = /^[a-f0-9]{64}$/i;
 const VERSION = /^\d+(?:\.\d+){0,2}$/;
 const DATE = /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d+)?(?:Z|[+-]\d\d:\d\d)$/;
 const PROJECT_ID = /^[A-Za-z0-9][A-Za-z0-9._-]{2,63}$/;
-const EVENT_TYPES = new Set(['PROJECT_INITIALIZED', 'ARTIFACT_SUBMITTED']);
+const EVENT_TYPES = new Set([
+  'PROJECT_INITIALIZED',
+  'ARTIFACT_SUBMITTED',
+  'APPROVAL_RECORDED',
+  'APPROVAL_ROUND_RESET'
+]);
 const STUDIO_ROOT = path.resolve(path.dirname(CONTRACT_PATH), '..');
+const STUDIO_MARKER_PATH = path.join(STUDIO_ROOT, '.studio', 'system-repository.json');
+const execFileAsync = promisify(execFile);
 
 const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 const issue = (code, message, extra = {}) => ({ code, message, ...extra });
@@ -113,8 +122,17 @@ function safeRelativePath(value) {
 async function assertProjectRoot(rootPath) {
   const root = await fs.realpath(path.resolve(rootPath));
   if (!(await fs.stat(root)).isDirectory()) throw new Error('Project root must be an existing directory.');
+
+  // The canonical Studio repository carries this marker. A client project may
+  // also carry a copy of the workflow contract/runtime, but must not copy it.
   if (isWithin(STUDIO_ROOT, root)) {
-    throw new Error('Use a separate client project repository/folder, not the shared Web Studio repository.');
+    try {
+      await fs.access(STUDIO_MARKER_PATH);
+      throw new Error('Use a separate client project repository/folder, not the shared Web Studio repository.');
+    } catch (error) {
+      if (error.message.startsWith('Use a separate client project')) throw error;
+      if (error.code !== 'ENOENT') throw error;
+    }
   }
   return root;
 }
@@ -186,7 +204,11 @@ async function checkArtifact(record, definition, projectRoot) {
 
 function checkApproval(approval, gate, currentArtifacts, validVersions, contract, mode) {
   const errors = [];
-  if (!isObject(approval)) return [issue('INVALID_APPROVAL', gate.id + ' must be an object.')];
+  let stale = false;
+  const pendingRoles = [];
+  if (!isObject(approval)) {
+    return { errors: [issue('INVALID_APPROVAL', gate.id + ' must be an object.')], stale: false, pending_roles: [] };
+  }
   if (
     typeof approval.approval_id !== 'string' || !approval.approval_id.trim() ||
     approval.gate_id !== gate.id ||
@@ -204,16 +226,16 @@ function checkApproval(approval, gate, currentArtifacts, validVersions, contract
   for (const artifactId of gate.artifact_ids) {
     const current = currentArtifacts.get(artifactId);
     const binding = bindingMap.get(artifactId);
-    if (!current) errors.push(issue('GATE_ARTIFACT_MISSING', gate.id + ' requires ' + artifactId));
-    else if (!validVersions.has(artifactId + '@' + current.version)) errors.push(issue('GATE_ARTIFACT_INVALID', gate.id + ' cannot bind invalid ' + artifactId));
-    else if (!binding || binding.version !== current.version || binding.sha256 !== current.sha256) {
-      errors.push(issue('STALE_APPROVAL', gate.id + ' is not bound to current ' + artifactId + ' version/hash.'));
+    if (!current || !validVersions.has(artifactId + '@' + current.version)) {
+      stale = true;
+    } else if (!binding || binding.version !== current.version || binding.sha256 !== current.sha256) {
+      stale = true;
     }
   }
   if (bindingMap.size !== gate.artifact_ids.length) errors.push(issue('UNEXPECTED_APPROVAL_BINDING', gate.id + ' has unrelated or missing bindings.'));
 
   const approvers = new Map();
-  if (!Array.isArray(approval.approvers)) errors.push(issue('MISSING_APPROVERS', gate.id + ' needs approvers.'));
+  if (!Array.isArray(approval.approvers)) errors.push(issue('MISSING_APPROVERS', gate.id + ' needs an approvers array.'));
   for (const approver of Array.isArray(approval.approvers) ? approval.approvers : []) {
     if (!isObject(approver) || !contract.roles.includes(approver.role) || approvers.has(approver.role)) {
       errors.push(issue('INVALID_APPROVER', gate.id + ' has invalid/duplicate role.'));
@@ -223,16 +245,24 @@ function checkApproval(approval, gate, currentArtifacts, validVersions, contract
     if (
       approver.decision !== 'APPROVED' ||
       typeof approver.person !== 'string' || !approver.person.trim() ||
-      !DATE.test(approver.decided_at ?? '') ||
+      !DATE.test(approver.decided_at ?? '') || !Number.isFinite(Date.parse(approver.decided_at)) ||
       typeof approver.evidence_reference !== 'string' || !approver.evidence_reference.trim()
     ) errors.push(issue('INCOMPLETE_APPROVER', gate.id + ' approver lacks person, date or evidence.'));
+    if (approver.identity_source === 'github_actor') {
+      if (
+        typeof approver.github_actor !== 'string' || !approver.github_actor.trim() ||
+        approver.person !== approver.github_actor
+      ) errors.push(issue('INVALID_GITHUB_APPROVER', gate.id + ' GitHub identity binding is incomplete.'));
+    } else if (approver.identity_source !== 'self_declared') {
+      errors.push(issue('INVALID_APPROVER_IDENTITY_SOURCE', gate.id + ' has an unsupported identity source.'));
+    }
   }
-  for (const role of gate.required_roles) if (!approvers.has(role)) errors.push(issue('REQUIRED_APPROVER_MISSING', gate.id + ' requires ' + role));
+  for (const role of gate.required_roles) if (!approvers.has(role)) pendingRoles.push(role);
   for (const role of approvers.keys()) if (!gate.required_roles.includes(role)) errors.push(issue('UNEXPECTED_APPROVER_ROLE', gate.id + ' does not accept ' + role));
   if (!DATE.test(approval.recorded_at ?? '') || !Number.isFinite(Date.parse(approval.recorded_at))) {
     errors.push(issue('INVALID_APPROVAL_TIMESTAMP', gate.id + ' needs recorded_at.'));
   }
-  return errors;
+  return { errors, stale, pending_roles: pendingRoles };
 }
 
 export async function evaluateProject({ contract, state, projectRoot }) {
@@ -305,10 +335,24 @@ export async function evaluateProject({ contract, state, projectRoot }) {
 
   const gates = contract.gates.map(gate => {
     const approval = approvalMap.get(gate.id);
-    if (!approval) return { gate_id: gate.id, status: 'NOT_RECORDED', passed: false, issues: [] };
-    const gateErrors = checkApproval(approval, gate, currentArtifacts, validArtifactVersions, contract, state.delivery_mode);
-    gateErrors.forEach(item => errors.push({ ...item, gate_id: gate.id }));
-    return { gate_id: gate.id, status: gateErrors.length ? 'INVALID' : 'PASSED', passed: gateErrors.length === 0, issues: gateErrors };
+    if (!approval) return { gate_id: gate.id, status: 'NOT_RECORDED', passed: false, pending_roles: gate.required_roles, stale: false, issues: [] };
+    const result = checkApproval(approval, gate, currentArtifacts, validArtifactVersions, contract, state.delivery_mode);
+    result.errors.forEach(item => errors.push({ ...item, gate_id: gate.id }));
+    const status = result.errors.length
+      ? 'INVALID'
+      : result.stale
+        ? 'STALE'
+        : result.pending_roles.length
+          ? 'PENDING'
+          : 'PASSED';
+    return {
+      gate_id: gate.id,
+      status,
+      passed: status === 'PASSED',
+      pending_roles: result.pending_roles,
+      stale: result.stale,
+      issues: result.errors
+    };
   });
 
   const gatePass = new Map(gates.map(gate => [gate.gate_id, gate.passed]));
@@ -374,7 +418,30 @@ export async function evaluateProject({ contract, state, projectRoot }) {
       !HASH.test(event.artifact_sha256 ?? '') ||
       typeof event.stage_id !== 'string'
     )) errors.push(issue('INVALID_ARTIFACT_EVENT', 'Artifact submission event is incomplete.', { event_id: event?.event_id }));
-    eventIds.add(event?.event_id);
+
+    if (event?.event_type === 'APPROVAL_RECORDED' && (
+      typeof event.approval_id !== 'string' ||
+      !contract.gates.some(gate => gate.id === event.gate_id) ||
+      typeof event.gate_decision !== 'string' ||
+      typeof event.approver_role !== 'string' ||
+      typeof event.approver_person !== 'string' ||
+      event.approver_decision !== 'APPROVED' ||
+      typeof event.evidence_reference !== 'string' ||
+      !Array.isArray(event.artifact_bindings) ||
+      !['self_declared', 'github_actor'].includes(event.identity_source) ||
+      (event.identity_source === 'github_actor' && (
+        typeof event.github_actor !== 'string' || event.github_actor !== event.approver_person
+      ))
+    )) errors.push(issue('INVALID_APPROVAL_EVENT', 'Approval event must retain the gate decision, approver and artifact bindings.', { event_id: event?.event_id }));
+
+    if (event?.event_type === 'APPROVAL_ROUND_RESET' && (
+      typeof event.previous_approval_id !== 'string' ||
+      typeof event.new_approval_id !== 'string' ||
+      !contract.gates.some(gate => gate.id === event.gate_id) ||
+      !Array.isArray(event.artifact_bindings)
+    )) errors.push(issue('INVALID_APPROVAL_RESET_EVENT', 'Approval reset event must reference both rounds and current artifact bindings.', { event_id: event?.event_id }));
+
+    if (event?.event_id) eventIds.add(event.event_id);
   });
 
   const next = stages.find(stage => !['PASSED', 'NOT_APPLICABLE'].includes(stage.status));
@@ -522,6 +589,314 @@ export async function submitArtifact({ rootPath, artifactId, filePath, version, 
   }
 }
 
+
+function sameArtifactBindings(left, right) {
+  if (!Array.isArray(left) || !Array.isArray(right) || left.length !== right.length) return false;
+  const leftMap = new Map(left.map(binding => [binding.artifact_id, binding]));
+  return right.every(binding => {
+    const previous = leftMap.get(binding.artifact_id);
+    return previous && previous.version === binding.version && previous.sha256 === binding.sha256;
+  });
+}
+
+export async function recordApproval({
+  rootPath,
+  gateId,
+  gateDecision,
+  role,
+  person,
+  evidenceReference,
+  subject,
+  actor = 'local-operator',
+  identitySource = 'self_declared',
+  githubActor,
+  authorizedRoles
+}, contract) {
+  const root = await assertProjectRoot(rootPath);
+  const statePath = path.join(root, STATE_PATH);
+  const state = await readProjectState(root);
+  const before = await evaluateProject({ contract, state, projectRoot: root });
+  if (!before.ok) throw new Error('Project state is invalid. Run validate and investigate issues before recording an approval.');
+
+  const gate = contract.gates.find(item => item.id === gateId);
+  if (!gate) throw new Error('Unknown gate: ' + gateId);
+  if (!gate.allowed_decisions.includes(gateDecision)) {
+    throw new Error('Decision ' + gateDecision + ' is not allowed for ' + gateId + '.');
+  }
+  if (!gate.required_roles.includes(role)) throw new Error('Role ' + role + ' is not required by ' + gateId + '.');
+  if (gate.conditional_preview_only && gateDecision === 'CONDITIONAL_PREVIEW' && state.delivery_mode !== 'preview_only') {
+    throw new Error('CONDITIONAL_PREVIEW is never valid for production.');
+  }
+  if (typeof person !== 'string' || !person.trim()) throw new Error('person must be a non-empty approver label.');
+  if (typeof evidenceReference !== 'string' || !evidenceReference.trim()) throw new Error('evidence is required.');
+  if (typeof subject !== 'string' || !subject.trim()) throw new Error('subject is required.');
+  if (typeof actor !== 'string' || !actor.trim()) throw new Error('actor must be a non-empty audit label.');
+  if (!['self_declared', 'github_actor'].includes(identitySource)) throw new Error('Unsupported identity source.');
+  if (identitySource === 'github_actor') {
+    if (
+      typeof githubActor !== 'string' || !githubActor.trim() ||
+      person !== githubActor ||
+      actor !== githubActor ||
+      !Array.isArray(authorizedRoles) || !authorizedRoles.includes(role)
+    ) throw new Error('GitHub actor is not mapped to the requested approver role.');
+  }
+
+  const currentArtifacts = new Map();
+  for (const record of state.artifacts) {
+    const previous = currentArtifacts.get(record.artifact_id);
+    if (!previous || versionCompare(record.version, previous.version) > 0) currentArtifacts.set(record.artifact_id, record);
+  }
+  const artifactBindings = [];
+  for (const artifactId of gate.artifact_ids) {
+    const current = currentArtifacts.get(artifactId);
+    if (!current) throw new Error(gateId + ' cannot be approved until artifact ' + artifactId + ' is submitted.');
+    artifactBindings.push({
+      artifact_id: artifactId,
+      version: current.version,
+      sha256: current.sha256
+    });
+  }
+
+  let approval = state.approvals.find(item => item.gate_id === gateId);
+  if (approval && !sameArtifactBindings(approval.artifact_bindings, artifactBindings)) {
+    const previousApprovalId = approval.approval_id;
+    state.approvals = state.approvals.filter(item => item.gate_id !== gateId);
+    const resetAt = new Date().toISOString();
+    const newApprovalId = 'APR-' + gateId + '-' + String(state.events.length + 2).padStart(6, '0');
+    state.events.push({
+      event_id: nextEventId(state.events),
+      event_type: 'APPROVAL_ROUND_RESET',
+      occurred_at: resetAt,
+      actor: actor.trim(),
+      gate_id: gateId,
+      previous_approval_id: previousApprovalId,
+      new_approval_id: newApprovalId,
+      artifact_bindings: artifactBindings
+    });
+    approval = null;
+  }
+
+  if (approval && (approval.decision !== gateDecision || approval.subject !== subject)) {
+    throw new Error('An approval round is already in progress with a different decision or subject.');
+  }
+  if (approval && approval.approvers.some(item => item.role === role)) {
+    throw new Error('Role ' + role + ' has already approved this artifact version in this round.');
+  }
+  if (
+    identitySource === 'github_actor' &&
+    approval &&
+    approval.approvers.some(item => item.identity_source === 'github_actor' && item.github_actor === githubActor)
+  ) throw new Error('One GitHub account cannot satisfy multiple required roles in the same approval round.');
+
+  const now = new Date().toISOString();
+  if (!approval) {
+    approval = {
+      approval_id: 'APR-' + gateId + '-' + String(state.events.length + 1).padStart(6, '0'),
+      gate_id: gateId,
+      decision: gateDecision,
+      subject: subject.trim(),
+      artifact_bindings: artifactBindings,
+      approvers: [],
+      recorded_at: now
+    };
+    state.approvals.push(approval);
+  }
+  const approver = {
+    role,
+    person: person.trim(),
+    decision: 'APPROVED',
+    decided_at: now,
+    evidence_reference: evidenceReference.trim(),
+    identity_source: identitySource,
+    ...(identitySource === 'github_actor' ? { github_actor: githubActor } : {})
+  };
+  approval.approvers.push(approver);
+  const event = {
+    event_id: nextEventId(state.events),
+    event_type: 'APPROVAL_RECORDED',
+    occurred_at: now,
+    actor: actor.trim(),
+    approval_id: approval.approval_id,
+    gate_id: gateId,
+    gate_decision: gateDecision,
+    approver_role: role,
+    approver_person: person.trim(),
+    approver_decision: 'APPROVED',
+    evidence_reference: evidenceReference.trim(),
+    identity_source: identitySource,
+    ...(identitySource === 'github_actor' ? { github_actor: githubActor } : {}),
+    artifact_bindings: artifactBindings
+  };
+  state.events.push(event);
+  await writeJsonAtomic(statePath, state, root);
+  const after = await evaluateProject({ contract, state, projectRoot: root });
+  if (!after.ok) throw new Error('Approval record failed validation: ' + JSON.stringify(after.issues));
+  return {
+    approval,
+    event,
+    gate: after.gates.find(item => item.gate_id === gateId),
+    evaluation: after
+  };
+}
+
+async function listInboxEntries(root, relativeDirectory) {
+  const absoluteDirectory = path.join(root, ...relativeDirectory.split('/'));
+  let statResult;
+  try {
+    statResult = await fs.lstat(absoluteDirectory);
+  } catch (error) {
+    if (error.code === 'ENOENT') return [];
+    throw error;
+  }
+  if (statResult.isSymbolicLink() || !statResult.isDirectory()) {
+    throw new Error(relativeDirectory + ' must be a real directory inside the project.');
+  }
+  const realDirectory = await fs.realpath(absoluteDirectory);
+  if (!isWithin(root, realDirectory)) throw new Error(relativeDirectory + ' resolves outside the project.');
+  return (await fs.readdir(absoluteDirectory, { withFileTypes: true }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+async function readInboxJson(root, relativePath) {
+  const absolutePath = path.join(root, ...relativePath.split('/'));
+  const fileStat = await fs.lstat(absolutePath);
+  if (fileStat.isSymbolicLink() || !fileStat.isFile()) throw new Error(relativePath + ' must be a regular file.');
+  return readJson(absolutePath, relativePath);
+}
+
+export async function processGithubInbox({
+  rootPath,
+  actor,
+  contract,
+  commit = false,
+  branchName
+}) {
+  const root = await assertProjectRoot(rootPath);
+  if (typeof actor !== 'string' || !actor.trim()) throw new Error('A verified GitHub actor is required.');
+  const processed = [];
+
+  const initRelative = '.studio/inbox/project-init.json';
+  try {
+    await fs.lstat(path.join(root, initRelative));
+    const request = await readInboxJson(root, initRelative);
+    if (!isObject(request)) throw new Error('Project initialization request must be a JSON object.');
+    await initializeProject({
+      rootPath: root,
+      projectId: request.project_id,
+      deliveryMode: request.delivery_mode,
+      actor: actor.trim()
+    }, contract);
+    await fs.rm(path.join(root, initRelative));
+    processed.push({ type: 'PROJECT_INITIALIZED', path: initRelative });
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+  }
+
+  const artifactInbox = '.studio/inbox/artifacts';
+  const artifactFolders = await listInboxEntries(root, artifactInbox);
+  for (const folder of artifactFolders) {
+    if (folder.isSymbolicLink() || !folder.isDirectory()) {
+      throw new Error(artifactInbox + ' must contain one directory per artifact ID.');
+    }
+    const artifactId = folder.name;
+    const folderPath = artifactInbox + '/' + artifactId;
+    const files = await listInboxEntries(root, folderPath);
+    for (const entry of files) {
+      if (entry.isSymbolicLink() || !entry.isFile()) throw new Error(folderPath + ' may contain regular files only.');
+      const relativeFile = folderPath + '/' + entry.name;
+      const result = await submitArtifact({
+        rootPath: root,
+        artifactId,
+        filePath: relativeFile,
+        actor: actor.trim()
+      }, contract);
+      await fs.rm(path.join(root, ...relativeFile.split('/')));
+      processed.push({
+        type: 'ARTIFACT_SUBMITTED',
+        artifact_id: artifactId,
+        version: result.artifact.version,
+        sha256: result.artifact.sha256,
+        path: relativeFile
+      });
+    }
+  }
+
+  const approvalInbox = '.studio/inbox/approvals';
+  const approvalFolders = await listInboxEntries(root, approvalInbox);
+  if (approvalFolders.length) {
+    const rolesConfig = await readJson(path.join(root, '.studio', 'approver-roles.json'), 'Approver roles');
+    if (!isObject(rolesConfig) || !isObject(rolesConfig.github_users)) {
+      throw new Error('.studio/approver-roles.json must contain a github_users object.');
+    }
+    const configured = Object.entries(rolesConfig.github_users)
+      .find(([login]) => login.toLowerCase() === actor.trim().toLowerCase());
+    const authorizedRoles = configured?.[1];
+    if (!Array.isArray(authorizedRoles)) throw new Error('GitHub actor ' + actor + ' is not configured as an approver.');
+    for (const gateFolder of approvalFolders) {
+      if (gateFolder.isSymbolicLink() || !gateFolder.isDirectory()) {
+        throw new Error(approvalInbox + ' must contain one directory per gate ID.');
+      }
+      const gateId = gateFolder.name;
+      const folderPath = approvalInbox + '/' + gateId;
+      const files = await listInboxEntries(root, folderPath);
+      for (const entry of files) {
+        if (entry.isSymbolicLink() || !entry.isFile() || !entry.name.endsWith('.json')) {
+          throw new Error(folderPath + ' may contain role JSON files only.');
+        }
+        const role = entry.name.slice(0, -5);
+        const relativeFile = folderPath + '/' + entry.name;
+        const request = await readInboxJson(root, relativeFile);
+        if (!isObject(request)) throw new Error(relativeFile + ' must be a JSON object.');
+        if (request.gate_id && request.gate_id !== gateId) throw new Error(relativeFile + ' gate_id does not match its folder.');
+        const result = await recordApproval({
+          rootPath: root,
+          gateId,
+          gateDecision: request.decision,
+          role,
+          person: actor.trim(),
+          evidenceReference: request.evidence_reference,
+          subject: request.subject,
+          actor: actor.trim(),
+          identitySource: 'github_actor',
+          githubActor: actor.trim(),
+          authorizedRoles
+        }, contract);
+        await fs.rm(path.join(root, ...relativeFile.split('/')));
+        processed.push({
+          type: 'APPROVAL_RECORDED',
+          gate_id: gateId,
+          role,
+          status: result.gate.status,
+          path: relativeFile
+        });
+      }
+    }
+  }
+
+  if (commit && processed.length) {
+    const branch = branchName || process.env.GITHUB_REF_NAME;
+    if (!branch || !/^[A-Za-z0-9._/-]+$/.test(branch) || branch.startsWith('-')) {
+      throw new Error('GITHUB_REF_NAME must identify the branch to update.');
+    }
+    await execFileAsync('git', ['config', 'user.name', 'github-actions[bot]'], { cwd: root });
+    await execFileAsync('git', ['config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com'], { cwd: root });
+    await execFileAsync('git', ['add', '-A', '--', '.studio/inbox', '.studio/project-state.json', 'project-artifacts'], { cwd: root });
+    let hasChanges = false;
+    try {
+      await execFileAsync('git', ['diff', '--cached', '--quiet'], { cwd: root });
+    } catch (error) {
+      if (error.code !== 1) throw error;
+      hasChanges = true;
+    }
+    if (hasChanges) {
+      await execFileAsync('git', ['commit', '-m', 'chore(studio): process repository-native inbox'], { cwd: root });
+      await execFileAsync('git', ['push', 'origin', 'HEAD:refs/heads/' + branch], { cwd: root });
+    }
+  }
+
+  return { processed_count: processed.length, processed, actor: actor.trim() };
+}
+
 function parseArguments(argv) {
   const [command, ...rest] = argv;
   const options = {};
@@ -550,9 +925,12 @@ const usage = [
   '  node scripts/workflow-enforcement.mjs validate --root <project-dir>',
   '  node scripts/workflow-enforcement.mjs can-start --root <project-dir> --stage <stage-00..stage-09>',
   '  node scripts/workflow-enforcement.mjs submit-artifact --root <project-dir> --artifact <artifact-id> --file <relative-path> [--version <version>]',
+  '  node scripts/workflow-enforcement.mjs record-approval --root <project-dir> --gate <G0..G7> --decision <decision> --role <role> --person <name> --evidence <reference> --subject <text>',
+  '  node scripts/workflow-enforcement.mjs process-github-inbox --root <project-dir> --actor <github-login>',
   '',
-  '  --actor <display-label>  Self-declared audit label; not identity authentication.',
+  '  --actor <display-label>  Audit label. Local approval identity remains self-declared.',
   '  --version <version>      Must increase monotonically; otherwise auto-increments.',
+  '  GitHub inbox approvals require .studio/approver-roles.json and an authenticated GitHub actor.',
 ].join('\n');
 
 export async function runCommand(argv, { contractPath = CONTRACT_PATH } = {}) {
@@ -595,6 +973,31 @@ export async function runCommand(argv, { contractPath = CONTRACT_PATH } = {}) {
       version: options.version,
       actor: options.actor
     }, contract);
+    console.log(JSON.stringify(result, null, 2));
+    return;
+  }
+  if (command === 'record-approval') {
+    const result = await recordApproval({
+      rootPath,
+      gateId: options.gate,
+      gateDecision: options.decision,
+      role: options.role,
+      person: options.person,
+      evidenceReference: options.evidence,
+      subject: options.subject,
+      actor: options.actor
+    }, contract);
+    console.log(JSON.stringify(result, null, 2));
+    return;
+  }
+  if (command === 'process-github-inbox') {
+    const result = await processGithubInbox({
+      rootPath,
+      actor: options.actor,
+      contract,
+      commit: true,
+      branchName: process.env.GITHUB_REF_NAME
+    });
     console.log(JSON.stringify(result, null, 2));
     return;
   }

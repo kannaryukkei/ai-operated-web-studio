@@ -107,7 +107,28 @@
             "type": "array"
           },
           "approvers": {
-            "type": "array"
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "role",
+                "person",
+                "decision",
+                "decided_at",
+                "evidence_reference",
+                "identity_source"
+              ],
+              "properties": {
+                "role": { "type": "string" },
+                "person": { "type": "string", "minLength": 1 },
+                "decision": { "const": "APPROVED" },
+                "decided_at": { "type": "string", "format": "date-time" },
+                "evidence_reference": { "type": "string", "minLength": 1 },
+                "identity_source": { "enum": ["self_declared", "github_actor"] },
+                "github_actor": { "type": "string", "minLength": 1 }
+              }
+            }
           },
           "recorded_at": {
             "type": "string",
@@ -134,7 +155,9 @@
           "event_type": {
             "enum": [
               "PROJECT_INITIALIZED",
-              "ARTIFACT_SUBMITTED"
+              "ARTIFACT_SUBMITTED",
+              "APPROVAL_RECORDED",
+              "APPROVAL_ROUND_RESET"
             ]
           },
           "occurred_at": {
@@ -163,6 +186,29 @@
           "artifact_sha256": {
             "type": "string",
             "pattern": "^[a-fA-F0-9]{64}$"
+          },
+          "approval_id": { "type": "string" },
+          "gate_id": { "type": "string", "pattern": "^G[0-7]$" },
+          "gate_decision": { "type": "string" },
+          "approver_role": { "type": "string" },
+          "approver_person": { "type": "string" },
+          "approver_decision": { "const": "APPROVED" },
+          "evidence_reference": { "type": "string" },
+          "identity_source": { "enum": ["self_declared", "github_actor"] },
+          "github_actor": { "type": "string" },
+          "previous_approval_id": { "type": "string" },
+          "new_approval_id": { "type": "string" },
+          "artifact_bindings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["artifact_id", "version", "sha256"],
+              "properties": {
+                "artifact_id": { "type": "string" },
+                "version": { "type": "string" },
+                "sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" }
+              }
+            }
           }
         }
       }

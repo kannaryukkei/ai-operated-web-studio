@@ -5,7 +5,7 @@ import {mkdtemp,mkdir,rm,writeFile,symlink,readFile,stat} from 'node:fs/promises
 import os from 'node:os';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {evaluateProject,initializeProject,submitArtifact,validateContract} from '../scripts/workflow-enforcement.mjs';
+import {evaluateProject,initializeProject,submitArtifact,recordApproval,processGithubInbox,validateContract} from '../scripts/workflow-enforcement.mjs';
 
 const here=path.dirname(fileURLToPath(import.meta.url));
 const contract=JSON.parse(await readFile(path.resolve(here,'../.studio/workflow.contract.json'),'utf8'));
@@ -175,4 +175,114 @@ test('conditional G0 approval never authorizes production',async t=>{
  const r=await root();t.after(()=>rm(r,{recursive:true,force:true}));
  const s=state('production');await stage(r,s,0);await approve(r,s,'G0','CONDITIONAL_PREVIEW');
  assert.ok((await evaluate(r,s)).issues.some(x=>x.code==='PREVIEW_APPROVAL_NOT_PRODUCTION'));
+});
+
+
+test('approval operations accumulate required roles without invalidating a pending project',async t=>{
+ const r=await root();t.after(()=>rm(r,{recursive:true,force:true}));
+ const initialized=await initializeProject({rootPath:r,projectId:'PROJECT-001',deliveryMode:'preview_only'},contract);
+ const s=initialized.state;await stage(r,s,0);
+ await writeFile(path.join(r,'.studio/project-state.json'),JSON.stringify(s,null,2)+'\n');
+ const first=await recordApproval({rootPath:r,gateId:'G0',gateDecision:'CONDITIONAL_PREVIEW',role:'studio_owner',person:'Studio owner',evidenceReference:'github-review://owner/1',subject:'Stage 0 source and claim review'},contract);
+ assert.equal(first.gate.status,'PENDING');
+ assert.deepEqual(first.gate.pending_roles,['client_business_owner']);
+ assert.equal(first.evaluation.ok,true);
+ const second=await recordApproval({rootPath:r,gateId:'G0',gateDecision:'CONDITIONAL_PREVIEW',role:'client_business_owner',person:'Client owner',evidenceReference:'github-review://client/1',subject:'Stage 0 source and claim review'},contract);
+ assert.equal(second.gate.status,'PASSED');
+ assert.equal(second.evaluation.ok,true);
+ assert.equal(second.approval.approvers.length,2);
+ const saved=JSON.parse(await readFile(path.join(r,'.studio/project-state.json'),'utf8'));
+ assert.equal(saved.events.filter(x=>x.event_type==='APPROVAL_RECORDED').length,2);
+});
+
+test('approval operations reject duplicate roles and roles not required by a gate',async t=>{
+ const r=await root();t.after(()=>rm(r,{recursive:true,force:true}));
+ const initialized=await initializeProject({rootPath:r,projectId:'PROJECT-001',deliveryMode:'preview_only'},contract);
+ const s=initialized.state;await stage(r,s,0);
+ await writeFile(path.join(r,'.studio/project-state.json'),JSON.stringify(s,null,2)+'\n');
+ const args={rootPath:r,gateId:'G0',gateDecision:'CONDITIONAL_PREVIEW',role:'studio_owner',person:'Owner',evidenceReference:'evidence://owner',subject:'Approve Stage 0'};
+ await recordApproval(args,contract);
+ await assert.rejects(()=>recordApproval(args,contract),/already approved/);
+ await assert.rejects(()=>recordApproval({...args,role:'studio_operator'},contract),/not required/);
+});
+
+test('a changed bound artifact makes an approval stale and starts a fresh approval round',async t=>{
+ const r=await root();t.after(()=>rm(r,{recursive:true,force:true}));
+ const initialized=await initializeProject({rootPath:r,projectId:'PROJECT-001',deliveryMode:'preview_only'},contract);
+ const s=initialized.state;await stage(r,s,0);
+ await writeFile(path.join(r,'.studio/project-state.json'),JSON.stringify(s,null,2)+'\n');
+ const common={rootPath:r,gateId:'G0',gateDecision:'CONDITIONAL_PREVIEW',subject:'Stage 0 approval'};
+ await recordApproval({...common,role:'studio_owner',person:'Owner',evidenceReference:'evidence://owner'},contract);
+ await recordApproval({...common,role:'client_business_owner',person:'Client',evidenceReference:'evidence://client'},contract);
+ const previousId=JSON.parse(await readFile(path.join(r,'.studio/project-state.json'),'utf8')).approvals[0].approval_id;
+ const revisedState=JSON.parse(await readFile(path.join(r,'.studio/project-state.json'),'utf8'));
+ await add(r,revisedState,'source-register','2.0','# updated source register');
+ await writeFile(path.join(r,'.studio/project-state.json'),JSON.stringify(revisedState,null,2)+'\n');
+ const stale=await evaluate(r,s);
+ assert.equal(stale.ok,true);
+ assert.equal(stale.gates.find(x=>x.gate_id==='G0').status,'STALE');
+ const restarted=await recordApproval({...common,role:'studio_owner',person:'Owner',evidenceReference:'evidence://owner-v2'},contract);
+ assert.equal(restarted.gate.status,'PENDING');
+ assert.equal(restarted.approval.approvers.length,1);
+ const saved=JSON.parse(await readFile(path.join(r,'.studio/project-state.json'),'utf8'));
+ assert.notEqual(saved.approvals[0].approval_id,previousId);
+ assert.ok(saved.events.some(x=>x.event_type==='APPROVAL_ROUND_RESET'&&x.previous_approval_id===previousId));
+ await recordApproval({...common,role:'client_business_owner',person:'Client',evidenceReference:'evidence://client-v2'},contract);
+ assert.equal((await evaluate(r,JSON.parse(await readFile(path.join(r,'.studio/project-state.json'),'utf8')))).gates.find(x=>x.gate_id==='G0').status,'PASSED');
+});
+
+test('GitHub inbox adapter initializes projects and snapshots submitted artifacts without a local terminal',async t=>{
+ const r=await root();t.after(()=>rm(r,{recursive:true,force:true}));
+ const writeJson=async(relative,value)=>{const f=path.join(r,relative);await mkdir(path.dirname(f),{recursive:true});await writeFile(f,JSON.stringify(value,null,2)+'\n');};
+ await writeJson('.studio/inbox/project-init.json',{project_id:'LAUNDRY-CERIA',delivery_mode:'preview_only'});
+ for(const id of ['raw-material-index','source-register','fact-register','asset-permission-register']){
+  const f=path.join(r,'.studio/inbox/artifacts',id,'submission.md');await mkdir(path.dirname(f),{recursive:true});await writeFile(f,'# '+id+'\n');
+ }
+ const result=await processGithubInbox({rootPath:r,actor:'studio-owner',contract});
+ assert.equal(result.processed.filter(x=>x.type==='ARTIFACT_SUBMITTED').length,4);
+ const manifest=JSON.parse(await readFile(path.join(r,'.studio/project-state.json'),'utf8'));
+ assert.equal(manifest.project_id,'LAUNDRY-CERIA');
+ assert.equal(manifest.artifacts.length,4);
+ assert.equal(manifest.events[0].actor,'studio-owner');
+ assert.equal((await readFile(path.join(r,manifest.artifacts[0].path),'utf8')).startsWith('# '),true);
+});
+
+test('GitHub inbox approvals require an allowlisted GitHub actor and bind each role to the current artifact versions',async t=>{
+ const r=await root();t.after(()=>rm(r,{recursive:true,force:true}));
+ const writeJson=async(relative,value)=>{const f=path.join(r,relative);await mkdir(path.dirname(f),{recursive:true});await writeFile(f,JSON.stringify(value,null,2)+'\n');};
+ await writeJson('.studio/inbox/project-init.json',{project_id:'PROJECT-001',delivery_mode:'preview_only'});
+ await writeJson('.studio/approver-roles.json',{schema_version:'1.0.0',github_users:{'studio-owner':['studio_owner'],'client-owner':['client_business_owner']}});
+ for(const id of ['source-register','fact-register','asset-permission-register']){
+  await writeJson('.studio/inbox/project-init.json',{project_id:'PROJECT-001',delivery_mode:'preview_only'});
+  const f=path.join(r,'.studio/inbox/artifacts',id,'submission.md');await mkdir(path.dirname(f),{recursive:true});await writeFile(f,'# '+id+'\n');
+ }
+ await processGithubInbox({rootPath:r,actor:'studio-owner',contract});
+ const approvalPath='.studio/inbox/approvals/G0/studio_owner.json';
+ await writeJson(approvalPath,{decision:'CONDITIONAL_PREVIEW',subject:'Stage 0 approval',evidence_reference:'github://studio-owner/commit-1'});
+ const first=await processGithubInbox({rootPath:r,actor:'studio-owner',contract});
+ assert.equal(first.processed[0].status,'PENDING');
+ const nextPath='.studio/inbox/approvals/G0/client_business_owner.json';
+ await writeJson(nextPath,{decision:'CONDITIONAL_PREVIEW',subject:'Stage 0 approval',evidence_reference:'github://client-owner/commit-2'});
+ const second=await processGithubInbox({rootPath:r,actor:'client-owner',contract});
+ assert.equal(second.processed[0].status,'PASSED');
+ const manifest=JSON.parse(await readFile(path.join(r,'.studio/project-state.json'),'utf8'));
+ const approval=manifest.approvals.find(x=>x.gate_id==='G0');
+ assert.equal(approval.approvers.length,2);
+ assert.ok(approval.approvers.every(x=>x.identity_source==='github_actor'));
+ assert.deepEqual(approval.approvers.map(x=>x.github_actor).sort(),['client-owner','studio-owner']);
+});
+
+test('GitHub inbox adapter leaves an approval request untouched when the actor is not authorized',async t=>{
+ const r=await root();t.after(()=>rm(r,{recursive:true,force:true}));
+ const initialized=await initializeProject({rootPath:r,projectId:'PROJECT-001',deliveryMode:'preview_only'},contract);
+ const s=initialized.state;await stage(r,s,0);
+ await writeFile(path.join(r,'.studio/project-state.json'),JSON.stringify(s,null,2)+'\n');
+ const config={schema_version:'1.0.0',github_users:{'studio-owner':['studio_owner']}};
+ await mkdir(path.join(r,'.studio'),{recursive:true});
+ await writeFile(path.join(r,'.studio/approver-roles.json'),JSON.stringify(config,null,2)+'\n');
+ const request=path.join(r,'.studio/inbox/approvals/G0/studio_owner.json');
+ await mkdir(path.dirname(request),{recursive:true});
+ await writeFile(request,JSON.stringify({decision:'CONDITIONAL_PREVIEW',subject:'Approve',evidence_reference:'github://not-authorized'},null,2)+'\n');
+ await assert.rejects(()=>processGithubInbox({rootPath:r,actor:'unlisted-user',contract}),/not configured as an approver/);
+ assert.equal((await stat(request)).isFile(),true);
 });
