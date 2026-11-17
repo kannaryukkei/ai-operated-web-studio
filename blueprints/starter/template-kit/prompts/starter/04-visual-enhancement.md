@@ -42,7 +42,7 @@ Prioritize BLOCKER, HIGH, MEDIUM, LOW. Preserve strong design decisions. Do not 
 
 Do not stop after the audit. Use frontend-layout-implementer to fix authorized BLOCKER/HIGH findings first, then worthwhile MEDIUM findings. Group related fixes into small slices and reference finding IDs in the checkpoint/change log.
 
-Preserve the existing stack, approved direction, factual content, source/asset permissions and truthful CTA behavior. No invented claims or proof, no random asset substitutions, no scope expansion, no new dependency or paid API. Escalate material design-direction or scope changes for approval instead of silently implementing them.
+Preserve the existing stack, approved direction, factual content, source/asset permissions and truthful CTA behavior. No invented claims or proof, no random asset substitutions, no scope expansion, no new dependency or paid API. Escalate material design-direction or scope changes for approval instead of silently implementing them. If visual-design-audit returns COMPETENT BUT GENERIC or DERIVATIVE, do not hand the site to owner visual review yet: implement a focused, approved redesign and repeat the audit. If that redesign materially changes the approved direction or scope, request the appropriate approval first.
 
 ### E. Re-capture and verify
 
