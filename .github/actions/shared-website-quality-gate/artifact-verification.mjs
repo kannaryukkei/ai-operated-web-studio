@@ -44,7 +44,7 @@ export async function findRunArtifact({
 
     if (!response.ok) {
       if (!TRANSIENT_HTTP_STATUSES.has(response.status) || attempt === normalizedAttempts) {
-        throw new Error(lastReason);
+        throw new Error(`artifact listing returned HTTP ${response.status}`);
       }
       await sleep(retryDelayMs);
       continue;
