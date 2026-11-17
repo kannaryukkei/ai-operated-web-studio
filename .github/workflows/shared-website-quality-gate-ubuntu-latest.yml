@@ -70,6 +70,7 @@ jobs:
           import fs from 'node:fs';
           import path from 'node:path';
           import { createRequire } from 'node:module';
+          import { findRunArtifact } from './.github/actions/shared-website-quality-gate/artifact-verification.mjs';
           const require = createRequire(path.resolve('.github/actions/shared-website-quality-gate/package.json'));
           const failures = [];
           const starter = path.resolve('blueprints/starter/template-kit/starter');
@@ -120,16 +121,15 @@ jobs:
           }
           const sectionWidths = [...new Set((visualEvidence?.sectionCaptureSummaries ?? []).map(item => item.width))].sort((a,b) => a-b);
           if (JSON.stringify(sectionWidths) !== JSON.stringify([390, 1440])) failures.push(`section evidence widths were ${JSON.stringify(sectionWidths)}, expected [390,1440]`);
-          let artifactUploaded = false;
-          try {
-            const api = process.env.GITHUB_API_URL || 'https://api.github.com';
-            const endpoint = `${api}/repos/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}/artifacts?per_page=100`;
-            const response = await fetch(endpoint, { headers: { accept: 'application/vnd.github+json', authorization: `Bearer ${process.env.GITHUB_TOKEN}`, 'x-github-api-version': '2022-11-28' } });
-            if (!response.ok) throw new Error(`artifact API returned HTTP ${response.status}`);
-            const payload = await response.json();
-            artifactUploaded = (payload.artifacts ?? []).some(item => item.name === 'shared-website-quality-gate' && !item.expired && item.size_in_bytes > 0);
-            if (!artifactUploaded) failures.push('shared-website-quality-gate artifact is absent, expired, or empty');
-          } catch (error) { failures.push(`could not verify uploaded action artifact: ${error.message}`); }
+          const uploadedArtifact = await findRunArtifact({
+            apiBaseUrl: process.env.GITHUB_API_URL || 'https://api.github.com',
+            repository: process.env.GITHUB_REPOSITORY,
+            runId: process.env.GITHUB_RUN_ID,
+            token: process.env.GITHUB_TOKEN,
+            artifactName: 'shared-website-quality-gate',
+          });
+          const artifactUploaded = uploadedArtifact !== null;
+          if (!artifactUploaded) failures.push('shared-website-quality-gate artifact is absent, expired, or empty after bounded visibility retries');
           const runtime = failures.length === 0 ? 'PASS' : 'FAIL';
           const lines = [
             '## Ubuntu 26.04 shared-action runtime compatibility probe',
