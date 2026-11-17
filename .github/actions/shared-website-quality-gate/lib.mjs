@@ -200,12 +200,16 @@ export function detectEvidenceCandidate({ text, tagName = '', attrs = {}, locato
   if (!classificationText) return null;
   if (markerCategory) return { category: markerCategory, text: body, proofId: proofId || null, locator };
   if (proofType && CATEGORIES.has(proofType)) return { category: proofType, text: body, proofId: proofId || null, locator };
-  const classAndRole = [attrs.class, attrs.role, attrs['aria-label'], tagName].filter(Boolean).join(' ').toLowerCase();
+  const classAndRole = [attrs.class, attrs.role, attrs['aria-label'], tagName]
+    .filter(Boolean)
+    .join(' ')
+    .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+    .toLowerCase();
   const hasRatingClaim = /\b(?:\d+(?:\.\d+)?\s*(?:\/\s*\d+(?:\.\d+)?|out of\s+\d+(?:\.\d+)?)|\d+(?:\.\d+)?\s*stars?|\brated?\s+\d+(?:\.\d+)?)\b/i.test(classificationText)
     || /\b(?:review[- ]?rating|rating[- ]?score|star[- ]?rating)\b/i.test(classAndRole);
   const hasReviewTotal = /\b\d[\d,.]*\s*\+?\s+(?:(?:customer|client)\s+)?(?:reviews?|ratings?|responses?)\b/i.test(classificationText)
     || /\b(?:review[- ]?(?:total|count)|rating[- ]?(?:total|count)|response[- ]?count)\b/i.test(classAndRole);
-  const hasTestimonial = /testimonial|review/.test(classAndRole)
+  const hasTestimonial = /\btestimonials?\b|\breviews?\b/.test(classAndRole)
     || /\b(testimonial|customer review)\b/i.test(classificationText);
   let category = null;
   if (hasRatingClaim) category = 'review-rating';
