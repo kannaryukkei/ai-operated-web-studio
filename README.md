@@ -6,7 +6,7 @@ An AI-operated website production system that turns a normal client interview an
 
 Clients explain their business once in a normal interview and provide existing assets and optional source links. AI handles the structuring and production work; the client is asked only for material clarifications, fact/asset approvals and final decisions. The studio uses reusable skills and prompts through existing AI applications for research, strategy, content, design, development and QA. The studio owner retains authority over commercial decisions, scope, factual claims and production release.
 
-**AI Operated Web Studio is the single canonical production system.** The Laravel platform, production standards, prompts and versioned website blueprints live in this repository, with clear folder boundaries. Each real client website remains in its own isolated repository.
+**AI Operated Web Studio is the single canonical production system.** Its executable workflow contract, validators, operating standards, prompts, skills and versioned website blueprints live in this repository. The Laravel application is a preserved prototype only. Each real client website remains in its own isolated repository.
 
 ## Initial architecture
 
@@ -19,11 +19,11 @@ Clients explain their business once in a normal interview and provide existing a
 
 ## Core product areas
 
-1. Client portal — onboarding, business brief, package selection, project timeline, preview, revisions, approvals.
-2. Studio dashboard — pipeline, project scope, AI runs, artifacts, approvals, cost visibility, exceptions.
-3. AI orchestration — stage-specific agents, tools, structured outputs, persisted workflow state, retries, audit history.
-4. Website production — active Starter blueprint and isolated client repositories; Business/Custom are parked tier definitions until Starter passes acceptance.
-5. Release and care — QA, launch approvals, handover, post-launch support and monitoring.
+1. Conversation-first operation — one AI conversation is the default user interface; no dashboard is required to operate a project.
+2. Workflow enforcement — repository contract, validated artifacts, derived stage state, G0–G7 approval evidence and CI.
+3. Agent-neutral AI production — ChatGPT + GitHub by default; Codex, Antigravity, Muse and other agents are optional.
+4. Website production — active Starter blueprint and isolated client repositories; Business/Custom remain parked until Starter passes acceptance.
+5. Release and care — independent QA, explicit release authorization, handover and post-launch support.
 
 ## Current status
 

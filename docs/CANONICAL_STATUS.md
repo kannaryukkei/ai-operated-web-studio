@@ -2,10 +2,7 @@
 Single pointer for what is current. If a document is not listed as
 Current or Candidate here, do not treat it as an operating instruction.
 ## Free operation rule
-This studio operates without API keys and is entirely free. AI work
-uses external AI applications with manual copy and paste, plus local
-validators (PHP, Node, Playwright). No paid AI APIs or paid services.
-Any document suggesting paid credentials is stale: flag it, do not follow it.
+The canonical workflow must not require model API keys, paid model APIs, or a paid AI-provider integration. The default is ChatGPT standard conversation + GitHub; other AI agents remain optional. Keep the core workflow compatible with free-tier tools and local validators. Third-party free-plan limits, storage and Actions allowances can change; never promise unlimited use, incur paid costs, or add paid dependencies without explicit owner approval.
 ## Minimal Context Set: read these first
 AI working on this repo reads only these files first, then task-specific
 docs only when the task needs them. Do not read all of docs/.
