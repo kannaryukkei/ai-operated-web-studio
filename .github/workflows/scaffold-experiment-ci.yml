@@ -1,0 +1,50 @@
+name: Scaffold Experiment CI
+
+on:
+  pull_request:
+    paths:
+      - "scripts/scaffold-experiment.mjs"
+      - "tests/scaffold-experiment.test.mjs"
+      - ".github/workflows/scaffold-experiment-ci.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "scripts/scaffold-experiment.mjs"
+      - "tests/scaffold-experiment.test.mjs"
+      - ".github/workflows/scaffold-experiment-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scaffold-tests:
+    name: Scaffold tests (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-24.04
+          - windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+
+      - name: Check scaffold script syntax
+        run: node --check scripts/scaffold-experiment.mjs
+
+      - name: Check scaffold test syntax
+        run: node --check tests/scaffold-experiment.test.mjs
+
+      - name: Run scaffold experiment tests
+        run: node --test tests/scaffold-experiment.test.mjs
