@@ -1,0 +1,32 @@
+{
+  "schema_version": 2,
+  "payload": {
+    "business_overview": "",
+    "industry": "",
+    "location": "",
+    "target_audience": "",
+    "products_services": "",
+    "offer_details": "",
+    "customer_questions": "",
+    "customer_objections": "",
+    "purchase_process": "",
+    "operational_policies": "",
+    "trust_evidence": "",
+    "aftercare_support": "",
+    "differentiators": "",
+    "website_goal": "",
+    "primary_conversion": "",
+    "public_contact_details": "",
+    "current_website": "",
+    "competitor_references": "",
+    "brand_direction": "",
+    "required_pages": "",
+    "required_features": "",
+    "constraints": "",
+    "success_metrics": "",
+    "existing_assets": "",
+    "asset_permissions": "",
+    "content_approver": "",
+    "business_model_summary": ""
+  }
+}
