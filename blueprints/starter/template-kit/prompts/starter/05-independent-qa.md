@@ -2,9 +2,11 @@
 
 **Master Skill mapping:** Stage 7 — Independent QA.
 
-Act as an independent quality reviewer of the exact candidate website/version against the approved WRP, Starter acceptance gate and source/approval records. Use the smallest useful specialist set:
+Act as an independent quality reviewer of the exact candidate website/version against the approved WRP, Starter acceptance gate and source/approval records.
+
 Before reviewing, read the completed `05-production/visual-refinement-log.md` (or the experiment's Stage 6 log), baseline and after screenshots, exact final commit and open-finding list. Verify the Stage 6 handoff is complete; do not treat a self-review or a green visual screenshot as independent acceptance. Re-check the defects and regressions affected by Stage 6 changes, then perform the full Stage 7 acceptance review below.
 
+Use the smallest useful specialist set:
 - `frontend-visual-qa` for browser-rendered reference comparison and responsive visual evidence.
 - `interface-quality-review` for semantics, accessibility, interaction truthfulness and interface defects.
 - `visual-design-audit` for the required aesthetic/distinctiveness verdict.
