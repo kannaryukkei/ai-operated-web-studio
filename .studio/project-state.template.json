@@ -4,5 +4,6 @@
   "project_id": "REPLACE-WITH-STABLE-PROJECT-ID",
   "delivery_mode": "preview_only",
   "artifacts": [],
-  "approvals": []
+  "approvals": [],
+  "events": []
 }

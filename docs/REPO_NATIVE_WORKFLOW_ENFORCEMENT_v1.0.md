@@ -1,11 +1,27 @@
 ## Repository-native Workflow Enforcement v1.0
 
-The canonical user experience remains one conversation. ChatGPT + GitHub is the default; Codex, Antigravity, Muse and other agents are optional. This design is API-free, agent-neutral and does not require Laravel. The Laravel application remains a preserved prototype.
+The canonical user experience is one conversation. ChatGPT + GitHub is the default; Codex, Antigravity, Muse and other agents are optional. The system is API-free and does not require Laravel.
 
-The executable contract .studio/workflow.contract.json defines Entry/Stage 0-9 artifacts, dependencies, G0-G7, human roles and preview/production modes. Copy .studio/project-state.template.json into each isolated client repo as .studio/project-state.json and replace the project ID. Do not place client-private material in this Studio repository.
+### Runtime and project operations
+- .studio/workflow.contract.json: Entry, Stage 0–9, 54 artifact IDs, dependencies, G0–G7, human roles and delivery modes.
+- .studio/project-state.template.json: initial state shape.
+- scripts/workflow-enforcement.mjs: contract checks, derived stage state, initialization, artifact submission and status reporting.
+- Each client project has its own repository and .studio/project-state.json; never put private client material in the shared Studio repository.
 
-Run with Node.js 20+, no dependencies: `node scripts/workflow-enforcement.mjs validate-contract`; from a project root use `status`, `validate`, or `can-start --stage stage-05`. Each artifact record contains artifact_id, stage_id, version, path, sha256, status SUBMITTED and produced_at. The runtime verifies the file exists inside the project root and its SHA-256 still matches. Approvals bind exact artifact versions and hashes and require named roles, dates and evidence. Changed artifact versions invalidate the old approval. Stage status is derived; state files cannot assert PASSED.
+With Node.js 20+ and no dependency installation:
 
-Preview-only Stage 8 is NOT_APPLICABLE and Stage 9 can follow Stage 7. Production Stage 8 requires G4/G5/G6 before starting and G7 to complete.
+    node scripts/workflow-enforcement.mjs validate-contract
+    node scripts/workflow-enforcement.mjs init --root PATH --project-id CLIENT-001 --mode preview_only
+    node scripts/workflow-enforcement.mjs submit-artifact --root PATH --artifact raw-material-index --file drafts/raw-material-index.md
+    node scripts/workflow-enforcement.mjs status --root PATH
+    node scripts/workflow-enforcement.mjs validate --root PATH
+    node scripts/workflow-enforcement.mjs can-start --root PATH --stage stage-05
 
-Limitations: the validator cannot cryptographically authenticate a person who approved through conversation; it validates declared approval evidence. Repository writers can edit manifests, validator files or CI. GitHub Actions is repeatable evidence, not an unbypassable merge lock on GitHub Free private repositories. Standard ChatGPT GitHub connector may be read-only; use only confirmed write capabilities. Optional agent hooks supplement but do not replace this contract.
+Initialization creates a fresh state and initial event, and refuses to overwrite an existing project state. Artifact submission accepts only a contract artifact for the currently active stage. The source file must be inside the project root. It is copied into an immutable, versioned snapshot under project-artifacts/; SHA-256 is computed automatically and the manifest plus event history are updated. New versions must increase monotonically; old snapshots remain available for integrity checks.
+
+Stage status is derived from valid files, checksums, dependencies and approvals; an AI-written PASS field is rejected. Approval records still require structured evidence and are not authenticated as a real person's identity in this release. A dedicated approval command is a follow-up tranche.
+
+Preview-only mode marks Stage 8 NOT_APPLICABLE and permits Stage 9 after Stage 7. Production Stage 8 requires G4/G5/G6 before starting and G7 before completion.
+
+### Limitations
+The validator checks file integrity and declared approval evidence, not cryptographic identity. Event actor labels are self-declared; Git history provides repository-level change history. Repository writers can modify manifests, validators and CI. GitHub Actions is repeatable evidence, not an unbypassable merge lock on GitHub Free private repositories. A standard ChatGPT GitHub connector may be read-only; use only confirmed write capabilities. Optional agent hooks supplement but do not replace the canonical contract.

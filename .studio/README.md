@@ -1,12 +1,29 @@
-Repository-native workflow runtime
+# Repository-native workflow runtime
 
-- workflow.contract.json: machine-readable Entry, Stage 0-9, artifacts, dependencies, G0-G7 and modes.
-- project-state.template.json: copy into a private client project as .studio/project-state.json.
-- project-state.schema.json: state shape; stage statuses are not writable.
+The user's operating interface remains one AI conversation. ChatGPT + GitHub is the default; Codex, Antigravity, Muse and other agents are optional. Node.js 20+ built-ins only: no Laravel service, npm install, API key or paid model API.
 
-Requires Node.js 20+. Built-ins only; no Laravel service, npm install, API key or paid AI API. Submitted artifacts require path, version, timestamp and SHA-256. Approval records bind exact artifact versions/hashes. Preview-only Stage 8 is NOT_APPLICABLE; production Stage 8 requires G4/G5/G6 and completion G7.
+## Initialize a client project
 
-Commands (from client project root):
-node /path/to/ai-operated-web-studio/scripts/workflow-enforcement.mjs status
-node /path/to/ai-operated-web-studio/scripts/workflow-enforcement.mjs validate
-node /path/to/ai-operated-web-studio/scripts/workflow-enforcement.mjs can-start --stage stage-05
+Run from the client repository root or pass an explicit path:
+
+    node /path/to/ai-operated-web-studio/scripts/workflow-enforcement.mjs init --root . --project-id CLIENT-001 --mode preview_only
+
+Initialization creates .studio/project-state.json, an initial event and project-artifacts/. It never overwrites an existing state. Use production only for an actual authorized production delivery; synthetic experiments must use preview_only.
+
+## Submit a stage artifact
+
+Write the artifact as a normal file inside the client project, then submit it:
+
+    node /path/to/ai-operated-web-studio/scripts/workflow-enforcement.mjs submit-artifact --root . --artifact raw-material-index --file drafts/raw-material-index.md
+
+Only artifact IDs belonging to the currently active stage are accepted. The command snapshots the source file into a versioned immutable path, computes SHA-256, records the event and updates the manifest. Revisions receive a higher version automatically; --version may be supplied explicitly. The source file is not deleted or modified.
+
+## Inspect progress
+
+    node /path/to/ai-operated-web-studio/scripts/workflow-enforcement.mjs status --root .
+    node /path/to/ai-operated-web-studio/scripts/workflow-enforcement.mjs validate --root .
+    node /path/to/ai-operated-web-studio/scripts/workflow-enforcement.mjs can-start --root . --stage stage-05
+
+The manifest stores artifact submissions, approval records and a basic event history. Event actor labels are self-declared, not identity authentication; Git history is the stronger repository-level audit trail. Approval submission remains a structured-manifest operation in this tranche; a dedicated safe approval command is a subsequent tranche.
+
+Private client sources and generated artifacts stay in the isolated client repository, never in this shared Studio repository.

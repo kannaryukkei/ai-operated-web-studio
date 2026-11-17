@@ -9,7 +9,8 @@
     "project_id",
     "delivery_mode",
     "artifacts",
-    "approvals"
+    "approvals",
+    "events"
   ],
   "properties": {
     "schema_version": {
@@ -20,8 +21,9 @@
     },
     "project_id": {
       "type": "string",
-      "minLength": 1,
-      "pattern": "^(?!REPLACE-).+"
+      "minLength": 3,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,63}$"
     },
     "delivery_mode": {
       "enum": [
@@ -48,13 +50,16 @@
             "type": "string"
           },
           "stage_id": {
-            "type": "string"
+            "type": "string",
+            "pattern": "^stage-0[0-9]$"
           },
           "version": {
-            "type": "string"
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d+){0,2}$"
           },
           "path": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
           "sha256": {
             "type": "string",
@@ -89,7 +94,8 @@
             "type": "string"
           },
           "gate_id": {
-            "type": "string"
+            "type": "string",
+            "pattern": "^G[0-7]$"
           },
           "decision": {
             "type": "string"
@@ -106,6 +112,57 @@
           "recorded_at": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "event_id",
+          "event_type",
+          "occurred_at",
+          "actor"
+        ],
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "pattern": "^EVT-\\d{6}$"
+          },
+          "event_type": {
+            "enum": [
+              "PROJECT_INITIALIZED",
+              "ARTIFACT_SUBMITTED"
+            ]
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "actor": {
+            "type": "string",
+            "minLength": 1
+          },
+          "project_id": {
+            "type": "string"
+          },
+          "delivery_mode": {
+            "type": "string"
+          },
+          "stage_id": {
+            "type": "string"
+          },
+          "artifact_id": {
+            "type": "string"
+          },
+          "artifact_version": {
+            "type": "string"
+          },
+          "artifact_sha256": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$"
           }
         }
       }
