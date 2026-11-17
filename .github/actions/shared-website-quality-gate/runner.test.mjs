@@ -13,6 +13,7 @@ import {
   evaluateEvidenceCandidates, detectEvidenceCandidate, detectOverflow, waitForPreview, writeArtifacts,
 } from './lib.mjs';
 import { stopPreview } from './preview-process.mjs';
+import { planSectionCapture, safeVisualSlug } from './visual-evidence.mjs';
 
 const verified = () => ({
   id: 'claim-1', category: 'testimonial', item: '“The service was clear and helpful.” — A. Customer',
@@ -24,6 +25,36 @@ const verified = () => ({
   status: 'VERIFIED',
 });
 const manifest = (items = [verified()]) => ({ version: 1, humanReviewRequired: true, items });
+
+test('visual evidence section capture prefers explicit markers and enforces a bounded screenshot count', () => {
+  assert.deepEqual(planSectionCapture({ markedCount: 14, semanticCount: 20 }), {
+    selector: 'main [data-qa-visual-section]',
+    strategy: 'explicit-markers',
+    total: 14,
+    captureCount: 12,
+    omitted: 2,
+  });
+  assert.deepEqual(planSectionCapture({ markedCount: 0, semanticCount: 3 }), {
+    selector: 'main > section',
+    strategy: 'semantic-sections',
+    total: 3,
+    captureCount: 3,
+    omitted: 0,
+  });
+  assert.deepEqual(planSectionCapture({ markedCount: 0, semanticCount: 0 }), {
+    selector: null,
+    strategy: 'none',
+    total: 0,
+    captureCount: 0,
+    omitted: 0,
+  });
+});
+
+test('visual evidence section filenames stay readable and filesystem-safe', () => {
+  assert.equal(safeVisualSlug('Pilihan & Harga — Mobil/Motor!'), 'pilihan-harga-mobil-motor');
+  assert.equal(safeVisualSlug('   '), 'section');
+  assert.ok(safeVisualSlug('A'.repeat(80)).length <= 48);
+});
 
 test('typography roles use semantic elements and documented data attribute overrides', () => {
   assert.equal(classifyTypographyRole('p'), 'BODY');
