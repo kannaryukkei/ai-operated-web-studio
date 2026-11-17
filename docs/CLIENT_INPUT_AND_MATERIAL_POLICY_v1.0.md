@@ -2,8 +2,8 @@
 
 **Document ID:** AWOS-INPUT-001  
 **Version:** 1.0  
-**Status:** Draft — Master Revision candidate  
-**Last updated:** 2026-11-15  
+**Status:** Draft — current working version; not separately owner-adopted  
+**Last updated:** 2026-11-18  
 **Authority:** Derived from Master PRD v1.0 and Canonical Operating Workflow v1.0
 
 ## 1. Purpose
@@ -71,6 +71,7 @@ The current Laravel Project Intake is a **26-field structured snapshot** used by
 | Group | Fields | Use |
 |---|---|---|
 | Business profile and audience | `business_overview`, `industry`, `location`, `target_audience` | Concise internal summary of the business, category, operating location and audience |
+| Business model (schema v2) | `business_model_summary` | Optional summary of how the business earns revenue and delivers its offer; added in schema v2 |
 | Offers and customer understanding | `products_services`, `offer_details`, `customer_questions`, `customer_objections`, `purchase_process`, `operational_policies`, `trust_evidence`, `aftercare_support`, `differentiators` | Summary of offers, decision questions, objections, operations and supported trust context |
 | Website objective and conversion | `website_goal`, `primary_conversion`, `public_contact_details`, `success_metrics` | Desired outcome, intended visitor action, approved public destinations and measurement intent |
 | Website references and constraints | `current_website`, `competitor_references`, `brand_direction`, `required_pages`, `required_features`, `constraints` | Context and initial client preferences; suggestions are not binding requirements until qualified |
@@ -78,7 +79,12 @@ The current Laravel Project Intake is a **26-field structured snapshot** used by
 
 ### 5.2 Current validation behavior
 
-The current `ProjectIntakeController` permits 26 known fields. On submission it technically requires exactly these five strings:
+The current `ProjectIntakeSchema` supports two payload versions:
+
+- **Schema v1:** 26 fields (the legacy field set).
+- **Schema v2:** 27 fields; it adds the optional `business_model_summary` field.
+
+On submission, exactly these five strings are required in both versions:
 
 - `business_overview`
 - `target_audience`
@@ -86,9 +92,21 @@ The current `ProjectIntakeController` permits 26 known fields. On submission it 
 - `website_goal`
 - `primary_conversion`
 
-The other 21 fields are optional. The current intake UI incorrectly says "Only four core fields are required." The controller and UI must not be treated as equivalent: the controller enforces five.
+The remaining 21 fields in schema v1 and 22 fields in schema v2 are optional. Draft saves may remain partial. The Studio-only intake UI marks the same five fields as required and explains that additional details are optional and schema v2 adds the business-model summary.
 
-These are interim technical validation rules, not a requirement to ask the client five questions or to force unknown facts into invented answers. The operator should populate the snapshot from the interview and source packet. When a required summary is genuinely unavailable, preserve that state explicitly (for example, `NOT_AVAILABLE — no source supplied` or `NOT_SURE — requires owner clarification`) rather than guessing. The canonical fact/evidence/publication status belongs in the source-linked records, not in free-text shorthand.
+These are interim technical validation rules, not a requirement to ask the client five questions or to force unknown facts into invented answers. The operator populates the internal snapshot from the interview and source packet. When a required summary is genuinely unavailable, preserve that state explicitly (for example, `NOT_AVAILABLE — no source supplied` or `NOT_SURE — requires owner clarification`) rather than guessing. The canonical fact/evidence/publication status belongs in the source-linked records, not in free-text shorthand.
+
+### 5.3 Current access control
+
+Project Intake is currently an **internal Studio-only snapshot**, not a client-editable form.
+
+- `ProjectPolicy::manageInternalIntake()` allows only users for whom `User::isStudioStaff()` is true.
+- `ProjectIntakeController::show()`, `save()` and `submit()` authorize that ability before reading, serializing or changing intake data.
+- The project list renders “Open intake” only when the server-provided `isStudio` flag is true. Hiding the link is supplementary; direct client requests are denied server-side.
+- `ManualDiscoveryController` uses the same Studio-only authorization for discovery view, start and completion.
+- The general `ProjectPolicy::update()` remains unchanged. Client users may retain other project permissions granted by that policy, but those permissions do not grant access to internal intake or discovery.
+
+This is the implemented material-first boundary, not a pending Segment 12 change. The Studio operator derives the internal snapshot from the interview packet and supplied materials. Do not send clients the intake route or ask them to complete its 26/27-field internal form; the client-facing process remains one normal interview, existing materials, targeted clarification and explicit approvals.
 
 ### 5.3 Current access mismatch
 
@@ -100,7 +118,7 @@ The later platform change must preserve secure project access and ensure the int
 
 ### 5.4 Bridge limitations
 
-The 26-field snapshot is intentionally lossy and summary-oriented. It does not by itself provide:
+The versioned snapshot is intentionally lossy and summary-oriented (26 fields in schema v1; 27 in schema v2). It does not by itself provide:
 - original raw source files or a complete Raw Material Index;
 - stable source IDs and timestamp/page/paragraph locators for every fact;
 - a Source Coverage Matrix;

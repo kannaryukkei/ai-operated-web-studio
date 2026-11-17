@@ -2,8 +2,8 @@
 
 **Document ID:** AWOS-DATA-001  
 **Version:** 1.0  
-**Status:** Draft — Master Revision candidate  
-**Last updated:** 2026-11-15  
+**Status:** Draft — current working version; not separately owner-adopted  
+**Last updated:** 2026-11-18  
 **Authority:** Master PRD v1.0, Client Input & Material Policy v1.0, Client Material Ingestion Protocol
 
 ## 1. Purpose and contract

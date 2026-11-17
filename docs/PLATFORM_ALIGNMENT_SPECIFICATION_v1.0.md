@@ -1,9 +1,11 @@
 # Platform Alignment Specification v1.0
 
-**Status:** Draft — Master Revision candidate  
-**Date:** 2026-11-15  
+**Status:** Current implementation-alignment record; Segment 12 DONE (2026-11-16)  
+**Date:** 2026-11-18  
 **Applies to:** `platform/` Laravel application  
 **Authority:** Master PRD v1.0, Master Skill v1.12 (adopted 2026-11-18), Canonical Operating Workflow v1.0, Canonical Discovery Data Schema v1.0, Website Requirements Pack v1.0, Approval & Release Policy v1.0 and Client Input & Material Policy v1.0.
+
+> **Current-state clarification (2026-11-18):** Segment 12 is complete; see §11 for its validation closeout. Project Intake and Manual Discovery are Studio-only. All Project Intake show/save/submit actions enforce the dedicated policy before accessing or changing data; client project lists hide the intake link; the general project-edit policy remains unchanged. Schema v1 accepts 26 intake fields and schema v2 adds optional `business_model_summary` (27 total); exactly five fields are required at submission. Sections 2–2.2 preserve the pre-Segment-12 audit baseline and must not be read as current defects. The current input and workflow rules are in `docs/CLIENT_INPUT_AND_MATERIAL_POLICY_v1.0.md` and `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md`.
 
 ## 1. Decision summary
 
@@ -17,11 +19,11 @@ No paid model API, AI SDK, hosted agent runtime, multi-file ingestion platform, 
 
 The immediate correction is a security and operating-boundary fix: **Project Intake is an internal Studio snapshot, not a client-facing form.** Every intake endpoint must be restricted server-side to Studio staff. UI link hiding is supplementary, not authorization.
 
-## 2. Audited baseline
+## 2. Historical audited baseline (before Segment 12)
 
-Audit performed against `revision/master-revision`, platform tree unchanged from the repository baseline at the time of this audit.
+Audit performed against `revision/master-revision`, before the Segment 12 implementation was completed. The table below records the state observed at that time, not the current implementation.
 
-| Area | Current implementation | Finding |
+| Area | Implementation at audit time | Historical finding |
 |---|---|---|
 | Roles | `studio_owner`, `studio_operator`, `client`; `User::isStudioStaff()` covers the two Studio roles | Correct coarse role distinction exists |
 | Project authorization | `ProjectPolicy::view()` permits account members/project members; `update()` permits Studio staff, client-account owners and project owners/editors | Project editing rights are broader than internal-intake rights should be |
@@ -36,7 +38,7 @@ Audit performed against `revision/master-revision`, platform tree unchanged from
 | Approvals/release | G0–G7 policy and approval-log template | Manual artifact-based decisions; no first-class approval model, transition enforcement or release engine |
 | Project dashboard fields | `current_stage`, `next_action`, `next_action_owner`, generic project `status` | Summary fields only; not canonical stage/gate approvals |
 
-### 2.1 Intake authorization defect
+### 2.1 Historical intake authorization defect — resolved in Segment 12
 
 The current controller calls `Gate::authorize('view', $project)` for `show` and `Gate::authorize('update', $project)` for `save` and `submit`. `ProjectPolicy::update()` explicitly permits a client-account owner and project members with `owner` or `editor` roles. The same page serializes the entire 26-field payload to any user who can view the project.
 
@@ -46,7 +48,7 @@ The current `ProjectIntakeTest` makes the old behavior explicit: it tests that a
 
 **This is not fixed by hiding the project-list link.** A client could still request the GET/PATCH/submit URL directly. Server-side policy enforcement must deny all client roles, including account owners and project owners/editors.
 
-### 2.2 Required fields
+### 2.2 Required fields and UI copy — historical baseline, corrected in Segment 12
 
 The controller defines exactly five required submission fields:
 
@@ -56,7 +58,7 @@ The controller defines exactly five required submission fields:
 4. `website_goal`
 5. `primary_conversion`
 
-The UI marks those same five fields required but currently says “Only four core fields are required.” The remaining 21 fields are optional. Keep this legacy bridge validation for now; correct the UI copy to five.
+At the time of the audit, the UI marked the same five fields required but said “Only four core fields are required.” Segment 12 corrected the UI copy. The current schema contract is versioned: v1 has 26 fields (21 optional) and v2 adds optional `business_model_summary` for 27 total (22 optional). Exactly the same five fields remain required for submission in both versions.
 
 ### 2.3 Discovery result is a legacy working summary
 
@@ -164,7 +166,7 @@ No new approval table, approval engine, workflow engine or release automation is
 
 A persisted approval model may be reconsidered only after real projects show that versioned approval records are too difficult to operate or audit manually. It is not a Segment 12 requirement.
 
-## 6. Segment 12 implementation scope
+## 6. Original Segment 12 implementation scope (completed)
 
 ### MUST
 
@@ -193,7 +195,7 @@ A persisted approval model may be reconsidered only after real projects show tha
 - Paid API/provider SDK, autonomous agents or new infrastructure.
 - Business/Custom implementation.
 
-## 7. Acceptance criteria for Segment 12
+## 7. Segment 12 acceptance criteria and completion record
 
 ### Internal intake access
 
@@ -202,7 +204,7 @@ A persisted approval model may be reconsidered only after real projects show tha
 - [x] Client account owner receives 403 from GET, PATCH and submit.
 - [x] Client account admin/member receives 403 from GET, PATCH and submit.
 - [x] Project owner/editor/viewer with client role receives 403 from GET, PATCH and submit.
-- [x] Unauthorized responses never include the stored 26-field payload.
+- [x] Unauthorized responses never include stored intake payloads (schema v1 or v2).
 - [x] Project list displays “Open intake” only to Studio staff.
 - [x] Direct URL access remains denied even when the link is hidden.
 
