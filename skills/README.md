@@ -1,6 +1,6 @@
 # AI Operated Web Studio — Skill Library
 
-The Master Skill v1.11 is the **orchestrator**. This folder contains focused methods that it activates only when useful. Read the Master Skill and canonical project artifacts first; a specialist skill never overrides the WRP, approved scope, source/permission records or G0–G7 authority.
+The Master Skill v1.12 Candidate (owner adoption pending) is the **orchestrator**. This folder contains focused methods that it activates only when useful. Read the Master Skill and canonical project artifacts first; a specialist skill never overrides the WRP, approved scope, source/permission records or G0–G7 authority.
 
 ## Operating model
 
@@ -28,7 +28,7 @@ The review roles are intentionally distinct: aesthetic design critique is not th
 
 ## How to use
 
-1. Read `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.11_CANDIDATE.md` and the canonical operating documents first.
+1. Read `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.12_CANDIDATE.md` and the canonical operating documents first.
 2. Use `skills/registry.md` to select the minimum useful specialist set. For media work, read `docs/MEDIA_AND_ASSET_PIPELINE_v1.0.md` and activate `media-sourcing-and-licensing`.
 3. Read only the selected `SKILL.md` files for the current stage.
 4. Keep outputs in versioned project artifacts: source/fact/asset records, WRP, design spec, implementation checkpoints, issue log, test evidence and approval register.
