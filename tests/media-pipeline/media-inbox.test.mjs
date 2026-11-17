@@ -38,7 +38,7 @@ test('AI-generated image import consumes one queue item and records concept art 
   const result = await importDownloadedAsset({ sourceFile: source, projectDir: project, queuePath, registerPath, optimize: false });
   assert.equal(result.asset_id, 'AI-HERO-001');
   assert.equal(result.remaining, 0);
-  assert.ok(result.local_path.startsWith(path.join('public', 'media', 'originals')));
+  assert.match(result.local_path, /^public\/media\/originals\/[^/\\]+\.png$/);
 
   const queue = JSON.parse(await fs.readFile(queuePath, 'utf8'));
   assert.equal(queue.items.length, 0);
