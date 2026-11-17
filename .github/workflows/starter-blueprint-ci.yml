@@ -54,6 +54,11 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Build Starter
         run: npm run build
+      - name: Test shared website quality gate utilities
+        run: |
+          npm ci --no-audit --no-fund
+          npm test
+        working-directory: .github/actions/shared-website-quality-gate
       - name: Install Playwright Chromium
         run: npx playwright install chromium --with-deps
       - name: Run responsive and interaction smoke tests
