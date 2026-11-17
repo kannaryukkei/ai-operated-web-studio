@@ -174,7 +174,7 @@ async function checkArtifact(record, definition, projectRoot) {
   if (!isWithin(rootReal, fileReal) || fileReal === rootReal) {
     return [...errors, issue('ARTIFACT_PATH_ESCAPE', record.artifact_id + ' resolves outside project root.')];
   }
-  if (!(await fs.stat(fileReal)).isFile()) return [...errors, issue('ARTIFACT_NOT_FILE', record.artifact_id + ' is not a file.'));
+  if (!(await fs.stat(fileReal)).isFile()) return [...errors, issue('ARTIFACT_NOT_FILE', record.artifact_id + ' is not a file.')];
   if (HASH.test(record.sha256 ?? '')) {
     const actual = createHash('sha256').update(await fs.readFile(fileReal)).digest('hex');
     if (actual !== record.sha256.toLowerCase()) {
