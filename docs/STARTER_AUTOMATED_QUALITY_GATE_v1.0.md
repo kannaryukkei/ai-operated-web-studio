@@ -17,7 +17,8 @@ Turn the Starter quality rules already present in the Master Skill and Starter P
 | Responsive layout | No document horizontal overflow | 320, 360, 390, 640, 768, 900, 1024, 1280 and 1440px |
 | Body text | Customer-facing body, list, label and FAQ text is at least 15px | All rendered matching instances at all nine widths |
 | Controls | Buttons, inputs, selects, textareas and navigation actions are at least 13px | All rendered matching instances at all nine widths |
-| Metadata | Compact metadata/disclosures are at least 11px | All rendered matching instances at all nine widths |
+| Metadata | Compact metadata is at least 11px | All rendered matching instances at all nine widths |
+| Important disclosures | Important disclosures are at least 13px | All rendered matching instances at all nine widths |
 | Text contrast | WCAG AA contrast thresholds for measurable solid-color text/background surfaces; translucent foreground/background layers are alpha-composited | All rendered matching text instances at all nine widths, plus selected navigation and vehicle/class states |
 | Content evidence | Unverified testimonial, customer-story and performance-proof elements remain absent | Explicit Playwright regression against the known simulated-proof components/values |
 | Existing behavior | Navigation, class-based package pricing, Care Finder, WhatsApp handoff, date minimum, anchors, images, FAQ, Escape and skip link | Existing Playwright functional suite; current calibration baseline is 19/19 on commit `6d4e856` |
@@ -42,7 +43,7 @@ For each required responsive viewport and each selected interaction state, captu
 
 ## Ongoing maintenance
 
-Update the role selectors only when the interface semantics change. A new text role must be classified as BODY (15px), CONTROL (13px), or COMPACT METADATA (11px) with a written reason for any exception. New gradient/photo content must be added to the manual screenshot review checklist rather than silently excluded.
+Update the role selectors only when the interface semantics change. A new text role must be classified as BODY (15px), CONTROL (13px), METADATA (11px), or DISCLOSURE (13px) with a written reason for any exception. New gradient/photo content must be added to the manual screenshot review checklist rather than silently excluded.
 
 ## Current repository reproducibility status — 2026-11-16
 

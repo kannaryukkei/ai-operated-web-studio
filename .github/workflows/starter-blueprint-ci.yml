@@ -6,6 +6,7 @@ on:
     paths:
       - "blueprints/starter/template-kit/starter/**"
       - ".github/workflows/starter-blueprint-ci.yml"
+      - ".github/actions/shared-website-quality-gate/**"
       - "docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md"
       - "docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md"
       - "docs/STARTER_CONTENT_EVIDENCE_GATE_v1.0.md"
@@ -19,6 +20,7 @@ on:
     paths:
       - "blueprints/starter/template-kit/starter/**"
       - ".github/workflows/starter-blueprint-ci.yml"
+      - ".github/actions/shared-website-quality-gate/**"
       - "docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md"
       - "docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md"
       - "docs/STARTER_CONTENT_EVIDENCE_GATE_v1.0.md"
@@ -56,3 +58,11 @@ jobs:
         run: npx playwright install chromium --with-deps
       - name: Run responsive and interaction smoke tests
         run: npm run test:e2e
+      - name: Run shared website quality gate
+        uses: ./.github/actions/shared-website-quality-gate
+        with:
+          working-directory: blueprints/starter/template-kit/starter
+          preview-command: npm run preview -- --host 127.0.0.1 --port 4174
+          url: http://127.0.0.1:4174
+          evidence-manifest: .website-quality/evidence-manifest.json
+          artifacts-directory: .website-quality-artifacts
