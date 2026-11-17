@@ -1,10 +1,11 @@
-﻿import test from 'node:test';
+import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFile as execFileCb } from 'node:child_process';
 import { promisify } from 'node:util';
 import { promises as fs } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { scaffold } from '../scripts/scaffold-experiment.mjs';
 const execFile = promisify(execFileCb);
 const script = path.resolve('scripts/scaffold-experiment.mjs');
@@ -49,6 +50,52 @@ test('rejects unsafe blueprint paths and invalid names', async (t) => {
     const r=await execFile(process.execPath,[script,'--name','Name','--output',f.output,'--blueprint',bp],{cwd:f.repo,encoding:'utf8'}).then(()=>null,e=>e);
     assert.ok(r); assert.match(r.stderr,/Error:/); await assert.rejects(fs.access(f.output));
   }
+});
+
+test('rejects malformed CLI arguments before creating destination parents', async (t) => {
+  const f = await fixture(t);
+  const parent = path.join(f.temp, 'must-not-exist');
+  const invalidArgs = [
+    ['--name', 'Name', '--output', path.join(parent, 'out')],
+    ['--name', 'Name', '--name', 'Again', '--output', path.join(parent, 'out'), '--blueprint', f.blueprint],
+    ['--name', '   ', '--output', path.join(parent, 'out'), '--blueprint', f.blueprint],
+    ['--name', 'Bad\nName', '--output', path.join(parent, 'out'), '--blueprint', f.blueprint],
+    ['--name', 'Name', '--output', path.join(parent, 'out'), '--blueprint', '   '],
+    ['--name', 'Name', '--output', '', '--blueprint', f.blueprint],
+    ['--name', 'Name', '--output', `bad\u0001${path.join(parent, 'out')}`, '--blueprint', f.blueprint],
+    ['--name', 'Name', '--output', path.join(parent, 'out'), '--blueprint', f.blueprint, '--unknown'],
+  ];
+  for (const args of invalidArgs) {
+    const result = await execFile(process.execPath, [script, ...args], { cwd: f.repo, encoding: 'utf8' }).then(() => null, (error) => error);
+    assert.ok(result);
+    await assert.rejects(fs.access(parent));
+  }
+});
+
+test('canonical destination resolution rejects symlinked parents into the repository without creating descendants', async (t) => {
+  const f = await fixture(t);
+  const alias = path.join(f.temp, 'repo-alias');
+  try { await fs.symlink(f.repo, alias, 'junction'); }
+  catch (error) {
+    if (process.platform === 'win32' && ['EPERM', 'EACCES', 'UNKNOWN'].includes(error.code)) { t.skip(`Windows filesystem does not permit test directory symlink creation: ${error.code}`); return; }
+    throw error;
+  }
+  const output = path.join(alias, 'new-parent', 'experiment');
+  const result = await execFile(process.execPath, [script, '--name', 'Name', '--output', output, '--blueprint', f.blueprint], { cwd: f.repo, encoding: 'utf8' }).then(() => null, (error) => error);
+  assert.ok(result);
+  assert.match(result.stderr, /outside the source repository/);
+  await assert.rejects(fs.access(path.join(f.repo, 'new-parent')));
+});
+
+test('CLI entrypoint runs from a nested working directory and module import does not execute it', async (t) => {
+  const f = await fixture(t);
+  const nested = path.join(f.repo, 'nested'); await fs.mkdir(nested);
+  const nestedOutput = path.join(f.temp, 'nested-output');
+  await execFile(process.execPath, [script, '--name', 'Nested', '--output', nestedOutput, '--blueprint', f.blueprint], { cwd: nested, encoding: 'utf8' });
+  await fs.access(path.join(nestedOutput, 'PROVENANCE.json'));
+  const importResult = await execFile(process.execPath, ['--input-type=module', '-e', `await import(${JSON.stringify(pathToFileURL(script).href)})`], { cwd: f.repo, encoding: 'utf8' });
+  assert.equal(importResult.stdout, '');
+  await assert.rejects(fs.access(path.join(f.repo, 'Name')));
 });
 
 test('rejects tracked, staged and untracked changes in selected blueprint', async (t) => {

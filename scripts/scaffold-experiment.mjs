@@ -1,12 +1,17 @@
 ﻿import { execFile as execFileCallback } from 'node:child_process';
 import { promisify } from 'node:util';
 import { promises as fs, realpath as realpathCallback } from 'node:fs';
+import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 
 const execFile = promisify(execFileCallback);
 const realpathNative = promisify(realpathCallback.native);
 const excluded = new Set(['.git', 'platform', 'docs', 'node_modules', 'dist', 'build', 'out', 'coverage', '.cache', '.vite', 'playwright-report', 'playwright', 'test-results', '__pycache__', '.turbo', '.next']);
 const isExcluded = (relative) => relative.split('/').some((segment) => excluded.has(segment) || segment === '.env' || segment.startsWith('.env.'));
+const isWithin = (parent, candidate) => {
+  const relative = path.relative(parent, candidate);
+  return relative === '' || (!path.isAbsolute(relative) && relative !== '..' && !relative.startsWith(`..${path.sep}`));
+};
 async function git(root, args, encoding = 'utf8') {
   try { return (await execFile('git', args, { cwd: root, encoding, maxBuffer: 64 * 1024 * 1024 })).stdout; }
   catch (error) { throw new Error(`Git ${args.join(' ')} failed: ${error.stderr?.trim() || error.message}`); }
@@ -15,14 +20,29 @@ function parseArgs(argv) {
   const result = {};
   for (let i = 0; i < argv.length; i++) {
     const flag = argv[i];
-    if (!['--name', '--output', '--blueprint'].includes(flag) || result[flag]) throw new Error(`Unexpected or duplicate argument: ${flag}`);
+    if (!['--name', '--output', '--blueprint'].includes(flag) || Object.hasOwn(result, flag)) throw new Error(`Unexpected or duplicate argument: ${flag}`);
     const value = argv[++i];
-    if (!value || value.startsWith('--')) throw new Error(`Missing value for ${flag}`);
+    if (typeof value !== 'string' || !value || value.startsWith('--')) throw new Error(`Missing value for ${flag}`);
+    if (!value.trim() || /[\u0000-\u001f\u007f]/.test(value)) throw new Error(`${flag} must not be empty or contain control characters.`);
     result[flag] = value;
   }
-  for (const flag of ['--name', '--output', '--blueprint']) if (!result[flag]) throw new Error(`Required argument missing: ${flag}`);
-  if (!result['--name'].trim() || /[\r\n/\\]/.test(result['--name'])) throw new Error('Name must be a non-empty, single-line display name without path separators.');
+  for (const flag of ['--name', '--output', '--blueprint']) if (!Object.hasOwn(result, flag)) throw new Error(`Required argument missing: ${flag}`);
+  if (/[\\/]/.test(result['--name'])) throw new Error('Name must be a single-line display name without path separators.');
   return result;
+}
+async function canonicalizeWithMissingTail(candidate) {
+  let cursor = path.resolve(candidate);
+  const missing = [];
+  for (;;) {
+    try { return path.resolve(await realpathNative(cursor), ...missing.reverse()); }
+    catch (error) {
+      if (!['ENOENT', 'ENOTDIR'].includes(error.code)) throw error;
+      const parent = path.dirname(cursor);
+      if (parent === cursor) throw error;
+      missing.push(path.basename(cursor));
+      cursor = parent;
+    }
+  }
 }
 function normalizeRemote(remote) {
   let url;
@@ -55,17 +75,13 @@ export async function scaffold({ argv = process.argv.slice(2), cwd = process.cwd
     return { mode: match[1], type: match[2], sha: match[3], file: match[4] };
   }).filter((entry) => entry.file.startsWith(`${blueprint}/`));
   if (entries.some((entry) => entry.type === 'commit' || entry.mode === '120000')) throw new Error('Blueprint includes an unsupported symbolic link or Git submodule.');
-  const requestedOutput = path.resolve(root, args['--output']);
   const canonicalRoot = await realpathNative(root);
-  await fs.mkdir(path.dirname(requestedOutput), { recursive: true });
-  const canonicalParent = await realpathNative(path.dirname(requestedOutput));
-  const output = path.join(canonicalParent, path.basename(requestedOutput));
-  const relativeOutput = path.relative(canonicalRoot, output);
-  const outputIsInsideRepository = relativeOutput === "" || (!path.isAbsolute(relativeOutput) && relativeOutput !== ".." && !relativeOutput.startsWith(".." + path.sep));
-  if (outputIsInsideRepository) throw new Error('Output directory must be outside the source repository.');
-  const source = path.resolve(canonicalRoot, ...blueprint.split('/')); 
-  if (output === source || output.startsWith(`${source}${path.sep}`) || source.startsWith(`${output}${path.sep}`)) throw new Error('Output directory must not overlap the selected blueprint.');
-  try { await fs.lstat(output); throw new Error(`Destination already exists: ${output}`); } catch (error) { if (error.code !== 'ENOENT') throw error; }
+  const requestedOutput = path.resolve(canonicalRoot, args['--output']);
+  const output = await canonicalizeWithMissingTail(requestedOutput);
+  const source = path.resolve(canonicalRoot, ...blueprint.split('/'));
+  if (isWithin(canonicalRoot, output)) throw new Error('Output directory must be outside the source repository.');
+  if (isWithin(source, output) || isWithin(output, source)) throw new Error('Output directory must not overlap the selected blueprint.');
+  try { await fs.lstat(requestedOutput); throw new Error(`Destination already exists: ${requestedOutput}`); } catch (error) { if (error.code !== 'ENOENT') throw error; }
   const parent = path.dirname(output);
   await fs.mkdir(parent, { recursive: true });
   const stage = await fs.mkdtemp(path.join(parent, `.${path.basename(output)}.scaffold-`));
@@ -95,7 +111,8 @@ export async function scaffold({ argv = process.argv.slice(2), cwd = process.cwd
     return output;
   } finally { if (!published) await fs.rm(stage, { recursive: true, force: true }); }
 }
-if (import.meta.url === new URL(`file://${process.argv[1]?.replaceAll('\\', '/')}`).href) {
+const entrypointUrl = process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href;
+if (entrypointUrl && import.meta.url === entrypointUrl) {
   scaffold().then((output) => process.stdout.write(`Scaffold created: ${output}\n`)).catch((error) => { process.stderr.write(`Error: ${error.message}\n`); process.exitCode = 1; });
 }
 
