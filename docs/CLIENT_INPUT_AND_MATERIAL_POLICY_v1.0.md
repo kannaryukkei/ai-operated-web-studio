@@ -211,4 +211,4 @@ The input process is accepted when:
 - the normalized Client Brief and discovery artifacts can be produced through existing AI applications;
 - only necessary clarifications are sent to the client;
 - the process works without a paid AI API;
-- the platform's legacy 26-field intake is clearly treated as an internal bridge until its access and UI are aligned with this policy.
+- the platform's versioned Project Intake is treated as a Studio-only internal summary bridge, not client input or a source-of-truth record; raw materials and canonical source-linked artifacts remain separately maintained.

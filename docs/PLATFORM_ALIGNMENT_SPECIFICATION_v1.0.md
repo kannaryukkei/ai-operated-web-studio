@@ -71,7 +71,7 @@ The current manual discovery result validator does not represent the full canoni
 
 Therefore, do not describe the current `DiscoveryRun.result` as a canonical discovery packet or WRP. It is a manual AI working summary that helps the operator prepare the detailed, source-linked project artifacts.
 
-## 3. Target access contract
+## 3. Implemented access contract
 
 ### 3.1 Project Intake
 
@@ -130,9 +130,9 @@ Keep the existing workflow:
 
 Do not add provider credentials, background model calls, automatic AI orchestration, retry queues, MCP dependencies or paid APIs.
 
-### 4.3 Minimal discovery validator alignment
+### 4.3 Implemented discovery validator alignment
 
-In the platform implementation segment, align the overlapping status values in the existing working-summary contract with canonical values, without pretending to implement the entire canonical record schema:
+Segment 12 aligned the overlapping status values in the existing working-summary contract with the canonical values below. This remains a working summary rather than the full canonical record schema:
 
 - Evidence status: `VERIFIED`, `CLIENT-PROVIDED-UNVERIFIED`, `DEMO-ONLY`, `ASSUMPTION`, `MISSING`, `CONFLICT`.
 - Publication status: `APPROVED`, `PENDING`, `NOT_APPROVED`.
@@ -142,7 +142,7 @@ In the platform implementation segment, align the overlapping status values in t
 - CTA destination status: `APPROVED_REAL_DESTINATION`, `NOT_CONFIGURED`, `NEEDS_APPROVAL`, `DEMO_ONLY`.
 - Milestone priority: `PREVIEW_BLOCKER`, `PRODUCTION_BLOCKER`, `OPTIONAL_GAP`.
 
-Do not accept `APPROVED-FOR-PUBLICATION` as evidence, or use `CLIENT_PROVIDED_UNVERIFIED`, `MISSING` or `DEMO_ONLY` as an asset permission decision. Use the canonical schema's explicit alias mapping when reading any existing legacy records. Update the prompt, validation rules, result TypeScript types/rendering and feature fixtures together.
+Do not reintroduce `APPROVED-FOR-PUBLICATION` as evidence, or use `CLIENT_PROVIDED_UNVERIFIED`, `MISSING` or `DEMO_ONLY` as an asset permission decision. Preserve explicit alias handling for any existing legacy records. Any future enum change must be coordinated across the prompt, validation rules, result TypeScript types/rendering and feature fixtures.
 
 The working summary still does **not** become the complete canonical packet: stable record IDs, locators, full source coverage, all approval references and post-QA `page_coverage[]` remain project artifacts/manual records for now. Do not report full canonical schema persistence as implemented.
 
@@ -202,10 +202,10 @@ A persisted approval model may be reconsidered only after real projects show tha
 
 ### Validation and versioning
 
-- [x] Exactly the five named fields are required at submit; all 21 other fields remain optional.
+- [x] Exactly the five named fields are required at submit; 21 optional for schema v1 and 22 optional for schema v2.
 - [x] Draft save continues to allow partial/empty optional fields.
 - [x] Submitted intake version is immutable; subsequent Studio edits create a new draft version.
-- [x] Payload keys remain restricted to the defined 26 fields.
+- [x] Payload keys remain restricted to the selected schema version's field set (26 in v1; 27 in v2).
 
 ### Discovery
 
