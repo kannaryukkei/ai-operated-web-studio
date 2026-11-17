@@ -1,4 +1,4 @@
-# Prompt — Starter Website Build and Refinement
+# Prompt — Starter Website Build and Implementation
 
 **Master Skill mapping:** Stage 5 — Creative direction and implementation.
 
