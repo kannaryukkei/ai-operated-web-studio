@@ -30,7 +30,7 @@ Use the existing Shared Website Quality Gate / Playwright evidence, preferably f
 
 Review desktop, tablet and mobile; all material page sections; actual image crops; hierarchy; typography; density; CTA visibility; responsive adaptation; interaction states; and the visitor journey. Use full-page captures for rhythm and viewport captures for readable detail. If actual screenshots cannot be opened, stop visual claims and report BLOCKED.
 
-Run visual-design-audit and interface-quality-review. Run frontend-visual-qa against the approved design reference and exact render. Keep their different verdicts separate.
+Run visual-design-audit and interface-quality-review. Run frontend-visual-qa against the approved design reference and exact render. For any finding tied to an interaction, use the existing Playwright/browser workflow to reproduce and capture that exact state; do not imply the shared runner's page-top/section-start captures cover it. Keep the specialist verdicts separate.
 
 ### C. Produce the issue ledger
 
