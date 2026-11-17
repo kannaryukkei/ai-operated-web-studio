@@ -31,21 +31,18 @@ export async function findRunArtifact({
     authorization: `Bearer ${token}`,
     'x-github-api-version': '2022-11-28',
   };
-  let lastReason = 'artifact was not listed';
 
   for (let attempt = 1; attempt <= normalizedAttempts; attempt += 1) {
     let response;
     try {
       response = await fetchImpl(endpoint, { headers });
     } catch (error) {
-      lastReason = `artifact listing request failed: ${error?.message || String(error)}`;
       if (attempt === normalizedAttempts) break;
       await sleep(retryDelayMs);
       continue;
     }
 
     if (!response.ok) {
-      lastReason = `artifact listing returned HTTP ${response.status}`;
       if (!TRANSIENT_HTTP_STATUSES.has(response.status) || attempt === normalizedAttempts) {
         throw new Error(lastReason);
       }
@@ -59,7 +56,6 @@ export async function findRunArtifact({
     );
     if (artifact) return artifact;
 
-    lastReason = `artifact "${artifactName}" is not yet visible in the run artifact list`;
     if (attempt < normalizedAttempts) await sleep(retryDelayMs);
   }
 
