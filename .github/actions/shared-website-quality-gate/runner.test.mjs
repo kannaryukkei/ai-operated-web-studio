@@ -13,6 +13,8 @@ import {
   evaluateEvidenceCandidates, detectEvidenceCandidate, detectOverflow, waitForPreview, writeArtifacts,
 } from './lib.mjs';
 import { stopPreview } from './preview-process.mjs';
+import { planSectionCapture, safeVisualSlug } from './visual-evidence.mjs';
+import { findRunArtifact } from './artifact-verification.mjs';
 
 const verified = () => ({
   id: 'claim-1', category: 'testimonial', item: '“The service was clear and helpful.” — A. Customer',
@@ -24,6 +26,110 @@ const verified = () => ({
   status: 'VERIFIED',
 });
 const manifest = (items = [verified()]) => ({ version: 1, humanReviewRequired: true, items });
+
+test('run artifact verification retries eventual listing visibility after a successful upload', async () => {
+  const sleeps = [];
+  let requests = 0;
+  const result = await findRunArtifact({
+    repository: 'owner/repository',
+    runId: '12345',
+    token: 'test-token',
+    artifactName: 'shared-website-quality-gate',
+    retryDelayMs: 25,
+    sleep: async (milliseconds) => sleeps.push(milliseconds),
+    fetchImpl: async () => {
+      requests += 1;
+      return {
+        ok: true,
+        json: async () => ({
+          artifacts: requests < 3 ? [] : [{
+            id: 987,
+            name: 'shared-website-quality-gate',
+            expired: false,
+            size_in_bytes: 1024,
+          }],
+        }),
+      };
+    },
+  });
+
+  assert.equal(result.id, 987);
+  assert.equal(requests, 3);
+  assert.deepEqual(sleeps, [25, 25]);
+});
+
+test('run artifact verification rejects expired or empty matches and returns null after bounded retries', async () => {
+  let requests = 0;
+  const result = await findRunArtifact({
+    repository: 'owner/repository',
+    runId: '12345',
+    token: 'test-token',
+    artifactName: 'shared-website-quality-gate',
+    attempts: 2,
+    sleep: async () => {},
+    fetchImpl: async () => {
+      requests += 1;
+      return {
+        ok: true,
+        json: async () => ({
+          artifacts: [
+            { name: 'shared-website-quality-gate', expired: true, size_in_bytes: 1024 },
+            { name: 'shared-website-quality-gate', expired: false, size_in_bytes: 0 },
+          ],
+        }),
+      };
+    },
+  });
+
+  assert.equal(result, null);
+  assert.equal(requests, 2);
+});
+
+test('run artifact verification does not retry permanent API authorization failures', async () => {
+  let requests = 0;
+  await assert.rejects(findRunArtifact({
+    repository: 'owner/repository',
+    runId: '12345',
+    token: 'test-token',
+    artifactName: 'shared-website-quality-gate',
+    sleep: async () => {},
+    fetchImpl: async () => {
+      requests += 1;
+      return { ok: false, status: 403 };
+    },
+  }), /HTTP 403/);
+  assert.equal(requests, 1);
+});
+
+test('visual evidence section capture prefers explicit markers and enforces a bounded screenshot count', () => {
+  assert.deepEqual(planSectionCapture({ markedCount: 14, semanticCount: 20 }), {
+    selector: 'main [data-qa-visual-section]',
+    strategy: 'explicit-markers',
+    total: 14,
+    captureCount: 12,
+    omitted: 2,
+  });
+  assert.deepEqual(planSectionCapture({ markedCount: 0, semanticCount: 3 }), {
+    selector: 'main > section',
+    strategy: 'semantic-sections',
+    total: 3,
+    captureCount: 3,
+    omitted: 0,
+  });
+  assert.deepEqual(planSectionCapture({ markedCount: 0, semanticCount: 0 }), {
+    selector: null,
+    strategy: 'none',
+    total: 0,
+    captureCount: 0,
+    omitted: 0,
+  });
+});
+
+test('visual evidence section filenames stay readable and filesystem-safe', () => {
+  assert.equal(safeVisualSlug('Pilihan & Harga — Mobil/Motor!'), 'pilihan-harga-mobil-motor');
+  assert.equal(safeVisualSlug('   '), 'section');
+  assert.ok(safeVisualSlug('A'.repeat(80)).length <= 48);
+});
 
 test('typography roles use semantic elements and documented data attribute overrides', () => {
   assert.equal(classifyTypographyRole('p'), 'BODY');
