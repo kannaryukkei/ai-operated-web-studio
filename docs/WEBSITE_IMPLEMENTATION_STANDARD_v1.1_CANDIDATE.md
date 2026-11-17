@@ -2,7 +2,7 @@
 
 Status: Draft — Master Revision candidate, 2026-11-15
 Supersedes: v1.0
-Authority: Master Skill v1.11 Candidate, Canonical Discovery Data Schema v1.0, Website Requirements Pack v1.0 and Approval & Release Policy v1.0. This file defines design and implementation guardrails; the Starter Product Acceptance Gate defines product acceptance.
+Authority: Master Skill v1.12 Candidate (owner adoption pending), Canonical Discovery Data Schema v1.0, Website Requirements Pack v1.0 and Approval & Release Policy v1.0. This file defines design and implementation guardrails; the Starter Product Acceptance Gate defines product acceptance.
 
 ## 1. Product principle
 
