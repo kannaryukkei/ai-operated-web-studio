@@ -118,6 +118,6 @@ List browsers, viewports, states, real-device checks and accessibility checks th
 - Do not claim that screenshot QA proves full accessibility, performance, cross-browser compatibility or commercial quality.
 - Each repair cycle must be scoped, bounded and checkpointed.
 
-## Master Skill v1.11 integration
+## Master Skill v1.12 integration
 
-This skill supports Master Skill Stage 7. Compare the exact rendered project version to the approved design/reference and WRP criteria. Record real browser, viewport, state, commit and screenshot evidence; mark unavailable checks NOT_TESTED. It cannot approve release or waive G5/G6. Do not mistake concept imagery for proof or invent social proof, including in demos. No paid API is required.
+This skill supports Master Skill Stage 6 for rendered-fidelity diagnosis and before/after re-verification, and Stage 7 when the acceptance criteria require visual evidence. In Stage 6, produce a mismatch ledger and re-capture the same viewport/state after a bounded correction; do not silently change the approved design direction. Compare the exact rendered project version to the approved design/reference and WRP criteria. Record real browser, viewport, state, commit and screenshot evidence; mark unavailable checks NOT_TESTED. It cannot approve release or waive G5/G6. Do not mistake concept imagery for proof or invent social proof, including in demos. No paid API is required.
