@@ -22,14 +22,6 @@ This implementation remains a ZACKS Detailing automotive/local-service reference
 
 A separate blank Starter variant will use the selected React/Vite stack while excluding ZACKS identity, content, prices, contacts, assets and client-specific interactions. That separation is handled as a distinct implementation task.
 
-## Stack
-
-- React 18
-- Vite 6
-- Lucide React
-- Plain CSS with desktop, tablet and mobile layouts
-- No backend, database, CMS, admin dashboard, authentication, analytics or stored booking records
-
 ## Run locally
 
 ```bash
