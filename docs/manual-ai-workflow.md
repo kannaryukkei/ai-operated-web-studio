@@ -1,3 +1,5 @@
+> **Architecture update (2026-11-18):** This document describes the earlier manual handoff and Laravel intake/discovery bridge. The canonical default is now one ChatGPT standard conversation + GitHub using the repository-native workflow contract in `.studio/` and `scripts/`. Laravel remains a preserved prototype, not a required runtime. Material-first intake, source traceability and human approval principles below remain applicable. See `docs/REPO_NATIVE_WORKFLOW_ENFORCEMENT_v1.0.md` and ADR-003.
+
 # API-Free Material-First Studio Workflow
 
 ## Principle

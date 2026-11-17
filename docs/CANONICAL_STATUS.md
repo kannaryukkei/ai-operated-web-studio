@@ -10,12 +10,16 @@ Any document suggesting paid credentials is stale: flag it, do not follow it.
 AI working on this repo reads only these files first, then task-specific
 docs only when the task needs them. Do not read all of docs/.
 1. README.md
-2. AI_BUILD_RULES.md
-3. docs/CANONICAL_STATUS.md (this file)
-4. docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md
-5. docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md
-6. docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.12.md (adopted canonical Master Skill, 2026-11-18)
-7. blueprints/starter/README.md
+2. AGENTS.md
+3. AI_BUILD_RULES.md
+4. docs/CANONICAL_STATUS.md (this file)
+5. .studio/README.md
+6. .studio/workflow.contract.json
+7. docs/REPO_NATIVE_WORKFLOW_ENFORCEMENT_v1.0.md
+8. docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md
+9. docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md
+10. docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.12.md (adopted canonical Master Skill, 2026-11-18)
+11. blueprints/starter/README.md
 ## Status table
 | Family | Current / Candidate | Superseded / Historical |
 |---|---|---|
@@ -32,7 +36,9 @@ docs only when the task needs them. Do not read all of docs/.
 | Calibration | MASTER_SKILL_CALIBRATION_PROTOCOL v1.0, EXPERIMENT_CALIBRATION_RECORD_TEMPLATE v1.0 | Calibration records dated 2026-11-15 and 2026-11-16 are point-in-time evidence, not living specs |
 | Media pipeline | MEDIA_AND_ASSET_PIPELINE v1.0 and MEDIA_IMPORT_AUTOMATION v1.0 are candidates for Starter; local media inbox + specialist skill integrated by PR #17 (2026-11-16, commit `533854c`) | None |
 | Experiment 05 calibration | `docs/pilot-learnings/EXPERIMENT_05_STARPOINT_GARAGE_CALIBRATION_2026-11-16.md` — preliminary standalone baseline finding | NOT YET PROVEN; not yet an operating rule |
-| Platform baseline | product-brief, architecture, mvp-specification, data-model, security-and-approvals, ai-orchestration, manual-ai-workflow, roadmap, local-bootstrap | None |
+| Workflow runtime | `.studio/workflow.contract.json`, `scripts/workflow-enforcement.mjs`, `.studio/project-state.schema.json`, `AGENTS.md`, `docs/REPO_NATIVE_WORKFLOW_ENFORCEMENT_v1.0.md`; repository-native, agent-neutral and API-free. | None
+| Architecture decisions | ADR-003 accepted for repository-native workflow. ADR-002 superseded as canonical runtime decision and retained as Laravel prototype history. | ADR-002 original Laravel queue architecture
+| Platform baseline | `platform/` Laravel application is a preserved prototype, not a required workflow runtime. | Laravel as mandatory workflow authority |
 | Skills | skills/README.md, skills/registry.md | None |
 | Decisions and learnings | BLUEPRINT_MIGRATION_DECISION (provenance reference) | FOUR_PILOT_RETROSPECTIVE, EXPERIMENT_03_SYSTEM_LEARNINGS, RESTRUCTURE_EXECUTION_PLAN, MASTER_REVISION_EXECUTION_LOG: records, not operating instructions |
 ## Experiment repositories
@@ -53,6 +59,8 @@ The owner may reconsider retirement only after an evidence-based review confirms
 
 - [x] Adopt Master Skill v1.12 as canonical operating authority (Studio owner decision, 2026-11-18; implementation tracked by dedicated PR).
 - [x] Select React 18 + Vite 6 as the canonical Starter stack (owner decision, 2026-11-17).
+- [x] Select API-free, conversation-first, repository-native workflow; ChatGPT + GitHub default and other agents optional (owner direction, 2026-11-18; implementation in progress on `feat/repo-native-workflow-enforcement`).
+- [ ] Complete P0 repository-native enforcement, adversarial CI and cross-agent handoff contract.
 - [x] Keep Experiment 01–05 repositories active; no archive or deletion authorized (owner decision, 2026-11-17).
 - [x] Integrate PR #17 (Starter media pipeline): merged 2026-11-16 as commit `533854c`.
 - [ ] Run Experiment 05 through the full Studio/Starter workflow before promoting its conditional offer-variant pattern.

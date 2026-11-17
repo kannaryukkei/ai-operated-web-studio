@@ -10,14 +10,12 @@ Clients explain their business once in a normal interview and provide existing a
 
 ## Initial architecture
 
-- **Backend:** Laravel 13 monolith.
-- **Client and studio UI:** React + Inertia, TypeScript, Tailwind, shadcn/ui via the official Laravel React starter kit.
-- **AI workflow:** API-free first. The platform prepares structured prompts and stores results produced in ChatGPT, Claude, or another external AI application. No provider API integration; the studio operates entirely free.
-- **Workflow execution:** persisted project records and discovery runs; manual handoffs first, queues only when a proven bottleneck justifies them.
-- **Database:** SQLite for local bootstrap; PostgreSQL target for production.
-- **Files:** local storage in development; private object storage in production.
+- **Primary operating interface:** one ChatGPT standard conversation with GitHub as the default repository interface. Codex, Antigravity, Muse and other agents remain optional.
+- **Workflow runtime:** repository-native machine-readable Stage 0–9 contract, Node.js built-in validators and GitHub Actions. No model API, API key, Laravel runtime or vendor-specific hooks are required.
+- **Project state and artifacts:** versioned in each isolated client project repository; stage status is derived from artifact integrity, dependencies and approval evidence.
+- **Laravel:** preserved as an existing platform prototype under `platform/`; it is not a required production workflow dependency and is not deleted by this decision.
 - **Website source:** separate GitHub repository per client website, created from versioned product blueprints.
-- **Deployment:** manual/approval-gated in the MVP; provider integration later.
+- **Deployment:** manual and approval-gated; production release remains explicitly human-authorized.
 
 ## Core product areas
 
@@ -29,9 +27,13 @@ Clients explain their business once in a normal interview and provide existing a
 
 ## Current status
 
-Laravel 13 platform foundation, client/project management, invitation-based access, versioned client intake, persisted discovery runs, and the API-free manual discovery workspace are implemented. The current product is an AI-assisted web studio operating system, not a fully autonomous AI SaaS.
+The repository-native workflow enforcement foundation is being implemented in focused, reviewable tranches. It defines Stage 0–9, 54 artifact contracts and G0–G7 in a machine-readable, API-free contract. A Node.js validator derives project stage status from artifact files, checksums, dependencies and approvals. The existing Laravel client/project and discovery platform is preserved as a prototype, not a required runtime. This is not a fully autonomous AI SaaS; the default workflow remains one conversation with human-controlled approvals.
 
 ## Start here
+
+- `AGENTS.md` — portable instructions for any AI agent using this repository.
+- `.studio/README.md` and `docs/REPO_NATIVE_WORKFLOW_ENFORCEMENT_v1.0.md` — executable contract, project state, artifact hashes, approvals, CLI and enforcement limitations.
+- `docs/architecture-decisions/ADR-003-repository-native-agent-neutral-workflow.md` — current architecture decision; ADR-002 remains historical for the Laravel prototype.
 
 - `docs/local-bootstrap.md` — local environment setup and maintenance.
 - `docs/product-brief.md`
@@ -72,11 +74,11 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 
 ## Modular skill system
 
-The Master Skill is the orchestrator; specialist instructions live under `skills/` as portable Agent Skills. `client-material-ingestion` is required at Stage 0; `media-sourcing-and-licensing` supports existing Stages 0, 5 and 7 without creating another Master stage. The current skill registry maps specialist activation to Master Skill Stages 0–9. The core workflow remains API-free and uses existing AI applications rather than paid model APIs.
+The machine-readable workflow contract and validators govern stage state and gate progression; the Master Skill orchestrates conversational work, while specialist instructions live under `skills/` as portable Agent Skills. `client-material-ingestion` is required at Stage 0; `media-sourcing-and-licensing` supports existing Stages 0, 5 and 7 without creating another Master stage. The current skill registry maps specialist activation to Master Skill Stages 0–9. The core workflow remains API-free and uses existing AI applications rather than paid model APIs.
 
 ## Product boundary
 
-`ai-operated-web-studio` is the single source of truth for the studio's production system. Platform code lives under `platform/`; reusable website blueprints and delivery material live under `blueprints/`; operating standards, Master Skill and client brief live under `docs/`. Do not place website source inside `platform/`. Each real client website is copied from an appropriate blueprint into a separate private repository. The migrated Starter reference is under `blueprints/starter/` and is ZACKS-specific, not a universal site to deploy unchanged.
+`ai-operated-web-studio` is the single source of truth for the studio's production system. The canonical workflow runtime lives under `.studio/` and `scripts/`; `platform/` is a preserved, non-required prototype; reusable website blueprints and delivery material live under `blueprints/`; operating standards, Master Skill and client brief live under `docs/`. Do not place website source inside `platform/`. Each real client website is copied from an appropriate blueprint into a separate private repository. The migrated Starter reference is under `blueprints/starter/` and is ZACKS-specific, not a universal site to deploy unchanged.
 
 ## Current delivery workflow
 

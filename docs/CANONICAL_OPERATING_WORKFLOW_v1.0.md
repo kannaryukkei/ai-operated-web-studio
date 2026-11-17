@@ -10,7 +10,7 @@
 
 Define one end-to-end operating lifecycle for every website project. The lifecycle makes clear what enters each stage, who performs the work, what artifact must exist before moving on, and which decisions require a human.
 
-The Master Skill is the execution orchestrator for AI. This document is the shared workflow map. The Laravel platform records and coordinates the project; it does not currently execute all stages autonomously.
+The Master Skill is the conversational task orchestrator; this document is the shared workflow map. The repository-native contract in `.studio/workflow.contract.json` is the executable stage/dependency/artifact/gate definition, and `scripts/workflow-enforcement.mjs` derives stage status from validated project files. ChatGPT standard conversation + GitHub is the default interface; other agents are optional. Laravel under `platform/` is a preserved prototype, not the canonical workflow authority or a required runtime.
 
 ## 2. Operating principles
 
@@ -18,7 +18,7 @@ The Master Skill is the execution orchestrator for AI. This document is the shar
 2. Preserve raw materials unchanged and keep them in access-controlled project storage.
 3. AI normalizes, analyzes, drafts and assists production; it does not become the authority for client facts, asset rights, commercial decisions or release.
 4. Use existing AI applications and coding tools. Manual handoff is an approved operating mode; paid APIs are not required.
-5. The operator carries context and artifacts forward through stable project files and records, not conversation memory alone.
+5. The operator carries context and artifacts forward through stable project files and records, not conversation memory alone. The machine-readable contract and project manifest in each isolated repository are the durable workflow record.
 6. Resolve material uncertainty before the milestone it affects. Do not block a preview for every optional gap.
 7. Do not choose page sections or visual treatment before understanding the business and its customer journey.
 8. Starter is the only active implementation priority until the Starter Production Readiness Gate passes.
@@ -56,7 +56,7 @@ A private preview may be produced before all production blockers are cleared, bu
 **Inputs:** client identity/contact for project administration, agreed interview, supplied assets, optional existing website/social/public reference links.
 
 **Actions:**
-- Create the project in the platform and assign authorized participants.
+- Create the isolated client project repository and record authorized project access; the Laravel prototype is not required for workflow operation.
 - Conduct or record a natural business interview; do not turn it into a long technical questionnaire.
 - Receive existing assets and links through an access-controlled channel.
 - Separate internal project contacts from public customer-facing destinations.
@@ -366,3 +366,16 @@ No row in this table should be described as automated by the platform unless an 
 - If the workflow and a specialist skill overlap, Master Skill and registry authority rules decide which instruction is primary.
 - A proposed stage/approval change must update the PRD and this workflow before implementation.
 - Platform automation is added only when it supports a requirement and a repeated manual bottleneck has been demonstrated.
+
+
+## 10. Repository-native execution and enforcement (architecture update, 2026-11-18)
+
+The Stage 0–9 lifecycle and G0–G7 authority model above remain canonical. Their execution mechanism is now repository-native rather than Laravel-dependent:
+
+- `.studio/workflow.contract.json` defines stage sequence, dependencies, 54 artifact IDs, gates, approver roles and preview/production modes.
+- Each client repository carries a copy of `.studio/project-state.template.json` as `.studio/project-state.json`; only submitted artifacts and approval evidence are recorded. Stage status is derived, never written by an AI agent.
+- `scripts/workflow-enforcement.mjs` validates contract integrity, artifact paths and hashes, dependency order, gate approvals and current artifact bindings.
+- GitHub Actions provides repeatable contract and regression checks. It is evidence, not a tamper-proof lock on GitHub Free private repositories.
+- ChatGPT standard conversation + GitHub is the default. Codex, Antigravity, Muse and other agents are optional adapters and must follow the same contract.
+- No model API, API key, Laravel service or agent-specific hook is required. Laravel remains a preserved prototype and is not the workflow source of truth.
+- The runtime validates declared approval evidence; it cannot cryptographically authenticate a person who approved through conversation. Preserve explicit human authorization and do not overstate technical enforcement.
