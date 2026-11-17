@@ -275,7 +275,7 @@ async function main() {
   report.evidence.failures.push(...manifestValidation.errors);
   server = startPreview();
   log('Started preview command in ' + root + ': ' + previewCommand);
-  await waitForPreview(server);
+  await waitForPreview(server, url);
   browser = await chromium.launch({ headless: true });
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   page.on('console', (message) => { if (message.type() === 'error') log('Browser console error: ' + message.text()); });

@@ -287,3 +287,10 @@ test('artifact writer creates a machine-readable report and diagnostics file', a
     assert.equal(await readFile(paths.diagnostics, 'utf8'), 'captured diagnostic');
   } finally { await rm(directory, { recursive: true, force: true }); }
 });
+
+
+test('runner forwards configured SWQG_URL to preview readiness', async () => {
+  const source = await readFile(new URL('./runner.mjs', import.meta.url), 'utf8');
+  assert.match(source, /const url = process\.env\.SWQG_URL;/);
+  assert.match(source, /await waitForPreview\(server,\s*url\);/);
+});

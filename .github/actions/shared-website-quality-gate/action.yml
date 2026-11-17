@@ -50,4 +50,5 @@ runs:
       with:
         name: shared-website-quality-gate
         path: ${{ inputs.working-directory }}/${{ inputs.artifacts-directory }}/
+        include-hidden-files: true
         if-no-files-found: warn
