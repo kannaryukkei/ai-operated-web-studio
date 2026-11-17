@@ -28,7 +28,7 @@ export function validateContract(c){
  for(const id of g.artifact_ids??[])if(!aa.has(id))e.push(err('UNKNOWN_GATE_ARTIFACT',g.id+' references '+id));});
  return e;
 }
-function safePath(p){if(typeof p!=='string'||!p.trim()||path.isAbsolute(p))return false;const a=p.replaceAll('\\\\','/').split('/');return !a.some(x=>x==='..'||x==='.')&&!/^[a-z]:/i.test(p);}
+function safePath(p){if(typeof p!=='string'||!p.trim()||path.isAbsolute(p))return false;const a=p.replaceAll('\\','/').split('/');return !a.some(x=>x==='..'||x==='.')&&!/^[a-z]:/i.test(p);}
 async function checkArtifact(r,d,root){
  const e=[];if(!obj(r))return [err('INVALID_ARTIFACT_RECORD','Artifact must be an object.')];
  if(r.stage_id!==d.stage_id)e.push(err('ARTIFACT_STAGE_MISMATCH',r.artifact_id+' stage mismatch.'));
@@ -72,7 +72,7 @@ export async function evaluateProject({contract,state,projectRoot}){
  const defs=new Map(contract.artifacts.map(x=>[x.id,x])),good=new Set(),seen=new Set();
  for(const r of state.artifacts){if(!obj(r)||!defs.has(r.artifact_id)){e.push(err('UNKNOWN_ARTIFACT','Unknown artifact entry.'));continue;}const k=r.artifact_id+'@'+r.version;if(seen.has(k))e.push(err('DUPLICATE_ARTIFACT_VERSION','Duplicate '+k));seen.add(k);const x=await checkArtifact(r,defs.get(r.artifact_id),projectRoot);x.forEach(a=>e.push({...a,artifact_id:r.artifact_id}));if(!x.length)good.add(k);}
  const current=new Map();for(const r of state.artifacts){if(!defs.has(r?.artifact_id))continue;const o=current.get(r.artifact_id);if(!o||versionCmp(r.version,o.version)>0)current.set(r.artifact_id,r);}
- const approvals=new Map(),ids=new Set();for(const a of state.approvals){if(!obj(a)||!a.approval_id||ids.has(a.approval_id)||approvals.has(a.gate_id)){e.push(err('DUPLICATE_OR_INVALID_APPROVAL','Approval IDs and gate records must be unique.'));continue;}ids.add(a.approval_id);approvals.set(a.gate_id,a);}
+ const approvals=new Map(),ids=new Set();for(const a of state.approvals){if(!obj(a)||!a.approval_id||!contract.gates.some(g=>g.id===a.gate_id)||ids.has(a.approval_id)||approvals.has(a.gate_id)){e.push(err('DUPLICATE_OR_INVALID_APPROVAL','Approval IDs and gate records must be unique.'));continue;}ids.add(a.approval_id);approvals.set(a.gate_id,a);}
  const gates=contract.gates.map(g=>{const a=approvals.get(g.id);if(!a)return {gate_id:g.id,status:'NOT_RECORDED',passed:false,issues:[]};const x=checkApproval(a,g,current,good,contract,state.delivery_mode);x.forEach(z=>e.push({...z,gate_id:g.id}));return {gate_id:g.id,status:x.length?'INVALID':'PASSED',passed:!x.length,issues:x};});
  const gatePass=new Map(gates.map(x=>[x.gate_id,x.passed])),states=new Map(),stages=[];
  for(const s of contract.stages){if((s.not_applicable_modes??[]).includes(state.delivery_mode)){states.set(s.id,'NOT_APPLICABLE');stages.push({stage_id:s.id,number:s.number,status:'NOT_APPLICABLE',can_start:false,missing_artifacts:[],missing_gates:[]});continue;}
