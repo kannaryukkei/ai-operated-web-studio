@@ -1,0 +1,141 @@
+name: Shared Website Quality Gate Ubuntu latest runtime compatibility probe
+
+on:
+  push:
+    branches: [main, 'improvement/**']
+    paths:
+      - "blueprints/starter/template-kit/starter/**"
+      - ".github/actions/shared-website-quality-gate/**"
+      - ".github/workflows/shared-website-quality-gate-ubuntu-latest.yml"
+  pull_request:
+    paths:
+      - "blueprints/starter/template-kit/starter/**"
+      - ".github/actions/shared-website-quality-gate/**"
+      - ".github/workflows/shared-website-quality-gate-ubuntu-latest.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  ubuntu-runtime-compatibility-probe:
+    name: Ubuntu 26.04 runtime compatibility (Starter quality reported separately)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout canonical repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Setup Node 22
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+      - name: Verify actual runner platform and toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat /etc/os-release
+          . /etc/os-release
+          printf 'Actual Ubuntu VERSION_ID: %s\n' "$VERSION_ID"
+          node --version
+          npm --version
+          if [[ "$VERSION_ID" != "26.04" ]]; then
+            echo "::error::ubuntu-latest resolved to $PRETTY_NAME ($VERSION_ID), not the Ubuntu 26.04 target."
+            exit 1
+          fi
+          echo "UBUNTU_VERSION=$VERSION_ID" >> "$GITHUB_ENV"
+      - name: Install canonical Starter dependencies
+        run: npm ci --no-audit --no-fund
+        working-directory: blueprints/starter/template-kit/starter
+      - name: Build canonical Starter
+        run: npm run build
+        working-directory: blueprints/starter/template-kit/starter
+      - name: Run updated shared action and capture quality outcome
+        id: shared_gate
+        continue-on-error: true
+        uses: ./.github/actions/shared-website-quality-gate
+        with:
+          working-directory: blueprints/starter/template-kit/starter
+          preview-command: npm run preview -- --host 127.0.0.1 --port 4174
+          url: http://127.0.0.1:4174
+          evidence-manifest: .website-quality/evidence-manifest.json
+          artifacts-directory: .website-quality-artifacts
+      - name: Verify runtime outputs, uploaded artifact, and report quality separately
+        if: always()
+        env:
+          ACTION_OUTCOME: ${{ steps.shared_gate.outcome }}
+          UBUNTU_VERSION: ${{ env.UBUNTU_VERSION }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          import { createRequire } from 'node:module';
+          const require = createRequire(path.resolve('.github/actions/shared-website-quality-gate/package.json'));
+          const failures = [];
+          const starter = path.resolve('blueprints/starter/template-kit/starter');
+          const artifacts = path.join(starter, '.website-quality-artifacts');
+          const reportPath = path.join(artifacts, 'report.json');
+          const diagnosticsPath = path.join(artifacts, 'diagnostics.log');
+          const expectedShots = [
+            'screenshots/initial-mobile-390.png',
+            'screenshots/initial-tablet-768.png',
+            'screenshots/initial-desktop-1440.png',
+          ];
+          const expectedWidths = [320, 360, 390, 640, 768, 900, 1024, 1280, 1440];
+          const checkFile = file => {
+            try { return fs.statSync(file).isFile() && fs.statSync(file).size > 0; }
+            catch { return false; }
+          };
+          let playwrightVersion = 'MISSING';
+          try { playwrightVersion = require('./node_modules/playwright/package.json').version; }
+          catch {}
+          if (playwrightVersion !== '1.61.0') failures.push(`shared-action Playwright version was ${playwrightVersion}, expected 1.61.0`);
+          if (process.env.UBUNTU_VERSION !== '26.04') failures.push(`actual Ubuntu version was ${process.env.UBUNTU_VERSION || 'unknown'}, expected 26.04`);
+          if (!checkFile(reportPath)) failures.push('report.json is missing or empty');
+          if (!checkFile(diagnosticsPath)) failures.push('diagnostics.log is missing or empty');
+          for (const shot of expectedShots) if (!checkFile(path.join(artifacts, shot))) failures.push(`${shot} is missing or empty`);
+          let report;
+          try { report = JSON.parse(fs.readFileSync(reportPath, 'utf8')); }
+          catch (error) { failures.push(`report.json is invalid JSON: ${error.message}`); }
+          const validStatuses = ['PASS', 'PASS_WITH_MANUAL_REVIEW_REQUIRED', 'FAIL'];
+          let qualityStatus = report?.status ?? 'UNKNOWN';
+          const actionOutcome = process.env.ACTION_OUTCOME || 'missing';
+          if (!validStatuses.includes(qualityStatus)) failures.push(`report status ${qualityStatus} is invalid`);
+          if (!['success', 'failure'].includes(actionOutcome)) failures.push(`shared action outcome was ${actionOutcome}`);
+          if (qualityStatus === 'FAIL' && actionOutcome !== 'failure') failures.push(`quality FAIL was not reflected by action outcome ${actionOutcome}`);
+          if (qualityStatus !== 'FAIL' && validStatuses.includes(qualityStatus) && actionOutcome !== 'success') failures.push(`non-failing quality status ${qualityStatus} had action outcome ${actionOutcome}`);
+          if (report && report.url !== 'http://127.0.0.1:4174') failures.push(`report URL was ${report.url}, expected http://127.0.0.1:4174`);
+          const observedWidths = [...new Set((report?.viewports ?? []).map(viewport => viewport.width))].sort((a,b) => a-b);
+          if (JSON.stringify(observedWidths) !== JSON.stringify(expectedWidths)) failures.push(`runner inspected widths ${JSON.stringify(observedWidths)}, expected ${JSON.stringify(expectedWidths)}`);
+          if (report && (!Array.isArray(report.screenshots) || report.screenshots.length < 3)) failures.push('report does not list the three initial screenshots');
+          let artifactUploaded = false;
+          try {
+            const api = process.env.GITHUB_API_URL || 'https://api.github.com';
+            const endpoint = `${api}/repos/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}/artifacts?per_page=100`;
+            const response = await fetch(endpoint, { headers: { accept: 'application/vnd.github+json', authorization: `Bearer ${process.env.GITHUB_TOKEN}`, 'x-github-api-version': '2022-11-28' } });
+            if (!response.ok) throw new Error(`artifact API returned HTTP ${response.status}`);
+            const payload = await response.json();
+            artifactUploaded = (payload.artifacts ?? []).some(item => item.name === 'shared-website-quality-gate' && !item.expired && item.size_in_bytes > 0);
+            if (!artifactUploaded) failures.push('shared-website-quality-gate artifact is absent, expired, or empty');
+          } catch (error) { failures.push(`could not verify uploaded action artifact: ${error.message}`); }
+          const runtime = failures.length === 0 ? 'PASS' : 'FAIL';
+          const lines = [
+            '## Ubuntu 26.04 shared-action runtime compatibility probe',
+            '',
+            `- Actual runner OS version: ${process.env.UBUNTU_VERSION || 'unknown'}`,
+            `- Node.js: ${process.version}`,
+            `- Shared-action Playwright: ${playwrightVersion}`,
+            `- Captured composite-action outcome: ${actionOutcome}`,
+            `- Chromium launch and rendered-site inspection: ${report && report.viewports?.length === expectedWidths.length && expectedShots.every(shot => checkFile(path.join(artifacts, shot))) ? 'completed' : 'not verified'}`,
+            `- Shared action artifact upload: ${artifactUploaded ? 'verified' : 'not verified'}`,
+            `- **Runtime compatibility result: ${runtime}**`,
+            `- **Starter quality result: ${qualityStatus}**`,
+            '- The Starter quality status is reported as returned by the shared runner and is not converted into a runtime PASS.',
+            '',
+          ];
+          if (failures.length) lines.push('Runtime verification failures:', ...failures.map(failure => `- ${failure}`), '');
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join('\n'));
+          console.log(lines.join('\n'));
+          if (qualityStatus === 'FAIL') console.log('Starter quality result: FAIL (preserved from report.json).');
+          if (failures.length) process.exitCode = 1;
+          NODE

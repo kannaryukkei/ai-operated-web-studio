@@ -32,7 +32,7 @@ The implementation is defined in [action.yml](./action.yml). The runner receives
 
 ## Runtime and browser
 
-The action sets up Node.js 22, installs the lockfile-pinned dependencies with `npm ci --no-audit --no-fund` from the action directory, then installs Chromium with `npx playwright install chromium --with-deps` from the same directory. The package lock pins Playwright 1.52.0; its browser lock specifies Chromium revision 1169. These action dependencies are separate from the website's dependencies.
+The action sets up Node.js 22, installs the lockfile-pinned dependencies with `npm ci --no-audit --no-fund` from the action directory, then installs Chromium with `npx playwright install chromium --with-deps` from the same directory. The package lock pins Playwright 1.61.0; its browser lock specifies Chromium revision 1228. These action dependencies are separate from the website's dependencies.
 
 The runner is launched from the workspace as `node "${{ github.action_path }}/runner.mjs"`. It resolves the website root from `SWQG_WORKING_DIRECTORY` (or the process working directory if unset), then resolves relative manifest and artifact paths from that root.
 
