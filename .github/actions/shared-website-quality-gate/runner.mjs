@@ -3,6 +3,7 @@ import { mkdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import { chromium } from 'playwright';
+import { stopPreview } from './preview-process.mjs';
 import {
   VIEWPORTS, classifyTypographyRole, typographyFloor, contrastFloor, parseCssColor,
   composite, contrastRatio, classifySurface, evaluateContrastSample, detectEvidenceCandidate,
@@ -48,22 +49,11 @@ function startPreview() {
   const child = spawn(command, args, { cwd: root, shell: false, windowsHide: true, detached: !isWindows, stdio: ['ignore', 'pipe', 'pipe'] });
   child.stdout.on('data', (chunk) => { const line = '[preview stdout] ' + chunk.toString().trimEnd(); diagnosticText += line + '\n'; process.stdout.write(line + '\n'); });
   child.stderr.on('data', (chunk) => { const line = '[preview stderr] ' + chunk.toString().trimEnd(); diagnosticText += line + '\n'; process.stderr.write(line + '\n'); });
-  child.on('error', (error) => log('Preview process error: ' + error.message));
+  child.on('error', (error) => {
+    child.previewStartError = error;
+    log('Preview process error: ' + error.message);
+  });
   return child;
-}
-
-async function stopPreview(child) {
-  if (!child || child.exitCode !== null) return;
-  if (process.platform === 'win32') {
-    await new Promise((resolve) => {
-      const killer = spawn(process.env.ComSpec || 'cmd.exe', ['/d', '/c', 'taskkill', '/pid', String(child.pid), '/t', '/f'], { windowsHide: true, stdio: 'ignore' });
-      killer.on('exit', resolve); killer.on('error', resolve);
-    });
-  } else {
-    try { process.kill(-child.pid, 'SIGTERM'); } catch { child.kill('SIGTERM'); }
-    await new Promise((resolve) => { const timer = setTimeout(resolve, 3000); child.once('exit', () => { clearTimeout(timer); resolve(); }); });
-    if (child.exitCode === null) { try { process.kill(-child.pid, 'SIGKILL'); } catch {} }
-  }
 }
 
 async function captureSurface(page, width) {
