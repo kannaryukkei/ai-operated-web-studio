@@ -87,6 +87,8 @@ Inspect actual images at 100% scale. Use full-page screenshots for page rhythm, 
 
 ### 4. Build a traceable issue ledger
 
+Every material finding must include one primary root cause from the canonical Master Skill Calibration Protocol. Split findings with multiple causes into atomic issues, each with one corrective owner.
+
 Every material finding must include:
 
 | Field | Required content |
@@ -97,7 +99,7 @@ Every material finding must include:
 | Evidence | Exact screenshot path, viewport/state, or reproducible browser observation |
 | Observation | What is visibly or behaviorally wrong |
 | Impact | Effect on visitor comprehension, trust, conversion, usability or brand quality |
-| Root cause | INPUT_SOURCE / DESIGN_DECISION / IMPLEMENTATION / QA_GAP |
+| Root cause | INPUT_SOURCE / MASTER_SKILL_REASONING / IMPLEMENTATION_QA / EXTERNAL_APPROVAL_DEPENDENCY |
 | Correction | Specific, bounded code/design change |
 | Acceptance check | What must be true after the correction |
 | Status | OPEN / FIXED / DEFERRED / ACCEPTED_WITH_REASON |
