@@ -12,6 +12,26 @@
 - `template-kit/templates/`: client project records, approval logs, scope, content, QA, launch and retrospective templates.
 - `KALA_PILOT_LEARNINGS.md`: reusable lessons distilled from every KALA pilot branch.
 
+## Canonical Starter stack decision
+
+**Owner decision — 2026-11-17: React 18 + Vite 6 is the selected implementation stack for Starter.**
+
+The canonical Starter reference and future Starter variants use:
+
+- React 18 for the UI layer.
+- Vite 6 for development and production builds.
+- Lucide React for interface icons where appropriate.
+- Plain CSS for styling and responsive layout.
+- Node.js 20 or newer.
+- npm with a committed lockfile and `npm ci` for reproducible installation.
+- Playwright with Chromium for browser-based regression testing.
+
+Starter remains static-first. Do not introduce a backend, database, CMS, authentication, booking system, checkout, persistent form storage or other server-side capability unless an approved business requirement demonstrates the need.
+
+The Vanilla HTML/CSS/JavaScript implementation in Experiment 04 remains useful experimental evidence, but it is not the selected canonical Starter stack. Its repository and learning remain preserved.
+
+The ZACKS implementation remains intact as the Starter reference. A separate blank Starter variant will be handled independently; the ZACKS site is not a universal blank template.
+
 ## Important: this is a reference implementation, not a universal blank site
 
 The current website source is the ZACKS Detailing automotive/local-service demo. It is the best tested reference for a local service business decision journey, but it still contains ZACKS-specific language, automotive interactions, sample pricing, contact details and external photo references. Some legacy portfolio content also contains simulated metrics/customer-story style proof; those elements do not comply with the current evidence policy, even in demos. Do not deploy or copy it unchanged for a client.
@@ -19,7 +39,7 @@ The current website source is the ZACKS Detailing automotive/local-service demo.
 The current reference was corrected in commit `6d4e85633e35bb8160a46988c8665267191e3f0f`: simulated customer-story cards and numeric proof were removed from the content configuration and rendered page, with a browser regression to prevent their return. That does not verify the remaining ZACKS facts or asset rights.
  
 For each project:
-1. Read the approved brief, Master Skill v1.11 Candidate and the canonical operating/data/approval documents.
+1. Read the approved brief, the current owner-approved Master Skill version or (while adoption is pending) the candidate listed in `docs/CANONICAL_STATUS.md`, and the canonical operating/data/approval documents.
 2. Decide whether this local-service pattern actually fits the customer journey.
 3. Copy `template-kit/starter/` into that client's separate website repository only when it is a fit.
 4. Replace ZACKS identity, facts, contact endpoints, images, credits, pricing, FAQs and policies only with source-traceable and appropriately approved material. Never add fabricated proof.
