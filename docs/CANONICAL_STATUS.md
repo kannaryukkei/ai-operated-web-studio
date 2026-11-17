@@ -25,6 +25,7 @@ docs only when the task needs them. Do not read all of docs/.
 | Client brief template | v2.1, current | v1.1, v2.0 historical |
 | Starter acceptance gate | v1.1, required | v1.0 superseded |
 | Starter stack | React 18 + Vite 6 selected by owner on 2026-11-17; static-first. ZACKS remains the category-specific reference, not a universal blank site. | Vanilla HTML/CSS/JavaScript in Experiment 04 remains experimental evidence, not the selected canonical Starter stack |
+| Starter blueprints | `blueprints/starter/blank/` is the neutral default starting point for new client projects. `blueprints/starter/template-kit/starter/` remains the separate ZACKS-specific reference implementation. | None |
 | Operating contracts | CANONICAL_OPERATING_WORKFLOW v1.0, CANONICAL_DISCOVERY_DATA_SCHEMA v1.0, WEBSITE_REQUIREMENTS_PACK v1.0, APPROVAL_AND_RELEASE_POLICY v1.0 | None |
 | Intake | CLIENT_MATERIAL_INGESTION_PROTOCOL v1.0, current | None |
 | Starter gates | STARTER_AUTOMATED_QUALITY_GATE v1.0, STARTER_CONTENT_EVIDENCE_GATE v1.0 | None |

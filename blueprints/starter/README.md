@@ -6,6 +6,7 @@
 
 ## What this blueprint contains
 
+- `blank/`: neutral technical foundation and default starting point for new client website projects. Populate it only after an approved Website Requirements Pack (WRP) defines the site's content and structure.
 - `template-kit/starter/`: the full React/Vite static Starter reference implementation.
 - `template-kit/docs/`: product definition, extraction map, source audit, responsive QA, delivery SOP and workspace templates.
 - `template-kit/prompts/starter/`: manual stage prompts for ChatGPT/Claude.
@@ -30,7 +31,7 @@ Starter remains static-first. Do not introduce a backend, database, CMS, authent
 
 The Vanilla HTML/CSS/JavaScript implementation in Experiment 04 remains useful experimental evidence, but it is not the selected canonical Starter stack. Its repository and learning remain preserved.
 
-The ZACKS implementation remains intact as the Starter reference. A separate blank Starter variant will be handled independently; the ZACKS site is not a universal blank template.
+The ZACKS implementation remains intact as the category-specific Starter reference. `blank/` is the neutral default starting point for new client projects; `template-kit/starter/` is the ZACKS-specific reference implementation. They are independent blueprints, and the ZACKS site is not a universal blank template.
 
 ## Important: this is a reference implementation, not a universal blank site
 
