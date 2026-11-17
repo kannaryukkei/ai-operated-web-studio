@@ -205,25 +205,28 @@ A private preview may be produced before all production blockers are cleared, bu
 
 ### Stage 6 — Refinement
 
-**Purpose:** improve the existing implementation against observable findings without losing successful work.
+**Purpose:** improve the existing implementation against actual rendered evidence without losing successful work.
 
-**Responsible:** AI specialist tools; operator controls scope and verifies changes; owner/client review when the change affects approved business content or design.
+**Responsible:** AI specialist tools and coding tools; operator owns scope, branch/checkpoints and verification; owner/client approves material content, design-direction or scope changes.
 
-**Inputs:** initial implementation, design fingerprint, screenshots, findings, content coverage and build evidence.
+**Required execution procedure:** `docs/VISUAL_ENHANCEMENT_WORKFLOW_v1.0.md`; Starter execution prompt: `blueprints/starter/template-kit/prompts/starter/04-visual-enhancement.md`.
+
+**Inputs:** initial implementation, approved WRP/design fingerprint and specification, exact repository/branch/commit, rendered screenshots and quality report, source/content coverage, asset permissions and build/test evidence.
 
 **Actions:**
-- Review the rendered site section by section at actual viewport scale.
-- Check visual hierarchy, content density, image crop, typography, responsive behavior, affordances and interaction feedback.
-- Distinguish root causes: input/source, Master Skill/reasoning or implementation/QA.
-- Apply bounded corrections to the responsible layer.
-- Preserve a good baseline; avoid regeneration without a reproducible reason.
-- Re-run affected tests and capture before/after evidence.
+- Pin and preserve the exact baseline before editing.
+- Capture browser-rendered viewport evidence at 390px, 768px and 1440px plus section evidence at mobile and desktop using the existing shared Playwright runner. Inspect the actual PNGs; metadata alone is not visual review.
+- Run `visual-design-audit` and `interface-quality-review`; use `frontend-visual-qa` to judge fidelity against the approved design/reference.
+- Record a traceable issue ledger: finding ID, severity, screenshot path/viewport/state, observation, visitor impact, root cause, exact correction and acceptance check.
+- Apply bounded, approved fixes with `frontend-layout-implementer`, preserving the selected direction, facts, permissions, existing stack and successful work.
+- Re-capture the same viewports/states, compare before/after at the same scale, rerun affected tests/build and update each finding.
+- Allow at most two correction cycles per material visual slice; escalate unresolved issues and unapproved direction/scope changes.
 
-**Required outputs:** refinement log, updated screenshots, issue/fix mapping and updated build/test evidence.
+**Required outputs:** visual-refinement-log.md, baseline and after-cycle screenshots, separate aesthetic and fidelity verdicts, issue/fix mapping, updated build/test evidence, remaining blockers and NOT_TESTED items.
 
-**Exit gate:** no unresolved high-impact refinement finding remains for the current review milestone; each material change is traceable to a finding.
+**Exit gate:** every BLOCKER/HIGH finding is fixed or explicitly blocked by an owner/client decision; each material correction has matching before/after evidence; remaining findings and limitations are documented; the approved direction is preserved or its change is authorized.
 
-**Current implementation:** refinement guidance and visual QA skills exist; operation is manual through external AI/code tools.
+**Current implementation:** Stage 6 runs manually through external AI/coding tools using the versioned prompt and shared Playwright evidence. It does not call a model API or turn the Laravel platform into an autonomous agent. Stage 6 review is not Stage 7 independent QA or release approval.
 
 ### Stage 7 — Independent QA
 
