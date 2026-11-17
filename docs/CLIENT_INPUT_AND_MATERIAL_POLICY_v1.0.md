@@ -29,7 +29,7 @@ The client is not expected to:
 - define technical features or implementation details;
 - fill the Client Website Brief;
 - repeat information already present in the interview or supplied assets;
-- complete the existing 26-field platform intake as a second mandatory brief.
+- complete the versioned platform Project Intake as a second mandatory brief.
 
 ## 3. Source authority and provenance
 
