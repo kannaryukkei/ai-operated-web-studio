@@ -1,6 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { spawn, spawnSync } from 'node:child_process';
+import { createServer as createTcpServer } from 'node:net';
+import { once } from 'node:events';
+import { fileURLToPath } from 'node:url';
 import os from 'node:os';
 import path from 'node:path';
 import {
@@ -8,6 +12,7 @@ import {
   contrastRatio, contrastFloor, classifySurface, evaluateContrastSample, validateEvidenceManifest,
   evaluateEvidenceCandidates, detectEvidenceCandidate, detectOverflow, waitForPreview, writeArtifacts,
 } from './lib.mjs';
+import { stopPreview } from './preview-process.mjs';
 
 const verified = () => ({
   id: 'claim-1', category: 'testimonial', item: '“The service was clear and helpful.” — A. Customer',
@@ -165,7 +170,11 @@ test("business-performance detection distinguishes service process from outcome 
   assert.equal(detectEvidenceCandidate({ text: 'Good care starts with clear answers.' }), null);
 });
 function previewResponse(status, contentType) {
-  return { status, headers: { get: (name) => name.toLowerCase() === 'content-type' ? contentType : null } };
+  return {
+    status,
+    headers: { get: (name) => name.toLowerCase() === 'content-type' ? contentType : null },
+    body: { locked: false, cancel: async () => {} },
+  };
 }
 
 function previewHarness(responses, { timeoutMs = 1_000 } = {}) {
@@ -193,6 +202,63 @@ test('preview readiness accepts HTTP 200 with a case-insensitive text/html media
   const harness = previewHarness([previewResponse(200, 'Text/HTML; charset=UTF-8')]);
   await harness.promise;
   assert.equal(harness.requestCount, 1);
+});
+
+test('preview readiness releases an HTTP/1.0 Connection: close response body before succeeding', async () => {
+  let requests = 0;
+  const sockets = new Set();
+  const body = '<!doctype html><title>ready</title>';
+  const server = createTcpServer((socket) => {
+    sockets.add(socket);
+    socket.once('close', () => sockets.delete(socket));
+    socket.once('data', () => {
+      requests += 1;
+      socket.end('HTTP/1.0 200 OK\r\nContent-Type: text/html; charset=utf-8\r\nContent-Length: ' + Buffer.byteLength(body) + '\r\nConnection: close\r\n\r\n' + body);
+    });
+  });
+  server.listen(0, '127.0.0.1');
+  await once(server, 'listening');
+  try {
+    const address = server.address();
+    await waitForPreview({ exitCode: null, signalCode: null }, 'http://127.0.0.1:' + address.port + '/', { timeoutMs: 2_000 });
+    assert.equal(requests, 1);
+  } finally {
+    const closed = new Promise((resolve) => server.close(resolve));
+    for (const socket of sockets) socket.destroy();
+    await closed;
+  }
+});
+
+test('preview responses are released before readiness resolves or another poll starts', async () => {
+  let activePolls = 0;
+  let maximumActivePolls = 0;
+  let releasedResponses = 0;
+  let requestCount = 0;
+  const child = { exitCode: null };
+  await waitForPreview(child, 'http://127.0.0.1:4174/', {
+    timeoutMs: 1_000,
+    pollIntervalMs: 1,
+    fetchImpl: async () => {
+      activePolls += 1;
+      maximumActivePolls = Math.max(maximumActivePolls, activePolls);
+      requestCount += 1;
+      return {
+        status: requestCount === 1 ? 503 : 200,
+        headers: { get: () => 'text/html; charset=utf-8' },
+        body: {
+          locked: false,
+          cancel: async () => {
+            await new Promise((resolve) => setTimeout(resolve, 5));
+            releasedResponses += 1;
+            activePolls -= 1;
+          },
+        },
+      };
+    },
+  });
+  assert.equal(requestCount, 2);
+  assert.equal(releasedResponses, 2);
+  assert.equal(maximumActivePolls, 1);
 });
 
 test('preview readiness rejects HTTP 404 even when the response is HTML', async () => {
@@ -259,6 +325,166 @@ test('preview network failures retry and do not produce readiness', async () => 
   });
   assert.equal(harness.requestCount, 2);
   assert.deepEqual(harness.waits, [500, 500]);
+});
+
+test('preview request timeout aborts one request without overlapping a later poll', async () => {
+  let requests = 0;
+  const child = { exitCode: null };
+  const started = Date.now();
+  await assert.rejects(waitForPreview(child, 'http://127.0.0.1:4174/', {
+    timeoutMs: 80,
+    requestTimeoutMs: 20,
+    pollIntervalMs: 5,
+    fetchImpl: (_url, { signal }) => new Promise((resolve, reject) => {
+      requests += 1;
+      signal.addEventListener('abort', () => reject(new Error('request aborted')), { once: true });
+    }),
+  }), (error) => {
+    assert.match(error.message, /overall timeout|timed out/i);
+    assert.match(error.message, /Last observed HTTP status: none/);
+    assert.match(error.message, /Last network error:/);
+    return true;
+  });
+  assert.equal(requests, 1, 'an aborted request must not overlap a later readiness poll');
+  assert.ok(Date.now() - started < 500);
+});
+
+test('preview process exit before readiness reports the exit code immediately', async () => {
+  let requests = 0;
+  await assert.rejects(waitForPreview({ exitCode: 7, signalCode: null }, 'http://127.0.0.1:4174/', {
+    fetchImpl: async () => { requests += 1; throw new Error('must not poll an exited process'); },
+  }), /exited with code 7 before a valid HTTP 200 HTML response/);
+  assert.equal(requests, 0);
+});
+
+test('preview process exit while a readiness request is pending fails without waiting for request timeout', async () => {
+  const { EventEmitter } = await import('node:events');
+  const child = new EventEmitter();
+  child.exitCode = null;
+  child.signalCode = null;
+  let requests = 0;
+  const started = Date.now();
+  const readiness = waitForPreview(child, 'http://127.0.0.1:4174/', {
+    timeoutMs: 1_000,
+    requestTimeoutMs: 800,
+    fetchImpl: async () => { requests += 1; return new Promise(() => {}); },
+  });
+  setTimeout(() => {
+    child.exitCode = 9;
+    child.emit('exit', 9, null);
+  }, 10);
+  await assert.rejects(readiness, /exited from code 9 before readiness/);
+  assert.equal(requests, 1);
+  assert.ok(Date.now() - started < 500);
+});
+
+test('preview readiness never starts a new poll until body cancellation completes', async () => {
+  let activeRequests = 0;
+  let maximumActiveRequests = 0;
+  let releasedResponses = 0;
+  let requestCount = 0;
+  await waitForPreview({ exitCode: null }, 'http://127.0.0.1:4174/', {
+    timeoutMs: 1_000,
+    pollIntervalMs: 1,
+    fetchImpl: async () => {
+      activeRequests += 1;
+      maximumActiveRequests = Math.max(maximumActiveRequests, activeRequests);
+      requestCount += 1;
+      return {
+        status: requestCount === 1 ? 503 : 200,
+        headers: { get: () => 'text/html; charset=utf-8' },
+        body: { locked: false, cancel: async () => {
+          await new Promise((resolve) => setTimeout(resolve, 5));
+          releasedResponses += 1;
+          activeRequests -= 1;
+        } },
+      };
+    },
+  });
+  assert.equal(requestCount, 2);
+  assert.equal(releasedResponses, 2);
+  assert.equal(maximumActiveRequests, 1);
+});
+
+test('preview response body release is bounded by the overall readiness timeout', async () => {
+  const started = Date.now();
+  await assert.rejects(waitForPreview({ exitCode: null }, 'http://127.0.0.1:4174/', {
+    timeoutMs: 40,
+    requestTimeoutMs: 500,
+    fetchImpl: async () => ({ status: 200, headers: { get: () => 'text/html' }, body: { locked: false, cancel: () => new Promise(() => {}) } }),
+  }), (error) => {
+    assert.match(error.message, /timed out/);
+    assert.match(error.message, /Could not release preview response body/);
+    return true;
+  });
+  assert.ok(Date.now() - started < 500);
+});
+
+test('preview cleanup terminates its child process or process tree', async () => {
+  if (process.platform === 'win32') {
+    const { EventEmitter } = await import('node:events');
+    const child = new EventEmitter();
+    child.pid = 4242;
+    child.exitCode = null;
+    child.signalCode = null;
+    let invocation;
+    const spawnProcess = (command, args) => {
+      invocation = { command, args };
+      const killer = new EventEmitter();
+      setImmediate(() => {
+        child.exitCode = 0;
+        child.emit('exit', 0, null);
+        killer.emit('close', 0, null);
+      });
+      return killer;
+    };
+    await stopPreview(child, { platform: 'win32', spawnProcess });
+    assert.match(invocation.args.join(' '), /taskkill \/pid 4242 \/t \/f/);
+    assert.equal(child.exitCode, 0);
+    return;
+  }
+
+  const child = spawn(process.execPath, ['-e', 'setInterval(() => {}, 1000)'], { detached: true, stdio: 'ignore' });
+  try {
+    await once(child, 'spawn');
+    await stopPreview(child);
+    assert.ok(child.exitCode !== null || child.signalCode !== null, 'preview child should have exited after cleanup');
+  } finally {
+    if (child.exitCode === null && child.signalCode === null) await stopPreview(child);
+  }
+});
+
+test('runner writes a failure report and diagnostics when preview readiness fails before Chromium launch', async () => {
+  const directory = await mkdtemp(path.join(os.tmpdir(), 'swqg-runner-readiness-'));
+  const artifacts = path.join(directory, '.website-quality-artifacts');
+  const isWindows = process.platform === 'win32';
+  const previewCommand = isWindows ? 'exit /b 7' : 'exit 7';
+  const runnerPath = fileURLToPath(new URL('./runner.mjs', import.meta.url));
+  try {
+    await writeFile(path.join(directory, 'evidence.json'), JSON.stringify({ version: 1, humanReviewRequired: true, items: [] }));
+    const result = spawnSync(process.execPath, [runnerPath], {
+      cwd: directory,
+      encoding: 'utf8',
+      timeout: 10_000,
+      env: {
+        ...process.env,
+        SWQG_WORKING_DIRECTORY: directory,
+        SWQG_PREVIEW_COMMAND: previewCommand,
+        SWQG_URL: 'http://127.0.0.1:4174/',
+        SWQG_EVIDENCE_MANIFEST: 'evidence.json',
+        SWQG_ARTIFACTS_DIRECTORY: '.website-quality-artifacts',
+      },
+    });
+    assert.equal(result.status, 1, result.stderr || result.stdout);
+    const report = JSON.parse(await readFile(path.join(artifacts, 'report.json'), 'utf8'));
+    const diagnostics = await readFile(path.join(artifacts, 'diagnostics.log'), 'utf8');
+    assert.equal(report.status, 'FAIL');
+    assert.match(report.error, /Preview command exited with code 7/);
+    assert.match(diagnostics, /Quality gate failed:.*Preview command exited with code 7/s);
+    assert.doesNotMatch(result.stdout, /Quality gate status: PASS/);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
 });
 
 test('preview timeout reports the URL and last invalid response details', async () => {

@@ -247,20 +247,123 @@ export async function waitForPreview(child, url, {
   let lastStatus = null;
   let lastContentType = null;
   let lastNetworkError = null;
-  while (now() < deadline) {
-    if (child.exitCode !== null) {
-      throw new Error('Preview command exited with code ' + child.exitCode + ' before a valid HTTP 200 HTML response was received from ' + url + '.');
+  const processFailure = child?.once
+    ? new Promise((resolve) => {
+      child.once('exit', (code, signal) => resolve({ kind: 'exit', code, signal }));
+      child.once('error', (error) => resolve({ kind: 'error', error }));
+    })
+    : new Promise(() => {});
+  const childExit = () => {
+    if (child.previewStartError) return 'Preview command failed to start: ' + child.previewStartError.message;
+    if (child.exitCode !== null && child.exitCode !== undefined) {
+      return 'Preview command exited with code ' + child.exitCode;
     }
+    if (child.signalCode) return 'Preview command exited from signal ' + child.signalCode;
+    return null;
+  };
+
+  while (now() < deadline) {
+    const earlyExit = childExit();
+    if (earlyExit) throw new Error(earlyExit + ' before a valid HTTP 200 HTML response was received from ' + url + '.');
+
+    let response;
+    let requestTimer;
+    let bodyTimer;
+    let requestTimedOut = false;
+    const controller = new AbortController();
+    const requestBudget = Math.max(1, Math.min(requestTimeoutMs, deadline - now()));
     try {
-      const response = await fetchImpl(url, { signal: AbortSignal.timeout(requestTimeoutMs) });
+      const fetchPromise = Promise.resolve().then(() => fetchImpl(url, { signal: controller.signal }));
+      fetchPromise.then((lateResponse) => {
+        if (!requestTimedOut || !lateResponse?.body || lateResponse.body.locked) return;
+        try { Promise.resolve(lateResponse.body.cancel()).catch(() => {}); } catch {}
+      }, () => {});
+      const requestTimeout = new Promise((_, reject) => {
+        requestTimer = setTimeout(() => {
+          requestTimedOut = true;
+          controller.abort();
+          reject(Object.assign(new Error('Preview readiness request timed out after ' + requestBudget + 'ms.'), { code: 'SWQG_REQUEST_TIMEOUT' }));
+        }, requestBudget);
+      });
+      const requestResult = await Promise.race([
+        fetchPromise.then((value) => ({ kind: 'response', response: value })),
+        processFailure,
+        requestTimeout,
+      ]);
+      if (requestResult.kind === 'exit') {
+        controller.abort();
+        const detail = requestResult.signal ? 'signal ' + requestResult.signal : 'code ' + requestResult.code;
+        throw Object.assign(new Error('Preview command exited from ' + detail + ' before readiness for ' + url + '.'), { code: 'SWQG_PREVIEW_PROCESS_FAILURE' });
+      }
+      if (requestResult.kind === 'error') {
+        controller.abort();
+        throw Object.assign(new Error('Preview command failed to start: ' + requestResult.error.message), { code: 'SWQG_PREVIEW_PROCESS_FAILURE' });
+      }
+      response = requestResult.response;
       lastStatus = response.status;
       lastContentType = response.headers?.get('content-type') || null;
-      const mediaType = lastContentType?.split(';', 1)[0].trim().toLowerCase();
-      if (response.status === 200 && mediaType === 'text/html') return;
     } catch (error) {
+      if (error?.code === 'SWQG_PREVIEW_PROCESS_FAILURE') throw error;
       lastNetworkError = error?.message || String(error);
+      if (error?.code === 'SWQG_REQUEST_TIMEOUT') {
+        throw new Error([
+          'Preview readiness request to ' + url + ' timed out.',
+          'Last observed HTTP status: ' + (lastStatus ?? 'none') + '.',
+          'Last observed content type: ' + (lastContentType ?? 'none') + '.',
+          'Last network error: ' + lastNetworkError + '.',
+        ].join(' '));
+      }
+    } finally {
+      if (requestTimer) clearTimeout(requestTimer);
     }
-    await sleep(pollIntervalMs);
+
+    if (response) {
+      let bodyReleased = true;
+      try {
+        if (response.body?.locked) throw new Error('response body is already locked and cannot be safely released');
+        if (response.body) {
+          const remaining = Math.max(1, deadline - now());
+          const bodyTimeout = new Promise((_, reject) => {
+            bodyTimer = setTimeout(() => {
+              controller.abort();
+              reject(new Error('Preview response body release timed out.'));
+            }, remaining);
+          });
+          const release = Promise.resolve().then(() => response.body.cancel()).then(() => ({ kind: 'released' }));
+          const bodyResult = await Promise.race([
+            release,
+            processFailure.then((failure) => ({ kind: 'process', failure })),
+            bodyTimeout,
+          ]);
+          if (bodyResult.kind === 'process') {
+            controller.abort();
+            const failure = bodyResult.failure;
+            const detail = failure.kind === 'error'
+              ? 'Preview command failed to start: ' + failure.error.message
+              : 'Preview command exited from ' + (failure.signal ? 'signal ' + failure.signal : 'code ' + failure.code) + ' before readiness for ' + url + '.';
+            throw Object.assign(new Error(detail), { code: 'SWQG_PREVIEW_PROCESS_FAILURE' });
+          }
+        }
+      } catch (error) {
+        if (error?.code === 'SWQG_PREVIEW_PROCESS_FAILURE') throw error;
+        bodyReleased = false;
+        lastNetworkError = 'Could not release preview response body: ' + (error?.message || String(error));
+      } finally {
+        if (bodyTimer) clearTimeout(bodyTimer);
+      }
+      if (!bodyReleased) {
+        throw new Error('Preview readiness could not safely release the HTTP ' + response.status + ' response body from ' + url + '. ' + lastNetworkError);
+      }
+      const exitedAfterRequest = childExit();
+      if (exitedAfterRequest) {
+        throw new Error(exitedAfterRequest + ' before a valid HTTP 200 HTML response was received from ' + url + '.');
+      }
+      const mediaType = lastContentType?.split(';', 1)[0].trim().toLowerCase();
+      if (bodyReleased && response.status === 200 && mediaType === 'text/html') return;
+    }
+
+    const remaining = deadline - now();
+    if (remaining > 0) await sleep(Math.min(pollIntervalMs, remaining));
   }
   const diagnostics = [
     'Preview readiness timed out for ' + url + ': no valid HTTP 200 HTML response was received within ' + timeoutMs + 'ms.',
