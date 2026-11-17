@@ -1,6 +1,6 @@
-# Prompt — Starter Website Build and Refinement
+# Prompt — Starter Website Build and Implementation
 
-**Master Skill mapping:** Stage 5 (implementation portion) and Stage 6 (refinement).
+**Master Skill mapping:** Stage 5 — Creative direction and implementation.
 
 Preconditions: the WRP is `APPROVED_FOR_DESIGN`; G2 is recorded; the approved art direction/design specification, scope, copy and asset/permission records are available. Stop and report the exact missing prerequisite when these conditions are not met.
 
@@ -35,7 +35,7 @@ Static-first. Do not add a backend, database, CMS, authentication, payment, pers
 3. Implement one meaningful slice at a time; do not generate the entire website in one unverified code dump.
 4. After each slice, inspect changed files, run the cheapest relevant check, record deviations/defects and save a durable checkpoint.
 5. Continue only when the next slice's dependencies are satisfied. Preserve working output if interrupted.
-6. At the end, run the production build and existing automated tests; hand rendered output to visual QA.
+6. At the end, run the production build and existing automated tests; preserve the exact baseline commit and rendered evidence, then hand off to prompt 04-visual-enhancement.md for Stage 6. Do not mark visual refinement complete in this prompt.
 
 ## Required report
 

@@ -47,6 +47,7 @@ Laravel 13 platform foundation, client/project management, invitation-based acce
 - `docs/STARTER_CALIBRATION_RECORD_2026-11-15.md` — first applied Starter calibration record and CI evidence.
 - `docs/STARTER_PRODUCTION_READINESS_AUDIT_2026-11-16.md` — gate-by-gate evidence-based Starter production readiness decision and closure plan.
 - `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md`, `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md`, `docs/WEBSITE_REQUIREMENTS_PACK_v1.0.md`, and `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md` — current stage, data, pre-design and G0–G7 contracts.
+- `docs/VISUAL_ENHANCEMENT_WORKFLOW_v1.0.md` — required Stage 6 screenshot-led audit, targeted refinement, bounded correction and re-verification procedure.
 - `docs/CANONICAL_STATUS.md` — single pointer for what is current, the free operation rule, the minimal context set, and the open decisions. Read this first.
 - Earlier Master Skill files (including v1.8 and v1.10) are retained as historical candidates, not current operating instructions.
 - `docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md` — default interview + asset intake and source-normalization workflow.

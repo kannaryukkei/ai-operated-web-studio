@@ -14,11 +14,12 @@ Read these first:
 - `docs/MEDIA_AND_ASSET_PIPELINE_v1.0.md`
 - the project dashboard, latest approval register, approved scope and current artifact versions.
 
-Master Skill Stages 0–9 are the canonical AI workflow. Media sourcing is an execution capability within Stages 0, 5 and 7, not a new stage. Use the `media-sourcing-and-licensing` skill with prompt 03 and revisit its register during prompt 05. The six specialist prompts below are execution aids:
+Master Skill Stages 0–9 are the canonical AI workflow. Media sourcing is an execution capability within Stages 0, 5 and 7, not a new stage. Use the `media-sourcing-and-licensing` skill with prompt 03 and revisit its register during prompt 05. The specialist prompts below are execution aids:
 - 01: Stages 0–2 — material normalization, business intelligence, tier/scope.
 - 02: Stages 3–4 — customer questions, information architecture, content and WRP.
 - 03: Stage 5 — creative direction and approved visual specification.
-- 04: Stages 5–6 — bounded implementation and refinement.
+- 04-build-and-implement: Stage 5 — bounded implementation and baseline handoff.
+- 04-visual-enhancement: Stage 6 — screenshot-led visual audit, targeted code refinement and re-verification.
 - 05: Stage 7 — independent QA.
 - 06: Stages 8–9 — release, handover and calibration.
 

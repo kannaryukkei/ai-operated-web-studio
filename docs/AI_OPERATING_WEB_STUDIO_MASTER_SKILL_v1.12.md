@@ -309,6 +309,19 @@ Review two dimensions independently:
 1. **Visual quality:** hierarchy, typography, imagery, composition, responsive behavior, consistency and interaction polish.
 2. **Business completeness:** can the intended visitor understand the offer, compare options, trust the business, know what happens next and take the right action?
 
+### Required Visual Enhancement execution loop
+
+Execute the closed-loop procedure in `docs/VISUAL_ENHANCEMENT_WORKFLOW_v1.0.md` using the Starter Stage 6 prompt `blueprints/starter/template-kit/prompts/starter/04-visual-enhancement.md` where applicable.
+
+1. Pin the exact baseline repository, branch, commit/working-tree state, URL and approved design specification.
+2. Capture actual browser evidence with the existing Shared Website Quality Gate. Inspect the PNGs listed by `report.json → visualEvidence.viewportScreenshots` and `sectionScreenshots`; report metadata or an artifact URL alone is not visual inspection.
+3. Run the mandatory design and interface reviews below. Produce a traceable issue ledger with severity, screenshot/viewport evidence, root cause, concrete correction and acceptance check.
+4. Use `frontend-layout-implementer` to implement bounded, approved fixes tied to finding IDs. Preserve the approved direction, source facts, asset permissions and existing stack.
+5. Re-capture the same viewport/section/state after each correction cycle, compare before/after at the same scale, and rerun affected build/tests. Keep baseline evidence unchanged.
+6. Limit each material visual slice to two correction cycles. Escalate unresolved issues or material design/scope changes rather than looping or silently redesigning.
+
+Keep the aesthetic verdict from `visual-design-audit` separate from the rendered-fidelity verdict from `frontend-visual-qa`. Stage 6 self-review is not Stage 7 independent acceptance.
+
 ### Mandatory independent design audit
 
 Run `skills/visual-design-audit/SKILL.md` for the segment-level critique and `skills/interface-quality-review/SKILL.md` for code/interface behavior and accessibility checks. Do not rely on owner feedback as the primary design-QA method. The studio/AI must critique its own implementation before asking the owner to review it.

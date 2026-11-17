@@ -8,7 +8,7 @@ This is an **internal studio workspace**, not a client questionnaire. Duplicate 
 2. Create the project record and fill `00-project-control/project-dashboard.md`.
 3. Store raw interview/material packets in access-controlled storage and link them from the Source Register.
 4. Run Master Skill Stage 0–9 using `prompts/starter/00-orchestrator.md` and the matching stage prompt.
-5. Maintain the versioned WRP, canonical IDs, G0–G7 approval register, implementation checkpoints and QA/release evidence.
+5. Maintain the versioned WRP, canonical IDs, G0–G7 approval register, implementation checkpoints, the Stage 6 log at 05-production/visual-refinement-log.md, and QA/release evidence.
 6. Keep Business/Custom implementation parked until Starter passes its acceptance gate and the Studio owner reprioritizes.
 
 ## Folder contract
