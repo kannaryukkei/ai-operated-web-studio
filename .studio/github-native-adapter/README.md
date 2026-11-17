@@ -16,7 +16,7 @@ Copy these files from the Web Studio source repository into the client project r
 
 
 
-Install and commit the workflow file to the client's default branch first, without a pending inbox request in that bootstrap commit. Once installed, send project initialization and later operations as separate pushes to the selected working branch. Ensure the Actions bot is permitted to push its processed commit to that branch.
+Commit the workflow file to the selected client working branch before creating inbox requests. For the push trigger, GitHub evaluates the workflow present in the pushed ref; it does not need to be merged into the default branch first. After installation, send initialization and later operations as pushes to that same branch. Ensure the Actions bot is permitted to push its processed commit to that branch.
 Do not copy .studio/system-repository.json. That marker belongs only in the canonical Web Studio source repository.
 
 Edit .studio/approver-roles.json so the account logins are real GitHub usernames. Example shape:
