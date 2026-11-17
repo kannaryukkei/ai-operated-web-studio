@@ -80,3 +80,16 @@ The Master Skill is the orchestrator; specialist instructions live under `skills
 ## Current delivery workflow
 
 See `docs/manual-ai-workflow.md` and `docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md` for the API-free material-first process. The current platform manages clients, projects, structured intake snapshots and discovery records. Raw interview files and supplied assets are currently kept in controlled project storage and handed to an external AI application manually; private multi-file ingestion is not yet implemented.
+
+## Create a new experiment locally
+
+Requires Node.js 20 or newer. The scaffold copies a committed snapshot from a selected repository-relative blueprint path inside `blueprints/`. Blueprint-specific staged, unstaged, deleted, renamed or non-ignored untracked changes prevent execution; unrelated worktree changes do not. ZACKS at `blueprints/starter/template-kit/starter` is an existing selectable reference only, not a universal or blank starter.
+
+```bash
+node scripts/scaffold-experiment.mjs \
+  --name "Experiment 06 - Example" \
+  --output "../web-studio-experiment-06-example" \
+  --blueprint "blueprints/starter/template-kit/starter"
+```
+
+`--output` is the exact destination directory; missing parent directories are created. The result is a local directory only. The script does not run `git init`, create a GitHub repository, configure a remote, push files, publish, or deploy anything.
