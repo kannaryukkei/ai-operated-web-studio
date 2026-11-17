@@ -1,0 +1,23 @@
+name: Workflow Enforcement CI
+on:
+  pull_request:
+    paths: [".studio/**","scripts/workflow-enforcement.mjs","tests/workflow-enforcement.test.mjs",".github/workflows/workflow-enforcement-ci.yml"]
+  push:
+    branches: [main]
+    paths: [".studio/**","scripts/workflow-enforcement.mjs","tests/workflow-enforcement.test.mjs",".github/workflows/workflow-enforcement-ci.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  enforcement:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: 22
+      - run: node --check scripts/workflow-enforcement.mjs
+      - run: node scripts/workflow-enforcement.mjs validate-contract
+      - run: node --test tests/workflow-enforcement.test.mjs

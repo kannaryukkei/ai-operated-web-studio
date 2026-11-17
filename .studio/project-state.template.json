@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_id": "ai-operated-web-studio",
+  "project_id": "REPLACE-WITH-STABLE-PROJECT-ID",
+  "delivery_mode": "preview_only",
+  "artifacts": [],
+  "approvals": []
+}

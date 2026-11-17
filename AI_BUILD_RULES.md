@@ -1,46 +1,7 @@
-# AI Build Rules
+## Updated operating model (2026-11-18)
 
-These rules apply to AI agents and contributors working in this repository.
+The canonical Studio is API-free and designed for free-tier operation. Default user experience is one ChatGPT standard conversation with GitHub. Codex, Antigravity, Muse, Claude and other agents are optional adapters. No paid model API, API key, Laravel service or vendor-specific hook is mandatory.
 
-## Mission
-Build an AI-operated web studio platform that safely guides client projects from intake to launch. The platform application is separate from the website products it produces.
+The repository-native contract under .studio/ and scripts/ is the canonical workflow mechanism. Follow AGENTS.md and docs/REPO_NATIVE_WORKFLOW_ENFORCEMENT_v1.0.md. Stage status is derived from validated artifacts, dependencies, checksums and approvals; never trust an agent-written PASS field. Every stage output must match an artifact ID and carry version, path, SHA-256, SUBMITTED status and timestamp. Approval binds exact artifact versions and hashes; artifact changes invalidate previous approval bindings. Preview and production are separate.
 
-## Required reading before implementation
-1. `README.md`
-2. `docs/product-brief.md`
-3. `docs/architecture.md`
-4. `docs/mvp-specification.md`
-5. `docs/ai-orchestration.md`
-6. `docs/security-and-approvals.md`
-
-## Engineering rules
-- Preserve the approved architecture unless a written Architecture Decision Record changes it.
-- Keep the first release a modular Laravel monolith. Do not introduce microservices, Kubernetes, or a separate workflow engine without evidence.
-- Keep business/domain logic outside HTTP controllers and provider-specific AI code.
-- Persist workflow state, approvals, AI runs, artifacts, and audit events. Never rely on model conversation memory as the only project record.
-- Every AI stage must have defined inputs, structured outputs, schema validation, timeout/retry behavior, and a human approval boundary.
-- Use queued jobs for long-running AI work. Never keep a web request open while generating a full website.
-- Make jobs idempotent and record attempts and failures.
-- Use scoped tools. Agents may only access the project and actions allowed for their stage.
-- AI may prepare external actions but may not send client messages, spend money, change DNS, publish, or transfer ownership without explicit human authorization.
-- Isolate every client's projects, assets, artifacts, messages, and AI context with authorization policies.
-- Never commit .env files, credentials, API keys, private client materials, or customer secrets.
-- Build incrementally. Each milestone must build, test, and be demonstrable before expanding scope.
-- Do not scaffold features not in the current milestone.
-
-## Content and evidence
-- Portfolio demos may contain labelled fictional examples.
-- Live client claims, prices, testimonials, metrics, guarantees, policies, and credentials require approval/evidence.
-- Distinguish verified facts, client-provided facts awaiting approval, AI drafts, and illustrative examples.
-
-## Required completion report
-For every implementation task report:
-- Goal and scope.
-- Files changed.
-- Database or API changes.
-- Tests actually run and results.
-- Security/authorization implications.
-- Remaining risks and decisions.
-- Commit / branch / artifact links.
-
-Never claim success for unexecuted tests, deployments, or integrations.
+Node.js 20+ built-ins are used; no npm install or API keys. GitHub Actions runs repeatable validators. Agent-specific hooks are optional additions only. The Laravel application under platform/ is a preserved prototype and must not be deleted as part of this work. Keep per-client sources and website repositories isolated. Do not fabricate client claims, rights, approvals or QA evidence. Never claim unexecuted checks. One focused PR per tranche; do not merge without owner approval.

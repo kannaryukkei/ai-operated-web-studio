@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI Operated Web Studio Project State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "workflow_id",
+    "project_id",
+    "delivery_mode",
+    "artifacts",
+    "approvals"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "workflow_id": {
+      "const": "ai-operated-web-studio"
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!REPLACE-).+"
+    },
+    "delivery_mode": {
+      "enum": [
+        "preview_only",
+        "production"
+      ]
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_id",
+          "stage_id",
+          "version",
+          "path",
+          "sha256",
+          "status",
+          "produced_at"
+        ],
+        "properties": {
+          "artifact_id": {
+            "type": "string"
+          },
+          "stage_id": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$"
+          },
+          "status": {
+            "const": "SUBMITTED"
+          },
+          "produced_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "approvals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "approval_id",
+          "gate_id",
+          "decision",
+          "subject",
+          "artifact_bindings",
+          "approvers",
+          "recorded_at"
+        ],
+        "properties": {
+          "approval_id": {
+            "type": "string"
+          },
+          "gate_id": {
+            "type": "string"
+          },
+          "decision": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "artifact_bindings": {
+            "type": "array"
+          },
+          "approvers": {
+            "type": "array"
+          },
+          "recorded_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}
