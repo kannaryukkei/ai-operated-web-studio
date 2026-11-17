@@ -659,3 +659,8 @@ Gate assessment remains:
 3. Before any real ZACKS production release or Starter sales claim, close the owner-dependent Starter gates listed in `docs/STARTER_PRODUCTION_READINESS_AUDIT_2026-11-16.md`: approved live facts and operational policies, asset rights, approved/operational contact destinations and a real inquiry rehearsal, human visual/accessibility/performance review, real delivery evidence and measured commercial economics.
 
 **Final program status:** DONE on the isolated revision branch. This means the defined revision work and verification are complete; it does not mean the v1.11 candidate was adopted, the Starter site is production-ready, or the branch was merged.
+
+
+## Owner adoption record — Master Skill v1.12 (2026-11-18)
+
+The Studio owner explicitly adopted Master Skill v1.12 on 2026-11-18. The canonical adopted file is `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.12.md`. v1.12 now governs the existing Master Skill Stages 0–9 as the canonical operating authority. Master Skill v1.11 remains preserved as historical candidate material. Website Product Tiers v1.2 and Website Implementation Standard v1.1 remain Candidates and were not adopted by this decision. This adoption implementation is handled by a dedicated PR.

@@ -10,7 +10,7 @@ The current Starter codebase is a development/portfolio reference, not a sellabl
 
 ## Product principles
 
-- Use Master Skill v1.12 Candidate (owner adoption pending) and the canonical workflow, schema, WRP and G0–G7 approval policy as the operating authority.
+- Use adopted Master Skill v1.12 and the canonical workflow, schema, WRP and G0–G7 approval policy as the operating authority.
 - The default client input is one normal interview plus existing client assets and optional references. The AI/operator produces the Client Website Brief; do not turn project setup into a long client questionnaire.
 - Never invent testimonials, reviews, ratings, awards, customer counts, performance metrics, credentials, guarantees or case results — including for portfolio/demo work.
 - Clearly disclosed concept imagery and illustrative layouts are allowed when they cannot be mistaken for actual client staff, premises, products, customers or completed work.

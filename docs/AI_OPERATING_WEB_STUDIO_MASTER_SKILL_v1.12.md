@@ -1,10 +1,10 @@
 # AI-Operated Web Studio — Master Skill
-Version: v1.12 CANDIDATE
-Status: Master Revision candidate derived from v1.11; owner adoption remains pending and this document is not formally adopted. Integrates the material-first client-input policy, canonical discovery data contract, Website Requirements Pack, explicit approval/release gates and Starter-first product sequencing. v1.11 is preserved as the preceding candidate; v1.3–v1.10 remain historical candidates.
+Version: v1.12
+Status: Adopted by the Studio owner on 2026-11-18. This is the canonical Master Skill operating authority for the existing Stages 0–9. v1.11 is preserved as the preceding candidate; v1.3–v1.10 remain historical candidates.
 
 ## v1.12 change rationale
 
-This revision corrects stale tier and implementation-standard paths, aligns Starter selection with the neutral Blank Starter and separate ZACKS reference, and distinguishes foundation CI, populated-site rendered QA, and the broader Starter Product Acceptance Gate. It preserves lifecycle and approval controls; owner adoption remains pending.
+This revision corrects stale tier and implementation-standard paths, aligns Starter selection with the neutral Blank Starter and separate ZACKS reference, and distinguishes foundation CI, populated-site rendered QA, and the broader Starter Product Acceptance Gate. It preserves lifecycle and approval controls; adoption status is stated in the metadata above.
 
 ## v1.11 change rationale
 

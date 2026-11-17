@@ -14,12 +14,12 @@ docs only when the task needs them. Do not read all of docs/.
 3. docs/CANONICAL_STATUS.md (this file)
 4. docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md
 5. docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md
-6. docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.12_CANDIDATE.md (current candidate; owner adoption remains pending)
+6. docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.12.md (adopted canonical Master Skill, 2026-11-18)
 7. blueprints/starter/README.md
 ## Status table
 | Family | Current / Candidate | Superseded / Historical |
 |---|---|---|
-| Master Skill | v1.12 CANDIDATE, derived from v1.11; current candidate only. Owner adoption remains pending; no adopted canonical version yet. | v1.11 preceding candidate; v1.4 to v1.10 historical candidates |
+| Master Skill | v1.12 ADOPTED by Studio owner on 2026-11-18; canonical authority for Stages 0–9. | v1.11 preceding candidate, preserved; v1.3 to v1.10 historical candidates |
 | Product tiers | v1.2 CANDIDATE, current proposal | v1.0, v1.1 superseded |
 | Implementation standard | v1.1 CANDIDATE, current proposal | v1.0 superseded |
 | Client brief template | v2.1, current | v1.1, v2.0 historical |
@@ -51,7 +51,7 @@ The owner may reconsider retirement only after an evidence-based review confirms
 
 ## Owner decisions and follow-up work
 
-- [ ] Review and make a separate owner decision on adopting Master Skill v1.12 CANDIDATE. It is not adopted by this revision.
+- [x] Adopt Master Skill v1.12 as canonical operating authority (Studio owner decision, 2026-11-18; implementation tracked by dedicated PR).
 - [x] Select React 18 + Vite 6 as the canonical Starter stack (owner decision, 2026-11-17).
 - [x] Keep Experiment 01–05 repositories active; no archive or deletion authorized (owner decision, 2026-11-17).
 - [x] Integrate PR #17 (Starter media pipeline): merged 2026-11-16 as commit `533854c`.
