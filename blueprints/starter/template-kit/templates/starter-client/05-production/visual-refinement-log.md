@@ -30,7 +30,7 @@ Record the visualEvidence schema/sectionCaptureSummaries from report.json. A fil
 
 ## Findings and refinement ledger
 
-| finding_id | severity | section/file/selector | evidence path + viewport/state | observation | visitor/business impact | root cause (INPUT_SOURCE / DESIGN_DECISION / IMPLEMENTATION / QA_GAP) | exact correction | acceptance check | status |
+| finding_id | severity | section/file/selector | evidence path + viewport/state | observation | visitor/business impact | root cause (INPUT_SOURCE / MASTER_SKILL_REASONING / IMPLEMENTATION_QA / EXTERNAL_APPROVAL_DEPENDENCY) | exact correction | acceptance check | status |
 |---|---|---|---|---|---|---|---|---|---|
 | VIS-001 | HIGH | | | | | | | | OPEN |
 
