@@ -133,7 +133,7 @@ export async function captureVisualEvidence({
           || heading?.textContent
           || '';
         return {
-          label: String(label).replace(/\\s+/g, ' ').trim().slice(0, 80),
+          label: String(label).replace(/\s+/g, ' ').trim().slice(0, 80),
           documentTop: element.getBoundingClientRect().top + window.scrollY,
         };
       });
