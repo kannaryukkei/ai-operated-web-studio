@@ -84,7 +84,7 @@ Use the smallest required specialist set:
 - interface-quality-review: mandatory code/interface, semantics, accessibility and interaction diagnosis.
 - frontend-visual-qa: use the approved design reference and captured screenshots to judge rendered fidelity, responsive drift and before/after comparison. Keep its VISUAL MATCH / MATCH WITH DOCUMENTED DEVIATIONS / VISUAL MISMATCH / BLOCKED verdict separate from the aesthetic verdict.
 
-Inspect actual images at 100% scale. Use full-page screenshots for page rhythm, not as the sole evidence of text legibility. Review the viewport and section captures, and inspect relevant interactive states with the browser when the page defines them. A static screenshot does not prove interactions, keyboard operation, accessibility or cross-browser compatibility.
+Inspect actual images at 100% scale. Use full-page screenshots for page rhythm, not as the sole evidence of text legibility. Review the viewport and section captures, and inspect relevant interactive states with the browser when the page defines them. For an interaction-specific finding, use the website's existing Playwright test/browser workflow to place the page in the exact state and save a separate screenshot; the shared runner's initial viewport/section captures do not claim to cover every interactive state. A static screenshot does not prove interactions, keyboard operation, accessibility or cross-browser compatibility.
 
 ### 4. Build a traceable issue ledger
 
