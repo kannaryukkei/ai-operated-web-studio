@@ -1,0 +1,52 @@
+name: Discovery Validator CI
+
+on:
+  pull_request:
+    paths:
+      - "scripts/discovery-result-validator.mjs"
+      - "tests/discovery-result-validator.test.mjs"
+      - "docs/CLIENT_INTAKE_TEMPLATE_v1.0.json"
+      - ".github/workflows/discovery-validator-ci.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "scripts/discovery-result-validator.mjs"
+      - "tests/discovery-result-validator.test.mjs"
+      - "docs/CLIENT_INTAKE_TEMPLATE_v1.0.json"
+      - ".github/workflows/discovery-validator-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validator-tests:
+    name: Discovery validator tests (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-24.04
+          - windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+
+      - name: Check validator script syntax
+        run: node --check scripts/discovery-result-validator.mjs
+
+      - name: Check validator test syntax
+        run: node --check tests/discovery-result-validator.test.mjs
+
+      - name: Run discovery validator tests
+        run: node --test tests/discovery-result-validator.test.mjs
