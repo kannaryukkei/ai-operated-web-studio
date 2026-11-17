@@ -1,6 +1,26 @@
-# ZACKS Starter Website
+# ZACKS Starter Website — React/Vite Reference
 
-A responsive, static-first portfolio reference for the Starter website tier. The site demonstrates a complete one-page journey: editorial hero, vehicle and treatment selection, class-based pricing, Care Finder, service principles, additional treatments, visual gallery, process, service coverage, WhatsApp consultation and FAQ.
+A responsive, static-first portfolio reference for the Starter website tier. This implementation is the ZACKS-specific reference used to validate the selected React/Vite Starter stack. It is not a universal blank website. The site demonstrates a complete one-page journey: editorial hero, vehicle and treatment selection, class-based pricing, Care Finder, service principles, additional treatments, visual gallery, process, service coverage, WhatsApp consultation and FAQ.
+
+## Canonical Starter stack
+
+**Owner decision — 2026-11-17: React 18 + Vite 6 is the selected implementation stack for Starter.**
+
+- React 18
+- Vite 6
+- Lucide React
+- Plain CSS with desktop, tablet and mobile layouts
+- Node.js 20 or newer
+- npm with the committed `package-lock.json`; use `npm ci` for reproducible installation
+- Playwright with Chromium for browser regression tests
+
+Starter remains static-first. This reference has no backend, database, CMS, admin dashboard, authentication, analytics or stored booking records. Do not add server-side capabilities without an approved business requirement.
+
+## ZACKS reference boundary
+
+This implementation remains a ZACKS Detailing automotive/local-service reference. It contains brand identity, automotive interactions, sample pricing, contact details, imagery and service-specific content. Do not present it as a universal blank Starter template or deploy it unchanged for another client.
+
+A separate blank Starter variant will use the selected React/Vite stack while excluding ZACKS identity, content, prices, contacts, assets and client-specific interactions. That separation is handled as a distinct implementation task.
 
 ## Stack
 
@@ -13,8 +33,7 @@ A responsive, static-first portfolio reference for the Starter website tier. The
 ## Run locally
 
 ```bash
-cd starter
-npm install
+npm ci
 npm run dev
 ```
 
@@ -24,6 +43,12 @@ Production build and browser tests:
 npm run build
 npm run preview
 npm run test:e2e
+```
+
+Install the browser used by the test suite when needed:
+
+```bash
+npx playwright install chromium
 ```
 
 GitHub Actions runs the Playwright suite at viewport widths from 320px to 1440px. The suite covers responsive overflow, navigation, pricing interactions, Care Finder, WhatsApp handoff, date handling, image loading, typography, contrast and content-evidence safeguards.
