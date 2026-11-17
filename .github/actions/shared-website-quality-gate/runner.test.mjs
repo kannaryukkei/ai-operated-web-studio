@@ -232,6 +232,16 @@ test('missing, malformed, blocked, permission-less, and unapproved evidence fail
 });
 
 test('content detector distinguishes tagged policy and non-proof copy from endorsements', () => {
+  assert.equal(detectEvidenceCandidate({
+    tagName: 'div',
+    attrs: { class: 'preview-notice', role: 'note', 'aria-label': 'Pemberitahuan demo' },
+    text: 'Pemberitahuan demo',
+  }), null);
+  assert.equal(detectEvidenceCandidate({
+    tagName: 'blockquote',
+    attrs: { class: 'customerReviewCard' },
+    text: 'The team explained the service clearly. — A. Customer',
+  }).category, 'testimonial');
   assert.equal(detectEvidenceCandidate({ text: 'We publish a clear service policy.', attrs: { 'data-qa-content-kind': 'policy' } }), null);
   assert.equal(detectEvidenceCandidate({ text: 'Lewati ke konten utama', attrs: { 'data-qa-proof': null, 'data-qa-proof-id': null, 'data-qa-proof-type': null } }), null);
   assert.equal(detectEvidenceCandidate({ text: 'Book a detailing visit whenever it works for your day.' }), null);
