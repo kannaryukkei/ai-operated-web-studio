@@ -1,5 +1,84 @@
 import { test, expect } from '@playwright/test';
 
+async function inspectControlTextContrast(page, selector, state) {
+  return page.locator(selector).evaluateAll((controls, stateLabel) => {
+    const parseColor = (value) => {
+      const match = value.match(/rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:\s*[,/]\s*([\d.]+%?))?\s*\)/i);
+      if (!match) return null;
+      const alpha = match[4] === undefined ? 1 : match[4].endsWith('%') ? Number.parseFloat(match[4]) / 100 : Number.parseFloat(match[4]);
+      return [Number(match[1]), Number(match[2]), Number(match[3]), alpha];
+    };
+    const composite = (front, back) => {
+      const alpha = front[3] + back[3] * (1 - front[3]);
+      if (!alpha) return [0, 0, 0, 0];
+      return [0, 1, 2].map((index) => (front[index] * front[3] + back[index] * back[3] * (1 - front[3])) / alpha).concat(alpha);
+    };
+    const luminance = (color) => {
+      const channels = color.slice(0, 3).map((channel) => {
+        const value = channel / 255;
+        return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+      });
+      return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+    };
+    const describe = (element) => element.tagName.toLowerCase() + (typeof element.className === 'string' && element.className ? '.' + element.className.trim().replace(/\s+/g, '.') : '');
+    const samples = [];
+    const manualReview = [];
+
+    for (const control of controls) {
+      const textNodes = [];
+      const walker = document.createTreeWalker(control, NodeFilter.SHOW_TEXT);
+      while (walker.nextNode()) {
+        if (walker.currentNode.textContent.trim()) textNodes.push(walker.currentNode);
+      }
+
+      for (const textNode of textNodes) {
+        const element = textNode.parentElement;
+        if (!element || !element.getClientRects().length) continue;
+        const style = getComputedStyle(element);
+        if (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0) continue;
+
+        let background = [255, 255, 255, 1];
+        let unresolvedSurface = false;
+        let ancestor = element;
+        const ancestry = [];
+        while (ancestor) {
+          ancestry.unshift(ancestor);
+          ancestor = ancestor.parentElement;
+        }
+        for (const layer of ancestry) {
+          const layerStyle = getComputedStyle(layer);
+          if (layerStyle.backgroundImage !== 'none') unresolvedSurface = true;
+          if (Number(layerStyle.opacity) !== 1) unresolvedSurface = true;
+          const color = parseColor(layerStyle.backgroundColor);
+          if (color && color[3] > 0) background = composite(color, background);
+        }
+
+        const text = textNode.textContent.trim().replace(/\s+/g, ' ');
+        const location = stateLabel + ' / ' + describe(element) + ' / "' + text.slice(0, 64) + '"';
+        if (unresolvedSurface) {
+          manualReview.push(location + ' uses an image, gradient, or opacity-composited surface');
+          continue;
+        }
+
+        const foreground = parseColor(style.color);
+        if (!foreground) {
+          manualReview.push(location + ' has an unparseable computed foreground color');
+          continue;
+        }
+        const renderedForeground = composite(foreground, background);
+        const foregroundLuminance = luminance(renderedForeground);
+        const backgroundLuminance = luminance(background);
+        const ratio = (Math.max(foregroundLuminance, backgroundLuminance) + 0.05) / (Math.min(foregroundLuminance, backgroundLuminance) + 0.05);
+        const fontSize = Number.parseFloat(style.fontSize);
+        const isBold = Number.parseInt(style.fontWeight, 10) >= 700;
+        const minimum = fontSize >= 24 || (fontSize >= 18.66 && isBold) ? 3 : 4.5;
+        samples.push({ location, foreground: style.color, background: 'rgb(' + background.slice(0, 3).map(Math.round).join(', ') + ')', ratio: Number(ratio.toFixed(2)), minimum });
+      }
+    }
+    return { samples, manualReview };
+  }, state);
+}
+
 test('core portfolio sections render at all nine canonical viewports', async ({ page }) => {
   const widths = [320, 360, 390, 640, 768, 900, 1024, 1280, 1440];
 
@@ -20,6 +99,33 @@ test('mobile navigation opens and its links are visible', async ({ page }) => {
   await toggle.click();
   await expect(page.locator('#mobile-navigation')).toBeVisible();
   await expect(page.locator('#mobile-navigation a[href="#booking"]')).toBeVisible();
+});
+
+test('mobile navigation and selected vehicle/class states retain readable contrast', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  const toggle = page.locator('.mobile-menu-toggle');
+  await expect(toggle).toBeVisible();
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.locator('#mobile-navigation')).toBeVisible();
+  const mobileContrast = await inspectControlTextContrast(page, '#mobile-navigation a', 'mobile navigation expanded at 390px');
+  expect(mobileContrast.samples.length, 'expanded mobile navigation should have measurable visible control text').toBeGreaterThan(0);
+  expect(mobileContrast.samples.filter((sample) => sample.ratio + 0.01 < sample.minimum), 'mobile navigation contrast failures: ' + JSON.stringify(mobileContrast.samples.filter((sample) => sample.ratio + 0.01 < sample.minimum))).toEqual([]);
+  for (const surface of mobileContrast.manualReview) console.info('Manual contrast review required: ' + surface);
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  const vehicleTab = page.locator('.vehicle-tab').filter({ hasText: 'Motor' });
+  await vehicleTab.click();
+  await expect(vehicleTab).toHaveAttribute('aria-pressed', 'true');
+  const classOption = page.locator('.class-option').filter({ hasText: 'Matic besar' });
+  await classOption.click();
+  await expect(classOption).toHaveAttribute('aria-pressed', 'true');
+  const selectedContrast = await inspectControlTextContrast(page, '.vehicle-tab.is-active, .class-option.is-active', 'Motor / Matic besar selected at 1440px');
+  expect(selectedContrast.samples.length, 'selected vehicle and class controls should have measurable visible text').toBeGreaterThan(0);
+  expect(selectedContrast.samples.filter((sample) => sample.ratio + 0.01 < sample.minimum), 'selected vehicle/class contrast failures: ' + JSON.stringify(selectedContrast.samples.filter((sample) => sample.ratio + 0.01 < sample.minimum))).toEqual([]);
+  for (const surface of selectedContrast.manualReview) console.info('Manual contrast review required: ' + surface);
 });
 
 test('vehicle and class selection updates the package price', async ({ page }) => {
