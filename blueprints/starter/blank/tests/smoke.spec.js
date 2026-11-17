@@ -34,25 +34,60 @@ test('the skip link is keyboard reachable, visibly focused, and moves focus to m
 });
 
 test('reduced-motion preferences limit animation and transition durations', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
-
-  const durations = await page.evaluate(() => {
-    const probe = document.createElement('div');
-    probe.style.animationDuration = '10s';
-    probe.style.transitionDuration = '4s';
-    document.body.append(probe);
-    const style = getComputedStyle(probe);
-    return {
-      preferenceMatches: matchMedia('(prefers-reduced-motion: reduce)').matches,
-      animation: Number.parseFloat(style.animationDuration),
-      transition: Number.parseFloat(style.transitionDuration),
-    };
+  const styleTag = await page.addStyleTag({ content: `
+    @keyframes motion-probe {
+      from { transform: translateX(0); }
+      to { transform: translateX(100px); }
+    }
+    #motion-probe {
+      opacity: 0;
+      transition: opacity 4s linear;
+      animation: motion-probe 10s linear infinite;
+    }
+    #motion-probe.is-active { opacity: 1; }
+    @media (prefers-reduced-motion: reduce) {
+      #motion-probe {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  ` });
+  await page.evaluate(() => {
+    const element = document.createElement('div');
+    element.id = 'motion-probe';
+    document.body.append(element);
+    void element.offsetWidth;
+    element.classList.add('is-active');
+    return element;
   });
 
-  expect(durations.preferenceMatches).toBe(true);
-  expect(durations.animation).toBeLessThan(0.001);
-  expect(durations.transition).toBeLessThan(0.001);
+  try {
+    const normal = await page.locator('#motion-probe').evaluate((element) => ({
+      animationDuration: Number.parseFloat(getComputedStyle(element).animationDuration),
+      transitionDuration: Number.parseFloat(getComputedStyle(element).transitionDuration),
+      activeAnimations: element.getAnimations().filter((animation) => animation.playState === 'running').length,
+      activeTransitions: element.getAnimations().filter((animation) => animation.transitionProperty === 'opacity' && animation.playState === 'running').length,
+    }));
+    expect(normal.animationDuration).toBeGreaterThan(0);
+    expect(normal.transitionDuration).toBeGreaterThan(0);
+    expect(normal.activeAnimations).toBeGreaterThan(0);
+    expect(normal.activeTransitions).toBeGreaterThan(0);
+
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    const reduced = await page.locator('#motion-probe').evaluate((element) => ({
+      preferenceMatches: matchMedia('(prefers-reduced-motion: reduce)').matches,
+      animationDuration: Number.parseFloat(getComputedStyle(element).animationDuration),
+      transitionDuration: Number.parseFloat(getComputedStyle(element).transitionDuration),
+    }));
+
+    expect(reduced.preferenceMatches).toBe(true);
+    expect(reduced.animationDuration).toBeLessThan(0.001);
+    expect(reduced.transitionDuration).toBeLessThan(0.001);
+  } finally {
+    await page.locator('#motion-probe').evaluate((element) => element.remove());
+    await styleTag.evaluate((element) => element.remove());
+  }
 });
 
 test('the blank shell has no business content, proof, external assets, or unnecessary runtime dependencies', async ({ page }) => {
