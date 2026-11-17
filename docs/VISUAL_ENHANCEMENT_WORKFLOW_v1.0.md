@@ -53,7 +53,6 @@ Use each record's relativePath to locate the PNG inside the configured artifacts
 For a local PowerShell run from the Studio repository root, after the website has been built and its evidence manifest is present:
 
 ~~~powershell
-$studioRoot = (Get-Location).Path
 $siteRoot = (Resolve-Path "PATH_TO_WEBSITE").Path
 
 Push-Location ".github/actions/shared-website-quality-gate"
@@ -155,6 +154,7 @@ Stage 6 is ready for Stage 7 when:
 - All BLOCKER and HIGH findings are FIXED or explicitly blocked by an owner/client decision; none is silently accepted.
 - Every material change is tied to a finding and has matching before/after evidence.
 - The aesthetic verdict and visual fidelity verdict are both recorded and not conflated.
+- The aesthetic verdict is DISTINCTIVE before owner visual review, or the owner has explicitly accepted a documented COMPETENT BUT GENERIC / DERIVATIVE exception.
 - The approved design direction remains intact or its change has been approved.
 - The current build and affected tests have actual recorded results.
 - Remaining MEDIUM/LOW findings, limitations and NOT_TESTED items are visible.
