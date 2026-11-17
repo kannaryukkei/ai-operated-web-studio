@@ -80,6 +80,9 @@ jobs:
             'screenshots/initial-mobile-390.png',
             'screenshots/initial-tablet-768.png',
             'screenshots/initial-desktop-1440.png',
+            'screenshots/viewport-mobile-390.png',
+            'screenshots/viewport-tablet-768.png',
+            'screenshots/viewport-desktop-1440.png',
           ];
           const expectedWidths = [320, 360, 390, 640, 768, 900, 1024, 1280, 1440];
           const checkFile = file => {
@@ -108,6 +111,15 @@ jobs:
           const observedWidths = [...new Set((report?.viewports ?? []).map(viewport => viewport.width))].sort((a,b) => a-b);
           if (JSON.stringify(observedWidths) !== JSON.stringify(expectedWidths)) failures.push(`runner inspected widths ${JSON.stringify(observedWidths)}, expected ${JSON.stringify(expectedWidths)}`);
           if (report && (!Array.isArray(report.screenshots) || report.screenshots.length < 3)) failures.push('report does not list the three initial screenshots');
+          const visualEvidence = report?.visualEvidence;
+          if (visualEvidence?.schemaVersion !== 1) failures.push('visualEvidence schema version 1 is missing');
+          if (!Array.isArray(visualEvidence?.viewportScreenshots) || visualEvidence.viewportScreenshots.length !== 3) failures.push('visualEvidence does not list all three viewport screenshots');
+          if (!Array.isArray(visualEvidence?.sectionScreenshots) || visualEvidence.sectionScreenshots.length === 0) failures.push('visualEvidence contains no section-level screenshots');
+          for (const capture of [...(visualEvidence?.viewportScreenshots ?? []), ...(visualEvidence?.sectionScreenshots ?? [])]) {
+            if (!capture?.path || !checkFile(capture.path)) failures.push(`visualEvidence screenshot is missing or empty: ${capture?.relativePath ?? 'unknown path'}`);
+          }
+          const sectionWidths = [...new Set((visualEvidence?.sectionCaptureSummaries ?? []).map(item => item.width))].sort((a,b) => a-b);
+          if (JSON.stringify(sectionWidths) !== JSON.stringify([390, 1440])) failures.push(`section evidence widths were ${JSON.stringify(sectionWidths)}, expected [390,1440]`);
           let artifactUploaded = false;
           try {
             const api = process.env.GITHUB_API_URL || 'https://api.github.com';
@@ -127,6 +139,7 @@ jobs:
             `- Shared-action Playwright: ${playwrightVersion}`,
             `- Captured composite-action outcome: ${actionOutcome}`,
             `- Chromium launch and rendered-site inspection: ${report && report.viewports?.length === expectedWidths.length && expectedShots.every(shot => checkFile(path.join(artifacts, shot))) ? 'completed' : 'not verified'}`,
+            `- Visual evidence: ${visualEvidence?.viewportScreenshots?.length === 3 && visualEvidence?.sectionScreenshots?.length > 0 ? `${visualEvidence.viewportScreenshots.length} viewport + ${visualEvidence.sectionScreenshots.length} section screenshots` : 'not verified'}`,
             `- Shared action artifact upload: ${artifactUploaded ? 'verified' : 'not verified'}`,
             `- **Runtime compatibility result: ${runtime}**`,
             `- **Starter quality result: ${qualityStatus}**`,
