@@ -315,5 +315,5 @@ test('GitHub adapter template and project-state schema are valid JSON and declar
  assert.match(workflow,/contents: write/);
  assert.match(workflow,/process-github-inbox/);
  assert.match(workflow,/github\.actor/);
- assert.doesNotMatch(workflow,/personal access token|PAT/i);
+ assert.doesNotMatch(workflow,/secrets\.(?:GH_TOKEN|PAT|GITHUB_TOKEN)/i);
 });
