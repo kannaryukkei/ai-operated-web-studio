@@ -64,7 +64,7 @@ No paid model API, API key, automatic transcription service or new upload portal
 
 ## 5. Existing platform intake — internal bridge, not canonical client input
 
-The current Laravel Project Intake is a **26-field structured snapshot** used by the platform's versioned intake and manual discovery handoff. It is not the source of truth for client facts, not the canonical Client Brief, and not the required client input method.
+The current Laravel Project Intake is a versioned internal snapshot used by the platform's intake and manual discovery handoff: schema v1 contains 26 fields and schema v2 contains 27 after adding the optional `business_model_summary` field. It is not the source of truth for client facts, not the canonical Client Brief, and not the required client input method.
 
 ### 5.1 Field inventory
 
@@ -108,13 +108,7 @@ Project Intake is currently an **internal Studio-only snapshot**, not a client-e
 
 This is the implemented material-first boundary, not a pending Segment 12 change. The Studio operator derives the internal snapshot from the interview packet and supplied materials. Do not send clients the intake route or ask them to complete its 26/27-field internal form; the client-facing process remains one normal interview, existing materials, targeted clarification and explicit approvals.
 
-### 5.3 Current access mismatch
 
-The current intake page is still reachable by project users. The controller authorizes project updates through the Project policy; that policy allows studio staff, client-account owners and project members with owner/editor roles to update the project. Consequently, authorized client users can currently edit and submit the structured intake.
-
-This existing behavior conflicts with the intended material-first policy. The code audit and target-state correction are recorded in `docs/PLATFORM_ALIGNMENT_SPECIFICATION_v1.0.md`; until Segment 12 implements the UI and authorization changes, treat the client-editable intake as a legacy implementation, not the desired operating procedure. For new projects, the studio operator should derive the internal snapshot from the interview packet. Do not ask the client to complete the 26-field page as a second mandatory form.
-
-The later platform change must preserve secure project access and ensure the internal bridge is editable only by authorized studio roles, while the client experience remains a normal interview + material handoff + targeted clarification/approval flow. Do not change access by hiding a link alone; enforce it server-side and test it.
 
 ### 5.4 Bridge limitations
 

@@ -17,7 +17,7 @@ The current material-first process remains:
 
 No paid model API, AI SDK, hosted agent runtime, multi-file ingestion platform, WRP workflow engine or persisted approval engine is required for the next platform change.
 
-The immediate correction is a security and operating-boundary fix: **Project Intake is an internal Studio snapshot, not a client-facing form.** Every intake endpoint must be restricted server-side to Studio staff. UI link hiding is supplementary, not authorization.
+The completed Segment 12 correction establishes the security and operating boundary: **Project Intake is an internal Studio snapshot, not a client-facing form.** Every intake endpoint is restricted server-side to Studio staff; hiding the project-list link is supplementary and is not treated as authorization.
 
 ## 2. Historical audited baseline (before Segment 12)
 
@@ -40,17 +40,15 @@ Audit performed against `revision/master-revision`, before the Segment 12 implem
 
 ### 2.1 Historical intake authorization defect — resolved in Segment 12
 
-The current controller calls `Gate::authorize('view', $project)` for `show` and `Gate::authorize('update', $project)` for `save` and `submit`. `ProjectPolicy::update()` explicitly permits a client-account owner and project members with `owner` or `editor` roles. The same page serializes the entire 26-field payload to any user who can view the project.
+At the time of the baseline audit, the controller authorized `show` with `Gate::authorize('view', $project)` and authorized `save` and `submit` with `Gate::authorize('update', $project)`. `ProjectPolicy::update()` permitted client-account owners and project members with `owner` or `editor` roles. The intake page could therefore serialize the 26-field payload to project users who could view the project.
 
-The project list also renders “Open intake” without checking `isStudio`.
+The project list at that time also rendered “Open intake” for all visible projects. The baseline `ProjectIntakeTest` permitted a client account owner to save, resume and submit the intake, and permitted an account-member viewer to view it while denying edits.
 
-The current `ProjectIntakeTest` makes the old behavior explicit: it tests that a client account owner can save, resume and submit the intake. The account-member viewer test permits viewing the intake while denying editing. Both expectations must change because the intended input policy now defines the intake as Studio-populated internal material.
-
-**This is not fixed by hiding the project-list link.** A client could still request the GET/PATCH/submit URL directly. Server-side policy enforcement must deny all client roles, including account owners and project owners/editors.
+This was not safely fixed by hiding the project-list link alone: direct GET/PATCH/submit requests also needed server-side denial. Segment 12 implemented the dedicated `manageInternalIntake` policy and regression tests; the current implementation is summarized at the top of this document and recorded in §11.
 
 ### 2.2 Required fields and UI copy — historical baseline, corrected in Segment 12
 
-The controller defines exactly five required submission fields:
+At the time of the baseline audit, submission validation required exactly these five fields:
 
 1. `business_overview`
 2. `target_audience`
@@ -88,33 +86,27 @@ Therefore, do not describe the current `DiscoveryRun.result` as a canonical disc
 
 A client may still view the project information that current project authorization intentionally exposes. This specification restricts only the internal Project Intake record; it does not silently redefine all project-level read/update abilities.
 
-### 3.2 Authorization implementation
+### 3.2 Implemented authorization
 
-Add an explicit policy ability on the project, preferably `ProjectPolicy::manageInternalIntake(User $user, Project $project): bool`, returning `$user->isStudioStaff()`. Use it in all three ProjectIntakeController actions:
+The implemented policy ability is `ProjectPolicy::manageInternalIntake(User $user, Project $project): bool`, which returns `$user->isStudioStaff()`.
 
-- `show`: authorize `manageInternalIntake` before fetching/serializing any intake payload.
-- `save`: authorize `manageInternalIntake` before validating or mutating a payload.
-- `submit`: authorize `manageInternalIntake` before validating or mutating a payload.
+All three `ProjectIntakeController` actions — `show`, `save` and `submit` — authorize `manageInternalIntake` before fetching, serializing, validating or changing intake data. `ProjectPolicy::update()` remains unchanged and continues to govern ordinary project editing; it does not grant access to internal intake.
 
-Do not reuse `ProjectPolicy::update()` for internal intake. That method continues to govern ordinary project editing and must not be narrowed accidentally as a side effect.
+`ManualDiscoveryController` uses the same Studio-only authorization for `show`, `start` and `complete`, and completion verifies that the submitted run belongs to the route project.
 
-Keep `ManualDiscoveryController` Studio-only. It already calls a Studio-role guard for show/start/complete and verifies that the submitted run belongs to the route project on completion. Retain those protections.
+### 3.3 Implemented UI behavior and copy
 
-### 3.3 UI behavior and copy
-
-- Render “Open intake” in the project list only when `isStudio` is true, alongside the existing Studio-only Discovery workspace link.
-- Rename the intake page heading to make its internal purpose explicit, such as **Internal project intake snapshot**.
-- State clearly that Studio staff populate it from the interview and supplied material; it is not a client questionnaire and clients should not be sent this route.
-- Explain the page as an interim summary bridge, not the canonical Client Website Brief or source-provenance record.
-- Correct helper text to **“Five core fields are required to submit this internal snapshot. The other 21 fields are optional.”**
-- Keep visible required markers aligned with the five controller rules. Do not make additional fields mandatory merely to imitate the canonical schema.
-- Because only Studio staff can enter this page, the `canEdit` prop may be removed or simplified. Do not treat a disabled button as a security control.
+- The project list renders “Open intake” and “Discovery workspace” only when `isStudio` is true.
+- The intake page is titled **Internal project intake snapshot** and explains that Studio staff populate the interim summary from the interview and supplied business materials.
+- The page says it is not a client questionnaire or the canonical Client Website Brief.
+- The five required fields are visibly marked. The helper text says five core fields are required, additional details are optional, and schema v2 adds a business-model summary.
+- The server-side policy remains the authorization control; UI link hiding or button state is not relied on for security.
 
 ## 4. Data and workflow boundaries
 
 ### 4.1 Keep Project Intake as a small internal bridge
 
-For this revision, retain the existing 26-field payload, versioning, draft-save behavior, submission timestamp and submitted-by metadata. The operator derives this compact snapshot from the material packet.
+Retain the versioned payloads and their existing draft-save behavior, submission timestamp and submitted-by metadata: schema v1 has 26 fields; schema v2 adds optional `business_model_summary` for 27 total. Exactly five fields are required at submission; the remaining 21 (v1) or 22 (v2) are optional. The operator derives this compact snapshot from the material packet.
 
 The snapshot must not replace:
 - the preserved raw interview/transcript and client-supplied files;
@@ -173,7 +165,7 @@ A persisted approval model may be reconsidered only after real projects show tha
 1. Add Studio-only `manageInternalIntake` authorization and enforce it in show/save/submit.
 2. Remove client access to intake data, including account owners and project members with owner/editor roles.
 3. Hide “Open intake” from client project lists while preserving the direct-route server-side denial.
-4. Change page copy to explicitly describe an internal snapshot and correct five-required/21-optional helper text.
+4. Change page copy to describe an internal snapshot and explain five required fields plus version-aware optional details.
 5. Preserve current versioned draft/submitted snapshot behavior.
 6. Align the overlapping DiscoveryRun working-summary status enums and prompt/TypeScript/UI/fixtures as defined in §4.3.
 7. Update/add feature tests proving both access denials and Studio access.
