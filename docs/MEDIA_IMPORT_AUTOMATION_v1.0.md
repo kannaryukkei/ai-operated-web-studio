@@ -12,7 +12,7 @@
 
 ## Each image batch
 
-1. Stage 5 prepares the ordered queue and image prompts.
+1. Prepare an ordered queue and image prompts when the project needs multiple media imports.
 2. For concept art, use native ChatGPT Image Generation in the same AI work session, then click Save in ChatGPT Images to download the generated file.
 3. For professional photography, open the exact asset page, verify its item licence and current provider Terms of Service/project context, then use the provider's official License/Download control. Adobe Stock and Envato Elements are supported candidates. Envato discovery, licensing and download must stay manual in its official UI. Register the item to the specific client/project and respect client-transfer restrictions.
 4. With the watcher running, save/download only the next queued image. Do not download unrelated images until the queue is empty; new supported files are mapped sequentially to queue items.
