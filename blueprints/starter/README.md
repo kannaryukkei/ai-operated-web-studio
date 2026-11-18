@@ -1,63 +1,55 @@
-# Starter Blueprint — Canonical Production Reference
+# Starter Blueprint — Production Reference
 
-**Status:** Migrated into the AI Operated Web Studio system on 2026-11-14  
-**Source:** `kannaryukkei/web-studio-template-kit`, branch `starter/five-website-audit-and-hardening`, commit `6ba68cbdba1c3a30f932a2eba998dd93b42a4a2f`  
-**Migration verification:** exact 51/51 source-file match; migrated clean install/build PASS; Playwright 15/15 PASS on Chromium (GitHub Actions run [43615900261](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43615900261)). **Platform CI:** PASS on migration commit (run [43615904527](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43615904527)).
+**Status:** Maintained as a category-specific reference implementation, not a universal website or Studio workflow.
+
+**Source:** kannaryukkei/web-studio-template-kit, branch starter/five-website-audit-and-hardening, commit 6ba68cbdba1c3a30f932a2eba998dd93b42a4a2f.
 
 ## What this blueprint contains
 
-- `blank/`: neutral technical foundation and default starting point for new client website projects. Populate it only after an approved Website Requirements Pack (WRP) defines the site's content and structure.
-- `template-kit/starter/`: the full React/Vite static Starter reference implementation.
-- `template-kit/docs/`: product definition, extraction map, source audit, responsive QA, delivery SOP and workspace templates.
-- `template-kit/prompts/starter/`: manual stage prompts for ChatGPT/Claude.
-- `template-kit/templates/`: client project records, approval logs, scope, content, QA, launch and retrospective templates.
-- `KALA_PILOT_LEARNINGS.md`: reusable lessons distilled from every KALA pilot branch.
+- blank/: neutral technical foundation for a new website. Populate it only after the project conversation establishes the purpose, audience, scope and content direction.
+- template-kit/starter/: the React/Vite static Starter reference implementation, built around ZACKS Detailing.
+- template-kit/docs/: technical/reference notes and historical pilot evidence.
+- template-kit/prompts/ and template-kit/templates/: legacy working examples retained for historical reference. They are not a required stage sequence, mandatory paperwork or an alternative operating authority. Follow Master Skill v1.13 instead.
+- KALA_PILOT_LEARNINGS.md: reusable lessons distilled from the KALA pilot work.
 
-## Canonical Starter stack decision
+## Starter technical baseline
 
-**Owner decision — 2026-11-17: React 18 + Vite 6 is the selected implementation stack for Starter.**
+The maintained Starter reference uses:
 
-The canonical Starter reference and future Starter variants use:
-
-- React 18 for the UI layer.
-- Vite 6 for development and production builds.
-- Lucide React for interface icons where appropriate.
+- React 18 and Vite 6.
 - Plain CSS for styling and responsive layout.
+- Lucide React for icons when appropriate.
 - Node.js 20 or newer.
-- npm with a committed lockfile and `npm ci` for reproducible installation.
-- Playwright with Chromium for browser-based regression testing.
+- npm with a committed lockfile and npm ci.
+- Playwright/Chromium for browser regression testing where configured.
 
-Starter remains static-first. Do not introduce a backend, database, CMS, authentication, booking system, checkout, persistent form storage or other server-side capability unless an approved business requirement demonstrates the need.
+Starter remains static-first. Add a backend, database, CMS, authentication, booking, checkout or persistent form storage only when the actual business requirements justify it.
 
-The Vanilla HTML/CSS/JavaScript implementation in Experiment 04 remains useful experimental evidence, but it is not the selected canonical Starter stack. Its repository and learning remain preserved.
+The Vanilla HTML/CSS/JavaScript implementation from Experiment 04 remains useful experimental evidence, but it is not this Starter reference's selected stack.
 
-The ZACKS implementation remains intact as the category-specific Starter reference. `blank/` is the neutral default starting point for new client projects; `template-kit/starter/` is the ZACKS-specific reference implementation. They are independent blueprints, and the ZACKS site is not a universal blank template.
+## Important: reference implementation, not a deployable client site
 
-## Important: this is a reference implementation, not a universal blank site
+The current website source is a ZACKS Detailing local-service demo. It contains ZACKS-specific language, automotive interactions, sample pricing, contact details and photo references. It is not a generic blank site and must not be copied unchanged for another business.
 
-The current website source is the ZACKS Detailing automotive/local-service demo. It is the best tested reference for a local service business decision journey, but it still contains ZACKS-specific language, automotive interactions, sample pricing, contact details and external photo references. Some legacy portfolio content also contains simulated metrics/customer-story style proof; those elements do not comply with the current evidence policy, even in demos. Do not deploy or copy it unchanged for a client.
+The reference was corrected in commit 6d4e85633e35bb8160a46988c8665267191e3f0f: simulated customer-story cards and numeric proof were removed from the content configuration and rendered page, with a browser regression to prevent their return. This does not verify the remaining ZACKS facts or asset rights.
 
-The current reference was corrected in commit `6d4e85633e35bb8160a46988c8665267191e3f0f`: simulated customer-story cards and numeric proof were removed from the content configuration and rendered page, with a browser regression to prevent their return. That does not verify the remaining ZACKS facts or asset rights.
- 
-For each project:
-1. Read the approved brief, the current owner-approved Master Skill version or (while adoption is pending) the candidate listed in `docs/CANONICAL_STATUS.md`, and the canonical operating/data/approval documents.
-2. Decide whether this local-service pattern actually fits the customer journey.
-3. Copy `template-kit/starter/` into that client's separate website repository only when it is a fit.
-4. Replace ZACKS identity, facts, contact endpoints, images, credits, pricing, FAQs and policies only with source-traceable and appropriately approved material. Never add fabricated proof.
-5. Remove or redesign interactions that do not serve the real business.
-6. Follow WRP/G0–G7 gates and run the complete Starter Product Acceptance Gate plus independent browser QA before any release.
+## How to use it
 
-For cafés/F&B, portfolio studios, retail catalogs, and other categories, reuse the learning and QA contracts—not the automotive page structure. Derive a category-specific information architecture and features from the client brief.
+1. Open one dedicated conversation for the website and select client_service or studio_development; real or ambiguous client work defaults to client_service.
+2. Review the project's audience, business, content, intended action and actual requirements. Decide whether this local-service structure fits.
+3. Copy template-kit/starter/ into a separate website repository only when its structure is a fit.
+4. Replace ZACKS identity, facts, contacts, imagery, credits, pricing, FAQs and policies only with supported project material. Do not carry facts or assets across clients.
+5. Remove interactions that do not serve the real business. Do not introduce fake booking, payment, form success or data storage.
+6. Run the website's build, browser and relevant quality checks. For a productized Starter delivery, use docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md as the technical acceptance reference when appropriate; it is not a project workflow engine or a substitute for real client permission/release authorization.
 
-## Production architecture
+For studio_development, synthetic information is permitted only when clearly marked as internal test content. Never publish a development-mode site as a real business.
 
-`ai-operated-web-studio` is now the single source of truth for:
-- studio workflow, brief, Master Skill, standards and product acceptance;
-- reusable Starter blueprint, operating prompts and delivery templates;
-- platform code under `platform/`.
+## Repository boundary
 
-Every client website remains a separate repository created from a selected blueprint. Do not put client websites or client facts inside `platform/`. Do not add backend, CMS, database, checkout, booking, authentication or persistent form behavior unless a real business need is approved.
+ai-operated-web-studio contains the Master Skill, specialist skills, selected quality references and reusable blueprints. It no longer contains a Laravel client/studio platform. Each real client website remains in its own isolated repository. Do not put client-specific facts, assets, credentials or approvals into shared blueprints.
 
 ## Verification and release boundary
 
-Migration integrity is verified. The current Starter source passed its 19-test Chromium suite on GitHub Actions [run #69](https://github.com/kannaryukkei/ai-operated-web-studio/actions/runs/43744267588), which used the committed Starter lockfile with `npm ci`; the operator also reported **19/19** on Windows after the narrow-viewport corrections. The responsive test covers nine viewport widths from 320px through 1440px. This does not make the sample website production-ready for a real client. Owner-approved facts and asset rights, actual-scale screenshot review, full accessibility review, Lighthouse/performance, Firefox/WebKit, live destination ownership, real-client validation and commercial economics remain open. Use the Starter Product Acceptance Gate before any commercial readiness claim.
+The migrated Starter reference previously passed its 19-test Chromium suite and a responsive run across nine widths from 320px through 1440px. This is historical evidence for the tested source version, not proof that every future copy or current client project passes.
+
+The reference is not certified for real-client production. Verify current business facts, asset rights, actual-scale screenshots, accessibility, live destination ownership, performance and commercial/operational readiness as applicable. A passing build or visual review is not production authorization.
