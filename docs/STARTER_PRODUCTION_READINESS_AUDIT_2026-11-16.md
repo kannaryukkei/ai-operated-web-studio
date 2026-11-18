@@ -1,5 +1,7 @@
 # Starter Production Readiness Audit — 2026-11-16
 
+> **Point-in-time audit (2026-11-16):** This report records the Starter reference's status and proposed closures under the then-current WRP/G0–G7 model. That workflow was retired in the conversation-first architecture (PR #49) and Master Skill v1.13. Treat the findings as historical product/technical evidence, not as a current mandatory workflow or approval system. Current real-client facts, rights and release authorization remain governed by Master Skill v1.13.
+
 **Product:** Starter website tier  
 **Reference implementation:** ZACKS Detailing static portfolio/demo  
 **Audited branch:** `revision/master-revision`  
