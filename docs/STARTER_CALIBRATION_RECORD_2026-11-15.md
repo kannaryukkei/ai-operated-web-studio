@@ -1,5 +1,7 @@
 # Starter Calibration Record — 2026-11-15
 
+> **Historical calibration record:** This records a measured correction against the Starter source version and Master Skill v1.10 candidate at that time. It remains useful regression/provenance evidence; its old Master Skill version is not current authority. Apply future calibration using Master Skill v1.13 and the project conversation.
+
 **Project:** Canonical Starter reference (ZACKS-specific local-service demo)  
 **Repository:** kannaryukkei/ai-operated-web-studio  
 **Branch:** improvement/starter-quality-calibration-loop  
