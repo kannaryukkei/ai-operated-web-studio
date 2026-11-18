@@ -1,7 +1,7 @@
 # AI-Operated Web Studio — Master Skill
 
 Version: v1.13  
-Status: Proposed in the conversation-first architecture PR. v1.12 remains the last adopted baseline until this PR is accepted.  
+Status: Adopted by the Studio owner on 2026-11-18 through merged PR #49. v1.12 is preserved as the previous baseline.  
 Purpose: Operate complete website projects from one project-specific ChatGPT conversation, with GitHub used for source code and useful deliverables.
 
 ## 1. Mission
