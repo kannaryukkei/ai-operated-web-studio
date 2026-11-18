@@ -1,5 +1,7 @@
 # Experiment #3 — System Learnings
 
+> **Historical experiment record (2026-11-17/18):** Recommendations below describe the system at the time of Experiment 03. Any references to a mandatory ingestion protocol, Master Skill v1.9, source-coverage matrices, stage gates or project artifacts have been superseded by the conversation-first Master Skill v1.13 adopted in PR #49. The transferable principle is retained: inspect all relevant source material, preserve provenance, flag conflicts and ask only material clarifications. Apply it conversationally through `skills/client-material-ingestion/SKILL.md`; do not recreate the retired protocol or artifact machinery.
+
 **Experiment:** Semburat Bakehouse  
 **Source:** kannaryukkei/web-studio-experiment-03-semburat-bakehouse  
 **Canonical integration target:** ai-operated-web-studio  
