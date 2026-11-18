@@ -21,7 +21,7 @@ Read only these files first; open specialist references only when the actual tas
 1. `README.md`
 2. `AI_BUILD_RULES.md`
 3. `docs/CANONICAL_STATUS.md` (this file)
-4. `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.13.md` (proposed in the conversation-first architecture PR; v1.12 remains the last adopted baseline until accepted)
+4. `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.13.md` (adopted after PR #49 merged on 2026-11-18; v1.12 remains preserved as the previous baseline)
 5. `skills/README.md` and `skills/registry.md`
 6. `blueprints/starter/README.md` when using the Starter reference
 
@@ -53,7 +53,7 @@ These dispositions supersede the earlier 2026-11-17 blanket instruction to prese
 ## Open architecture actions
 
 - [x] Record conversation-first operating authority and the two modes in this PR.
-- [ ] Review and retire the unmerged PR #47 workflow engine; preserve only the useful dual-mode safety rule and thin website-quality checks.
+- [x] Retire PR #47 without merging (closed 2026-11-18); dual-mode safety rules are retained in the adopted Master Skill v1.13. Its abandoned source branch remains only as historical residue because branch deletion is not available through the connected GitHub actions.
 - [ ] Retire the Laravel platform/workflow application and all docs that exist only to specify it.
 - [ ] Consolidate current specialist skills and remove superseded/duplicated operating documents.
 - [ ] Retire duplicate Experiment 01 and 02 repositories after confirming no unique material is lost.
