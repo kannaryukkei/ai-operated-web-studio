@@ -10,7 +10,7 @@
 
 ## Decision
 
-The AI Operated Web Studio repository is the single canonical home for the studio's platform, production workflow, Master Skill, standards and versioned website blueprints. The platform application remains under `platform/`; reusable website production assets live under `blueprints/`. A client website is still delivered in its own isolated repository copied from a selected blueprint.
+The AI Operated Web Studio repository is the canonical home for Master Skill v1.13, specialist skills, selected quality references and reusable blueprints. The former Laravel platform was retired through merged PR #50 on 2026-11-18; there is no active Studio dashboard or workflow database. Each website is operated from one dedicated conversation, with source code stored in its own repository.
 
 ## Migrated Template Kit payload
 
@@ -26,7 +26,7 @@ The copy includes:
 - six stage prompts plus orchestrator;
 - GitHub intake issue form and project workspace / approval / QA / handover templates.
 
-The original source repository's files are preserved as a nested snapshot so the migration remains auditable. `blueprints/starter/README.md` is the canonical usage contract for the migrated material.
+The original source repository's files are preserved as a nested snapshot so the migration remains auditable. `blueprints/starter/README.md` is the current usage guide. Legacy prompts/templates under the nested snapshot are historical examples, not mandatory workflow instructions.
 
 ## KALA pilot learnings
 
@@ -43,8 +43,9 @@ No synthetic client facts, brand identity, contact details, prices, testimonials
 
 | Area | Canonical location |
 |---|---|
-| Platform code and persisted project state | `platform/` |
-| Master Skill, client brief, implementation standard, product tiers, acceptance gates | `docs/` |
+| Master Skill and selected specialist skills | `docs/` and `skills/` |
+| Website source code and useful delivery evidence | Separate repository for each website |
+| Reusable Starter reference and pilot evidence | `blueprints/starter/` and selected supporting docs | |
 | Starter reference implementation, SOP, prompts and reusable client templates | `blueprints/starter/` |
 | Future Business / Custom blueprints | `blueprints/business/` and `blueprints/custom/` only after Starter is proven |
 | A real client's delivered website | Separate private client repository |
@@ -72,12 +73,12 @@ For cafés, portfolio studios, retail and other categories, reuse `KALA_PILOT_LE
 - PR #12 remains open as Draft; `main` is unchanged.
 - All reusable KALA branch lessons are documented with source branch/head provenance; intake-only branches are not misrepresented as completed website builds.
 
-This verifies source migration integrity and technical build/test viability. It does **not** certify formal accessibility, Lighthouse/performance, Firefox/Safari, real-world conversion, or commercial readiness of the Starter product.
+This is historical evidence for the original migration commit. It does **not** establish current accessibility, performance, cross-browser, real-world conversion or commercial readiness.
 
 ## Repository retirement decision
 
 - **`web-studio-template-kit`: SAFE TO RETIRE; delete only after PR #12 is merged.** Its entire 51-file audited source tree is preserved exactly under `blueprints/starter/template-kit/`, and the migrated build plus Playwright 15/15 have passed. Until PR #12 is merged, archive it rather than deleting it because the canonical snapshot is still on the review branch, not `main`.
 - **`kala-coffee-studio`: ARCHIVE, DO NOT DELETE.** The reusable rules and source provenance are distilled, but the original websites, branch histories and CI artifacts were not all copied into AI Studio. Keep the repository as read-only experiment evidence. Deletion is only safe after an explicit decision to discard that historical source or after a separate immutable archive has been retained.
-- **`ai-operated-web-studio`: KEEP.** It is the single canonical production system.
+- **`ai-operated-web-studio`: KEEP.** It is the canonical home for reusable operating guidance, skills and blueprints, not an application/workflow control plane.
 
 No source repository has been deleted or archived by this migration.
