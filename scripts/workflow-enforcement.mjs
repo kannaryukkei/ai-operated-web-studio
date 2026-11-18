@@ -275,7 +275,7 @@ function checkApproval(approval, gate, currentArtifacts, validVersions, contract
       }
       if (
         typeof approver.simulated_by_github_actor !== 'string' || !approver.simulated_by_github_actor.trim() ||
-        typeof approver.person !== 'string' || !/^\\[SIMULATED\\]\\s+/.test(approver.person)
+        typeof approver.person !== 'string' || !/^\[SIMULATED\]\s+/.test(approver.person)
       ) errors.push(issue('INVALID_DEVELOPMENT_SIMULATION', gate.id + ' simulated approver must be explicitly labelled and attributed to a real GitHub actor.'));
     } else if (approver.identity_source !== 'self_declared') {
       errors.push(issue('INVALID_APPROVER_IDENTITY_SOURCE', gate.id + ' has an unsupported identity source.'));
@@ -465,7 +465,7 @@ export async function evaluateProject({ contract, state, projectRoot }) {
         operatingMode !== 'studio_development' ||
         typeof event.simulated_by_github_actor !== 'string' || !event.simulated_by_github_actor.trim() ||
         event.simulated_by_github_actor !== event.actor ||
-        typeof event.approver_person !== 'string' || !/^\\[SIMULATED\\]\\s+/.test(event.approver_person)
+        typeof event.approver_person !== 'string' || !/^\[SIMULATED\]\s+/.test(event.approver_person)
       ))
     )) errors.push(issue('INVALID_APPROVAL_EVENT', 'Approval event must retain the gate decision, approver and artifact bindings.', { event_id: event?.event_id }));
 
@@ -679,7 +679,7 @@ export async function recordApproval({
       state.operating_mode !== 'studio_development' ||
       typeof simulatedByGithubActor !== 'string' || !simulatedByGithubActor.trim() ||
       actor !== simulatedByGithubActor ||
-      !/^\\[SIMULATED\\]\\s+/.test(person) ||
+      !/^\[SIMULATED\]\s+/.test(person) ||
       !Array.isArray(authorizedRoles) || !authorizedRoles.includes(role)
     ) throw new Error('Simulated approvers are allowed only in studio_development and must be explicitly role-allowlisted and attributed to the authenticated GitHub actor.');
   }
