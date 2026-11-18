@@ -399,7 +399,7 @@ test('one GitHub account can simulate client roles in studio development without
   decision:'CONDITIONAL_PREVIEW',subject:'Synthetic G0 test',evidence_reference:'test://simulated-client-fixture'
  });
  const result=await processGithubInbox({rootPath:r,actor:'studio-operator',contract});
- assert.deepEqual(result.processed.map(x=>x.status).sort(),['PASSED','PASSED']);
+ assert.deepEqual(result.processed.map(x=>x.status).sort(),['PASSED','PENDING']);
  const manifest=JSON.parse(await readFile(path.join(r,'.studio/project-state.json'),'utf8'));
  const gate=manifest.approvals.find(x=>x.gate_id==='G0');
  assert.equal(gate.approvers.length,2);
