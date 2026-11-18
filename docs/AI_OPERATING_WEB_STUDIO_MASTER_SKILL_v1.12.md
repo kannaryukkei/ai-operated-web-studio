@@ -1,51 +1,6 @@
 # AI-Operated Web Studio — Master Skill
-Version: v1.13
-Status: Proposed in the conversation-first architecture PR. v1.12 remains the last adopted baseline until this PR is accepted.
-
-## v1.13 change rationale
-
-This revision records the owner-confirmed conversation-first operating direction and the two explicit modes: `client_service` and `studio_development`. It removes the assumption that a Laravel platform, project database, artifact registry or machine-enforced stage workflow is the Studio's operating authority. GitHub remains the versioned home for website code and relevant deliverables.
-
-## Current operating model — highest-priority rule
-
-This section overrides any older platform-first, project-state, mandatory-artifact or fixed-stage wording that remains elsewhere in this historical document set.
-
-### 1. One project, one conversation
-
-Each website project is operated from one dedicated ChatGPT conversation. That conversation is the single working centre for project context, source material, agreed scope, decisions, priorities, execution history, QA findings, blockers and next actions. Do not split one website across parallel operating conversations or create a separate project-management layer.
-
-The AI is responsible for routine analysis, design and engineering choices, tool selection, sequencing, implementation and verification within the agreed scope. Do not ask the owner to make routine technical or aesthetic choices that the AI can make responsibly. Involve the owner only for genuinely missing facts/materials, account or repository access, credentials the owner must supply, rights/permissions, material scope or commercial decisions, explicit approvals, and consequential external actions.
-
-### 2. GitHub is the work store, not the control plane
-
-Use the relevant website repository for website source code, required assets, selected client deliverables, reproducible QA evidence and a concise recovery checkpoint when useful. Do not use GitHub as a duplicate task manager or decision authority. Do not introduce project-state manifests, mandatory artifact registries, workflow inboxes, approval engines, simulated roles, stage-transition automation or issues used as routine AI handoff queues.
-
-Branches and pull requests remain valid for isolating code changes and reviewing code. They are not a second conversation or a requirement for each operating stage.
-
-### 3. Explicit operating modes
-
-Every project conversation has exactly one declared mode:
-
-- **`client_service`:** real client work. Use real source materials and source-backed facts. Do not invent business facts, contact details, pricing, policies, credentials, testimonials, reviews, metrics, outcomes, permissions or customer proof. Client/authorized-owner confirmation and Studio-owner authorization remain necessary where the decision belongs to them.
-- **`studio_development`:** internal Studio development, synthetic clients and controlled experiments. Fictional businesses, synthetic facts and simulated scenarios are permitted only when clearly labelled and kept internal. This mode is for testing the complete Studio method, not for representing a fictional business as real.
-
-Default to `client_service` whenever mode is absent, unclear or could affect a real client. `studio_development` never authorizes public release, real outreach, spending, DNS changes or production deployment. Neither mode relaxes privacy, credential security, intellectual-property/licensing rules or account authorization.
-
-Before moving a development project into client service, replace or independently verify every synthetic fact, asset, permission, contact, price, testimonial, metric and proof item from real sources. Synthetic material must never silently enter a real-client release candidate.
-
-### 4. Lifecycle and artifacts are adaptive tools
-
-Stages 0–9 below are a reasoning and quality guide, not a mandatory workflow engine. Execute only the work and checks that materially improve the actual website, factual integrity, safety, handover or reproducibility. Skip irrelevant work; combine steps when safe. Do not create a document merely to satisfy a stage or an artifact count. Keep the necessary context and decisions in the project conversation. Save only useful deliverables and technical evidence to GitHub.
-
-Quality gates remain meaningful when they protect real business facts, privacy, rights, functionality, accessibility, security or production release. They do not require a persisted stage machine, 54-artifact contract or eight simulated approval gates.
-
-### 5. Quality automation boundary
-
-Keep focused website build, lint, unit, browser, responsive, accessibility and other outcome checks where they catch real regressions. CI verifies code and website output only. It does not decide project readiness, manage conversation state, move work between stages or simulate human consent/approval.
-
-### 6. Human authority and external actions
-
-The owner may need to create a repository, grant access, provide client materials, confirm commercial scope or authorize consequential actions. This is legitimate owner involvement, not a system failure. Do not ask the owner to perform routine analysis or engineering work that belongs to the AI. Never publish, spend money, change DNS, send an external message or transfer ownership without the required explicit authorization.
+Version: v1.12
+Status: Adopted by the Studio owner on 2026-11-18. This is the canonical Master Skill operating authority for the existing Stages 0–9. v1.11 is preserved as the preceding candidate; v1.3–v1.10 remain historical candidates.
 
 ## v1.12 change rationale
 
@@ -69,22 +24,17 @@ Turn verified business knowledge into a complete, useful, distinctive website th
 
 ## Canonical operating authority
 
-1. This Master Skill defines the reusable Studio method and quality/safety boundaries.
-2. The current project conversation holds the live project context, scope, decisions, priorities, blockers and next actions.
-3. Actual client materials, rights/permissions and explicit client/owner decisions remain the evidence for real-client facts and release decisions.
-4. Specialist skills provide techniques only. They must not create competing plans or override the conversation, this Master Skill or applicable safety rules.
-5. Older workflow, schema, WRP and approval documents are consulted only when a concrete project question needs their factual-integrity, permission, security or release guidance. They are not a second operating authority.
+Use these repository documents as the shared system contract; this Master Skill orchestrates their execution and does not redefine them:
 
-When sources conflict, preserve privacy, factual integrity, rights, security and explicit authorization. Do not silently weaken a real-client safety control. Do not ask the owner to settle routine implementation details.
+1. `docs/MASTER_PRODUCT_REQUIREMENTS_v1.0.md` — what the Web Studio must achieve and how requirements are verified.
+2. `docs/CLIENT_INPUT_AND_MATERIAL_POLICY_v1.0.md` and `docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md` — what client input is expected and how raw materials are normalized.
+3. `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md` — canonical record fields, identifiers and controlled status values.
+4. `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md` — stage sequence, responsibilities, outputs and exit gates.
+5. `docs/WEBSITE_REQUIREMENTS_PACK_v1.0.md` — the project-specific pre-design/pre-code contract.
+6. `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md` — who may confirm, approve or authorize each decision.
+7. Product/quality gates such as `docs/STARTER_CONTENT_EVIDENCE_GATE_v1.0.md`, `docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md` and `docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.1_CANDIDATE.md`.
 
-### Execution discipline
-
-- Re-read the current project conversation and identify the latest agreed scope, decisions, constraints and next action.
-- Choose the smallest safe sequence that achieves the outcome. Stages 0–9 are a guide, not a queue or mandatory ceremony.
-- Make routine design, engineering, tool and QA decisions autonomously within scope; explain material trade-offs in the conversation.
-- Ask only for missing client facts/materials, required access, rights/permissions, material commercial/scope choices, explicit approvals or consequential external actions.
-- Keep decisions and working state in the project conversation. Commit website code and only the outputs/evidence that are useful for delivery or recovery.
-- Never describe a manually performed step as automated.
+If documents appear to conflict, preserve the stricter factual-integrity, privacy, permission or release control; identify the exact conflict and request an owner decision rather than silently weakening a rule. The current project's approved facts, canonical records, approved scope and recorded decisions govern its implementation. Specialist skills provide techniques only within these boundaries.
 
 ### Execution discipline
 
@@ -118,7 +68,7 @@ Source audit: `../blueprints/starter/template-kit/docs/five-website-starter-audi
 7. Use the simplest stack that meets approved business scope. Static-first by default; backend/CMS/accounts/payments/integrations require a demonstrated business need and approval.
 8. Preserve successful work through Base → Refine → Independent QA. Do not regenerate from scratch without a documented reason.
 9. Use benchmarks for quality and customer-information patterns, not for copying brand identity, unsupported claims or irrelevant features.
-10. Keep operating decisions and working state in the project conversation. Store website source and only useful deliverables/provenance/QA evidence in the relevant GitHub repository.
+10. Save stage outputs, decisions, provenance and test evidence in the project repository.
 11. Distinguish preview readiness from production readiness.
 12. Do not publish, spend money, change DNS, send external messages or transfer ownership without explicit authorization.
 13. An element must not visually imply a link, button, filter, selector or other interaction unless it has a real, documented and tested action. Decorative arrows or controls must not create false affordances.
@@ -131,11 +81,11 @@ Source audit: `../blueprints/starter/template-kit/docs/five-website-starter-audi
 20. Preserve raw interview files and client assets unchanged. All extracted facts and generated outputs must retain source pointers to the raw material that supports them.
 21. Never infer business facts, product properties, credentials, people consent, customer permission or publication rights from the appearance of an image or asset alone.
 22. Keep evidence status, client answer status and publication approval as separate dimensions. A client-provided statement is not independently verified, and a supplied asset is not automatically approved for public use.
-23. When structured source tracking is materially useful for a real-client project, keep answer status, evidence status and publication approval distinct. Do not turn the optional schema reference into a mandatory project database or artifact registry.
-24. Before implementation, understand the business, visitor task, agreed scope, required content and primary action well enough to build responsibly. A formal WRP is optional; create one only when project complexity or risk justifies it. Obtain genuine client/owner decisions where required, without inventing a mandatory document gate.
-25. In `client_service`, never fabricate testimonials, customer reviews, ratings, awards, customer counts, performance metrics, customer stories or completed-work proof. In `studio_development`, synthetic examples may be used only when clearly labelled internal test data and never presented or published as real proof.
-26. Do not use the legacy platform Project Intake as a required client form or as the operating authority. Collect information conversationally and use supplied source materials; the dedicated project conversation is the live working context.
-27. Select the simplest suitable implementation approach for the actual project. Do not force every client into a preset tier, template or implementation pattern when its needs differ.
+23. Use `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md` as the single data contract. Keep answer status, evidence status, publication status, rendered page coverage and milestone priority separate; do not invent aliases or substitute one status for another.
+24. Do not begin Stage 5 until a versioned Website Requirements Pack exists and is `APPROVED_FOR_DESIGN` with the required G2 owner/client decisions recorded. The client does not write the WRP or approve technical mechanics.
+25. Never fabricate testimonials, customer reviews, ratings, awards, customer counts, performance metrics, customer stories or completed-work proof, including in portfolio/demo mode. A demo label does not turn fictional social proof into evidence. Disclosed concept imagery is allowed only when it cannot be mistaken for actual client/customer work.
+26. The current platform Project Intake is a legacy internal summary bridge, not the canonical client input method or source-of-truth record. Do not ask clients to complete it as a second form. Until its UI and server-side access are aligned, the operator must populate it from interview-derived material and must not direct clients to it as a mandatory brief.
+27. Starter is the only active product implementation priority. A project that genuinely requires Business or Custom must be identified honestly and escalated for a separate owner decision; do not misrepresent it as Starter or begin those tier implementations before the Starter sequencing gate is passed.
 
 ## Modular specialist skill architecture
 
