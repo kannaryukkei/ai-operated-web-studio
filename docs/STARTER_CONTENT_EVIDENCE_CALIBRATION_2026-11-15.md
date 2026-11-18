@@ -1,5 +1,7 @@
 # Starter Content Evidence Calibration — 2026-11-15
 
+> **Historical calibration record:** This records the 2026-11-15 correction removing simulated social proof from the ZACKS Starter reference. Retain it as evidence of the change and regression, not as a separate operating workflow. Current mode rules are defined by Master Skill v1.13.
+
 **Reference:** ZACKS Starter  
 **Classification:** IMPLEMENTATION / QA  
 **Status:** Correction implemented; automated CI verification PASS
