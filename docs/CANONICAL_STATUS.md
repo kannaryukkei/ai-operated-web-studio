@@ -59,7 +59,8 @@ These are optional, task-specific aids, not a mandatory artifact package:
 
 - `ai-operated-web-studio`: KEEP as the canonical home for Master Skill, specialist skills, useful standards and proven blueprints; no dashboard/platform.
 - `zacks-detailing`: KEEP as real business/site source and local-service reference.
-- Experiment 01 and 02: RETIRE as duplicate clones after checking that no unique work or user data is lost.
+- Experiment 01 — Teras Rindang: DELETE. The only branch is `main`; its 304 files are a duplicate Studio/platform/blueprint clone, with no unique website or experiment-output branch found in the audit. Repository deletion must be performed in GitHub Settings because the connected GitHub actions do not expose a delete-repository operation.
+- Experiment 02 — Karsa Cycle Lab: KEEP as a standalone synthetic website repository, not as a Studio clone. Its `experiment/02-karsa-cycle-lab-starter` branch contains 12 website files and 10 unique experiment records. PR #1 converts `main` to this website-only structure; keep the mode as `studio_development`, with owner visual review pending and no public release.
 - Experiment 03, 04 and 05: KEEP for distinct website, QA evidence and reusable learning; do not use them as copies of Studio operations.
 - Laundry Ceria / Experiment 06: KEEP as the internal synthetic test website under `studio_development`; never present it as a real business or deploy it publicly.
 - `web-studio-template-kit`: not present in the latest repository inventory visible during the 2026-11-18 audit; verify separately before any action.
@@ -72,5 +73,7 @@ The new dispositions supersede the 2026-11-17 blanket preserve-all decision for 
 - [x] PR #47 closed without merge.
 - [x] Laravel platform retired in PR #50.
 - [ ] Merge PR #51 skill/documentation cleanup.
-- [ ] Verify and retire duplicate Experiment 01 and 02 repositories.
+- [x] Audit Experiment 01 and 02; identify the unique Karsa Cycle Lab website and its experiment evidence.
+- [ ] Delete Experiment 01 — no unique website/output found. Repository deletion is not exposed through the connected GitHub actions.
+- [ ] Merge Karsa standalone-repository PR #1; keep owner visual review pending and no public release.
 - [ ] Finish Experiment 06 as a controlled internal `studio_development` test.
