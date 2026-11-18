@@ -1,58 +1,61 @@
-﻿# Canonical Status
-Single pointer for what is current. If a document is not listed as
-Current or Candidate here, do not treat it as an operating instruction.
-## Free operation rule
-This studio operates without API keys and is entirely free. AI work
-uses external AI applications with manual copy and paste, plus local
-validators (PHP, Node, Playwright). No paid AI APIs or paid services.
-Any document suggesting paid credentials is stale: flag it, do not follow it.
-## Minimal Context Set: read these first
-AI working on this repo reads only these files first, then task-specific
-docs only when the task needs them. Do not read all of docs/.
-1. README.md
-2. AI_BUILD_RULES.md
-3. docs/CANONICAL_STATUS.md (this file)
-4. docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md
-5. docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md
-6. docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.12.md (adopted canonical Master Skill, 2026-11-18)
-7. blueprints/starter/README.md
-## Status table
-| Family | Current / Candidate | Superseded / Historical |
-|---|---|---|
-| Master Skill | v1.12 ADOPTED by Studio owner on 2026-11-18; canonical authority for Stages 0–9. | v1.11 preceding candidate, preserved; v1.3 to v1.10 historical candidates |
-| Product tiers | v1.2 CANDIDATE, current proposal | v1.0, v1.1 superseded |
-| Implementation standard | v1.1 CANDIDATE, current proposal | v1.0 superseded |
-| Client brief template | v2.1, current | v1.1, v2.0 historical |
-| Starter acceptance gate | v1.1, required | v1.0 superseded |
-| Starter stack | React 18 + Vite 6 selected by owner on 2026-11-17; static-first. ZACKS remains the category-specific reference, not a universal blank site. | Vanilla HTML/CSS/JavaScript in Experiment 04 remains experimental evidence, not the selected canonical Starter stack |
-| Starter blueprints | `blueprints/starter/blank/` is the neutral default starting point for new client projects. `blueprints/starter/template-kit/starter/` remains the separate ZACKS-specific reference implementation. | None |
-| Operating contracts | CANONICAL_OPERATING_WORKFLOW v1.0, CANONICAL_DISCOVERY_DATA_SCHEMA v1.0, WEBSITE_REQUIREMENTS_PACK v1.0, APPROVAL_AND_RELEASE_POLICY v1.0 | None |
-| Intake | CLIENT_MATERIAL_INGESTION_PROTOCOL v1.0, current | None |
-| Starter gates | STARTER_AUTOMATED_QUALITY_GATE v1.0, STARTER_CONTENT_EVIDENCE_GATE v1.0 | None |
-| Calibration | MASTER_SKILL_CALIBRATION_PROTOCOL v1.0, EXPERIMENT_CALIBRATION_RECORD_TEMPLATE v1.0 | Calibration records dated 2026-11-15 and 2026-11-16 are point-in-time evidence, not living specs |
-| Media pipeline | MEDIA_AND_ASSET_PIPELINE v1.0 and MEDIA_IMPORT_AUTOMATION v1.0 are candidates for Starter; local media inbox + specialist skill integrated by PR #17 (2026-11-16, commit `533854c`) | None |
-| Experiment 05 calibration | `docs/pilot-learnings/EXPERIMENT_05_STARPOINT_GARAGE_CALIBRATION_2026-11-16.md` — preliminary standalone baseline finding | NOT YET PROVEN; not yet an operating rule |
-| Platform baseline | product-brief, architecture, mvp-specification, data-model, security-and-approvals, ai-orchestration, manual-ai-workflow, roadmap, local-bootstrap | None |
-| Skills | skills/README.md, skills/registry.md | None |
-| Decisions and learnings | BLUEPRINT_MIGRATION_DECISION (provenance reference) | FOUR_PILOT_RETROSPECTIVE, EXPERIMENT_03_SYSTEM_LEARNINGS, RESTRUCTURE_EXECUTION_PLAN, MASTER_REVISION_EXECUTION_LOG: records, not operating instructions |
-## Experiment repositories
+# Canonical Status
 
-Canonical system: `kannaryukkei/ai-operated-web-studio`, `main` branch.
+This file is the short pointer to the current operating rules. Do not treat every file under `docs/` as current authority.
 
-**Owner decision — 2026-11-17: Experiment repositories 01–05 remain active. No experiment repository is approved for archiving or deletion at this time.**
+## Current operating model — 2026-11-18
 
-The owner may reconsider retirement only after an evidence-based review confirms that the relevant learning and useful artifacts have been fully integrated into the canonical Studio workflow, followed by a separate explicit decision. Until then, preserve all five experiment repositories and their histories.
+**Conversation-first is the canonical direction.** Each website project has one dedicated ChatGPT conversation as its single working centre for context, decisions, scope, priorities, execution, QA and next actions. The AI handles routine sequencing and technical decisions. The owner is involved only for missing facts/materials, account access, permissions, meaningful commercial/scope decisions, explicit approvals and consequential external actions.
 
-- Experiment 01 and 02 are full clones of the Studio repository. Do not edit them and do not copy their `docs/` or `platform/` content into the canonical repository. They remain available for historical inspection.
-- Experiment 03 work lives on its experiment branch.
-- Experiment 04 folder pattern (01 to 08) is the reference pattern for new experiments. Its Vanilla implementation remains experimental evidence, not the selected canonical Starter stack.
-- Experiment 05 is in progress. Its current Star Point website is a local standalone preview, not a committed experiment website or a full Master/Starter workflow run. Its calibration remains NOT YET PROVEN.
-- New experiments contain only artifacts plus the Master baseline commit SHA. Never copy `platform/` or `docs/` into an experiment repo.
+**GitHub is a code and deliverable store, not a project manager.** Keep website source, relevant assets/deliverables and useful QA evidence in the relevant repository. Do not duplicate conversation operations in a dashboard, database, issue tracker, workflow inbox, project-state manifest, artifact registry or approval engine.
 
-## Owner decisions and follow-up work
+### Operating modes
 
-- [x] Adopt Master Skill v1.12 as canonical operating authority (Studio owner decision, 2026-11-18; implementation tracked by dedicated PR).
-- [x] Select React 18 + Vite 6 as the canonical Starter stack (owner decision, 2026-11-17).
-- [x] Keep Experiment 01–05 repositories active; no archive or deletion authorized (owner decision, 2026-11-17).
-- [x] Integrate PR #17 (Starter media pipeline): merged 2026-11-16 as commit `533854c`.
-- [ ] Run Experiment 05 through the full Studio/Starter workflow before promoting its conditional offer-variant pattern.
+- `client_service`: default for real or ambiguous client work. Real claims must be source-backed; rights, permissions and approvals must be genuine and explicit. No fabricated facts or social proof.
+- `studio_development`: synthetic data and fictional scenarios are permitted when clearly labelled, for internal development/testing only. No public release, real outreach, spending, DNS changes or production deployment.
+- Switching development work into real client service requires re-sourcing or independently verifying all synthetic facts, assets, permissions, contacts and proof. Privacy, security, licensing and authorization rules remain in force in both modes.
+
+## Minimal context set
+
+Read only these files first; open specialist references only when the actual task needs them:
+
+1. `README.md`
+2. `AI_BUILD_RULES.md`
+3. `docs/CANONICAL_STATUS.md` (this file)
+4. `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.13.md` (proposed in the conversation-first architecture PR; v1.12 remains the last adopted baseline until accepted)
+5. `skills/README.md` and `skills/registry.md`
+6. `blueprints/starter/README.md` when using the Starter reference
+
+## Canonical and legacy materials
+
+| Area | Current direction |
+|---|---|
+| Operating authority | Project-specific ChatGPT conversation + canonical Master Skill |
+| Operating method | Conversation-first; lifecycle stages are adaptable guidance, not a mandatory state machine |
+| Website source | One isolated GitHub repository per website |
+| Website quality | Keep deterministic build, test, browser and quality checks that verify actual output |
+| Studio modes | `client_service` and `studio_development` as defined above |
+| Platform application | Legacy implementation under review for retirement; do not extend it as a workflow authority |
+| Workflow/schema/approval documents | Reference standards only where a concrete factual, permission, safety or release question requires them; they do not create a duplicate workflow engine |
+
+The existing `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md`, `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md`, `docs/WEBSITE_REQUIREMENTS_PACK_v1.0.md` and `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md` predate this model. Their useful safety and quality rules may be retained, but their mandatory artifact/stage machinery is not the operating model. They will be simplified or retired in a later cleanup tranche.
+
+## Repository and experiment decisions
+
+- `ai-operated-web-studio`: KEEP as the canonical home for reusable skills, standards and proven blueprints; simplify aggressively.
+- `zacks-detailing`: KEEP as a real client/business website repository and category-specific reference.
+- Experiment 01 and 02: RETIRE as duplicate system clones after checking for any unique user data; do not continue developing them.
+- Experiment 03, 04 and 05: KEEP only their distinct website/QA evidence and reusable learnings; do not treat them as separate copies of the Studio system.
+- Laundry Ceria / Experiment 06: KEEP as the internal synthetic development test case; never represent it as a real business or publish it as production.
+- `web-studio-template-kit`: not present in the latest repository inventory visible during the 2026-11-18 audit; verify separately before any action.
+
+These dispositions supersede the earlier 2026-11-17 blanket instruction to preserve all Experiment 01–05 repositories. No repository or branch is deleted by this policy-document change.
+
+## Open architecture actions
+
+- [x] Record conversation-first operating authority and the two modes in this PR.
+- [ ] Review and retire the unmerged PR #47 workflow engine; preserve only the useful dual-mode safety rule and thin website-quality checks.
+- [ ] Retire the Laravel platform/workflow application and all docs that exist only to specify it.
+- [ ] Consolidate current specialist skills and remove superseded/duplicated operating documents.
+- [ ] Retire duplicate Experiment 01 and 02 repositories after confirming no unique material is lost.
+- [ ] Keep and finish the Experiment 06 synthetic website under `studio_development`.
+

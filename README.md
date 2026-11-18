@@ -1,96 +1,49 @@
 # AI Operated Web Studio
 
-An AI-operated website production system that turns a normal client interview and existing client assets into a source-traceable brief, then orchestrates research, strategy, content, design, implementation and QA from one controlled workflow.
+An AI-operated website delivery practice. Each website project is run from one dedicated ChatGPT conversation; GitHub stores the website source and the useful project outputs. The operating model is intentionally conversation-first, not dashboard-first.
 
-## Product vision
+## Operating model
 
-Clients explain their business once in a normal interview and provide existing assets and optional source links. AI handles the structuring and production work; the client is asked only for material clarifications, fact/asset approvals and final decisions. The studio uses reusable skills and prompts through existing AI applications for research, strategy, content, design, development and QA. The studio owner retains authority over commercial decisions, scope, factual claims and production release.
+- **One project, one conversation.** The conversation is the working centre for that website: context, scope, decisions, priorities, execution, QA, blockers and next actions stay together.
+- **AI operates; the owner intervenes where it matters.** The AI chooses routine design, engineering, tool and sequencing decisions. Ask the owner only for facts or materials that are missing, access/credentials, rights or permissions, commercial/scope decisions, explicit approvals, and consequential external actions.
+- **GitHub stores the work, not the workflow.** A website repository holds its code and relevant deliverables. Do not use GitHub issues, project-state manifests, artifact registries, inbox workflows or approval state machines as a second project manager.
+- **Quality automation stays.** Build, test, lint, browser and relevant quality checks may verify website output. CI must not orchestrate project stages or simulate human approvals.
 
-**AI Operated Web Studio is the single canonical production system.** The Laravel platform, production standards, prompts and versioned website blueprints live in this repository, with clear folder boundaries. Each real client website remains in its own isolated repository.
+## Two operating modes
 
-## Initial architecture
+Every project conversation uses one explicit mode:
 
-- **Backend:** Laravel 13 monolith.
-- **Client and studio UI:** React + Inertia, TypeScript, Tailwind, shadcn/ui via the official Laravel React starter kit.
-- **AI workflow:** API-free first. The platform prepares structured prompts and stores results produced in ChatGPT, Claude, or another external AI application. No provider API integration; the studio operates entirely free.
-- **Workflow execution:** persisted project records and discovery runs; manual handoffs first, queues only when a proven bottleneck justifies them.
-- **Database:** SQLite for local bootstrap; PostgreSQL target for production.
-- **Files:** local storage in development; private object storage in production.
-- **Website source:** separate GitHub repository per client website, created from versioned product blueprints.
-- **Deployment:** manual/approval-gated in the MVP; provider integration later.
+1. **`client_service` — real client work.** Use source-backed business facts, actual client materials, documented rights/permissions and explicit approvals. Never invent client facts, social proof, prices, credentials, policies, outcomes or customer evidence.
+2. **`studio_development` — internal system development and experiments.** Fictional businesses, synthetic inputs and simulated scenarios are allowed when clearly labelled as synthetic. This mode is for building and testing the complete Studio process; it does not authorize real client claims, public release, real outreach, spending, DNS changes or production deployment.
 
-## Core product areas
+Default to `client_service` whenever the mode is not explicit or the work could affect a real client. Moving work from `studio_development` to `client_service` requires replacing or independently validating every synthetic fact, asset, permission, contact, price and proof item. Development mode never relaxes privacy, credential security, licensing or authorization requirements.
 
-1. Client portal — onboarding, business brief, package selection, project timeline, preview, revisions, approvals.
-2. Studio dashboard — pipeline, project scope, AI runs, artifacts, approvals, cost visibility, exceptions.
-3. AI orchestration — stage-specific agents, tools, structured outputs, persisted workflow state, retries, audit history.
-4. Website production — active Starter blueprint and isolated client repositories; Business/Custom are parked tier definitions until Starter passes acceptance.
-5. Release and care — QA, launch approvals, handover, post-launch support and monitoring.
+## Repository boundaries
 
-## Current status
+- This repository contains the canonical Master Skill, concise build rules, reusable specialist skills, proven blueprints and selected operating references.
+- Each website has its own repository. Keep client code and materials isolated.
+- The Studio repository is not a client portal, project-management application, workflow database or AI API orchestration service.
+- Do not add a platform, dashboard, database, stage engine, mandatory artifact catalogue or integration merely because it is technically possible. Add a capability only when an observed delivery problem proves it is necessary and the owner approves the change.
 
-Laravel 13 platform foundation, client/project management, invitation-based access, versioned client intake, persisted discovery runs, and the API-free manual discovery workspace are implemented. The current product is an AI-assisted web studio operating system, not a fully autonomous AI SaaS.
+## Start a project
 
-## Start here
+1. Open one dedicated ChatGPT conversation for the website.
+2. Select `client_service` or `studio_development`; use `client_service` by default.
+3. Provide the available brief, interview material, assets and references. Do not make the owner re-enter information already present.
+4. The AI determines the work sequence, makes routine implementation decisions and asks only for genuine owner/client inputs or authorizations.
+5. Create or use one isolated GitHub repository for the website when code storage or review is needed. The owner may need to create the repository or grant access.
+6. Run the checks that matter for the actual site. Store the source and useful delivery/QA outputs in GitHub; keep operational decisions in the project conversation.
 
-- `docs/local-bootstrap.md` — local environment setup and maintenance.
-- `docs/product-brief.md`
-- `docs/architecture.md`
-- `docs/mvp-specification.md`
-- `docs/ai-orchestration.md`
-- `docs/data-model.md`
-- `docs/PLATFORM_ALIGNMENT_SPECIFICATION_v1.0.md` — minimum Laravel alignment for internal-only intake, manual discovery and canonical workflow boundaries.
-- `docs/security-and-approvals.md`
-- `docs/roadmap.md`
-- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.12.md` — adopted canonical Master Skill operating orchestrator for Stages 0–9 (Studio owner decision, 2026-11-18). v1.11 is preserved as the preceding candidate.
-- `docs/MASTER_SKILL_CALIBRATION_PROTOCOL_v1.0.md` and `docs/EXPERIMENT_CALIBRATION_RECORD_TEMPLATE_v1.0.md` — root-cause classification, minimal correction and regression evidence.
-- `docs/STARTER_CALIBRATION_RECORD_2026-11-15.md` — first applied Starter calibration record and CI evidence.
-- `docs/STARTER_PRODUCTION_READINESS_AUDIT_2026-11-16.md` — gate-by-gate evidence-based Starter production readiness decision and closure plan.
-- `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md`, `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md`, `docs/WEBSITE_REQUIREMENTS_PACK_v1.0.md`, and `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md` — current stage, data, pre-design and G0–G7 contracts.
-- `docs/VISUAL_ENHANCEMENT_WORKFLOW_v1.0.md` — required Stage 6 screenshot-led audit, targeted refinement, bounded correction and re-verification procedure.
-- `docs/CANONICAL_STATUS.md` — single pointer for what is current, the free operation rule, the minimal context set, and the open decisions. Read this first.
-- Earlier Master Skill files (including v1.8 and v1.10) are retained as historical candidates, not current operating instructions.
-- `docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md` — default interview + asset intake and source-normalization workflow.
-- `docs/MEDIA_AND_ASSET_PIPELINE_v1.0.md` — business-specific media planning, professional/free stock licensing and provider-terms checks, AI concept imagery, local media inbox, optimization and media QA.
-- `docs/MEDIA_IMPORT_AUTOMATION_v1.0.md` — API-free local image inbox: Save-to-Downloads handoff, automatic import, register capture and optional responsive WebP optimization.
-- `docs/EXPERIMENT_03_SYSTEM_LEARNINGS.md` — reusable system findings from Experiment #3.
+## Canonical instructions
 
-- `docs/EXPERIMENT_01_DESIGN_REVIEW_EVIDENCE.md` — supporting evidence for the v1.7 design-quality changes.
-- `skills/README.md` — modular Agent Skills library and how to use it.
-- `skills/registry.md` — skill routing, upstream provenance, license decisions and optional dependencies.
-- `docs/CLIENT_WEBSITE_BRIEF_TEMPLATE_v2.1.md` — normalized AI-produced business brief; clients are not expected to complete it as a long questionnaire.
-- `docs/WEBSITE_PRODUCT_TIERS_v1.2_CANDIDATE.md` — current proposed tier boundaries and Starter price hypothesis; v1.1 is superseded.
-- `docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.1_CANDIDATE.md` — current proposed design/implementation guardrails; v1.0 is superseded.
-- `docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md` — required release and commercial gate.
-- `docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md` — automated typography, control, metadata and solid-surface contrast regression for the Starter reference.
-- `docs/STARTER_CONTENT_EVIDENCE_GATE_v1.0.md` — evidence and publication gate for testimonials, ratings and business-performance claims.
-- `docs/STARTER_CONTENT_EVIDENCE_CALIBRATION_2026-11-15.md` — applied record of removing simulated social proof from Starter.
-- `docs/BLUEPRINT_MIGRATION_DECISION.md` — canonical blueprint locations, source provenance and repository retirement decision.
-- `blueprints/starter/README.md` — how to use the migrated Starter reference.
-- `blueprints/starter/KALA_PILOT_LEARNINGS.md` — best practices distilled from every KALA pilot branch.
-- `AI_BUILD_RULES.md`
+- `AI_BUILD_RULES.md` — concise contributor and agent rules.
+- `docs/CANONICAL_STATUS.md` — current pointers and decisions.
+- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.13.md` — proposed conversation-first operating orchestrator (pending merge/adoption); v1.12 is the last adopted baseline.
+- `skills/README.md` and `skills/registry.md` — specialist skill library and routing.
+- `blueprints/starter/README.md` — Starter reference and usage limits.
 
-## Modular skill system
+Older workflow, platform and approval documents are reference material only where they do not conflict with the conversation-first model above. They must not be treated as a second operating authority.
 
-The Master Skill is the orchestrator; specialist instructions live under `skills/` as portable Agent Skills. `client-material-ingestion` is required at Stage 0; `media-sourcing-and-licensing` supports existing Stages 0, 5 and 7 without creating another Master stage. The current skill registry maps specialist activation to Master Skill Stages 0–9. The core workflow remains API-free and uses existing AI applications rather than paid model APIs.
+## Development guardrail
 
-## Product boundary
-
-`ai-operated-web-studio` is the single source of truth for the studio's production system. Platform code lives under `platform/`; reusable website blueprints and delivery material live under `blueprints/`; operating standards, Master Skill and client brief live under `docs/`. Do not place website source inside `platform/`. Each real client website is copied from an appropriate blueprint into a separate private repository. The migrated Starter reference is under `blueprints/starter/` and is ZACKS-specific, not a universal site to deploy unchanged.
-
-## Current delivery workflow
-
-See `docs/manual-ai-workflow.md` and `docs/CLIENT_MATERIAL_INGESTION_PROTOCOL_v1.0.md` for the API-free material-first process. The current platform manages clients, projects, structured intake snapshots and discovery records. Raw interview files and supplied assets are currently kept in controlled project storage and handed to an external AI application manually; private multi-file ingestion is not yet implemented.
-
-## Create a new experiment locally
-
-Requires Node.js 20 or newer. The scaffold copies a committed snapshot from a selected repository-relative blueprint path inside `blueprints/`. Blueprint-specific staged, unstaged, deleted, renamed or non-ignored untracked changes prevent execution; unrelated worktree changes do not. ZACKS at `blueprints/starter/template-kit/starter` is an existing selectable reference only, not a universal or blank starter.
-
-```bash
-node scripts/scaffold-experiment.mjs \
-  --name "Experiment 06 - Example" \
-  --output "../web-studio-experiment-06-example" \
-  --blueprint "blueprints/starter/template-kit/starter"
-```
-
-`--output` is the exact destination directory; missing parent directories are created. The result is a local directory only. The script does not run `git init`, create a GitHub repository, configure a remote, push files, publish, or deploy anything.
+Synthetic development work must remain unmistakably internal. Do not publish a development-mode website as a real business, represent synthetic results as customer proof, or allow mock data to enter a real-client release candidate.
