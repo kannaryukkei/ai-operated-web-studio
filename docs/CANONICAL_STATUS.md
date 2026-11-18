@@ -53,27 +53,29 @@ These are optional, task-specific aids, not a mandatory artifact package:
 - PR #49: MERGED. Conversation-first and two-mode operating model adopted.
 - PR #47: CLOSED WITHOUT MERGE. Repository-native workflow engine is rejected. Its old source branch remains as historical residue because the connected GitHub actions cannot delete a branch.
 - PR #50: MERGED. Laravel platform, project dashboard/workspace application and platform-only docs were removed from the active tree. No `platform/` directory remains. The source remains in Git history.
-- PR #51 (this cleanup): PENDING. Removes obsolete workflow/schema/approval documents and superseded skill versions, and consolidates four reviewer skills into one.
+- PR #51: MERGED. Obsolete workflow/schema/approval documents and superseded skill versions were removed; four reviewer skills were consolidated into one. The active specialist skill library remains.
 
 ## Repository and experiment decisions
 
 - `ai-operated-web-studio`: KEEP as the canonical home for Master Skill, specialist skills, useful standards and proven blueprints; no dashboard/platform.
 - `zacks-detailing`: KEEP as real business/site source and local-service reference.
-- Experiment 01 — Teras Rindang: DELETE. The only branch is `main`; its 304 files are a duplicate Studio/platform/blueprint clone, with no unique website or experiment-output branch found in the audit. Repository deletion must be performed in GitHub Settings because the connected GitHub actions do not expose a delete-repository operation.
-- Experiment 02 — Karsa Cycle Lab: KEEP as a standalone synthetic website repository, not as a Studio clone. Its `experiment/02-karsa-cycle-lab-starter` branch contains 12 website files and 10 unique experiment records. [PR #1](https://github.com/kannaryukkei/web-studio-experiment-02-karsa-cycle-lab/pull/1) converts `main` to this website-only structure; GitHub Actions run #22 passed build and Playwright checks. Keep the mode as `studio_development`, with owner visual review pending and no public release.
+- Experiment 01 — Teras Rindang: DELETE. Deletion is now verified: repository lookup returns 404 and repository search returns no match.
+- Experiment 02 — Karsa Cycle Lab: KEEP as a standalone synthetic website repository, not as a Studio clone. [PR #1](https://github.com/kannaryukkei/web-studio-experiment-02-karsa-cycle-lab/pull/1) is MERGED; main now contains the website-only structure. GitHub Actions run #22 passed build and Playwright checks. Keep the mode as `studio_development`, with owner visual review pending and no public release.
 - Experiment 03, 04 and 05: KEEP for distinct website, QA evidence and reusable learning; do not use them as copies of Studio operations.
-- Laundry Ceria / Experiment 06: KEEP as the internal synthetic test website under `studio_development`; never present it as a real business or deploy it publicly.
+- Laundry Ceria / Experiment 06: KEEP as a private standalone synthetic website project under `studio_development`. Cleanup and a simplified website-only CI are prepared in [Laundry PR #1](https://github.com/kannaryukkei/laundry-ceria-website/pull/1), currently draft/open; run #111 passed install, typecheck and Vite build on its latest head. The main branch still awaits the website PR.
+- Laundry Experiment 06 refinement remains separate in [Laundry PR #3](https://github.com/kannaryukkei/laundry-ceria-website/pull/3), draft/open. VIS-003 after-render verification and full keyboard/accessibility checks remain pending. Do not merge it as completed QA and do not publish the synthetic site.
 - `web-studio-template-kit`: not present in the latest repository inventory visible during the 2026-11-18 audit; verify separately before any action.
 
 The new dispositions supersede the 2026-11-17 blanket preserve-all decision for Experiment 01–05. Repository deletion/retirement is a separate operation from documentation cleanup.
 
-## Next cleanup
+## Remaining cleanup
 
 - [x] Conversation-first two-mode policy adopted in PR #49.
 - [x] PR #47 closed without merge.
 - [x] Laravel platform retired in PR #50.
-- [ ] Merge PR #51 skill/documentation cleanup.
-- [x] Audit Experiment 01 and 02; identify the unique Karsa Cycle Lab website and its experiment evidence.
-- [ ] Delete Experiment 01 — no unique website/output found. Repository deletion is not exposed through the connected GitHub actions.
-- [ ] Merge Karsa standalone-repository PR #1; keep owner visual review pending and no public release.
-- [ ] Finish Experiment 06 as a controlled internal `studio_development` test.
+- [x] PR #51 skill/documentation cleanup merged.
+- [x] Experiment 01 deleted; absence verified.
+- [x] Experiment 02 converted to a standalone Karsa website repository; PR #1 merged.
+- [ ] Review and merge Laundry Ceria PR #1 when its preview is ready for owner review.
+- [ ] Finish Laundry Ceria visual/accessibility verification; keep the result internal and synthetic.
+- [ ] Verify the current status of `web-studio-template-kit` before deciding whether it remains in scope.
