@@ -9,7 +9,7 @@
 - blank/: neutral technical foundation for a new website. Populate it only after the project conversation establishes the purpose, audience, scope and content direction.
 - template-kit/starter/: the React/Vite static Starter reference implementation, built around ZACKS Detailing.
 - template-kit/docs/: technical/reference notes and historical pilot evidence.
-- template-kit/prompts/ and template-kit/templates/: legacy working examples retained for historical reference. They are not a required stage sequence, mandatory paperwork or an alternative operating authority. Follow Master Skill v1.13 instead.
+- template-kit/templates/starter-client/02-content/: optional media, asset-provenance and section-planning helpers only. Former stage prompts, dashboards, approval logs, project-board sheets, intake forms and handover/retrospective paperwork have been retired.
 - KALA_PILOT_LEARNINGS.md: reusable lessons distilled from the KALA pilot work.
 
 ## Starter technical baseline
