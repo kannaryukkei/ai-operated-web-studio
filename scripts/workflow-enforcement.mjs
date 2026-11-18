@@ -907,7 +907,7 @@ export async function processGithubInbox({
       ? Object.entries(simulationConfig.github_actors).find(([login]) => login.toLowerCase() === actor.trim().toLowerCase())
       : null;
     const simulatedRoles =
-      stateOperatingMode(root) === 'studio_development' && simulationConfig?.enabled === true && Array.isArray(simulatedActorEntry?.[1])
+      await stateOperatingMode(root) === 'studio_development' && simulationConfig?.enabled === true && Array.isArray(simulatedActorEntry?.[1])
         ? simulatedActorEntry[1]
         : [];
     for (const gateFolder of approvalFolders) {

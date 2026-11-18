@@ -290,7 +290,7 @@ test('GitHub inbox adapter leaves an approval request untouched when the actor i
  const request=path.join(r,'.studio/inbox/approvals/G0/studio_owner.json');
  await mkdir(path.dirname(request),{recursive:true});
  await writeFile(request,JSON.stringify({decision:'CONDITIONAL_PREVIEW',subject:'Approve',evidence_reference:'github://not-authorized'},null,2)+'\n');
- await assert.rejects(()=>processGithubInbox({rootPath:r,actor:'unlisted-user',contract}),/not configured as an approver/);
+ await assert.rejects(()=>processGithubInbox({rootPath:r,actor:'unlisted-user',contract}),/not configured for role studio_owner/);
  assert.equal((await stat(request)).isFile(),true);
 });
 
