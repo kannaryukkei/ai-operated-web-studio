@@ -1,6 +1,6 @@
 {
   "workflow_id": "ai-operated-web-studio",
-  "contract_version": "1.0.0",
+  "contract_version": "1.1.0",
   "schema_version": "1.0.0",
   "title": "AI-Operated Web Studio Canonical Website Workflow",
   "description": "Agent-neutral executable contract for the canonical Stage 0-9 lifecycle.",
@@ -11,10 +11,6 @@
     "state_authority": "repository_artifacts_and_validated_manifest",
     "stage_statuses_are_derived": true
   },
-  "project_modes": [
-    "preview_only",
-    "production"
-  ],
   "stage_statuses": [
     "LOCKED",
     "READY",
@@ -706,5 +702,29 @@
         ]
       }
     }
+  ],
+  "operating_modes": [
+    "client_service",
+    "studio_development"
+  ],
+  "operating_mode_policy": {
+    "default": "client_service",
+    "client_service": {
+      "synthetic_business_facts": "forbidden",
+      "simulated_approvals": "forbidden",
+      "client_and_asset_constraints": "enforced",
+      "authenticated_human_roles": "required"
+    },
+    "studio_development": {
+      "synthetic_business_facts": "allowed_when_labelled",
+      "simulated_approvals": "allowed_when_explicitly_labelled_and_attributed",
+      "client_and_asset_constraints": "relaxed_for_synthetic_fixtures_only",
+      "external_release": "forbidden",
+      "production_delivery_path": "simulation_only"
+    }
+  },
+  "delivery_modes": [
+    "preview_only",
+    "production"
   ]
 }

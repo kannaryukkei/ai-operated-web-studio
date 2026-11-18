@@ -2,13 +2,32 @@
 
 The user's operating interface remains one AI conversation. ChatGPT + GitHub is the default; Codex, Antigravity, Muse and other agents are optional. Node.js 20+ built-ins only: no Laravel service, npm install, API key or paid model API.
 
+## Two independent operating and delivery modes
+
+`operating_mode` selects the business context; `delivery_mode` selects the release lifecycle. They are independent fields.
+
+| Operating mode | Intended use | Facts and constraints | Approval behavior | External release |
+|---|---|---|---|---|
+| `client_service` (default) | Work for a real client | Real source evidence, asset rights, claim controls and publication restrictions are enforced. Synthetic client facts are forbidden. | Every client/studio/reviewer role must be approved by its own authenticated, allowlisted GitHub account or an explicitly recorded human approval. Simulated roles are rejected. | Only after the normal production gates pass. |
+| `studio_development` | Build and test Web Studio as a complete system | Synthetic businesses, facts, assets, scenarios and test cases are allowed when visibly labelled `SYNTHETIC / DEVELOPMENT ONLY`. Restrictions may be relaxed for synthetic fixtures, not for real client material. | Required roles can be simulated by an allowlisted development operator. Records are marked `[SIMULATED]`, identify the GitHub operator, and are never real client consent or authorization. | Always forbidden. Even `delivery_mode: production` means simulate the production-shaped workflow only. |
+
+Legacy manifests with no `operating_mode` are interpreted as `client_service`. New projects default to the strict mode. Never switch an existing client project to development to bypass a missing approval or asset permission. Create a separate synthetic development project instead.
+
 ## Initialize a client project
 
 Run from the client repository root or pass an explicit path:
 
     node /path/to/ai-operated-web-studio/scripts/workflow-enforcement.mjs init --root . --project-id CLIENT-001 --mode preview_only
 
-Initialization creates .studio/project-state.json, an initial event and project-artifacts/. It never overwrites an existing state. Use production only for an actual authorized production delivery; synthetic experiments must use preview_only.
+Initialization creates .studio/project-state.json, an initial event and project-artifacts/. It never overwrites an existing state. `client_service` is the safe default:
+
+    node /path/to/ai-operated-web-studio/scripts/workflow-enforcement.mjs init --root . --project-id CLIENT-001 --mode preview_only --operating-mode client_service
+
+For system development, use a separate synthetic project:
+
+    node /path/to/ai-operated-web-studio/scripts/workflow-enforcement.mjs init --root . --project-id DEV-001 --mode preview_only --operating-mode studio_development
+
+Use `--mode production` with `studio_development` only to exercise later production gates as a simulation. The runtime reports `execution_class: SIMULATION_ONLY` and `external_release_allowed: false`; this mode cannot authorize deployment, publication or real-world client actions.
 
 ## Submit a stage artifact
 
@@ -47,9 +66,24 @@ Install the adapter into a separate client repository by copying:
 - .studio/github-native-adapter/web-studio-operations.yml to .github/workflows/web-studio-operations.yml
 - .studio/github-native-adapter/approver-roles.template.json to .studio/approver-roles.json
 
-Do not copy .studio/system-repository.json; it marks this shared source repository and prevents client initialization here. Configure .studio/approver-roles.json with actual GitHub logins and allowed roles, then commit .studio/inbox/project-init.json with project_id and delivery_mode. A push to .studio/inbox/** triggers the adapter.
+Do not copy .studio/system-repository.json; it marks this shared source repository and prevents project initialization here. For a client project, configure only real role holders under `github_users`. For a development project, an operator may additionally configure `development_simulation` with explicit roles the same GitHub login is allowed to simulate. Simulation is only honored when project state is `studio_development`; configuration cannot relax a `client_service` project.
 
-Submit an artifact by committing it at .studio/inbox/artifacts/<artifact-id>/<filename>. The action accepts only an artifact for the active stage, writes an immutable versioned snapshot under project-artifacts/, and updates .studio/project-state.json. For a human approval, commit .studio/inbox/approvals/<gate-id>/<role>.json with decision, subject and evidence_reference. The GitHub actor who made the push must be allowlisted for that role; the role is not trusted from JSON alone. One GitHub account cannot satisfy multiple roles within one approval round.
+Example development-only role configuration:
+
+    {
+      "schema_version": "1.0.0",
+      "github_users": { "studio-operator": ["studio_owner"] },
+      "development_simulation": {
+        "enabled": true,
+        "github_actors": {
+          "studio-operator": ["client_business_owner", "independent_reviewer"]
+        }
+      }
+    }
+
+For a development project, commit `.studio/inbox/project-init.json` with `project_id`, `delivery_mode` and `operating_mode: "studio_development"`. A client project should set `operating_mode: "client_service"` (or omit it for the strict default). A push to `.studio/inbox/**` triggers the adapter.
+
+Submit an artifact by committing it at .studio/inbox/artifacts/<artifact-id>/<filename>. The action accepts only an artifact for the active stage, writes an immutable versioned snapshot under project-artifacts/, and updates .studio/project-state.json. For a human approval, commit .studio/inbox/approvals/<gate-id>/<role>.json with decision, subject and evidence_reference. In `client_service`, the GitHub actor who made the push must be mapped to that real role under `github_users`; one GitHub account cannot satisfy multiple roles within one approval round. In `studio_development` only, roles in `development_simulation.github_actors` may be simulated by the operator. The manifest records `identity_source: development_simulation`, a `[SIMULATED]` approver label and `simulated_by_github_actor`. A simulated role is visibly not a human client approval and is rejected in client mode.
 
 The action uses the repository-scoped GITHUB_TOKEN supplied by GitHub Actions, with contents: write, and pushes the resulting state commit to the same branch. GitHub Actions events caused by a GITHUB_TOKEN push do not recursively trigger another push workflow. A branch rule that prohibits the Actions bot from pushing will make processing fail safely; use a permitted working branch or adjust repository policy. A rerun retains the original event actor; an unmapped actor leaves the approval inbox file untouched and fails the run.
 

@@ -13,9 +13,9 @@ This repository is the canonical AI-Operated Web Studio system. Default user exp
 ## Non-negotiable controls
 - Do not modify the workflow contract, validator, tests or CI as part of an ordinary client website task.
 - Do not bypass validators, delete evidence, rewrite state to claim success or weaken approvals.
-- Human roles, publication rights, commercial decisions and production release follow the canonical approval policy.
-- Keep preview-only work separate from production. Synthetic/demo projects do not receive fabricated client, commercial or release approvals.
-- Do not invent client facts, permissions, testimonials, metrics, reviews or working CTA destinations.
+- In `client_service`, human roles, publication rights, commercial decisions and production release follow the strict canonical approval policy. `development_simulation` entries are rejected in this mode. Simulated roles in `studio_development` are test fixtures, not human approvals and never authorize an external release.
+- Keep operating mode separate from delivery mode. `client_service` is strict and defaults when mode is absent; do not invent client facts, permissions or approvals. `studio_development` may use clearly labelled synthetic fixtures and explicitly simulated roles, but never real client data, consent or release authority. A production-shaped development run is simulation-only and cannot publish or deploy.
+- In `client_service`, do not invent client facts, permissions, testimonials, metrics, reviews or working CTA destinations. In `studio_development`, fictional facts and assets are permitted only when labelled `SYNTHETIC / DEVELOPMENT ONLY`; never represent them as real.
 - Preserve raw source files. Do not place private client material in this shared Studio repository.
 - Laravel under platform/ is a preserved prototype, not a required runtime.
 - Optional Codex, Antigravity, Muse and other agents follow the same provider-neutral contract. Hooks are supplementary.

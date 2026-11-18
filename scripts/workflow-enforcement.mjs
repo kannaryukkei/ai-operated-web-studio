@@ -53,6 +53,17 @@ export function validateContract(contract) {
     contract.runtime?.api_required !== false ||
     contract.runtime?.provider_specific !== false
   ) errors.push(issue('INVALID_RUNTIME', 'Contract must be Node 20+, API-free and provider-neutral.'));
+  if (
+    !Array.isArray(contract.operating_modes) ||
+    !contract.operating_modes.includes('client_service') ||
+    !contract.operating_modes.includes('studio_development')
+  ) errors.push(issue('INVALID_OPERATING_MODES', 'Contract must distinguish client_service and studio_development.'));
+  if (!Array.isArray(contract.delivery_modes) || !contract.delivery_modes.includes('preview_only') || !contract.delivery_modes.includes('production')) {
+    errors.push(issue('INVALID_DELIVERY_MODES', 'Contract must define preview_only and production delivery modes.'));
+  }
+  if (!isObject(contract.operating_mode_policy) || contract.operating_mode_policy.default !== 'client_service' || contract.operating_mode_policy.studio_development?.external_release !== 'forbidden') {
+    errors.push(issue('INVALID_OPERATING_MODE_POLICY', 'Contract must default to strict client_service and forbid external release in studio_development.'));
+  }
   if (!Array.isArray(contract.stages) || contract.stages.length !== 10) {
     errors.push(issue('INVALID_STAGE_COUNT', 'Exactly Stage 0-9 are required.'));
   }
@@ -202,7 +213,7 @@ async function checkArtifact(record, definition, projectRoot) {
   return errors;
 }
 
-function checkApproval(approval, gate, currentArtifacts, validVersions, contract, mode) {
+function checkApproval(approval, gate, currentArtifacts, validVersions, contract, deliveryMode, operatingMode) {
   const errors = [];
   let stale = false;
   const pendingRoles = [];
@@ -215,7 +226,7 @@ function checkApproval(approval, gate, currentArtifacts, validVersions, contract
     typeof approval.subject !== 'string' || !approval.subject.trim()
   ) errors.push(issue('INVALID_APPROVAL_METADATA', gate.id + ' needs ID, matching gate and subject.'));
   if (!gate.allowed_decisions.includes(approval.decision)) errors.push(issue('INVALID_GATE_DECISION', gate.id + ' decision is not allowed.'));
-  if (gate.conditional_preview_only && approval.decision === 'CONDITIONAL_PREVIEW' && mode !== 'preview_only') {
+  if (gate.conditional_preview_only && approval.decision === 'CONDITIONAL_PREVIEW' && deliveryMode !== 'preview_only') {
     errors.push(issue('PREVIEW_APPROVAL_NOT_PRODUCTION', 'Conditional G0 cannot authorize production.'));
   }
 
@@ -258,6 +269,14 @@ function checkApproval(approval, gate, currentArtifacts, validVersions, contract
         errors.push(issue('DUPLICATE_GITHUB_APPROVER', gate.id + ' one GitHub account cannot satisfy multiple roles.'));
       }
       if (typeof approver.github_actor === 'string') githubActors.add(approver.github_actor);
+    } else if (approver.identity_source === 'development_simulation') {
+      if (operatingMode !== 'studio_development') {
+        errors.push(issue('SIMULATION_FORBIDDEN_IN_CLIENT_SERVICE', gate.id + ' cannot use simulated client roles in client_service mode.'));
+      }
+      if (
+        typeof approver.simulated_by_github_actor !== 'string' || !approver.simulated_by_github_actor.trim() ||
+        typeof approver.person !== 'string' || !/^\\[SIMULATED\\]\\s+/.test(approver.person)
+      ) errors.push(issue('INVALID_DEVELOPMENT_SIMULATION', gate.id + ' simulated approver must be explicitly labelled and attributed to a real GitHub actor.'));
     } else if (approver.identity_source !== 'self_declared') {
       errors.push(issue('INVALID_APPROVER_IDENTITY_SOURCE', gate.id + ' has an unsupported identity source.'));
     }
@@ -277,7 +296,7 @@ export async function evaluateProject({ contract, state, projectRoot }) {
     return { ok: false, issues: [issue('INVALID_PROJECT_STATE', 'State must be a JSON object.')], gates: [], stages: [], current_stage: null };
   }
 
-  const allowedFields = ['schema_version', 'workflow_id', 'project_id', 'delivery_mode', 'artifacts', 'approvals', 'events'];
+  const allowedFields = ['schema_version', 'workflow_id', 'project_id', 'operating_mode', 'delivery_mode', 'artifacts', 'approvals', 'events'];
   for (const key of Object.keys(state)) {
     if (!allowedFields.includes(key)) {
       errors.push(issue(
@@ -292,7 +311,12 @@ export async function evaluateProject({ contract, state, projectRoot }) {
   if (typeof state.project_id !== 'string' || !PROJECT_ID.test(state.project_id)) {
     errors.push(issue('INVALID_PROJECT_ID', 'Use a stable project ID (3-64 letters, numbers, dots, underscores or hyphens).'));
   }
-  if (!contract.project_modes.includes(state.delivery_mode)) errors.push(issue('INVALID_DELIVERY_MODE', 'Choose preview_only or production.'));
+  if (!contract.delivery_modes.includes(state.delivery_mode)) errors.push(issue('INVALID_DELIVERY_MODE', 'Choose preview_only or production.'));
+  const operatingMode = state.operating_mode ?? 'client_service';
+  if (!contract.operating_modes.includes(operatingMode)) errors.push(issue('INVALID_OPERATING_MODE', 'Choose client_service or studio_development.'));
+  if (operatingMode === 'studio_development' && state.delivery_mode === 'production' && state.external_release_authorized === true) {
+    errors.push(issue('DEVELOPMENT_RELEASE_FORBIDDEN', 'studio_development can simulate the production lifecycle but can never authorize an external release.'));
+  }
   if (!Array.isArray(state.artifacts) || !Array.isArray(state.approvals) || !Array.isArray(state.events)) {
     errors.push(issue('INVALID_STATE_COLLECTIONS', 'artifacts, approvals and events must be arrays.'));
   }
@@ -341,7 +365,7 @@ export async function evaluateProject({ contract, state, projectRoot }) {
   const gates = contract.gates.map(gate => {
     const approval = approvalMap.get(gate.id);
     if (!approval) return { gate_id: gate.id, status: 'NOT_RECORDED', passed: false, pending_roles: gate.required_roles, stale: false, issues: [] };
-    const result = checkApproval(approval, gate, currentArtifacts, validArtifactVersions, contract, state.delivery_mode);
+    const result = checkApproval(approval, gate, currentArtifacts, validArtifactVersions, contract, state.delivery_mode, operatingMode);
     result.errors.forEach(item => errors.push({ ...item, gate_id: gate.id }));
     const status = result.errors.length
       ? 'INVALID'
@@ -433,9 +457,15 @@ export async function evaluateProject({ contract, state, projectRoot }) {
       event.approver_decision !== 'APPROVED' ||
       typeof event.evidence_reference !== 'string' ||
       !Array.isArray(event.artifact_bindings) ||
-      !['self_declared', 'github_actor'].includes(event.identity_source) ||
+      !['self_declared', 'github_actor', 'development_simulation'].includes(event.identity_source) ||
       (event.identity_source === 'github_actor' && (
         typeof event.github_actor !== 'string' || event.github_actor !== event.approver_person
+      )) ||
+      (event.identity_source === 'development_simulation' && (
+        operatingMode !== 'studio_development' ||
+        typeof event.simulated_by_github_actor !== 'string' || !event.simulated_by_github_actor.trim() ||
+        event.simulated_by_github_actor !== event.actor ||
+        typeof event.approver_person !== 'string' || !/^\\[SIMULATED\\]\\s+/.test(event.approver_person)
       ))
     )) errors.push(issue('INVALID_APPROVAL_EVENT', 'Approval event must retain the gate decision, approver and artifact bindings.', { event_id: event?.event_id }));
 
@@ -457,15 +487,19 @@ export async function evaluateProject({ contract, state, projectRoot }) {
     stages,
     current_stage: next?.stage_id ?? null,
     project_id: state.project_id,
+    operating_mode: operatingMode,
     delivery_mode: state.delivery_mode,
+    execution_class: operatingMode === 'studio_development' ? 'SIMULATION_ONLY' : 'CLIENT_SERVICE',
+    external_release_allowed: operatingMode === 'client_service' && state.delivery_mode === 'production' && ['G4', 'G5', 'G6'].every(gateId => gatePass.get(gateId) === true),
     event_count: state.events.length
   };
 }
 
-export async function initializeProject({ rootPath, projectId, deliveryMode, actor = 'local-operator' }, contract) {
+export async function initializeProject({ rootPath, projectId, deliveryMode, operatingMode = 'client_service', actor = 'local-operator' }, contract) {
   const root = await assertProjectRoot(rootPath);
   if (!PROJECT_ID.test(projectId ?? '')) throw new Error('project-id must be 3-64 characters using letters, numbers, dot, underscore or hyphen.');
-  if (!contract.project_modes.includes(deliveryMode)) throw new Error('mode must be preview_only or production.');
+  if (!contract.delivery_modes.includes(deliveryMode)) throw new Error('delivery mode must be preview_only or production.');
+  if (!contract.operating_modes.includes(operatingMode)) throw new Error('operating mode must be client_service or studio_development.');
   if (typeof actor !== 'string' || !actor.trim()) throw new Error('actor must be a non-empty display label.');
 
   const studioFolder = path.join(root, '.studio');
@@ -488,6 +522,7 @@ export async function initializeProject({ rootPath, projectId, deliveryMode, act
     schema_version: contract.schema_version,
     workflow_id: contract.workflow_id,
     project_id: projectId,
+    operating_mode: operatingMode,
     delivery_mode: deliveryMode,
     artifacts: [],
     approvals: [],
@@ -497,6 +532,7 @@ export async function initializeProject({ rootPath, projectId, deliveryMode, act
       occurred_at: now,
       actor: actor.trim(),
       project_id: projectId,
+      operating_mode: operatingMode,
       delivery_mode: deliveryMode
     }]
   };
@@ -615,6 +651,7 @@ export async function recordApproval({
   actor = 'local-operator',
   identitySource = 'self_declared',
   githubActor,
+  simulatedByGithubActor,
   authorizedRoles
 }, contract) {
   const root = await assertProjectRoot(rootPath);
@@ -636,7 +673,16 @@ export async function recordApproval({
   if (typeof evidenceReference !== 'string' || !evidenceReference.trim()) throw new Error('evidence is required.');
   if (typeof subject !== 'string' || !subject.trim()) throw new Error('subject is required.');
   if (typeof actor !== 'string' || !actor.trim()) throw new Error('actor must be a non-empty audit label.');
-  if (!['self_declared', 'github_actor'].includes(identitySource)) throw new Error('Unsupported identity source.');
+  if (!['self_declared', 'github_actor', 'development_simulation'].includes(identitySource)) throw new Error('Unsupported identity source.');
+  if (identitySource === 'development_simulation') {
+    if (
+      state.operating_mode !== 'studio_development' ||
+      typeof simulatedByGithubActor !== 'string' || !simulatedByGithubActor.trim() ||
+      actor !== simulatedByGithubActor ||
+      !/^\\[SIMULATED\\]\\s+/.test(person) ||
+      !Array.isArray(authorizedRoles) || !authorizedRoles.includes(role)
+    ) throw new Error('Simulated approvers are allowed only in studio_development and must be explicitly role-allowlisted and attributed to the authenticated GitHub actor.');
+  }
   if (identitySource === 'github_actor') {
     if (
       typeof githubActor !== 'string' || !githubActor.trim() ||
@@ -713,7 +759,8 @@ export async function recordApproval({
     decided_at: now,
     evidence_reference: evidenceReference.trim(),
     identity_source: identitySource,
-    ...(identitySource === 'github_actor' ? { github_actor: githubActor } : {})
+    ...(identitySource === 'github_actor' ? { github_actor: githubActor } : {}),
+    ...(identitySource === 'development_simulation' ? { simulated_by_github_actor: simulatedByGithubActor } : {})
   };
   approval.approvers.push(approver);
   const event = {
@@ -730,6 +777,7 @@ export async function recordApproval({
     evidence_reference: evidenceReference.trim(),
     identity_source: identitySource,
     ...(identitySource === 'github_actor' ? { github_actor: githubActor } : {}),
+    ...(identitySource === 'development_simulation' ? { simulated_by_github_actor: simulatedByGithubActor } : {}),
     artifact_bindings: artifactBindings
   };
   state.events.push(event);
@@ -742,6 +790,16 @@ export async function recordApproval({
     gate: after.gates.find(item => item.gate_id === gateId),
     evaluation: after
   };
+}
+
+async function stateOperatingMode(root) {
+  try {
+    const state = await readProjectState(root);
+    return state.operating_mode ?? 'client_service';
+  } catch (error) {
+    if (error.code === 'ENOENT') return null;
+    throw error;
+  }
 }
 
 async function listInboxEntries(root, relativeDirectory) {
@@ -789,6 +847,7 @@ export async function processGithubInbox({
       rootPath: root,
       projectId: request.project_id,
       deliveryMode: request.delivery_mode,
+      operatingMode: request.operating_mode ?? 'client_service',
       actor: actor.trim()
     }, contract);
     await fs.rm(path.join(root, initRelative));
@@ -837,13 +896,20 @@ export async function processGithubInbox({
   const approvalFolders = await listInboxEntries(root, approvalInbox);
   if (approvalFolders.length) {
     const rolesConfig = await readJson(path.join(root, '.studio', 'approver-roles.json'), 'Approver roles');
-    if (!isObject(rolesConfig) || !isObject(rolesConfig.github_users)) {
-      throw new Error('.studio/approver-roles.json must contain a github_users object.');
+    if (!isObject(rolesConfig) || (rolesConfig.github_users !== undefined && !isObject(rolesConfig.github_users))) {
+      throw new Error('.studio/approver-roles.json must contain a github_users object when authenticated client approvers are configured.');
     }
-    const configured = Object.entries(rolesConfig.github_users)
+    const configured = Object.entries(rolesConfig.github_users ?? {})
       .find(([login]) => login.toLowerCase() === actor.trim().toLowerCase());
-    const authorizedRoles = configured?.[1];
-    if (!Array.isArray(authorizedRoles)) throw new Error('GitHub actor ' + actor + ' is not configured as an approver.');
+    const authenticatedRoles = Array.isArray(configured?.[1]) ? configured[1] : [];
+    const simulationConfig = rolesConfig.development_simulation;
+    const simulatedActorEntry = isObject(simulationConfig?.github_actors)
+      ? Object.entries(simulationConfig.github_actors).find(([login]) => login.toLowerCase() === actor.trim().toLowerCase())
+      : null;
+    const simulatedRoles =
+      stateOperatingMode(root) === 'studio_development' && simulationConfig?.enabled === true && Array.isArray(simulatedActorEntry?.[1])
+        ? simulatedActorEntry[1]
+        : [];
     for (const gateFolder of approvalFolders) {
       if (gateFolder.isSymbolicLink() || !gateFolder.isDirectory()) {
         throw new Error(approvalInbox + ' must contain one directory per gate ID.');
@@ -860,18 +926,25 @@ export async function processGithubInbox({
         const request = await readInboxJson(root, relativeFile);
         if (!isObject(request)) throw new Error(relativeFile + ' must be a JSON object.');
         if (request.gate_id && request.gate_id !== gateId) throw new Error(relativeFile + ' gate_id does not match its folder.');
+        const isAuthenticatedApprover = authenticatedRoles.includes(role);
+        const isSimulatedApprover = simulatedRoles.includes(role);
+        if (!isAuthenticatedApprover && !isSimulatedApprover) {
+          throw new Error('GitHub actor ' + actor + ' is not configured for role ' + role + ' in the current operating mode.');
+        }
+        const simulated = !isAuthenticatedApprover && isSimulatedApprover;
         const result = await recordApproval({
           rootPath: root,
           gateId,
           gateDecision: request.decision,
           role,
-          person: actor.trim(),
+          person: simulated ? '[SIMULATED] ' + role : actor.trim(),
           evidenceReference: request.evidence_reference,
           subject: request.subject,
           actor: actor.trim(),
-          identitySource: 'github_actor',
+          identitySource: simulated ? 'development_simulation' : 'github_actor',
           githubActor: actor.trim(),
-          authorizedRoles
+          simulatedByGithubActor: simulated ? actor.trim() : undefined,
+          authorizedRoles: simulated ? simulatedRoles : authenticatedRoles
         }, contract);
         await fs.rm(path.join(root, ...relativeFile.split('/')));
         processed.push({
@@ -932,7 +1005,7 @@ function parseArguments(argv) {
 const usage = [
   'Usage:',
   '  node scripts/workflow-enforcement.mjs validate-contract',
-  '  node scripts/workflow-enforcement.mjs init --root <project-dir> --project-id <id> --mode <preview_only|production>',
+  '  node scripts/workflow-enforcement.mjs init --root <project-dir> --project-id <id> --mode <preview_only|production> [--operating-mode <client_service|studio_development>]',
   '  node scripts/workflow-enforcement.mjs status --root <project-dir>',
   '  node scripts/workflow-enforcement.mjs validate --root <project-dir>',
   '  node scripts/workflow-enforcement.mjs can-start --root <project-dir> --stage <stage-00..stage-09>',
@@ -940,6 +1013,7 @@ const usage = [
   '  node scripts/workflow-enforcement.mjs record-approval --root <project-dir> --gate <G0..G7> --decision <decision> --role <role> --person <name> --evidence <reference> --subject <text>',
   '  node scripts/workflow-enforcement.mjs process-github-inbox --root <project-dir> --actor <github-login>',
   '',
+  '  --operating-mode <mode>  client_service (default) or studio_development (simulated roles only).',
   '  --actor <display-label>  Audit label. Local approval identity remains self-declared.',
   '  --version <version>      Must increase monotonically; otherwise auto-increments.',
   '  GitHub inbox approvals require .studio/approver-roles.json and an authenticated GitHub actor.',
@@ -971,6 +1045,7 @@ export async function runCommand(argv, { contractPath = CONTRACT_PATH } = {}) {
       rootPath,
       projectId: options['project-id'],
       deliveryMode: options.mode,
+      operatingMode: options['operating-mode'] ?? 'client_service',
       actor: options.actor
     }, contract);
     const evaluation = await evaluateProject({ contract, state: result.state, projectRoot: result.root });

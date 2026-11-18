@@ -311,9 +311,132 @@ test('GitHub adapter template and project-state schema are valid JSON and declar
  const approvers=JSON.parse(await readFile(path.resolve(here,'../.studio/github-native-adapter/approver-roles.template.json'),'utf8'));
  const workflow=await readFile(path.resolve(here,'../.studio/github-native-adapter/web-studio-operations.yml'),'utf8');
  assert.ok(schema.properties.events.items.properties.event_type.enum.includes('APPROVAL_RECORDED'));
+ assert.equal(schema.properties.operating_mode.default,'client_service');
+ assert.deepEqual(schema.properties.operating_mode.enum,['client_service','studio_development']);
+ assert.ok(schema.properties.approvals.items.properties.approvers.items.properties.identity_source.enum.includes('development_simulation'));
  assert.deepEqual(approvers.github_users,{});
+ assert.equal(approvers.development_simulation.enabled,false);
+ assert.deepEqual(approvers.development_simulation.github_actors,{});
  assert.match(workflow,/contents: write/);
  assert.match(workflow,/process-github-inbox/);
  assert.match(workflow,/github\.actor/);
  assert.doesNotMatch(workflow,/secrets\.(?:GH_TOKEN|PAT|GITHUB_TOKEN)/i);
 });
+
+
+test('contract separates operating modes from delivery modes and defaults to strict client service',()=>{
+ assert.deepEqual(contract.operating_modes,['client_service','studio_development']);
+ assert.deepEqual(contract.delivery_modes,['preview_only','production']);
+ assert.equal(contract.operating_mode_policy.default,'client_service');
+ assert.equal(contract.operating_mode_policy.studio_development.external_release,'forbidden');
+ assert.deepEqual(validateContract(contract),[]);
+});
+
+test('project initialization defaults to client service and explicitly records studio development when selected',async t=>{
+ const r=await root();t.after(()=>rm(r,{recursive:true,force:true}));
+ const client=await initializeProject({rootPath:r,projectId:'CLIENT-001',deliveryMode:'preview_only'},contract);
+ assert.equal(client.state.operating_mode,'client_service');
+ assert.equal(client.state.events[0].operating_mode,'client_service');
+ await rm(r,{recursive:true,force:true});await mkdir(r,{recursive:true});
+ const dev=await initializeProject({rootPath:r,projectId:'DEV-001',deliveryMode:'preview_only',operatingMode:'studio_development'},contract);
+ assert.equal(dev.state.operating_mode,'studio_development');
+ assert.equal(dev.state.events[0].operating_mode,'studio_development');
+});
+
+test('studio development can exercise a production-shaped lifecycle but never permits external release',async t=>{
+ const r=await root();t.after(()=>rm(r,{recursive:true,force:true}));
+ const initialized=await initializeProject({rootPath:r,projectId:'DEV-001',deliveryMode:'production',operatingMode:'studio_development'},contract);
+ const evaluation=await evaluate(r,initialized.state);
+ assert.equal(evaluation.ok,true);
+ assert.equal(evaluation.operating_mode,'studio_development');
+ assert.equal(evaluation.delivery_mode,'production');
+ assert.equal(evaluation.execution_class,'SIMULATION_ONLY');
+ assert.equal(evaluation.external_release_allowed,false);
+});
+
+test('development simulation identities are forbidden in client service mode',async t=>{
+ const r=await root();t.after(()=>rm(r,{recursive:true,force:true}));
+ const initialized=await initializeProject({rootPath:r,projectId:'CLIENT-001',deliveryMode:'preview_only'},contract);
+ const projectState=initialized.state;
+ for(const id of contract.gates.find(x=>x.id==='G0').artifact_ids)await add(r,projectState,id);
+ await writeFile(path.join(r,'.studio/project-state.json'),JSON.stringify(projectState,null,2)+'\n');
+ await assert.rejects(()=>recordApproval({
+  rootPath:r,gateId:'G0',gateDecision:'CONDITIONAL_PREVIEW',role:'client_business_owner',
+  person:'[SIMULATED] client_business_owner',evidenceReference:'test://simulated-client',
+  subject:'G0 simulation',actor:'studio-owner',identitySource:'development_simulation',
+  simulatedByGithubActor:'studio-owner',authorizedRoles:['client_business_owner']
+ },contract),/only in studio_development/);
+});
+
+test('one GitHub account can simulate client roles in studio development without impersonating a real client',async t=>{
+ const r=await root();t.after(()=>rm(r,{recursive:true,force:true}));
+ const writeJson=async(relative,value)=>{
+  const file=path.join(r,relative);await mkdir(path.dirname(file),{recursive:true});
+  await writeFile(file,JSON.stringify(value,null,2)+'\n');
+ };
+ await writeJson('.studio/inbox/project-init.json',{
+  project_id:'DEV-LAUNDRY-001',delivery_mode:'preview_only',operating_mode:'studio_development'
+ });
+ await writeJson('.studio/approver-roles.json',{
+  schema_version:'1.0.0',
+  github_users:{'studio-operator':['studio_owner']},
+  development_simulation:{
+   enabled:true,
+   github_actors:{'studio-operator':['client_business_owner','independent_reviewer']}
+  }
+ });
+ for(const id of contract.gates.find(x=>x.id==='G0').artifact_ids){
+  const file=path.join(r,'.studio/inbox/artifacts',id,id+'.md');
+  await mkdir(path.dirname(file),{recursive:true});
+  await writeFile(file,'# SYNTHETIC / DEVELOPMENT ONLY\n\nTest fixture for '+id+'\n');
+ }
+ const submitted=await processGithubInbox({rootPath:r,actor:'studio-operator',contract});
+ assert.equal(submitted.processed.filter(x=>x.type==='ARTIFACT_SUBMITTED').length,3);
+ await writeJson('.studio/inbox/approvals/G0/studio_owner.json',{
+  decision:'CONDITIONAL_PREVIEW',subject:'Synthetic G0 test',evidence_reference:'test://source-fixture'
+ });
+ await writeJson('.studio/inbox/approvals/G0/client_business_owner.json',{
+  decision:'CONDITIONAL_PREVIEW',subject:'Synthetic G0 test',evidence_reference:'test://simulated-client-fixture'
+ });
+ const result=await processGithubInbox({rootPath:r,actor:'studio-operator',contract});
+ assert.deepEqual(result.processed.map(x=>x.status).sort(),['PASSED','PASSED']);
+ const manifest=JSON.parse(await readFile(path.join(r,'.studio/project-state.json'),'utf8'));
+ const gate=manifest.approvals.find(x=>x.gate_id==='G0');
+ assert.equal(gate.approvers.length,2);
+ const studioApproval=gate.approvers.find(x=>x.role==='studio_owner');
+ const simulatedApproval=gate.approvers.find(x=>x.role==='client_business_owner');
+ assert.equal(studioApproval.identity_source,'github_actor');
+ assert.equal(studioApproval.github_actor,'studio-operator');
+ assert.equal(simulatedApproval.identity_source,'development_simulation');
+ assert.equal(simulatedApproval.person,'[SIMULATED] client_business_owner');
+ assert.equal(simulatedApproval.simulated_by_github_actor,'studio-operator');
+ assert.equal(gate.decision,'CONDITIONAL_PREVIEW');
+ assert.ok(manifest.events.some(x=>x.event_type==='APPROVAL_RECORDED'&&x.identity_source==='development_simulation'));
+ const evaluation=await evaluate(r,manifest);
+ assert.equal(evaluation.ok,true);
+ assert.equal(evaluation.gates.find(x=>x.gate_id==='G0').status,'PASSED');
+ assert.equal(evaluation.external_release_allowed,false);
+});
+
+test('development simulation allowlist cannot bypass client service mode through the GitHub inbox',async t=>{
+ const r=await root();t.after(()=>rm(r,{recursive:true,force:true}));
+ const initialized=await initializeProject({rootPath:r,projectId:'CLIENT-STRICT-001',deliveryMode:'preview_only'},contract);
+ const projectState=initialized.state;
+ for(const id of contract.gates.find(x=>x.id==='G0').artifact_ids)await add(r,projectState,id);
+ await writeFile(path.join(r,'.studio/project-state.json'),JSON.stringify(projectState,null,2)+'\n');
+ await mkdir(path.join(r,'.studio'),{recursive:true});
+ await writeFile(path.join(r,'.studio/approver-roles.json'),JSON.stringify({
+  schema_version:'1.0.0',github_users:{},
+  development_simulation:{enabled:true,github_actors:{'studio-operator':['client_business_owner']}}
+ },null,2)+'\n');
+ const request=path.join(r,'.studio/inbox/approvals/G0/client_business_owner.json');
+ await mkdir(path.dirname(request),{recursive:true});
+ await writeFile(request,JSON.stringify({
+  decision:'CONDITIONAL_PREVIEW',subject:'Strict mode test',evidence_reference:'test://fake-client'
+ },null,2)+'\n');
+ await assert.rejects(()=>processGithubInbox({rootPath:r,actor:'studio-operator',contract}),/not configured for role client_business_owner/);
+ assert.equal((await stat(request)).isFile(),true);
+ const saved=JSON.parse(await readFile(path.join(r,'.studio/project-state.json'),'utf8'));
+ assert.equal(saved.approvals.length,0);
+});
+

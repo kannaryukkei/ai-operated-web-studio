@@ -120,13 +120,39 @@
                 "identity_source"
               ],
               "properties": {
-                "role": { "type": "string" },
-                "person": { "type": "string", "minLength": 1 },
-                "decision": { "const": "APPROVED" },
-                "decided_at": { "type": "string", "format": "date-time" },
-                "evidence_reference": { "type": "string", "minLength": 1 },
-                "identity_source": { "enum": ["self_declared", "github_actor"] },
-                "github_actor": { "type": "string", "minLength": 1 }
+                "role": {
+                  "type": "string"
+                },
+                "person": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "decision": {
+                  "const": "APPROVED"
+                },
+                "decided_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "evidence_reference": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "identity_source": {
+                  "enum": [
+                    "self_declared",
+                    "github_actor",
+                    "development_simulation"
+                  ]
+                },
+                "github_actor": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "simulated_by_github_actor": {
+                  "type": "string",
+                  "minLength": 1
+                }
               }
             }
           },
@@ -187,31 +213,87 @@
             "type": "string",
             "pattern": "^[a-fA-F0-9]{64}$"
           },
-          "approval_id": { "type": "string" },
-          "gate_id": { "type": "string", "pattern": "^G[0-7]$" },
-          "gate_decision": { "type": "string" },
-          "approver_role": { "type": "string" },
-          "approver_person": { "type": "string" },
-          "approver_decision": { "const": "APPROVED" },
-          "evidence_reference": { "type": "string" },
-          "identity_source": { "enum": ["self_declared", "github_actor"] },
-          "github_actor": { "type": "string" },
-          "previous_approval_id": { "type": "string" },
-          "new_approval_id": { "type": "string" },
+          "approval_id": {
+            "type": "string"
+          },
+          "gate_id": {
+            "type": "string",
+            "pattern": "^G[0-7]$"
+          },
+          "gate_decision": {
+            "type": "string"
+          },
+          "approver_role": {
+            "type": "string"
+          },
+          "approver_person": {
+            "type": "string"
+          },
+          "approver_decision": {
+            "const": "APPROVED"
+          },
+          "evidence_reference": {
+            "type": "string"
+          },
+          "identity_source": {
+            "enum": [
+              "self_declared",
+              "github_actor",
+              "development_simulation"
+            ]
+          },
+          "github_actor": {
+            "type": "string"
+          },
+          "previous_approval_id": {
+            "type": "string"
+          },
+          "new_approval_id": {
+            "type": "string"
+          },
           "artifact_bindings": {
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["artifact_id", "version", "sha256"],
+              "required": [
+                "artifact_id",
+                "version",
+                "sha256"
+              ],
               "properties": {
-                "artifact_id": { "type": "string" },
-                "version": { "type": "string" },
-                "sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" }
+                "artifact_id": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[a-fA-F0-9]{64}$"
+                }
               }
             }
+          },
+          "operating_mode": {
+            "enum": [
+              "client_service",
+              "studio_development"
+            ]
+          },
+          "simulated_by_github_actor": {
+            "type": "string",
+            "minLength": 1
           }
         }
       }
+    },
+    "operating_mode": {
+      "enum": [
+        "client_service",
+        "studio_development"
+      ],
+      "default": "client_service",
+      "description": "Operating context. Missing values in legacy manifests are treated as client_service."
     }
   }
 }
