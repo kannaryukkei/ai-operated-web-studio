@@ -6,7 +6,7 @@ metadata:
   author: OpenAI Operated Web Studio (adapted from ytvee-dev/webdev-agent-kit)
   upstream: https://github.com/ytvee-dev/webdev-agent-kit/tree/170504cdabf24269e62fca3009229750351ac3cf/skills/frontend-layout-implementer
   upstream-commit: 170504cdabf24269e62fca3009229750351ac3cf
-  adaptation: studio-specific; supports HTML/CSS/JS, React/Vite and Laravel/Inertia
+  adaptation: studio-specific; supports static HTML/CSS/JS and React/Vite, plus other existing stacks when justified
 ---
 
 > **Modification notice:** Adapted and modified from ytvee-dev/webdev-agent-kit; see `skills/upstream/webdev-agent-kit/UPSTREAM.md` and the retained Apache-2.0 license.
@@ -17,7 +17,7 @@ metadata:
 
 Translate an approved Design Implementation Spec into the existing website code with high visual fidelity. The approved reference is a contract: preserve its composition, hierarchy, asset framing, typography, spacing rhythm and interaction intent. Do not turn it into a loosely inspired redesign while coding.
 
-This skill is stack-aware and supports the Studio's actual delivery targets: static HTML/CSS/JavaScript, React + Vite, React + Laravel/Inertia, and other explicitly approved existing frontend stacks. It does not require a framework migration.
+This skill is stack-aware and supports static HTML/CSS/JavaScript, React + Vite and other existing frontend stacks when the actual project requires them. Preserve the project's current stack; do not introduce a framework migration.
 
 ## When to use
 
@@ -29,18 +29,18 @@ This skill is stack-aware and supports the Studio's actual delivery targets: sta
 ## Do not use when
 
 - The design direction has not been selected or the reference has not been inspected. Use frontend-design and design-screenshot-spec first.
-- The user requested only a visual critique or browser comparison. Use frontend-visual-qa or frontend-quality-reviewer.
+- The user requested only a visual critique, screenshot comparison or quality audit. Use website-quality-review in the relevant review mode.
 - The requested change is outside the approved website scope.
 - A required behavior, asset permission or high-impact design decision remains unresolved.
 
 ## Required context
 
-1. Approved Client Brief, fact register, copy deck and asset/permission register.
-2. Approved design direction and Design Implementation Spec.
-3. Website tier, scope, non-goals and release constraints.
+1. Project conversation with the agreed purpose, scope, constraints, available business facts and operating mode.
+2. Chosen design direction and Design Implementation Spec, when reference-driven.
+3. Relevant copy/assets and rights or permission constraints.
 4. Existing repository instructions, package manifest, routes, entrypoints, components, styles, tokens and verification scripts.
-5. Current design reference files and any prior visual QA findings.
-6. Current checkpoint and open issue list when resuming segmented work.
+5. Current design reference files and prior review findings, if any.
+6. Current checkpoint and unresolved issues when resuming segmented work.
 
 ## Core implementation rules
 
@@ -79,7 +79,7 @@ This skill is stack-aware and supports the Studio's actual delivery targets: sta
 
 ### 5. Verify continuously
 - Run the project's existing build/lint/test commands for the changed slice when practical.
-- Use the browser workflow for rendered checks when browser tooling is available. An installed Playwright package or a build pass does not prove the page looks right.
+- Use an actual browser for rendered checks when browser tooling is available. An installed Playwright package or a build pass does not prove the page looks right.
 - Compare at the same viewport as the source reference and check relevant desktop/tablet/mobile widths.
 - Fix obvious layout drift before proceeding to the next major slice.
 - Record every intentional deviation from the reference and its reason.
@@ -95,8 +95,8 @@ This skill is stack-aware and supports the Studio's actual delivery targets: sta
 7. Save a checkpoint and record deviations.
 8. Continue one slice at a time, preserving completed work.
 9. Once the planned slices are complete, run the full production build and existing automated tests.
-10. Hand rendered comparison to frontend-visual-qa.
-11. Hand the completed code and evidence to frontend-quality-reviewer when the surface is significant or the stage requires independent review.
+10. Use website-quality-review in VISUAL_FIDELITY mode to compare the rendered result with its reference when reference fidelity matters.
+11. Use website-quality-review in ACCEPTANCE mode for a broad or independent review when the scope/evidence justifies it.
 12. Report what is done, what is unverified and the exact next action.
 
 ## Output contract
@@ -123,6 +123,6 @@ For final handoff report total scope, stack/conventions preserved, deviations, b
 - No unresolved high-impact decision is hidden in an assumption.
 - Every work segment leaves a resumable checkpoint.
 
-## Master Skill v1.11 integration
+## Master Skill v1.13 integration
 
-This skill is subordinate to the approved Website Requirements Pack and Master Skill Stages 0–9. Do not begin design/implementation without WRP status `APPROVED_FOR_DESIGN` and G2. Follow canonical record IDs, G0–G7 authority and approved scope. Implement in resumable slices; preserve the existing stack. No invented business facts or social proof is permitted, including for demos. No paid API or new dependency is implied.
+This skill is subordinate to the project conversation and Master Skill v1.13. Confirm the agreed scope, operating mode and design direction before editing; do not require a WRP, tier form or stage approval register. In `client_service`, preserve source-backed facts, actual asset rights and explicit owner/client decisions. In `studio_development`, keep synthetic information clearly labelled and internal; no public release. Implement in resumable slices, preserve the existing stack and run only the checks relevant to the changed website. No paid API or unnecessary dependency is implied.
