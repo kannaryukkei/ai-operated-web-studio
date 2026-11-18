@@ -1,46 +1,41 @@
 # AI Build Rules
 
-These rules apply to AI agents and contributors working in this repository.
+These rules govern AI agents and contributors working on the Studio system and website projects.
 
-## Mission
-Build an AI-operated web studio platform that safely guides client projects from intake to launch. The platform application is separate from the website products it produces.
+## Mission and authority
 
-## Required reading before implementation
-1. `README.md`
-2. `docs/product-brief.md`
-3. `docs/architecture.md`
-4. `docs/mvp-specification.md`
-5. `docs/ai-orchestration.md`
-6. `docs/security-and-approvals.md`
+- Operate each website from one dedicated ChatGPT conversation. That conversation is the working authority for project context, scope, decisions, priorities, execution and next actions.
+- GitHub is the versioned home for website source code and relevant deliverables, not a parallel project manager or workflow engine.
+- Follow the canonical Master Skill for operating method. Specialist skills provide techniques; they do not create competing plans or override project decisions.
+- When instructions conflict, preserve privacy, factual integrity, rights, security and explicit authorization. Use the project conversation's latest confirmed decisions for project-specific scope and priorities.
 
-## Engineering rules
-- Preserve the approved architecture unless a written Architecture Decision Record changes it.
-- Keep the first release a modular Laravel monolith. Do not introduce microservices, Kubernetes, or a separate workflow engine without evidence.
-- Keep business/domain logic outside HTTP controllers and provider-specific AI code.
-- Persist workflow state, approvals, AI runs, artifacts, and audit events. Never rely on model conversation memory as the only project record.
-- Every AI stage must have defined inputs, structured outputs, schema validation, timeout/retry behavior, and a human approval boundary.
-- Use queued jobs for long-running AI work. Never keep a web request open while generating a full website.
-- Make jobs idempotent and record attempts and failures.
-- Use scoped tools. Agents may only access the project and actions allowed for their stage.
-- AI may prepare external actions but may not send client messages, spend money, change DNS, publish, or transfer ownership without explicit human authorization.
-- Isolate every client's projects, assets, artifacts, messages, and AI context with authorization policies.
-- Never commit .env files, credentials, API keys, private client materials, or customer secrets.
-- Build incrementally. Each milestone must build, test, and be demonstrable before expanding scope.
-- Do not scaffold features not in the current milestone.
+## Select the operating mode
 
-## Content and evidence
-- Portfolio demos may contain labelled fictional examples.
-- Live client claims, prices, testimonials, metrics, guarantees, policies, and credentials require approval/evidence.
-- Distinguish verified facts, client-provided facts awaiting approval, AI drafts, and illustrative examples.
+- `client_service` is the default for real clients and any ambiguous case. Use evidence-backed facts, real source material, actual rights/permissions and explicit approvals. Do not fabricate business facts, prices, testimonials, ratings, metrics, credentials, guarantees, policies, outcomes or operational claims.
+- `studio_development` is for internal development, synthetic clients and controlled experiments. Fictional facts and simulated scenarios are permitted only when clearly labelled and kept out of real-client deliverables.
+- `studio_development` never authorizes public release, real outreach, spending, DNS changes or production deployment. It does not relax privacy, security, licensing or account authorization.
+- To move a development project into client service, re-source or independently verify all facts, assets, permissions, contact details and proof. Never inherit synthetic material as real.
 
-## Required completion report
-For every implementation task report:
-- Goal and scope.
-- Files changed.
-- Database or API changes.
-- Tests actually run and results.
-- Security/authorization implications.
-- Remaining risks and decisions.
-- Commit / branch / artifact links.
+## Operating discipline
 
-Never claim success for unexecuted tests, deployments, or integrations.
+- The AI owns routine sequencing and technical choices within the agreed scope. Do not ask the owner to choose ordinary frameworks, CSS details, test order, internal tools or implementation mechanics when the system can decide responsibly.
+- Ask the owner only for missing source material or business facts, account/repository access, credentials they must provide, rights/permissions, material scope or commercial decisions, explicit approvals, and consequential external actions.
+- Do not make clients repeat information already present in interview material, assets, links or the conversation.
+- Keep the process as light as the project permits. Lifecycle stages and specialist checklists are guidance; create an artifact only when it improves the website, traceability, safety, handover or reproducibility.
+- Never create a dashboard, database, project-state manifest, stage registry, approval state machine, artifact quota, inbox workflow or issue-based task system as a duplicate of the project conversation without a demonstrated need and explicit owner approval.
+- GitHub branches and pull requests are for code isolation and review, not for asking the owner to manage routine project progression.
+
+## Website quality and safety
+
+- Use the simplest stack that meets the real business need. Do not add a backend, CMS, accounts, payments or integrations without a demonstrated requirement.
+- Preserve successful work; refine against reproducible findings instead of restarting without cause.
+- Every visible interactive affordance must perform its stated action. Never fake submission, booking, storage or success.
+- Never infer business facts, product properties, consent, asset rights or publication permission from an image alone.
+- Keep private contacts, client materials, secrets and credentials out of public repositories and shared blueprints. Never commit `.env` files, API keys, passwords, tokens or private customer data.
+- Do not publish, spend money, change DNS, send external messages or transfer ownership without explicit authorization from the appropriate owner.
+- Distinguish preview from production. A passing build or CI run is not client approval or release authorization.
+- CI may run build, lint, unit, browser, accessibility and other website-quality checks. It must not manage project stages, issue simulated approvals or become a second workflow authority.
+
+## Completion report
+
+Report the goal, scope, changed files, actual checks and results, remaining risks, and branch/PR/commit links. Never claim a test, deployment, verification or integration that was not actually performed.
