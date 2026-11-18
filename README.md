@@ -38,7 +38,7 @@ Default to `client_service` whenever the mode is not explicit or the work could 
 
 - `AI_BUILD_RULES.md` — concise contributor and agent rules.
 - `docs/CANONICAL_STATUS.md` — current pointers and decisions.
-- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.13.md` — proposed conversation-first operating orchestrator (pending merge/adoption); v1.12 is the last adopted baseline.
+- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.13.md` — adopted conversation-first operating orchestrator (PR #49, merged 2026-11-18); v1.12 is preserved as the previous baseline.
 - `skills/README.md` and `skills/registry.md` — specialist skill library and routing.
 - `blueprints/starter/README.md` — Starter reference and usage limits.
 
