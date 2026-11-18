@@ -5,7 +5,7 @@
 ## One-time setup per website project
 
 1. Copy `media-import-queue.example.json` to `media-import-queue.json`.
-2. Let Stage 5 populate it from the approved Media Requirements Plan. Each item is one image, with unique asset ID and target section. Keep queue order aligned with download order.
+2. Prepare the queue from the project's chosen media needs. Each item is one image, with an optional unique asset ID and target section. Keep queue order aligned with download order.
 3. Run `npm install` in the website project.
 4. Optional one-time install for responsive WebP output: `npm install --save-dev sharp`. Without Sharp, the importer preserves the original and records that optimization was not performed.
 5. Run `npm run media:watch` from that website folder. Default watched folder is the user's Downloads directory. To override: `npm run media:watch -- --downloads "D:\\Users\\<you>\\Downloads"`.
