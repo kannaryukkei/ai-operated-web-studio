@@ -1,16 +1,14 @@
 # Media & Asset Pipeline v1.0
 
-**Document ID:** AWOS-MEDIA-001  
-**Version:** 1.0  
-**Status:** Candidate for Starter workflow  
-**Workflow mapping:** Master Stage 0, Stage 5 and Stage 7 — no additional Master Skill stages  
-**Operating model:** API-free / manual sourcing / locally stored approved assets
+**Status:** Supporting media-rights and implementation reference for Master Skill v1.13  
+**Scope:** Optional specialist guidance for projects that need supplied, stock or generated visual assets  
+**Operating model:** API-free/manual sourcing and locally stored, rights-cleared assets
 
 ## 1. Purpose
 
 Make the actual business visually legible and compelling. The website should use relevant photography, video, animation and illustration to explain the offer, communicate the customer's context, show approved proof and improve conversion—not merely decorate a generic layout.
 
-This pipeline supplements the existing Client Material Ingestion Protocol, Asset/Permission Register, Section Map, Design Direction and Independent QA. It does not replace them or create a parallel approval system.
+This guide supplements the project conversation, the material-ingestion and media-sourcing skills, the website design direction and the relevant quality review. It does not require a separate project-management system or fixed artifact pack.
 
 ## 2. Operating principles
 
@@ -18,7 +16,7 @@ This pipeline supplements the existing Client Material Ingestion Protocol, Asset
 2. **Stock is supporting context, not client proof.** Stock can establish atmosphere or explain a general service category. Never present it as the client's premises, employees, product, completed work, before/after result or customer.
 3. **Permission is asset-specific.** A platform-wide "free" label is not a licence record for an individual file. Record the exact asset page, applicable licence, date checked and relevant third-party rights.
 4. **Unknown means not publishable.** Client-supplied files do not automatically carry commercial rights. Unknown/restricted rights stay PENDING or BLOCKED.
-5. **Design from the business, not from the stock library.** Create the media brief from the approved business/customer questions first; search only for the roles that are actually required.
+5. **Design from the business, not from the stock library.** Create the media brief from the actual business and visitor questions first; search only for roles that are genuinely required.
 6. **Local, optimized and traceable.** Put selected media in the project repository. Do not hotlink third-party stock/CDN files as the normal production strategy.
 7. **Purposeful motion only.** Animation and video must explain, guide, demonstrate or reinforce the brand. Never use motion solely to make the page look busy.
 8. **No invented proof.** AI-generated or stock media must never imply actual client work, customer outcomes, staff or premises. Never fabricate testimonials, reviews, ratings, certification or before/after results.
@@ -26,17 +24,9 @@ This pipeline supplements the existing Client Material Ingestion Protocol, Asset
 
 ## 3. Where the pipeline fits
 
-| Master stage | Media responsibility | Required output |
-|---|---|---|
-| Stage 0 — Material ingestion | Inventory client photos/videos/brand material, source and permissions; record what's missing | Raw Material Index, Asset/Permission Register, Media Readiness Summary |
-| Stage 1 — Business intelligence | Identify which visual evidence can answer buying questions and which is missing | Trust/Evidence Register and media gaps |
-| Stages 3–4 — Content/WRP | Map the visitor question and section to a visual requirement | Media Requirements Plan linked to Section Map |
-| Stage 5 — Art direction | Source, shortlist, validate licence/rights, art-direct composition, decide motion | Approved Asset Shortlist, Asset/Permission Register, Art Direction |
-| Stages 5–6 — Build/refine | Prepare local responsive media, responsive crops, captions, fallbacks and behavior | Optimized local media files and implementation notes |
-| Stage 7 — Independent QA | Verify visual relevance, rights, alt/captions, crops, responsive behavior, loading and motion | Media QA checklist and screenshot/network evidence |
-| Stages 8–9 — Release/calibration | Confirm required approvals/credits and record actual media costs/time | Release evidence and retrospective |
+Use this guidance when the website genuinely needs external, supplied or generated visual assets. Typically, media review happens after the business and page purpose are understood and before selected assets are implemented. Re-check rendered crops, rights and loading behavior during website QA. It is an optional method, not a mandatory stage sequence.
 
-Gates remain unchanged: G0 covers source facts and asset rights/consent; G2 approves the WRP; G3 confirms content/claims and visual direction; G5 checks production readiness; G6 authorizes release.
+For real client work, the business owner must supply or confirm rights/consent where required, and the Studio owner must explicitly authorize consequential publication/release actions. Keep those decisions in the project conversation, linked to the exact asset when practical. A build, screenshot or licence record alone is not publication approval.
 
 ## 4. Media requirements before searching
 
@@ -118,7 +108,7 @@ AI-generated imagery is a first-class `CONCEPT_ART` source for editorial hero im
 
 ### API-free local media inbox
 
-The local watcher `blueprints/starter/template-kit/starter/scripts/media-inbox.mjs` removes repetitive file handling after an image is saved: deterministic ID/hash naming, original preservation, canonical CSV register insertion, import logging and optional responsive WebP variants. Stage 5 creates an ordered `media-import-queue.json`; the operator starts `npm run media:watch` once and saves each next image to Downloads through ChatGPT or the licensed provider's official UI. It does not browse or automate provider websites, click Save/License, download stock, approve rights or select images for build. Without optional Sharp it preserves the source and records the optimization limitation. See `docs/MEDIA_IMPORT_AUTOMATION_v1.0.md`.
+The local watcher `blueprints/starter/template-kit/starter/scripts/media-inbox.mjs` removes repetitive file handling after an image is saved: deterministic ID/hash naming, original preservation, optional asset-register insertion, import logging and optional responsive WebP variants. When this helper is useful, prepare an ordered `media-import-queue.json`; the operator starts `npm run media:watch` once and saves each image to Downloads through ChatGPT or the licensed provider's official UI. It does not browse or automate provider websites, click Save/License, download stock, approve rights or select images for build. Without optional Sharp it preserves the source and records the optimization limitation. See `docs/MEDIA_IMPORT_AUTOMATION_v1.0.md`.
 
 ### C. Studio-created illustration / motion — fallback, not fake evidence
 
@@ -126,7 +116,7 @@ Use original SVG, CSS, simple diagrams or AI-generated concept imagery when real
 
 ## 6. Sourcing procedure
 
-1. Convert the approved Media Requirements Plan into one search task per visual role.
+1. When a separate media plan is useful, turn each important visual role into a focused search task.
 2. Before accessing the provider, review its current Terms of Service and acquisition/API rules against the actual project purpose and method. Record the provider-terms URL/date, project context, acquisition method and APPROVED/PENDING/BLOCKED decision. Do not access or acquire content while this check is PENDING or BLOCKED.
 3. Search the official source/library manually only after the provider-terms gate passes. Do not scrape sites, bulk download, bypass restrictions or build a reusable stock database.
 4. Open the exact asset page, not just a search thumbnail.
@@ -134,7 +124,7 @@ Use original SVG, CSS, simple diagrams or AI-generated concept imagery when real
 6. Inspect for visible brands/logos, identifiable people, private property, copyrighted artwork, screens, number plates and misleading context.
 7. Read the item's applicable content licence and record the exact licence page, asset page, creator, date checked, commercial-use state, attribution and any release/consent concerns.
 8. Score visual suitability (Section 7). Rights are a pass/fail gate, not a score that can be offset by visual quality.
-9. Show the shortlist at the agreed visual-direction checkpoint. Record G3 approval against the exact asset IDs.
+9. Present any material asset choice or permission question in the project conversation. Obtain explicit rights/publication approval from the relevant owner before real-client public use.
 10. Acquire the selected original only through a method allowed by the provider's terms; keep provenance and place only approved project copies in the project's local media directory.
 11. Optimize responsive variants and update the asset register. Do not overwrite the original or remove licence/provenance evidence.
 
@@ -195,24 +185,24 @@ A stock/context or concept asset must never be represented as CLIENT_WORK.
 - Do not introduce a motion library just to animate ordinary hover/fade states.
 
 ### Budget and measurement
-- Establish a per-project media budget from the WRP rather than assuming unlimited assets.
+- Establish a media budget from the agreed project scope; never assume unlimited stock or tooling spend.
 - As a starting target, keep a typical optimized hero image under 400 KB and ordinary below-fold images under 250 KB each; treat these as review thresholds, not permission to degrade essential imagery. Measure actual page transfer and LCP in the final environment.
 - Prefer a small number of strong business-specific assets over a large generic gallery.
 - Run browser screenshot review and a performance/network check. Record NOT TESTED if a metric could not be measured.
 
-## 10. Release gates
+## 10. Client/publication safety
 
-An asset may appear in a public build only when:
+In `client_service`, an asset may appear in a public build only when:
 - the exact item and creator/source are recorded;
 - its specific licence/permission supports the intended commercial website use;
 - third-party people/property/brand/artwork rights are resolved or not applicable;
 - proof class and caption cannot mislead a visitor;
 - required credit is present;
-- owner/client approval is recorded at the correct gate;
+- the relevant business/rights holder has explicitly approved the intended use;
 - optimized local file and truthful alt/caption/fallback exist;
 - QA confirms crop, loading, accessibility and responsive behavior.
 
-If any condition is unresolved, keep it out of the production build. A preview may use an approved/disclosed concept fallback only within the preview approval policy.
+In `studio_development`, synthetic assets may appear only in a local/private internal preview with clear development labelling; no public release or deployment is permitted. In `client_service`, if any real-publication condition is unresolved, keep the asset out of production. Any preview fallback must be disclosed and must not misrepresent real work.
 
 ## 11. Acceptance criteria
 
@@ -232,4 +222,4 @@ Media Pipeline passes for a project when:
 
 The workflow is API-free. AI may recommend search terms, shortlist criteria, crops, alt text and implementation patterns; it does not grant licences, verify private releases, approve publication, download/scrape assets automatically or guarantee legal rights. The operator/owner remains responsible for checking the exact item and intended use.
 
-This document is a workflow control, not legal advice. For sensitive, high-value, branded, editorial or uncertain use, obtain the relevant rights-holder's permission or qualified legal advice.
+This document is practical operating guidance, not legal advice. For sensitive, high-value, branded, editorial or uncertain use, obtain the relevant rights-holder's permission or qualified legal advice.
