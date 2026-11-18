@@ -1,5 +1,7 @@
 # Pilot 04 Learnings — Service Businesses
 
+> **Historical pilot record (2026-11-14):** The workflow and Master Skill references in this report describe the earlier pilot system. They remain source context, not current operating instructions. Use Master Skill v1.13 and the conversation-first project method.
+
 Date: 2026-11-14
 Source experiment: `kannaryukkei/kala-coffee-studio`, branch `pilot-04/integrated-service-business`
 Evidence: GitHub Actions run `43581352019` — production build PASS, Playwright 11/11 PASS, browser evidence upload PASS.
