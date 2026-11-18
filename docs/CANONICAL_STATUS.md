@@ -34,7 +34,7 @@ Read only these files first; open specialist references only when the actual tas
 | Website source | One isolated GitHub repository per website |
 | Website quality | Keep deterministic build, test, browser and quality checks that verify actual output |
 | Studio modes | `client_service` and `studio_development` as defined above |
-| Platform application | Legacy implementation under review for retirement; do not extend it as a workflow authority |
+| Platform application | Retirement proposed in PR #50; no further platform development. Source remains available in Git history after merge |
 | Workflow/schema/approval documents | Reference standards only where a concrete factual, permission, safety or release question requires them; they do not create a duplicate workflow engine |
 
 The existing `docs/CANONICAL_OPERATING_WORKFLOW_v1.0.md`, `docs/CANONICAL_DISCOVERY_DATA_SCHEMA_v1.0.md`, `docs/WEBSITE_REQUIREMENTS_PACK_v1.0.md` and `docs/APPROVAL_AND_RELEASE_POLICY_v1.0.md` predate this model. Their useful safety and quality rules may be retained, but their mandatory artifact/stage machinery is not the operating model. They will be simplified or retired in a later cleanup tranche.
@@ -54,7 +54,7 @@ These dispositions supersede the earlier 2026-11-17 blanket instruction to prese
 
 - [x] Record conversation-first operating authority and the two modes in this PR.
 - [x] Retire PR #47 without merging (closed 2026-11-18); dual-mode safety rules are retained in the adopted Master Skill v1.13. Its abandoned source branch remains only as historical residue because branch deletion is not available through the connected GitHub actions.
-- [ ] Retire the Laravel platform/workflow application and all docs that exist only to specify it.
+- [ ] Merge PR #50 to complete removal of the Laravel platform and platform-only documents.
 - [ ] Consolidate current specialist skills and remove superseded/duplicated operating documents.
 - [ ] Retire duplicate Experiment 01 and 02 repositories after confirming no unique material is lost.
 - [ ] Keep and finish the Experiment 06 synthetic website under `studio_development`.
