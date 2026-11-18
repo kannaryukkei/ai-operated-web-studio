@@ -1,5 +1,7 @@
 # KALA Pilot Learnings — Reusable Production Rules
 
+> **Historical pilot evidence:** Branch SHAs and Master Skill versions below document the conditions under which each pilot was run. They are provenance/history, not current operating instructions. Apply reusable quality lessons through Master Skill v1.13; do not recreate old stages, artifact requirements or approval machinery.
+
 **Purpose:** retain the repeatable engineering, content, design and QA lessons from every useful branch of `kala-coffee-studio` without carrying fictional client identities or treating each pilot website as a universal skin.
 
 ## 1. Source inventory and evidence

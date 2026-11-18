@@ -1,5 +1,7 @@
 # Architecture — Static-first Website Masters
 
+> **Reference architecture note:** This describes the Starter website implementation, not the retired Laravel Studio platform or a mandatory project workflow. Any old references to platform coordination, stages or approval processes are historical; Master Skill v1.13 governs current operations.
+
 Status: Draft v0.2
 
 ## Guiding rule

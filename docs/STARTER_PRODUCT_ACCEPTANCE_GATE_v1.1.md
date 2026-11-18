@@ -1,23 +1,21 @@
 # Starter Product Acceptance Gate v1.1
 
-Status: Required gate before Starter is described or sold as production-ready. Adds five-website evidence, provenance, production-mode checks and the Rp500,000 scope boundary.
+Status: Optional Starter-specific product/technical acceptance checklist. Use when evaluating or selling the defined Starter offer; it does not create a general project workflow or mandatory artifact package.
 Decision owner: Studio.
 Principle: Starter is compact, not incomplete. A one-page site must answer the important customer questions for its business category and provide a real next step.
 
 ## Gate 0 — Business understanding
-- [ ] Approved business brief and source register exist.
+- [ ] The project conversation contains enough source-backed business information to understand the offer and intended visitor task; use a separate brief/source note only when complexity justifies it.
 - [ ] Target audience, buying intent, objections and decision criteria are understood.
-- [ ] Offer matrix includes real names, options, inclusions/exclusions and verified price or pricing method.
-- [ ] Customer Question Map covers before, during and after purchase where relevant.
-- [ ] Buying Journey and primary/secondary conversion paths are mapped.
-- [ ] Trust evidence is real and approved; missing proof is omitted rather than simulated. A demo label does not make invented testimonials, ratings or performance metrics acceptable.
+- [ ] Offers, options, inclusions/exclusions and prices (or pricing method) are supported by source material for client_service, or clearly labelled synthetic fixtures in studio_development.
+- [ ] The important customer questions and buying journey are understood for the relevant business; a separate map is optional.
+- [ ] In client_service, trust evidence is real, source-backed and approved; missing proof is omitted. In studio_development, synthetic proof-like fixtures may be used only as clearly labelled internal test data and never published.
 - [ ] Operational constraints, location/coverage, availability and policies are recorded.
-- [ ] Every material fact has a field-level source, evidence status and publication approval.
-- [ ] Every image/logo/video/font has an asset source/owner, permission status, intended use and credit requirement.
+- [ ] Material public facts and selected assets have enough source/rights context to support safe use. Detailed registers are created only when asset count, complexity or risk justifies them.
 - [ ] Critical gaps have an owner and are either resolved or explicitly excluded from production launch.
 
 ## Gate 1 — Customer-facing completeness
-For this commercial completeness gate, mark each applicable customer question ANSWERED, NOT_APPLICABLE (with reason), or BLOCKED (with owner/action), and retain its supporting source/evidence. Map this separate decision to the Source-to-Page Matrix: ANSWERED must have PUBLISHED status for production; PREVIEW_ONLY may be accepted for an internal preview only; GAP maps to BLOCKED. Never treat an approved preview exception as production-ready.
+For this commercial completeness review, identify the important applicable customer questions and verify that the website answers them. A concise issue list in the project conversation is sufficient; do not create a coverage matrix unless the site's complexity makes it useful. Preview-only content must never be mistaken for production-ready content.
 - [ ] What does the business offer and who is it for?
 - [ ] What are the available products/services/packages?
 - [ ] How does a customer compare options and choose?
@@ -33,25 +31,25 @@ For this commercial completeness gate, mark each applicable customer question AN
 A site cannot pass production completeness with a critical BLOCKED item. Preview exceptions must be visible and must not be represented as live functionality.
 
 ## Gate 2 — Conversion integrity
-- [ ] Primary CTA uses a real, client-approved destination.
+- [ ] In client_service, the primary CTA uses a real, verified destination approved by the business owner. In studio_development, use a safe synthetic/local destination and label the project internal.
 - [ ] Public contact information is correct and approved.
 - [ ] Forms/booking/order actions actually deliver to the approved destination.
 - [ ] No fake submission, fake booking, false success message or implied data storage.
-- [ ] A CTA register records label, exact destination, approval status and expected post-click behavior.
+- [ ] The primary and other important CTAs have known destinations and expected post-click behavior; a separate register is optional.
 - [ ] Secondary actions are intentional and tested.
 - [ ] Business owner confirms that inquiries can be received and handled operationally.
 
 ## Gate 3 — Visual and content quality
 - [ ] Visual hierarchy makes the offer and primary action immediately understandable.
 - [ ] Content density feels complete without filler, repeated card grids or invented sections.
-- [ ] Images are relevant, correctly licensed/approved or clearly disclosed as concept imagery. No invented testimonial, customer persona, rating, review count, award or performance metric appears in either portfolio-demo or client-production mode.
+- [ ] Images are relevant, rights-cleared and honestly represented in client_service. In studio_development, clearly labelled synthetic imagery and proof-like fixtures may be used for internal testing only.
 - [ ] Typography, spacing, contrast and component consistency are reviewed. Important safety, allergen, pricing, policy and transaction disclosures are not treated as micro-metadata.
 - [ ] Mobile and desktop layouts are designed for the actual content, not just viewport screenshots.
 - [ ] Copy is specific, clear and customer-oriented rather than generic marketing language.
 
 ## Automated Starter regression baseline
 
-The canonical Starter reference must pass docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md and be checked against the current proposed `docs/WEBSITE_IMPLEMENTATION_STANDARD_v1.1_CANDIDATE.md`. These supplement, and do not replace, the complete technical release checks below. Numeric contrast automation covers measurable solid-color surfaces; gradient/photo surfaces still require actual-scale human screenshot review.
+The Starter reference should pass `docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md` where that automation applies. These checks supplement, and do not replace, the relevant project build, browser, accessibility and release checks. Numeric contrast automation covers measurable solid-color surfaces; gradient/photo surfaces still require actual-scale human screenshot review.
 
 ## Gate 4 — Technical release quality
 - [ ] Production build passes.
@@ -61,7 +59,7 @@ The canonical Starter reference must pass docs/STARTER_AUTOMATED_QUALITY_GATE_v1
 - [ ] Keyboard navigation, visible focus, form labels and semantic structure are checked. Text contrast is tested against actual backgrounds (4.5:1 normal / 3:1 large), with relevant non-text controls at 3:1; translucent colors are composited and every rendered instance is tested across target widths.
 - [ ] Metadata, social preview, favicon, sitemap/robots where applicable are correct.
 - [ ] Performance and image weight are measured; results are recorded rather than assumed.
-- [ ] Portfolio/demo mode and client-production mode are tested separately. Both modes omit unverified social proof; only source-traceable, owner-approved evidence may be published. Demo-only visual labels remain clearly disclosed.
+- [ ] `client_service` and `studio_development` are checked separately. In client_service, only real source-backed and approved proof may be published. In studio_development, synthetic fixtures remain clearly labelled and internal; no public release is permitted.
 - [ ] Preview robots restrictions are retained for previews and removed only after launch approval; production canonical, social metadata and robots directives are checked.
 - [ ] Cross-browser behavior is tested or explicitly marked NOT TESTED.
 - [ ] Hosting, domain, SSL, backups and update ownership are documented.
@@ -98,4 +96,4 @@ Hosting provider limits and domain promotions can change. Recheck the vendor's c
 - **FAIL — Not ready:** critical business questions, conversion integrity or technical quality fail.
 
 ## Explicit sequencing rule
-Do not start Business implementation until Starter has a PASS decision. Do not start Custom implementation until Business is also defined and a real bespoke workflow requirement exists.
+This checklist is specific to the defined Starter offer. Do not force every client into Starter; recommend an appropriate scope based on the actual business requirements. Do not implement backend/operational complexity without a demonstrated need.

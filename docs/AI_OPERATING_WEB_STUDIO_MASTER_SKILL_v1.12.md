@@ -1,6 +1,6 @@
 # AI-Operated Web Studio — Master Skill
-Version: v1.12
-Status: Adopted by the Studio owner on 2026-11-18. This is the canonical Master Skill operating authority for the existing Stages 0–9. v1.11 is preserved as the preceding candidate; v1.3–v1.10 remain historical candidates.
+Version: v1.12 (historical baseline)
+Status: SUPERSEDED by adopted Master Skill v1.13 through merged PR #49 (2026-11-18). Preserved for historical reference only; do not follow this version's platform/workflow, WRP, G0–G7 or mandatory artifact instructions. Master Skill v1.13 is the sole current operating authority.
 
 ## v1.12 change rationale
 

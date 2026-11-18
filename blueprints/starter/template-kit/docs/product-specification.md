@@ -1,5 +1,7 @@
 # Product Specification — ZACKS Reference Builds
 
+> **Historical product definition:** This document records a former Starter offer hypothesis and implementation sequence. References below to Master Skill candidates, tier sequencing, WRP and G0–G7 are superseded by conversation-first Master Skill v1.13. Use only technical/product insights that remain relevant; do not treat the legacy process as an operating contract.
+
 Status: Draft v0.4 — Master Revision candidate  
 Purpose: Prove one repeatable, high-quality Starter website production workflow using one real reference business. Business and Custom remain parked until Starter acceptance passes.
 

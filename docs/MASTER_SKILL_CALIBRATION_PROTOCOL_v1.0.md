@@ -1,7 +1,7 @@
 # Master Skill Calibration Protocol v1.0
 
-**Status:** Required Studio operating protocol  
-**Scope:** Starter production, controlled experiments, reusable skills, blueprint rules and QA standards  
+**Status:** Optional evidence-led improvement method  
+**Scope:** Use when investigating a material defect, a repeated delivery problem or a proposed reusable rule  
 **Purpose:** Improve the correct layer using evidence, without expanding client input or creating endless prompt-revision cycles.
 
 ## Core principle
@@ -10,7 +10,7 @@ A website is the output of several connected layers:
 
 **Client material and approved facts → Master Skill / specialist reasoning → blueprint and implementation → rendered website and QA evidence.**
 
-When an output is wrong, first identify which layer caused it. Do not automatically change the client brief, rewrite the Master Skill, add a platform feature or regenerate the whole website.
+When an output is wrong, first identify which layer caused it. Do not automatically change source input, rewrite the Master Skill, add a tool or regenerate the whole website. Use this protocol only when the issue warrants a structured root-cause pass.
 
 ## 1. Capture the finding
 

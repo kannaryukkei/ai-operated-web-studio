@@ -1,5 +1,7 @@
 # Five-Website Starter Audit
 
+> **Historical comparative audit (2026-11-14):** Findings below are source/QA evidence from the pilot websites at the listed commits. They remain design and quality references, not a current workflow contract. Operating stages, WRP/G0–G7 and mandatory artifacts mentioned in this report are superseded by Master Skill v1.13.
+
 **Audit date:** 2026-11-14  
 **Scope:** Four website pilots in `kannaryukkei/kala-coffee-studio` and the current Starter implementation in this repository.  
 **Purpose:** Establish the evidence-based content, interaction, and release standard for a sellable Starter product.  

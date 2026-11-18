@@ -1,13 +1,13 @@
 # Starter Content Evidence Gate v1.0
 
-**Status:** Required publication rule for all Starter references and client deliveries  
+**Status:** Supporting evidence/claim rule for Starter work; Master Skill v1.13 governs mode selection  
 **Purpose:** Prevent fabricated social proof and keep every material customer-facing claim traceable to a source.
 
 ## Non-negotiable rule
 
-Never invent or simulate a real-world endorsement, customer experience, third-party rating, award or business-performance result. This applies to both portfolio-demo and client-production mode.
+In `client_service`, never invent or simulate a real-world endorsement, customer experience, third-party rating, award or business-performance result. A client-facing demo must not present fictional trust signals as evidence about a real business.
 
-A visible "sample", "illustrative" or "portfolio demo" label does not make a fabricated person, quotation or rating suitable as social proof. A demo can explain a component or show its neutral layout, but must not make invented trust signals look like evidence about the business.
+In `studio_development`, synthetic testimonials, ratings, metrics or outcomes may be used only as clearly labelled internal test fixtures. They must not be presented as real evidence or publicly released. A generic `demo` label is not a sufficient disclosure if a page could be mistaken for a real business.
 
 ## Content that requires evidence
 
@@ -34,7 +34,7 @@ Each proposed proof item must include:
 | Owner approval | Explicit business-owner approval for the proposed wording and placement |
 | Status | VERIFIED / BLOCKED / EXPIRED |
 
-Only VERIFIED items may be published. An item becomes BLOCKED when its source, scope, permission or approval is missing. Recheck time-sensitive ratings and performance figures before each release.
+Only genuinely source-supported and explicitly approved real items may be published in `client_service`. A synthetic fixture is never eligible for public release. An item is BLOCKED when its source, scope, permission or approval is missing. Recheck time-sensitive ratings and performance figures before release.
 
 ## What to do when proof is unavailable
 
@@ -46,9 +46,9 @@ Only VERIFIED items may be published. An item becomes BLOCKED when its source, s
 
 ## Mode rules
 
-**Portfolio demo:** Facts and visual assets may remain marked as preview/demo material. Never generate fictional social proof or present unverified claims as verified.
+**`client_service`:** Every material claim and proof item requires real source support, relevant permission and explicit publication approval. Missing proof is omitted.
 
-**Client production:** Every material claim and proof item must have a source, required permission and owner approval. Missing proof is omitted. Portfolio labels and preview-only prices/assets must not silently remain on the live site.
+**`studio_development`:** Synthetic proof-like fixtures are allowed only for internal testing, clearly labelled `SYNTHETIC / DEVELOPMENT ONLY`. No public release, outreach or deployment is permitted. Do not transfer synthetic material into a real-client deliverable.
 
 ## Automated and manual QA
 

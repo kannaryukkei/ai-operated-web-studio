@@ -1,5 +1,7 @@
 # Experiment #5 — Star Point Garage calibration record
 
+> **Historical experiment record (2026-11-16):** This is a point-in-time standalone synthetic build calibration under the then-current Master Skill v1.11 candidate and Starter workflow. WRP, G0–G7, Stage 3/4 prompts and old workflow references below are historical context only; they are not current operating requirements. Retain the measured visual/media findings, but use Master Skill v1.13 and the project conversation for current work.
+
 **Status:** PRELIMINARY — NOT YET PROVEN  
 **Date:** 2026-11-16  
 **Project / experiment:** Experiment #5 — Star Point Garage Benchmark  

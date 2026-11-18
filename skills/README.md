@@ -1,44 +1,41 @@
 # AI Operated Web Studio — Skill Library
 
-The adopted Master Skill v1.12 is the **orchestrator**. This folder contains focused methods that it activates only when useful. Read the Master Skill and canonical project artifacts first; a specialist skill never overrides the WRP, approved scope, source/permission records or G0–G7 authority.
+Master Skill v1.13 is the canonical operating method. Each website is run from one dedicated project conversation; GitHub stores the code and useful deliverables. Specialist skills are focused methods that the AI activates only when they help the current task.
 
-## Operating model
+## Operating rules
 
-**One normal client interview + existing client materials/assets → AI source normalization → Master Skill Stages 0–9 → selected specialist skills → website + QA/release evidence.**
+- The project conversation owns the live context, scope, decisions, priorities and next actions.
+- Select `client_service` for real or ambiguous client work; select `studio_development` only for clearly labelled internal synthetic development.
+- Do not require the client to complete a long questionnaire or prescribe implementation details.
+- Do not create separate plans, dashboards, mandatory artifact packages or approval workflows merely to satisfy a skill.
+- A skill provides technique, not authority to change scope, invent facts, waive rights or authorize publication.
+- Create a file only when it materially improves delivery, traceability, safety, reproducibility or handover.
 
-The AI/operator produces the Client Website Brief. Clients are not expected to complete a long technical questionnaire or prescribe implementation details. Specialist skills are not paid APIs, running software or approval authorities.
+## Available skills
 
-## Skill set
-
-| Skill | Responsibility | Activation |
+| Skill | Responsibility | When to activate |
 |---|---|---|
-| `client-material-ingestion` | Normalize interview/materials into source-traceable facts, assets and brief | Required at Stage 0 |
-| `media-sourcing-and-licensing` | Plan business-specific visual needs; source/validate stock and client media; record rights and prepare optimized local assets | Stage 5 sourcing and Stage 7 media QA |
-| `frontend-design` | Establish distinctive, brief-specific visual direction | Before design |
-| `ux-review` | Customer questions, buying journey, IA and conversion clarity | During Stages 1–4 |
-| `typography-and-legibility` | Type roles, hierarchy, readability and responsive legibility | Design and refinement |
-| `design-screenshot-spec` | Translate an approved screenshot/mockup into an evidence-labelled implementation spec | Only for approved reference-driven design |
-| `frontend-layout-implementer` | Implement an approved spec in the existing stack using bounded slices/checkpoints | Scoped code implementation |
-| `frontend-visual-qa` | Compare browser-rendered implementation with approved reference and capture viewport evidence | Visual fidelity checks |
-| `interface-quality-review` | Diagnose interface semantics, accessibility, truthful interactions and responsive issues | After meaningful UI changes |
-| `visual-design-audit` | Judge aesthetic quality, hierarchy and cross-project distinctiveness | After first implementation and refinement |
-| `frontend-quality-reviewer` | Independently judge implementation acceptance against scope, criteria and evidence | Stage 7 acceptance review |
+| `client-material-ingestion` | Understand interviews, assets, source evidence, facts and material gaps | New project or new source material |
+| `ux-review` | Visitor tasks, offer clarity, decision journey and conversion | Discovery, page planning or UX refinement |
+| `frontend-design` | Distinctive business-specific visual direction | Before design or when the direction needs reconsideration |
+| `typography-and-legibility` | Type roles, hierarchy, readability and responsive legibility | Design and type-specific refinement |
+| `design-screenshot-spec` | Convert an approved screenshot/reference into a traceable implementation spec | Only when implementation must match a chosen visual reference |
+| `frontend-layout-implementer` | Implement approved design work in the existing website stack | Coding and bounded visual corrections |
+| `website-quality-review` | Aesthetic review, screenshot fidelity, interface/accessibility and overall acceptance | Use the relevant review mode(s) when inspection is needed |
+| `media-sourcing-and-licensing` | Plan media, verify exact-item rights and prepare optimized local assets | When external or generated media is needed |
 
-The review roles are intentionally distinct: aesthetic design critique is not the same as screenshot fidelity, interface defect diagnosis or overall implementation acceptance. Activate only what the stage and evidence require.
+The four review dimensions are consolidated in `website-quality-review`: AESTHETIC, VISUAL_FIDELITY, INTERFACE and ACCEPTANCE. They remain distinct verdicts; one does not substitute for another.
 
-## How to use
+## Use
 
-1. Read `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.12.md` and the canonical operating documents first.
-2. Use `skills/registry.md` to select the minimum useful specialist set. For media work, read `docs/MEDIA_AND_ASSET_PIPELINE_v1.0.md` and activate `media-sourcing-and-licensing`.
-3. Read only the selected `SKILL.md` files for the current stage.
-4. Keep outputs in versioned project artifacts: source/fact/asset records, WRP, design spec, implementation checkpoints, issue log, test evidence and approval register.
-5. The Master Skill and G0–G7 policy resolve conflicts. Client-confirmed facts and permissions, approved scope and Studio owner decisions outrank stylistic or tool defaults.
-6. A skill may recommend a method; it cannot add scope, a dependency, paid service or external integration without approval.
+1. Read the project conversation and Master Skill v1.13.
+2. Select only the specialist skills needed for the current question or work slice.
+3. Follow the existing website stack and relevant repository instructions.
+4. Use real browser evidence for visual claims and actual source/licence evidence for media claims.
+5. Record decisions in the project conversation. Store only useful code, deliverables and QA evidence in the website repository.
 
-## Portability and dependencies
-
-These folders contain instructions, not running software. They do not require paid APIs, API keys, MCP servers, hosted AI services or a platform feature. In a manual ChatGPT/Claude workflow, provide the current Master Skill plus only the relevant specialist skill/prompt.
+These folders contain instructions, not running software. They do not require paid APIs, API keys, MCP servers, hosted AI services or a Studio platform.
 
 ## Upstream and licensing
 
-See `skills/registry.md` and each upstream attribution record for source, pinned commit/blob, license, adaptation and optional dependencies. Never merge an experimental branch wholesale or auto-refresh third-party instructions without checking provenance, licensing, overlap and compatibility.
+See `skills/registry.md` and `skills/upstream/` for provenance, adaptation and licensing. Do not refresh or import upstream instructions wholesale without checking compatibility, overlap and rights.

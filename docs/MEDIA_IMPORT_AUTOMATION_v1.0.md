@@ -5,14 +5,14 @@
 ## One-time setup per website project
 
 1. Copy `media-import-queue.example.json` to `media-import-queue.json`.
-2. Let Stage 5 populate it from the approved Media Requirements Plan. Each item is one image, with unique asset ID and target section. Keep queue order aligned with download order.
+2. Prepare the queue from the project's chosen media needs. Each item is one image, with an optional unique asset ID and target section. Keep queue order aligned with download order.
 3. Run `npm install` in the website project.
 4. Optional one-time install for responsive WebP output: `npm install --save-dev sharp`. Without Sharp, the importer preserves the original and records that optimization was not performed.
 5. Run `npm run media:watch` from that website folder. Default watched folder is the user's Downloads directory. To override: `npm run media:watch -- --downloads "D:\\Users\\<you>\\Downloads"`.
 
 ## Each image batch
 
-1. Stage 5 prepares the ordered queue and image prompts.
+1. Prepare an ordered queue and image prompts when the project needs multiple media imports.
 2. For concept art, use native ChatGPT Image Generation in the same AI work session, then click Save in ChatGPT Images to download the generated file.
 3. For professional photography, open the exact asset page, verify its item licence and current provider Terms of Service/project context, then use the provider's official License/Download control. Adobe Stock and Envato Elements are supported candidates. Envato discovery, licensing and download must stay manual in its official UI. Register the item to the specific client/project and respect client-transfer restrictions.
 4. With the watcher running, save/download only the next queued image. Do not download unrelated images until the queue is empty; new supported files are mapped sequentially to queue items.

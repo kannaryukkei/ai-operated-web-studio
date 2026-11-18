@@ -2,7 +2,7 @@
 
 > **Use:** This is an AI-produced normalized discovery artifact, not a questionnaire for the client to complete. Build it from interview material, supplied assets and approved source links using the Material-First Ingestion Protocol. Leave missing fields explicitly marked; ask only for material clarifications.
 
-> **Input policy:** Follow `docs/CLIENT_INPUT_AND_MATERIAL_POLICY_v1.0.md`. The platform's 26-field Project Intake is an interim studio-populated record, not a second client form.
+> **Operating rule:** Use Master Skill v1.13 and `skills/client-material-ingestion/SKILL.md`. This brief is optional AI-produced working material, not a client questionnaire or required project artifact.
 
 
 Status: Proposed standard — 2026-11-14
