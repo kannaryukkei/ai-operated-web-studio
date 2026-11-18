@@ -117,13 +117,16 @@ In `studio_development`, finish with a local/private preview and test evidence. 
 Use the smallest useful specialist set for the task. Read the actual skill files only when needed; they provide techniques, not competing authorities.
 
 Examples include:
-- `skills/client-material-ingestion/SKILL.md` for source inventory and normalization;
+- `skills/client-material-ingestion/SKILL.md` for interview/source understanding and material gaps;
 - `skills/frontend-design/SKILL.md` for subject-specific art direction;
-- `skills/ux-review/SKILL.md` for visitor journeys and information architecture;
-- typography, accessibility, visual audit, implementation and QA skills when they address a real need;
-- media sourcing/licensing skills when the project uses external media.
+- `skills/ux-review/SKILL.md` for visitor journeys and decision clarity;
+- `skills/typography-and-legibility/SKILL.md` for type hierarchy and readability;
+- `skills/design-screenshot-spec/SKILL.md` when implementing a chosen screenshot/reference;
+- `skills/frontend-layout-implementer/SKILL.md` for bounded code implementation;
+- `skills/website-quality-review/SKILL.md` for aesthetic, screenshot fidelity, interface/accessibility and acceptance reviews;
+- `skills/media-sourcing-and-licensing/SKILL.md` when external or generated media is needed.
 
-Older workflow, data-schema, Website Requirements Pack, approval, Laravel-platform and stage-artifact documents are historical or supporting references only. Apply any useful factual-integrity, rights, privacy, security or release safeguard they contain, but do not reinstate their platform-first architecture, mandatory artifact quotas or machine-enforced workflow.
+Older workflow, data-schema, Website Requirements Pack, approval, Laravel-platform and stage-artifact documents have been retired from the active documentation set. Their useful factual-integrity, rights, privacy, security and release safeguards are retained in this Master Skill and the focused specialist skills; do not recreate their platform-first architecture, mandatory artifact quotas or machine-enforced workflow.
 
 ## 9. Definition of done
 
