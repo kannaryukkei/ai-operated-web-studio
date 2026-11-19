@@ -25,6 +25,14 @@ These rules govern AI agents and contributors working on the Studio system and w
 - Never create a dashboard, database, project-state manifest, stage registry, approval state machine, artifact quota, inbox workflow or issue-based task system as a duplicate of the project conversation without a demonstrated need and explicit owner approval.
 - GitHub branches and pull requests are for code isolation and review, not for asking the owner to manage routine project progression.
 
+## Visual continuity and owner judgment
+
+- **Owner feedback on the rendered result is binding design input.** A direct rejection such as "generic", "AI slop", "less clean" or "worse than the previous version" rejects the current visual direction. Stop polishing that direction; identify the concrete causes and return to the last owner-preferred baseline. Do not defend a rejected design with CI scores, AI self-review or trend arguments.
+- **Pin the intended baseline before changing a design.** Inspect its exact repository, branch, commit and rendered screenshots, along with the owner's previous visual feedback. Continue from the owner-selected baseline by default. Do not silently switch to `main`, an older scaffold or an unrelated experiment branch when a more relevant selected baseline exists.
+- **Preserve proven visual work.** Retain the elements that made the selected baseline successful unless a specific visitor/business problem or owner instruction justifies changing them. A redesign requires a clear reason; "more output", "more modern" or "more visual" alone is not permission to discard the existing visual identity.
+- **Interpret "more" as better communication, not more furniture.** Improve composition, hierarchy, typography, relevant imagery, useful information display and responsive craft. Do not use extra sections, cards, labels, numbers, animation, decorative maps or empty space as proxies for quality. Every visible element must earn its place by helping the visitor understand, trust or act.
+- **Separate technical and aesthetic verdicts.** Build, accessibility, contrast, typography and responsive gates verify measurable properties; they do not decide whether a design is distinctive or good. Inspect actual desktop and mobile screenshots at useful scale. Until the owner has reviewed the rendered result, report owner visual review as PENDING—not accepted, approved or visually converged.
+
 ## Website quality and safety
 
 - Use the simplest stack that meets the real business need. Do not add a backend, CMS, accounts, payments or integrations without a demonstrated requirement.
@@ -34,7 +42,7 @@ These rules govern AI agents and contributors working on the Studio system and w
 - Keep private contacts, client materials, secrets and credentials out of public repositories and shared blueprints. Never commit `.env` files, API keys, passwords, tokens or private customer data.
 - Do not publish, spend money, change DNS, send external messages or transfer ownership without explicit authorization from the appropriate owner.
 - Distinguish preview from production. A passing build or CI run is not client approval or release authorization.
-- CI may run build, lint, unit, browser, accessibility and other website-quality checks. It must not manage project stages, issue simulated approvals or become a second workflow authority.
+- CI may run build, lint, unit, browser, responsive, accessibility and other website-quality checks. It must not manage project stages, issue simulated approvals or become a second workflow authority.
 
 ## Completion report
 
