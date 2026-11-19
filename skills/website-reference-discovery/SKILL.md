@@ -67,7 +67,7 @@ For each selected page, inspect at least:
 - tablet: 768 × 1024;
 - mobile: 390 × 844.
 
-Capture a full-page view at desktop and mobile, plus closer views of the important sections. Check the mobile menu or other visible states only when they help explain the design. Wait for the page to finish its main rendering, but do not let analytics or ongoing network requests keep the capture waiting forever.
+Capture a full-page view at desktop and mobile, plus closer views of the important sections. Check the mobile menu or other visible states only when they help explain the design. Wait for the main content or a key heading to become visible; a successful HTTP response alone does not mean the page has finished rendering. A spinner or blank screen is not a usable screenshot. Allow a short network-idle wait, but do not let analytics or ongoing network requests keep the capture waiting forever.
 
 A simple Playwright capture can use this pattern when the package and browser are already available:
 
@@ -105,10 +105,18 @@ try {
         timeout: 45000,
       });
 
+      await page.waitForLoadState("networkidle", { timeout: 5000 }).catch(() => {});
+      const contentReady = await page
+        .locator("h1, main, [role='main']")
+        .first()
+        .waitFor({ state: "visible", timeout: 10000 })
+        .then(() => true)
+        .catch(() => false);
+
       // Allow visible fonts and page layout to settle without waiting
       // for analytics or every background request.
       await page.evaluate(() => document.fonts.ready.then(() => true));
-      await page.waitForTimeout(800);
+      await page.waitForTimeout(700);
 
       const safeName = reference.name.replace(/[^a-z0-9-]/gi, "-");
       await page.screenshot({
@@ -120,6 +128,7 @@ try {
         name: reference.name,
         url: reference.url,
         viewport: viewport.name,
+        contentReady,
         status: response?.status() ?? null,
         title: await page.title(),
       });
