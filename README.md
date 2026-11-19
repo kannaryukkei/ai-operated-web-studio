@@ -31,8 +31,8 @@ Default to `client_service` whenever the mode is absent or ambiguous. Moving dev
 
 - `AI_BUILD_RULES.md` — concise rules for agents and contributors.
 - `docs/CANONICAL_STATUS.md` — current decisions and references.
-- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.13.md` — adopted operating orchestrator (PR #49, merged 2026-11-18); v1.12 is preserved as the previous baseline.
-- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.14.md` — proposed design-strategy, reference-judgment and iterative visual-refinement update (PR #54); v1.13 remains canonical until this proposal is merged.
+- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.13.md` — previous adopted baseline; retained for version history.
+- `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.14.md` — current canonical operating orchestrator, adopted through merged PR #54 on 2026-11-19.
 - `skills/README.md` and `skills/registry.md` — specialist skills and provenance.
 - `skills/website-quality-review/SKILL.md` — consolidated quality review.
 - `blueprints/starter/README.md` — Starter reference and usage boundaries.
