@@ -1,6 +1,6 @@
 # AI Operated Web Studio — Skill Library
 
-Master Skill v1.13 is the canonical operating method. Each website is run from one dedicated project conversation; GitHub stores the code and useful deliverables. Specialist skills are focused methods that the AI activates only when they help the current task.
+Master Skill v1.13 remains canonical until the proposed v1.14 design-quality update is merged. v1.14 adds stronger design judgment and iterative visual convergence. Each website is run from one dedicated project conversation; GitHub stores the code and useful deliverables. Specialist skills are focused methods that the AI activates only when they help the current task.
 
 ## Operating rules
 
@@ -18,6 +18,7 @@ Master Skill v1.13 is the canonical operating method. Each website is run from o
 | `client-material-ingestion` | Understand interviews, assets, source evidence, facts and material gaps | New project or new source material |
 | `website-reference-discovery` | Find and inspect relevant live website examples, then extract useful design patterns | When the visual direction is open and live references can improve it |
 | `ux-review` | Visitor tasks, offer clarity, decision journey and conversion | Discovery, page planning or UX refinement |
+| `design-strategy-and-judgment` | Business-first visual strategy, reference evaluation and decisive art direction | Before a new or materially revised visual direction |
 | `frontend-design` | Distinctive business-specific visual direction | Before design or when the direction needs reconsideration |
 | `typography-and-legibility` | Type roles, hierarchy, readability and responsive legibility | Design and type-specific refinement |
 | `design-screenshot-spec` | Convert an approved screenshot/reference into a traceable implementation spec | Only when implementation must match a chosen visual reference that has actually been inspected |
@@ -29,7 +30,7 @@ The four review dimensions are consolidated in `website-quality-review`: AESTHET
 
 ## Use
 
-1. Read the project conversation and Master Skill v1.13.
+1. Read the project conversation and the currently adopted Master Skill. Review the proposed v1.14 update when working on design strategy or iterative visual QA.
 2. Select only the specialist skills needed for the current question or work slice.
 3. Follow the existing website stack and relevant repository instructions.
 4. Use real browser evidence for visual claims and actual source/licence evidence for media claims.

@@ -54,6 +54,9 @@ Inspect the whole page and every meaningful segment: header/navigation, hero, ma
 Evaluate:
 
 - Fit to the real business, audience, offer and visitor task.
+- **First-screen effectiveness:** within a few seconds, can a new visitor identify the offer, the most relevant benefit and the next action?
+- **Hero quality:** is the headline specific, is the dominant visual relevant and well-composed, and is the primary CTA visible, truthful and actionable? A technically polished but bland or text-only hero is still a design weakness when the business needs a tangible visual.
+- **Business-specific visual evidence:** does the imagery make the offer more tangible, or is it generic decoration unrelated to the service/product?
 - Distinctive art direction, hierarchy, composition, grid, alignment, negative space and section rhythm.
 - Typography roles, legibility, line length, wrapping and content density.
 - Image choice, quality, relevance, aspect ratio, focal point, crop and authenticity.
@@ -71,6 +74,36 @@ Return one aesthetic verdict:
 
 A palette/font/illustration change alone is not meaningful differentiation. Prefer removing or simplifying weak elements over adding decoration.
 
+## ITERATIVE AESTHETIC REFINEMENT
+
+Use this loop whenever the task is to build, improve or review-and-fix a website's visual quality. A review-only request may stop after findings; an active build/refinement should continue through implementation and re-review without asking the owner to approve routine visual fixes.
+
+1. **Pin the actual revision and evidence.** Capture real browser screenshots of the rendered site, normally at 1440px desktop, 768px tablet and 390px mobile. Add 320/360px narrow mobile and any widths where the layout changes or prior problems appeared. Inspect full-page rhythm and key sections at actual viewport scale; do not judge from source code or a downscaled collage alone.
+2. **Review the whole experience, not just the latest change.** Inspect the first screen and hero first, then every meaningful section, imagery, conversion path, footer and responsive state. Look at visual hierarchy, business fit, message clarity, CTA behavior, image quality/crop, type, spacing, alignment, density, color, section rhythm and repetition.
+3. **Use distinct critique lenses across rounds.** At minimum, cover:
+   - visitor/business lens: offer clarity, benefit, trust, decision friction, CTA and whether the page helps a real visitor act;
+   - art-direction lens: distinctiveness, hero impact, composition, visual focal point, image choice, typography voice and coherence;
+   - craft/responsive lens: proportions, alignment, spacing, wrapping, crop, density, states and behavior across tested sizes.
+   Do not let a weak initial design direction become the standard merely because the implementation matches it.
+4. **Keep a concise issue ledger.** For each actionable issue record the exact page/section, viewport/state, evidence, severity, visitor/brand impact and correction. Include weaknesses in the design direction itself, not only implementation bugs. Do not invent defects to justify another pass.
+5. **Fix the highest-impact group, then re-capture.** Prioritize broken or misleading conversion behavior, unclear offer/hero, weak or irrelevant imagery, poor hierarchy, readability, composition and then local polish. Preserve working sections and avoid regenerating the website when a focused revision is enough.
+6. **Repeat without a fixed iteration limit.** After each meaningful correction, rebuild, capture the same before/after viewports and inspect the whole page again for regressions and newly visible weaknesses. Continue until the convergence rule below is met. If an issue remains, revise the underlying concept or implementation rather than accepting repeated failure because a nominal cycle limit was reached.
+7. **Use fresh judgment where possible.** A genuinely fresh-context or independent critique is valuable for final review. When that is unavailable, rotate the review lens and explicitly label the result as self-review; repeating the same self-review prompt does not create independence.
+
+### Convergence and stopping rule
+
+Do not claim that a page has "no visual gaps" merely because it looks better, the build passes or a quality gate is green.
+
+A visual pass may be reported as **NO KNOWN ACTIONABLE VISUAL GAPS IN TESTED SCOPE** only when:
+
+- every earlier BLOCKER, HIGH, MEDIUM and LOW visual finding is FIXED or has a clearly stated external blocker; and
+- two consecutive complete sweeps of the whole site, using different critique lenses (or one fresh-context review when available), find no new actionable BLOCKER, HIGH, MEDIUM or LOW visual issue across the agreed desktop, tablet and mobile scope; and
+- the final screenshots confirm the last changes and show no material regression.
+
+NIT items are subjective refinements rather than material defects. Record any remaining NIT briefly; do not inflate them into a false claim of perfection or keep changing the design solely to make it different. If an external fact, asset, right or approval blocks a correction, mark it BLOCKED and state exactly what is needed. The number of review/fix rounds is determined by evidence and convergence, not by a preset cap.
+
+A visual all-clear is limited to the inspected pages, sizes and states. It does not prove conversion performance, accessibility, keyboard behavior, cross-browser compatibility, performance or production readiness; review those separately when relevant. A CI/technical quality-gate PASS is not proof of aesthetic quality or sellability.
+
 ## VISUAL_FIDELITY review
 
 Use only when an approved screenshot, mockup or design implementation reference exists.
@@ -81,7 +114,7 @@ Use only when an approved screenshot, mockup or design implementation reference 
 4. Review detail: typography/wrapping, spacing, color/contrast, borders, radius, shadows, imagery/crop, icons and alignment.
 5. Review responsive adaptation and the interactive states that the reference actually defines.
 6. Keep an issue ledger with viewport/state, reference evidence, observed result, severity, user impact and an exact correction.
-7. After a fix, recapture the same viewport and state. Compare before/after at the same scale. Allow at most two correction cycles for one visual slice before escalating or documenting the remaining difference.
+7. After a fix, recapture the same viewport and state. Compare before/after at the same scale. Repeat review and correction as often as needed; there is no arbitrary two-cycle cap. If the same issue survives a correction, re-examine its root cause, the quality of the chosen design direction and the reference judgment instead of repeating the same patch.
 
 Return one visual verdict:
 
