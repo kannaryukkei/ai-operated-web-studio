@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "project_name": "REPLACE_WITH_PROJECT_NAME",
+  "instructions": "Replace this example with the approved media plan. Keep queue order aligned with the order in which images will be saved. This sample is concept art, not client proof.",
+  "items": [
+    {
+      "asset_id": "AI-HERO-001",
+      "source_id": "SRC-AI-HERO-001",
+      "source_type": "AI_GENERATED",
+      "description": "Clearly illustrative concept image for the approved hero section",
+      "usage_role": "CONCEPT_VISUAL",
+      "target_section": "hero",
+      "proof_class": "CONCEPT_ART",
+      "client_proof": "NO",
+      "media_type": "IMAGE",
+      "commercial_use": "YES",
+      "license_name": "OpenAI Terms of Use — output terms, not a third-party stock licence",
+      "license_url": "https://openai.com/policies/terms-of-use/",
+      "license_status": "NOT_APPLICABLE",
+      "rights_status": "PENDING",
+      "publication_status": "PENDING",
+      "provider_terms_status": "NOT_APPLICABLE",
+      "acquisition_method": "CHATGPT_IMAGE_SAVE_TO_DOWNLOADS",
+      "identifiable_people": "NO",
+      "visible_brand_or_trademark": "NO",
+      "private_property_or_artwork": "NO",
+      "alt_text_candidate": "Describe only what is visibly shown; do not imply actual client premises, people or work",
+      "crop_ratio": "16:9",
+      "loading_priority": "HIGH",
+      "decorative": "NO",
+      "motion_behavior": "STATIC_IMAGE"
+    }
+  ]
+}
