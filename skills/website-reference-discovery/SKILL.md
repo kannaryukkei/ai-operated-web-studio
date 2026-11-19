@@ -73,6 +73,12 @@ A simple Playwright capture can use this pattern when the package and browser ar
 
 ```js
 import { chromium } from "playwright";
+import { mkdir } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
+
+const outputDir = path.join(tmpdir(), "web-studio-reference-review");
+await mkdir(outputDir, { recursive: true });
 
 const references = [
   { name: "reference-one", url: "https://example.com/" },
@@ -101,12 +107,12 @@ try {
 
       // Allow visible fonts and page layout to settle without waiting
       // for analytics or every background request.
-      await page.evaluate(() => document.fonts?.ready);
+      await page.evaluate(() => document.fonts.ready.then(() => true));
       await page.waitForTimeout(800);
 
       const safeName = reference.name.replace(/[^a-z0-9-]/gi, "-");
       await page.screenshot({
-        path: `/tmp/${safeName}-${viewport.name}.png`,
+        path: path.join(outputDir, `${safeName}-${viewport.name}.png`),
         fullPage: true,
       });
 
@@ -121,6 +127,7 @@ try {
 
     await page.close();
   }
+  console.log(`Screenshots saved to: ${outputDir}`);
 } finally {
   await browser.close();
 }
