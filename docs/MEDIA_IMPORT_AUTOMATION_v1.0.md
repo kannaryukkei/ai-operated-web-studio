@@ -7,7 +7,7 @@
 1. Copy `media-import-queue.example.json` to `media-import-queue.json`.
 2. Prepare the queue from the project's chosen media needs. Each item is one image, with an optional unique asset ID and target section. Keep queue order aligned with download order.
 3. Run `npm install` in the website project.
-4. Optional one-time install for responsive WebP output: `npm install --save-dev sharp`. Without Sharp, the importer preserves the original and records that optimization was not performed.
+4. Optional one-time install for responsive WebP output in the target website project: `npm install --save-dev sharp`. The shared importer resolves Sharp from that project's own `node_modules`; without it, the importer preserves the original and records that optimization was not performed.
 5. Run `npm run media:watch` from that website folder. Default watched folder is the user's Downloads directory. To override: `npm run media:watch -- --downloads "D:\\Users\\<you>\\Downloads"`.
 
 ## Each image batch
@@ -16,7 +16,7 @@
 2. For concept art, use native ChatGPT Image Generation in the same AI work session, then click Save in ChatGPT Images to download the generated file.
 3. For professional photography, open the exact asset page, verify its item licence and current provider Terms of Service/project context, then use the provider's official License/Download control. Adobe Stock and Envato Elements are supported candidates. Envato discovery, licensing and download must stay manual in its official UI. Register the item to the specific client/project and respect client-transfer restrictions.
 4. With the watcher running, save/download only the next queued image. Do not download unrelated images until the queue is empty; new supported files are mapped sequentially to queue items.
-5. The watcher waits for file stability, detects format, computes SHA-256, preserves the original under `public/media/originals/`, gives the project image a queue-ID/hash name, optionally creates responsive WebP sizes, appends a row (including the SHA-256 source fingerprint) to the canonical `02-content/content-asset-register.csv`, and writes `.studio/media-import-log.json`.
+5. The watcher waits for file stability, detects format, computes SHA-256, preserves the original under `public/media/originals/`, gives the project image a queue-ID/hash name, optionally creates responsive WebP sizes, appends a row (including the SHA-256 source fingerprint) to the canonical `02-content/content-asset-register.csv`, and writes `.studio/media-import-log.json`. The `responsive_variants` register value is a browser-ready comma-separated `srcSet`.
 6. Repeat one Save/License action per image. The watcher stops when the queue is empty. Press Ctrl+C to stop early.
 
 ## What stays manual

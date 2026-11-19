@@ -32,6 +32,8 @@ jobs:
           cache-dependency-path: blueprints/starter/blank/package-lock.json
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
+      - name: Run responsive image component tests
+        run: npm run test:unit
       - name: Build production site
         run: npm run build
       - name: Install Playwright Chromium

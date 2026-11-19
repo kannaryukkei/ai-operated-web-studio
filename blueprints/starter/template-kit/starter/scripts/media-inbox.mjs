@@ -1,6 +1,7 @@
 import { createHash, randomUUID } from 'node:crypto';
 import fs from 'node:fs/promises';
 import fsSync from 'node:fs';
+import { createRequire } from 'node:module';
 import os from 'node:os';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -119,9 +120,16 @@ function dimensionsFromHeader(buffer, ext) {
   return { width: null, height: null };
 }
 
-async function optimizeImage(originalPath, mediaDir, baseName) {
+async function optimizeImage(originalPath, mediaDir, baseName, projectDir) {
   let sharp;
-  try { sharp = (await import('sharp')).default; } catch { return null; }
+  const projectRequire = createRequire(path.join(projectDir, 'package.json'));
+  try {
+    const sharpModule = projectRequire('sharp');
+    sharp = sharpModule.default ?? sharpModule;
+  } catch (error) {
+    if (error.code === 'MODULE_NOT_FOUND' && /Cannot find module ['"]sharp['"]/.test(error.message)) return null;
+    throw error;
+  }
   const meta = await sharp(originalPath).metadata();
   if (!meta.width || !meta.height) return null;
   const widths = [...new Set([640, 960, 1280, 1600, 1920, meta.width].filter((w) => w <= meta.width))].sort((a, b) => a - b);
@@ -172,7 +180,7 @@ export async function importDownloadedAsset({ sourceFile, projectDir, queuePath,
     const existingHash = createHash('sha256').update(await fs.readFile(originalPath)).digest('hex');
     if (existingHash !== hash) throw new Error(`Original media path collision for ${originalName}; refusing to overwrite it.`);
   }
-  let optimization = null; if (optimize) optimization = await optimizeImage(originalPath, mediaDir, base);
+  let optimization = null; if (optimize) optimization = await optimizeImage(originalPath, mediaDir, base, projectDir);
   const dims = optimization ? { width: optimization.width, height: optimization.height } : dimensionsFromHeader(bytes, ext);
   const localPath = optimization?.largest.path || `public/media/originals/${originalName}`;
   const licenseName = item.license_name || item.licence_name || (sourceType === 'AI_GENERATED' ? 'OpenAI Terms of Use — output terms, not a third-party stock licence' : '');
@@ -215,7 +223,7 @@ export async function importDownloadedAsset({ sourceFile, projectDir, queuePath,
     poster_path: item.poster_path || '', motion_behavior: item.motion_behavior || 'STATIC_IMAGE',
     captions_or_transcript_status: item.captions_or_transcript_status || 'NOT_APPLICABLE',
     decorative: item.decorative || 'NO', media_dimensions: dims.width && dims.height ? `${dims.width}x${dims.height}` : '',
-    responsive_variants: optimization?.variants.map((v) => `${v.path} ${v.width}w`).join(' | ') || '',
+    responsive_variants: optimization?.variants.map((v) => `/${v.path.replace(/^public\//, '')} ${v.width}w`).join(', ') || '',
     source_sha256: hash
   };
   await appendRegister(registerPath, row);

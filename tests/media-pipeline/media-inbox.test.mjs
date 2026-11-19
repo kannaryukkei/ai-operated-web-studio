@@ -173,3 +173,70 @@ test('CSV parser and writer round-trip commas, quotes and line breaks', () => {
   const parsed = parseCsv(stringifyCsv(headers, records));
   assert.deepEqual(parsed.records, records);
 });
+
+test('Sharp resolves from the target website project and writes browser-ready responsive srcSet candidates', async (t) => {
+  const { downloads, project } = await tempProject(t);
+  const source = path.join(downloads, 'licensed-image.png');
+  await fs.writeFile(source, PNG_1X1);
+
+  const sharpDirectory = path.join(project, 'node_modules', 'sharp');
+  await fs.mkdir(sharpDirectory, { recursive: true });
+  await fs.writeFile(path.join(sharpDirectory, 'package.json'), JSON.stringify({
+    name: 'sharp',
+    version: '0.0.0-test',
+    main: 'index.cjs'
+  }));
+  await fs.writeFile(path.join(sharpDirectory, 'index.cjs'), [
+    "const fs = require('node:fs/promises');",
+    "function sharp() {",
+    "  return {",
+    "    async metadata() { return { width: 1600, height: 1000 }; },",
+    "    rotate() { return this; },",
+    "    resize() { return this; },",
+    "    webp() { return this; },",
+    "    async toFile(destination) {",
+    "      await fs.writeFile(destination, Buffer.from('mock-webp'));",
+    "      return { width: 1600, height: 1000 };",
+    "    }",
+    "  };",
+    "}",
+    "module.exports = sharp;"
+  ].join("\n"));
+
+  const queuePath = path.join(project, 'media-import-queue.json');
+  const registerPath = path.join(project, '02-content', 'content-asset-register.csv');
+  await fs.writeFile(queuePath, JSON.stringify({ version: 1, items: [{
+    asset_id: 'CLIENT-HERO-OPTIMIZED',
+    source_type: 'CLIENT_SUPPLIED',
+    usage_role: 'CONTEXT_IMAGE',
+    target_section: 'hero',
+    proof_class: 'PRODUCT_ASSET',
+    client_proof: 'NO',
+    media_type: 'IMAGE',
+    identifiable_people: 'NO',
+    visible_brand_or_trademark: 'NO',
+    private_property_or_artwork: 'NO'
+  }] }));
+
+  const result = await importDownloadedAsset({ sourceFile: source, projectDir: project, queuePath, registerPath });
+  assert.equal(result.optimized, true);
+  assert.equal(result.remaining, 0);
+
+  const csv = parseCsv(await fs.readFile(registerPath, 'utf8'));
+  const record = csv.records[0];
+  assert.equal(record.optimized_format, 'WEBP');
+  assert.match(record.optimized_project_path, /^public\/media\/.+\.webp$/);
+  const variants = record.responsive_variants.split(', ');
+  assert.deepEqual(variants.map((value) => Number(value.match(/ (\d+)w$/)[1])), [640, 960, 1280, 1600]);
+  assert.ok(variants.every((value) => value.startsWith('/media/')));
+  for (const width of [640, 960, 1280, 1600]) {
+    const filename = path.basename(record.optimized_project_path).replace(/-1600\.webp$/, '-' + width + '.webp');
+    await fs.access(path.join(project, 'public', 'media', filename));
+  }
+});
+
+test('Blank Starter packages the same media inbox implementation as the ZACKS reference', async () => {
+  const zacksScript = await fs.readFile(new URL('../../blueprints/starter/template-kit/starter/scripts/media-inbox.mjs', import.meta.url), 'utf8');
+  const blankScript = await fs.readFile(new URL('../../blueprints/starter/blank/scripts/media-inbox.mjs', import.meta.url), 'utf8');
+  assert.equal(blankScript, zacksScript);
+});

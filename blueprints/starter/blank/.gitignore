@@ -3,3 +3,5 @@ dist/
 playwright-report/
 test-results/
 .website-quality-artifacts/
+media-import-queue.json
+.studio/
