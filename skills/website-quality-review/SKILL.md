@@ -33,6 +33,17 @@ Do not mechanically run every dimension on every task. Select the smallest usefu
 - This is a review skill. Do not silently fix or rewrite the site unless the user explicitly requested review-and-fix. Route implementation work to `frontend-layout-implementer`.
 - State whether the review used fresh context or is a self-review. A separate skill invocation alone does not make a review independent.
 
+## Optional Hostinger website-quality benchmark
+
+When the task requests a broad website-quality benchmark or final acceptance review, use `docs/HOSTINGER_GOOD_WEBSITE_BENCHMARK_v1.0.md` as an optional cross-check. It preserves the source article's two layers: Design/Functionality/Features/SEO/UX factors and its 15 website qualities.
+
+Apply only criteria relevant to the actual business and approved scope. In particular:
+- Do not require e-commerce checkout, breadcrumbs, internal search, analytics, structured data, blogs or lead segmentation when they do not serve the site.
+- Record PASS, CONCERN, FAIL, N/A or NOT TESTED separately for each relevant item.
+- Require actual evidence for performance, security, SEO, structured data, accessibility, tracking and lead behavior. Do not infer outcomes from a build or screenshot.
+- Preserve the source article's quality-visuals preference, but apply the Studio's separate media-sourcing and licensing rules for authentic client media, concept imagery and licensed stock.
+- Treat the benchmark as a review aid, not a new project stage, mandatory artifact package, scoring system or release authorization.
+
 ## Required evidence
 
 Use only what the selected dimension needs:

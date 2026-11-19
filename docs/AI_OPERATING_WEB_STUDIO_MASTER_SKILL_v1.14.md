@@ -136,7 +136,9 @@ Examples include:
 - `skills/design-screenshot-spec/SKILL.md` when implementing a chosen screenshot/reference;
 - `skills/frontend-layout-implementer/SKILL.md` for bounded code implementation;
 - `skills/website-quality-review/SKILL.md` for aesthetic, screenshot fidelity, interface/accessibility and acceptance reviews;
-- `skills/media-sourcing-and-licensing/SKILL.md` when external or generated media is needed;\n- `skills/gsap-motion/SKILL.md` only when a purposeful motion concept needs GSAP. GSAP is optional and must not be added by default.
+- `skills/media-sourcing-and-licensing/SKILL.md` when external or generated media is needed;
+- `docs/HOSTINGER_GOOD_WEBSITE_BENCHMARK_v1.0.md` when a broad website-quality review needs a cross-check of the Hostinger characteristics. Apply only relevant criteria and preserve N/A/NOT TESTED states.
+- `skills/gsap-motion/SKILL.md` only when a purposeful motion concept needs GSAP. GSAP is optional and must not be added by default.
 
 Use `docs/VISUAL_ENHANCEMENT_WORKFLOW_v1.1.md` as the optional repeated visual-refinement aid. Its critique/fix loop has no preset round limit and is governed by evidence-based convergence. Older workflow, data-schema, Website Requirements Pack, approval, Laravel-platform and stage-artifact documents have been retired from the active documentation set. Their useful factual-integrity, rights, privacy, security and release safeguards are retained in this Master Skill and the focused specialist skills; do not recreate their platform-first architecture, mandatory artifact quotas or machine-enforced workflow.
 
