@@ -24,7 +24,7 @@ Master Skill v1.14 is the canonical operating method, adopted through merged PR 
 | `design-screenshot-spec` | Convert an approved screenshot/reference into a traceable implementation spec | Only when implementation must match a chosen visual reference that has actually been inspected |
 | `frontend-layout-implementer` | Implement approved design work in the existing website stack | Coding and bounded visual corrections |
 | `website-quality-review` | Aesthetic review, screenshot fidelity, interface/accessibility and overall acceptance | Use the relevant review mode(s) when inspection is needed |
-| `media-sourcing-and-licensing` | Plan media, verify exact-item rights and prepare optimized local assets | When external or generated media is needed |
+| `media-sourcing-and-licensing` | Plan media, verify exact-item rights and prepare optimized local assets | When external or generated media is needed |\n| `gsap-motion` | Add purposeful GSAP motion with React lifecycle, responsive behavior and reduced-motion safeguards | Only when a justified interaction or motion concept needs GSAP |
 
 The four review dimensions are consolidated in `website-quality-review`: AESTHETIC, VISUAL_FIDELITY, INTERFACE and ACCEPTANCE. They remain distinct verdicts; one does not substitute for another.
 

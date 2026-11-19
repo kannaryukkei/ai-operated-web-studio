@@ -1,0 +1,37 @@
+name: GSAP motion capability validation
+
+on:
+  push:
+    branches: [main, 'improvement/**', 'revision/**']
+    paths:
+      - "skills/gsap-motion/**"
+      - "skills/README.md"
+      - "skills/registry.md"
+      - "docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.14.md"
+      - "tests/gsap-motion.test.mjs"
+      - ".github/workflows/gsap-motion-ci.yml"
+  pull_request:
+    paths:
+      - "skills/gsap-motion/**"
+      - "skills/README.md"
+      - "skills/registry.md"
+      - "docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.14.md"
+      - "tests/gsap-motion.test.mjs"
+      - ".github/workflows/gsap-motion-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+      - name: Validate GSAP motion example and opt-in boundaries
+        run: node --test tests/gsap-motion.test.mjs
