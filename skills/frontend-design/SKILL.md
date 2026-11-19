@@ -33,7 +33,10 @@ Use non-user-triggered motion sparingly and deliberately, only to draw attention
 
 Consider written content carefully. Often a design brief may not contain real content, and it's up to you to come up with copy and placeholder content. Copy can make a design feel as templated as the design itself. See the below section on writing for more guidance.
 
-## Process: plan, review against the brief, build, critique
+## Process: discover, plan, review against the brief, build, critique
+
+When the visual direction is open and useful live examples exist, activate `website-reference-discovery` before deciding the art direction. Use the actual rendered pages and responsive screenshots—not just search-result text—to learn from the references. If only text can be inspected, label it TEXT-ONLY REVIEW and do not claim visual reverse engineering. The project does not need references when they add no real value; do not force them into every design.
+
 
 For calibration, AI-generated design right now clusters around some traits:
 1. a warm cream background (near #F4F1EA) with a high-contrast serif display and a terracotta or warm-clay accent (often near #D97757 — Anthropic's own Claude-interaction accent, so on a user's brief it reads as a tell);

@@ -16,10 +16,11 @@ Master Skill v1.13 is the canonical operating method. Each website is run from o
 | Skill | Responsibility | When to activate |
 |---|---|---|
 | `client-material-ingestion` | Understand interviews, assets, source evidence, facts and material gaps | New project or new source material |
+| `website-reference-discovery` | Find and inspect relevant live website examples, then extract useful design patterns | When the visual direction is open and live references can improve it |
 | `ux-review` | Visitor tasks, offer clarity, decision journey and conversion | Discovery, page planning or UX refinement |
 | `frontend-design` | Distinctive business-specific visual direction | Before design or when the direction needs reconsideration |
 | `typography-and-legibility` | Type roles, hierarchy, readability and responsive legibility | Design and type-specific refinement |
-| `design-screenshot-spec` | Convert an approved screenshot/reference into a traceable implementation spec | Only when implementation must match a chosen visual reference |
+| `design-screenshot-spec` | Convert an approved screenshot/reference into a traceable implementation spec | Only when implementation must match a chosen visual reference that has actually been inspected |
 | `frontend-layout-implementer` | Implement approved design work in the existing website stack | Coding and bounded visual corrections |
 | `website-quality-review` | Aesthetic review, screenshot fidelity, interface/accessibility and overall acceptance | Use the relevant review mode(s) when inspection is needed |
 | `media-sourcing-and-licensing` | Plan media, verify exact-item rights and prepare optimized local assets | When external or generated media is needed |

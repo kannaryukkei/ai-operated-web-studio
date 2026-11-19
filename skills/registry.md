@@ -7,6 +7,7 @@
 | Skill | Responsibility | Output/use |
 |---|---|---|
 | `client-material-ingestion/` | Normalize interview material, source-backed facts, supplied assets, rights and material gaps | Conversational working handoff; concise fact/asset notes only when useful |
+| `website-reference-discovery/` | Find live website examples, inspect real pages at desktop/mobile sizes, and extract useful design patterns | Short reference shortlist and visual findings in the project conversation |
 | `ux-review/` | Evaluate visitor tasks, information hierarchy, customer questions and conversion | Journey verdict and prioritized UX fixes |
 | `media-sourcing-and-licensing/` | Plan media, identify exact sources/licences, inspect third-party rights and prepare optimized files | Shortlist and concise asset provenance/permission record |
 | `website-quality-review/` | Consolidated aesthetic, visual-fidelity, interface and acceptance review | Evidence-based, scoped verdicts and findings |
@@ -15,7 +16,7 @@
 
 | Skill | Responsibility | Activation |
 |---|---|---|
-| `frontend-design/` | Subject-grounded art direction, originality and design critique | When establishing or materially revising visual direction |
+| `frontend-design/` | Subject-grounded art direction, originality and design critique | When establishing or materially revising visual direction; use `website-reference-discovery` first when useful references are not yet known |
 | `typography-and-legibility/` | Type-role system and rendered readability | When defining or auditing typography |
 | `design-screenshot-spec/` | Translate a chosen screenshot/reference into a measured/inferred/unknown implementation spec | Only for reference-driven implementation |
 | `frontend-layout-implementer/` | Implement a selected design in the existing stack, in bounded verifiable slices | When code changes are required |
