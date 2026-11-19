@@ -51,6 +51,9 @@ For each candidate, record in the conversation:
 
 Do not treat a search snippet as proof that the website was opened or visually inspected.
 
+Before choosing what to learn from the shortlist, use `design-strategy-and-judgment` to judge the candidates. Do not equate an attractive page, design award, popularity or fashionable style with a strong reference. For each page, assess first-screen clarity, hero/image/CTA strength, hierarchy and craft, fit to the intended audience, visitor journey, trust and responsive quality. Classify the page or individual pattern as KEEP, ADAPT or REJECT with one evidence-based reason. A portfolio concept can be a useful visual reference without proving business/conversion effectiveness; do not claim performance without data. Reject weak patterns even when the rest of the site looks polished.
+
+
 ## 2. Open and capture the real page
 
 A reference is not visually reviewed until the actual rendered page has been seen.

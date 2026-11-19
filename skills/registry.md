@@ -1,6 +1,6 @@
 # Skill Registry and Provenance
 
-**Current authority:** Master Skill v1.13 and the dedicated project conversation. This registry describes the available specialist methods; it does not establish project stages, approval gates or mandatory artifacts.
+**Current authority:** Master Skill v1.13 and the dedicated project conversation. The design-strategy-and-judgment skill and Master Skill v1.14 are proposed in PR #54; v1.13 remains canonical until the owner merges that proposal. This registry describes the available specialist methods; it does not establish project stages, approval gates or mandatory artifacts.
 
 ## Studio-owned skills
 
@@ -16,6 +16,7 @@
 
 | Skill | Responsibility | Activation |
 |---|---|---|
+| `design-strategy-and-judgment/` | Business-first design strategy, reference judgment and conversion-led visual direction | Before establishing or materially revising visual direction |
 | `frontend-design/` | Subject-grounded art direction, originality and design critique | When establishing or materially revising visual direction; use `website-reference-discovery` first when useful references are not yet known |
 | `typography-and-legibility/` | Type-role system and rendered readability | When defining or auditing typography |
 | `design-screenshot-spec/` | Translate a chosen screenshot/reference into a measured/inferred/unknown implementation spec | Only for reference-driven implementation |

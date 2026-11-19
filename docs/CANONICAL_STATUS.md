@@ -8,6 +8,8 @@ This is the short pointer to the current Studio rules. It is not a project track
 
 **GitHub stores code and useful deliverables, not project state.** Do not duplicate the conversation in dashboards, databases, issue trackers, workflow inboxes, project-state manifests, artifact registries or approval engines. Keep code isolation, PR review and real website-quality checks.
 
+**Design-quality update proposed in PR #54.** Master Skill v1.13 remains the adopted authority until the owner merges the proposal. The candidate v1.14 introduces business-first design judgment, stronger reference selection and repeated visual critique/correction with no arbitrary round limit.
+
 ## Operating modes
 
 - `client_service`: default for real or ambiguous client work. Claims and facts must be supported by real sources; rights, permissions and approvals must be genuine. No fabricated client facts or social proof.
@@ -21,7 +23,7 @@ Read only these first; open a specialist skill or supporting reference when the 
 1. `README.md`
 2. `AI_BUILD_RULES.md`
 3. `docs/CANONICAL_STATUS.md` (this file)
-4. `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.13.md` (adopted via merged PR #49; v1.12 remains preserved as the previous baseline)
+4. `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.13.md` (adopted via merged PR #49; remains canonical until proposed v1.14 in PR #54 is merged)
 5. `skills/README.md` and `skills/registry.md`
 6. `blueprints/starter/README.md` when using the Starter reference
 
@@ -29,6 +31,7 @@ Read only these first; open a specialist skill or supporting reference when the 
 
 - Material intake: `skills/client-material-ingestion/SKILL.md`
 - UX: `skills/ux-review/SKILL.md`
+- Design strategy and judgment (proposed in PR #54): `skills/design-strategy-and-judgment/SKILL.md`
 - Art direction: `skills/frontend-design/SKILL.md`
 - Typography: `skills/typography-and-legibility/SKILL.md`
 - Reference-to-code specification: `skills/design-screenshot-spec/SKILL.md`
@@ -45,7 +48,7 @@ These are optional, task-specific aids, not a mandatory artifact package:
 - Starter technical/product quality: `docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md`, `docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md`, `docs/STARTER_CONTENT_EVIDENCE_GATE_v1.0.md`
 - Media: `docs/MEDIA_AND_ASSET_PIPELINE_v1.0.md`, `docs/MEDIA_IMPORT_AUTOMATION_v1.0.md`
 - Improvement: `docs/MASTER_SKILL_CALIBRATION_PROTOCOL_v1.0.md`, `docs/EXPERIMENT_CALIBRATION_RECORD_TEMPLATE_v1.0.md`
-- Visual refinement: `docs/VISUAL_ENHANCEMENT_WORKFLOW_v1.0.md`
+- Visual refinement: `docs/VISUAL_ENHANCEMENT_WORKFLOW_v1.0.md` remains the current pointer until PR #54 is merged; proposed iterative replacement: `docs/VISUAL_ENHANCEMENT_WORKFLOW_v1.1.md`
 - Blueprint provenance and cross-pilot learning: `docs/BLUEPRINT_MIGRATION_DECISION.md`, `docs/EXPERIMENT_03_SYSTEM_LEARNINGS.md`, `blueprints/starter/KALA_PILOT_LEARNINGS.md`
 
 ## Architecture retirement
