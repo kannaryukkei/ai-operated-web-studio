@@ -27,13 +27,16 @@ Do not use for aesthetic critique alone, an unapproved moodboard, or when a comp
 
 ## Required inputs
 
-1. The chosen reference image(s), with source identity.
+1. The chosen reference image(s), with source identity and capture viewport. For a live website reference, use `website-reference-discovery` to capture the actual rendered page before writing the specification; a text-only search result is not a visual reference.
 2. The project conversation's agreed purpose, scope, facts and copy.
 3. Relevant assets and permission status.
 4. The existing website stack and target behavior.
 5. Known viewport sizes. Mark missing sizes unknown; never infer exact Figma dimensions from a downscaled chat preview.
 
 ## Workflow
+
+For live website references, require actual browser screenshots or equivalent rendered-page evidence before claiming visual reverse engineering. If no browser or screenshot method is available, label the work TEXT-ONLY REVIEW or BLOCKED and do not invent dimensions, typography, crop, spacing or responsive behavior.
+
 
 1. **Inventory references.** Record each image/file/link, source identity, viewport/canvas size, page/section, state and annotations. Keep distinct references separate.
 2. **Inspect at useful scale.** Review the full composition, then inspect important sections. Do not use a reduced full-page image as the only evidence for typography or spacing.
