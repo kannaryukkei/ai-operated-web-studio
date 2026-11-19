@@ -80,7 +80,7 @@ Rotate critique lenses across rounds: visitor/conversion, art direction/composit
 Report **NO KNOWN ACTIONABLE VISUAL GAPS IN TESTED SCOPE** only after:
 
 - all BLOCKER, HIGH, MEDIUM and LOW findings are fixed or explicitly blocked by a genuine external dependency;
-- two consecutive full-site sweeps using different critique lenses (or one fresh-context review when available) find no new actionable BLOCKER, HIGH, MEDIUM or LOW finding across the agreed desktop/tablet/mobile viewports; and
+- two consecutive full-site sweeps using different critique lenses find no new actionable BLOCKER, HIGH, MEDIUM or LOW finding across the agreed desktop/tablet/mobile viewports. When possible, make one sweep a fresh-context/independent review; otherwise disclose that both were self-reviews; and
 - the final same-scale screenshots confirm the corrections and reveal no material regression.
 
 List any remaining NIT preferences or external blockers. Do not claim perfection outside the pages, sizes and states actually inspected. Do not stop after an arbitrary number of iterations, and do not keep iterating solely to make a subjective change once the convergence rule is met.

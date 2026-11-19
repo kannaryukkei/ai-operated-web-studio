@@ -97,7 +97,7 @@ Do not claim that a page has "no visual gaps" merely because it looks better, th
 A visual pass may be reported as **NO KNOWN ACTIONABLE VISUAL GAPS IN TESTED SCOPE** only when:
 
 - every earlier BLOCKER, HIGH, MEDIUM and LOW visual finding is FIXED or has a clearly stated external blocker; and
-- two consecutive complete sweeps of the whole site, using different critique lenses (or one fresh-context review when available), find no new actionable BLOCKER, HIGH, MEDIUM or LOW visual issue across the agreed desktop, tablet and mobile scope; and
+- two consecutive complete sweeps of the whole site, using different critique lenses, find no new actionable BLOCKER, HIGH, MEDIUM or LOW visual issue across the agreed desktop, tablet and mobile scope. When available, make one of those sweeps a fresh-context/independent review; otherwise disclose that both were self-reviews; and
 - the final screenshots confirm the last changes and show no material regression.
 
 NIT items are subjective refinements rather than material defects. Record any remaining NIT briefly; do not inflate them into a false claim of perfection or keep changing the design solely to make it different. If an external fact, asset, right or approval blocks a correction, mark it BLOCKED and state exactly what is needed. The number of review/fix rounds is determined by evidence and convergence, not by a preset cap.
