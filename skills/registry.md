@@ -1,6 +1,6 @@
 # Skill Registry and Provenance
 
-**Current authority:** Master Skill v1.13 and the dedicated project conversation. The design-strategy-and-judgment skill and Master Skill v1.14 are proposed in PR #54; v1.13 remains canonical until the owner merges that proposal. This registry describes the available specialist methods; it does not establish project stages, approval gates or mandatory artifacts.
+**Current authority:** Master Skill v1.14 and the dedicated project conversation. Master Skill v1.13 is preserved as the previous adopted baseline. This registry describes the available specialist methods; it does not establish project stages, approval gates or mandatory artifacts.
 
 ## Studio-owned skills
 
@@ -49,7 +49,7 @@ Keep mode-specific verdicts separate. Aesthetic quality is not screenshot fideli
 - Source path: `skills/frontend-design/`
 - Imported upstream blob: `a5333457c414d20d625f307df945842c0952ecc3`
 - License: Apache-2.0; upstream LICENSE is retained with the skill.
-- Decision: **ADOPTED**. The upstream skill is imported verbatim; Studio-specific boundaries live in Master Skill v1.13 and the companion skills.
+- Decision: **ADOPTED**. The upstream skill is imported verbatim; Studio-specific boundaries live in Master Skill v1.14 and the companion skills.
 - Limit: guidance only; it is not a visual testing tool or a guarantee of design quality.
 
 ### ytvee-dev — webdev-agent-kit
