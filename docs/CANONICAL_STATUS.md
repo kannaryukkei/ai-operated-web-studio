@@ -38,6 +38,7 @@ Read only these first; open a specialist skill or supporting reference when the 
 - Implementation: `skills/frontend-layout-implementer/SKILL.md`
 - Consolidated review: `skills/website-quality-review/SKILL.md`
 - Media rights and optimization: `skills/media-sourcing-and-licensing/SKILL.md`
+- Optional motion implementation: `skills/gsap-motion/SKILL.md`
 
 Activate only the methods the current task needs. The consolidated review has separate AESTHETIC, VISUAL_FIDELITY, INTERFACE and ACCEPTANCE modes.
 
@@ -47,6 +48,7 @@ These are optional, task-specific aids, not a mandatory artifact package:
 - Client brief: `docs/CLIENT_WEBSITE_BRIEF_TEMPLATE_v2.1.md`
 - Starter technical/product quality: `docs/STARTER_AUTOMATED_QUALITY_GATE_v1.0.md`, `docs/STARTER_PRODUCT_ACCEPTANCE_GATE_v1.1.md`, `docs/STARTER_CONTENT_EVIDENCE_GATE_v1.0.md`
 - Media: `docs/MEDIA_AND_ASSET_PIPELINE_v1.0.md`, `docs/MEDIA_IMPORT_AUTOMATION_v1.0.md`
+- Website-quality benchmark: `docs/HOSTINGER_GOOD_WEBSITE_BENCHMARK_v1.0.md` (15 characteristics plus the source's five initial factors; apply conditionally).
 - Improvement: `docs/MASTER_SKILL_CALIBRATION_PROTOCOL_v1.0.md`, `docs/EXPERIMENT_CALIBRATION_RECORD_TEMPLATE_v1.0.md`
 - Visual refinement: `docs/VISUAL_ENHANCEMENT_WORKFLOW_v1.1.md` (iterative critique/fix loop; no preset round limit)
 - Blueprint provenance and cross-pilot learning: `docs/BLUEPRINT_MIGRATION_DECISION.md`, `docs/EXPERIMENT_03_SYSTEM_LEARNINGS.md`, `blueprints/starter/KALA_PILOT_LEARNINGS.md`

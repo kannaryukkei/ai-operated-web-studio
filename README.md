@@ -35,11 +35,13 @@ Default to `client_service` whenever the mode is absent or ambiguous. Moving dev
 - `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.14.md` — current canonical operating orchestrator, adopted through merged PR #54 on 2026-11-19.
 - `skills/README.md` and `skills/registry.md` — specialist skills and provenance.
 - `skills/website-quality-review/SKILL.md` — consolidated quality review.
+- `skills/gsap-motion/SKILL.md` — optional GSAP implementation with React lifecycle and reduced-motion safeguards.
+- `docs/HOSTINGER_GOOD_WEBSITE_BENCHMARK_v1.0.md` — optional website-quality benchmark derived from the supplied Hostinger article.
 - `blueprints/starter/README.md` — Starter reference and usage boundaries.
 
 ## Supporting references
 
-Open only when relevant: `docs/CLIENT_WEBSITE_BRIEF_TEMPLATE_v2.1.md`, Starter acceptance/evidence/automated quality gates, media sourcing/import guidance, the calibration protocol, visual refinement guide and blueprint migration provenance.
+Open only when relevant: `docs/CLIENT_WEBSITE_BRIEF_TEMPLATE_v2.1.md`, Starter acceptance/evidence/automated quality gates, media sourcing/import guidance, the Hostinger website-quality benchmark, the calibration protocol, visual refinement guide and blueprint migration provenance.
 
 The Laravel platform was retired in merged PR #50. This repository is not a client portal, Studio dashboard, workflow database or AI API orchestration service.
 
