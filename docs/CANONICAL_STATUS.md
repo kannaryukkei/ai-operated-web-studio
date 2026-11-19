@@ -37,7 +37,7 @@ Read only these first; open a specialist skill or supporting reference when the 
 - Reference-to-code specification: `skills/design-screenshot-spec/SKILL.md`
 - Implementation: `skills/frontend-layout-implementer/SKILL.md`
 - Consolidated review: `skills/website-quality-review/SKILL.md`
-- Media rights and optimization: `skills/media-sourcing-and-licensing/SKILL.md`
+- Media rights and optimization: `skills/media-sourcing-and-licensing/SKILL.md`\n- Optional motion implementation: `skills/gsap-motion/SKILL.md`
 
 Activate only the methods the current task needs. The consolidated review has separate AESTHETIC, VISUAL_FIDELITY, INTERFACE and ACCEPTANCE modes.
 

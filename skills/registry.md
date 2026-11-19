@@ -9,7 +9,7 @@
 | `client-material-ingestion/` | Normalize interview material, source-backed facts, supplied assets, rights and material gaps | Conversational working handoff; concise fact/asset notes only when useful |
 | `website-reference-discovery/` | Find live website examples, inspect real pages at desktop/mobile sizes, and extract useful design patterns | Short reference shortlist and visual findings in the project conversation |
 | `ux-review/` | Evaluate visitor tasks, information hierarchy, customer questions and conversion | Journey verdict and prioritized UX fixes |
-| `media-sourcing-and-licensing/` | Plan media, identify exact sources/licences, inspect third-party rights and prepare optimized files | Shortlist and concise asset provenance/permission record |
+| `media-sourcing-and-licensing/` | Plan media, identify exact sources/licences, inspect third-party rights and prepare optimized files | Shortlist and concise asset provenance/permission record |\n| `gsap-motion/` | Implement purposeful GSAP motion with React-safe cleanup, responsive conditions and reduced-motion support | Optional motion implementation; install GSAP only when the approved design needs it |
 | `website-quality-review/` | Consolidated aesthetic, visual-fidelity, interface and acceptance review | Evidence-based, scoped verdicts and findings |
 
 ## Design and implementation skills

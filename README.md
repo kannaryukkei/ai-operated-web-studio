@@ -34,7 +34,7 @@ Default to `client_service` whenever the mode is absent or ambiguous. Moving dev
 - `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.13.md` — previous adopted baseline; retained for version history.
 - `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.14.md` — current canonical operating orchestrator, adopted through merged PR #54 on 2026-11-19.
 - `skills/README.md` and `skills/registry.md` — specialist skills and provenance.
-- `skills/website-quality-review/SKILL.md` — consolidated quality review.
+- `skills/website-quality-review/SKILL.md` — consolidated quality review.\n- `skills/gsap-motion/SKILL.md` — optional GSAP implementation with React lifecycle and reduced-motion safeguards.
 - `blueprints/starter/README.md` — Starter reference and usage boundaries.
 
 ## Supporting references
