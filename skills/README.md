@@ -1,6 +1,6 @@
 # AI Operated Web Studio — Skill Library
 
-Master Skill v1.13 remains canonical until the proposed v1.14 design-quality update is merged. v1.14 adds stronger design judgment and iterative visual convergence. Each website is run from one dedicated project conversation; GitHub stores the code and useful deliverables. Specialist skills are focused methods that the AI activates only when they help the current task.
+Master Skill v1.14 is the canonical operating method, adopted through merged PR #54 on 2026-11-19. v1.13 remains preserved as the previous baseline. Each website is run from one dedicated project conversation; GitHub stores the code and useful deliverables. Specialist skills are focused methods that the AI activates only when they help the current task.
 
 ## Operating rules
 
@@ -30,7 +30,7 @@ The four review dimensions are consolidated in `website-quality-review`: AESTHET
 
 ## Use
 
-1. Read the project conversation and the currently adopted Master Skill. Review the proposed v1.14 update when working on design strategy or iterative visual QA.
+1. Read the project conversation and Master Skill v1.14.
 2. Select only the specialist skills needed for the current question or work slice.
 3. Follow the existing website stack and relevant repository instructions.
 4. Use real browser evidence for visual claims and actual source/licence evidence for media claims.
