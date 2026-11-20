@@ -23,8 +23,6 @@
 | `design-screenshot-spec/` | Translate a chosen screenshot/reference into a measured/inferred/unknown implementation spec | Only for reference-driven implementation |
 | `frontend-layout-implementer/` | Implement a selected design in the existing stack, in bounded verifiable slices | When code changes are required |
 
-
-
 ## Website Quality Review modes
 
 The single `website-quality-review` skill consolidates methods formerly split across four skills:
