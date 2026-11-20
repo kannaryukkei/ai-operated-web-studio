@@ -26,6 +26,8 @@
 
 Activate the minimum useful set. ADES is not mandatory for every project. In ADES 2.0, there is no fixed concept count: continue only while new work adds material design insight. Keep one lead conversation as the sole project authority; temporary specialist-model sessions receive a compact packet and return one self-contained HTML preview each. The lead reviews and synthesises centrally, builds one final website, and keeps exploration-only files out of production output. Do not create parallel project management, require API keys or ask the owner to make routine design/engineering decisions.
 
+For practical setup, use `docs/ADES_QUICK_START.md`; it explains the manual one-conversation handoff, lightweight HTML review funnel and optional calibration of unfamiliar models. Reuse `docs/ADES_PROMPT.md` and `docs/ADES_PACKET_TEMPLATE.md` rather than writing vendor-specific integrations.
+
 ## Website Quality Review modes
 
 The single `website-quality-review` skill consolidates methods formerly split across four skills:
