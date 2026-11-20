@@ -16,6 +16,8 @@ This is the short pointer to the current Studio rules. It is not a project track
 
 **ADES 2.0 adopted through merged PR #61 on 2026-11-20.** It uses temporary model-agnostic specialist sessions while preserving one ChatGPT conversation as the only project gate. There is no fixed concept count: continue only while materially useful design diversity is emerging. Every specialist returns one self-contained HTML preview; the lead uses a lightweight triage funnel, synthesises, implements and reviews one final site. No APIs, dashboard or parallel workflow authority is added. Practical setup is documented in `docs/ADES_QUICK_START.md`, with the universal specialist prompt in `docs/ADES_PROMPT.md` and portable context in `docs/ADES_PACKET_TEMPLATE.md`.
 
+**ADES practical setup — 2026-11-20.** PR #62 is merged. Root `ADES_START_HERE.md` is the one-file entry point for a completely new ChatGPT pilot conversation: it contains the lead kickoff prompt, specialist HTML prompt, manual handoff steps and safety rules. The user does not need to purge AWOS or read the full repository to start ADES. AWOS remains the broader delivery/QA system; the standalone file is the minimal ADES interface.
+
 ## Operating modes
 
 - `client_service`: default for real or ambiguous client work. Claims and facts must be supported by real sources; rights, permissions and approvals must be genuine. No fabricated client facts or social proof.
