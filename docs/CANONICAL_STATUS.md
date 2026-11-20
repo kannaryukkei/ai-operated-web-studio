@@ -10,6 +10,10 @@ This is the short pointer to the current Studio rules. It is not a project track
 
 **Design-quality update adopted through PR #54.** Master Skill v1.14 is now canonical. It makes business-first design judgment, reference selection and repeated evidence-led visual critique/correction core Studio capabilities, with no arbitrary iteration cap. v1.13 is retained as the previous baseline.
 
+**Optional ADES method — 2026-11-20.** `skills/ades-exploration-synthesis/SKILL.md` adds a compact design-exploration method beneath the existing Master Skill. Activate it only when comparing distinct visual hypotheses can materially improve the result. The default output is one synthesised website; exploration previews are limited, internal and excluded from production. It adds no project workflow, dashboard, paid API or mandatory artifact package.
+
+**ADES Golden Sample:** Laundry Ceria Test 03, [PR #14](https://github.com/kannaryukkei/laundry-ceria-website/pull/14), branch `experiment/test-03-ades-exploration`, exact reference commit `f1fa930cb491b1b0318564afc03bfa767366e952`. The owner prefers the integrated design. [Run #246](https://github.com/kannaryukkei/laundry-ceria-website/actions/runs/44647860683) succeeded with the shared gate at `PASS_WITH_MANUAL_REVIEW_REQUIRED` (zero reported typography, contrast and responsive failures; manual visual review remains required). PR #14 is still open/draft/unmerged, private and synthetic. Candidate pages remain under `public/ades/`; do not deploy this branch as-is.
+
 ## Operating modes
 
 - `client_service`: default for real or ambiguous client work. Claims and facts must be supported by real sources; rights, permissions and approvals must be genuine. No fabricated client facts or social proof.
@@ -26,12 +30,14 @@ Read only these first; open a specialist skill or supporting reference when the 
 4. `docs/AI_OPERATING_WEB_STUDIO_MASTER_SKILL_v1.14.md` (adopted via merged PR #54 on 2026-11-19; v1.13 remains preserved as the previous baseline)
 5. `skills/README.md` and `skills/registry.md`
 6. `blueprints/starter/README.md` when using the Starter reference
+7. `skills/ades-exploration-synthesis/SKILL.md` only when meaningful design exploration is justified
 
 ## Active skills
 
 - Material intake: `skills/client-material-ingestion/SKILL.md`
 - UX: `skills/ux-review/SKILL.md`
 - Design strategy and judgment: `skills/design-strategy-and-judgment/SKILL.md`
+- Optional ADES exploration and synthesis: `skills/ades-exploration-synthesis/SKILL.md`
 - Art direction: `skills/frontend-design/SKILL.md`
 - Typography: `skills/typography-and-legibility/SKILL.md`
 - Reference-to-code specification: `skills/design-screenshot-spec/SKILL.md`
