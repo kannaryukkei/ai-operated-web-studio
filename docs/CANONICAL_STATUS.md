@@ -14,6 +14,8 @@ This is the short pointer to the current Studio rules. It is not a project track
 
 **ADES Golden Sample:** Laundry Ceria Test 03, [PR #14](https://github.com/kannaryukkei/laundry-ceria-website/pull/14), branch `experiment/test-03-ades-exploration`, exact reference commit `f1fa930cb491b1b0318564afc03bfa767366e952`. The owner prefers the integrated design. [Run #246](https://github.com/kannaryukkei/laundry-ceria-website/actions/runs/44647860683) succeeded with the shared gate at `PASS_WITH_MANUAL_REVIEW_REQUIRED` (zero reported typography, contrast and responsive failures; manual visual review remains required). PR #14 is still open/draft/unmerged, private and synthetic. Candidate pages remain under `public/ades/`; do not deploy this branch as-is.
 
+**ADES 2.0 expansion proposed:** use a model-agnostic specialist network while preserving one ChatGPT conversation as the only project gate. There is no fixed concept count: keep exploring while materially new design hypotheses are emerging, then stop at useful-diversity saturation. Each specialist returns one standalone HTML preview; the lead evaluates, synthesises, implements and reviews one final site. Universal handoff: `docs/ADES_PROMPT.md`; portable context/checkpoint: `docs/ADES_PACKET_TEMPLATE.md`. The detailed update is proposed as a focused follow-up; it does not add APIs, dashboards or a parallel workflow authority.
+
 ## Operating modes
 
 - `client_service`: default for real or ambiguous client work. Claims and facts must be supported by real sources; rights, permissions and approvals must be genuine. No fabricated client facts or social proof.
@@ -57,6 +59,7 @@ These are optional, task-specific aids, not a mandatory artifact package:
 - Website-quality benchmark: `docs/HOSTINGER_GOOD_WEBSITE_BENCHMARK_v1.0.md` (15 Hostinger qualities plus the source's Design, Functionality, Features, SEO and UX factors; conditional criteria remain N/A when irrelevant).
 - Improvement: `docs/MASTER_SKILL_CALIBRATION_PROTOCOL_v1.0.md`, `docs/EXPERIMENT_CALIBRATION_RECORD_TEMPLATE_v1.0.md`
 - Visual refinement: `docs/VISUAL_ENHANCEMENT_WORKFLOW_v1.1.md` (iterative critique/fix loop; no preset round limit)
+- ADES cross-model handoff: `docs/ADES_PROMPT.md` and `docs/ADES_PACKET_TEMPLATE.md` (only when temporary specialist models or cross-session continuity are useful)
 - Blueprint provenance and cross-pilot learning: `docs/BLUEPRINT_MIGRATION_DECISION.md`, `docs/EXPERIMENT_03_SYSTEM_LEARNINGS.md`, `blueprints/starter/KALA_PILOT_LEARNINGS.md`
 
 ## Architecture retirement

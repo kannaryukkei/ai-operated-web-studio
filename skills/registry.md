@@ -18,13 +18,13 @@
 | Skill | Responsibility | Activation |
 |---|---|---|
 | `design-strategy-and-judgment/` | Business-first design strategy, reference judgment and conversion-led visual direction | Before establishing or materially revising visual direction |
-| `ades-exploration-synthesis/` | Explore up to three lightweight, genuinely distinct design hypotheses; evaluate and synthesise one coherent direction | Optional, when a new brand/site needs differentiation and the visual direction is genuinely open |
+| `ades-exploration-synthesis/` | Coordinate adaptive model-agnostic exploration, maximum useful design diversity, compact HTML handoffs, central synthesis and one final website | Optional, when meaningful design uncertainty remains and external model exploration can improve the result |
 | `frontend-design/` | Subject-grounded art direction, originality and design critique | When establishing or materially revising visual direction; use `website-reference-discovery` first when useful references are not yet known |
 | `typography-and-legibility/` | Type-role system and rendered readability | When defining or auditing typography |
 | `design-screenshot-spec/` | Translate a chosen screenshot/reference into a measured/inferred/unknown implementation spec | Only for reference-driven implementation |
 | `frontend-layout-implementer/` | Implement a selected design in the existing stack, in bounded verifiable slices | When code changes are required |
 
-Activate the minimum useful set. ADES is not mandatory for every project: prototype only enough to compare the directions, build one final website, and keep all exploration-only files out of production output. Do not run every reviewer on every page or ask the owner to make routine design/engineering decisions.
+Activate the minimum useful set. ADES is not mandatory for every project. In ADES 2.0, there is no fixed concept count: continue only while new work adds material design insight. Keep one lead conversation as the sole project authority; temporary specialist-model sessions receive a compact packet and return one self-contained HTML preview each. The lead reviews and synthesises centrally, builds one final website, and keeps exploration-only files out of production output. Do not create parallel project management, require API keys or ask the owner to make routine design/engineering decisions.
 
 ## Website Quality Review modes
 
