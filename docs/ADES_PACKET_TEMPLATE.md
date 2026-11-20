@@ -26,6 +26,9 @@
 - Existing owner-preferred design/baseline to preserve:
 
 ## Assignment for this AI
+- AI model / agent label:
+- Assignment ID:
+- Wave: independent first pass / targeted gap-filling
 - Target: whole page / hero / navigation / pricing / service section / process / trust / CTA / other
 - Design question:
 - Assigned exploration lens:
@@ -35,6 +38,8 @@
 - Reference material (optional):
 
 ## Compact exploration checkpoint
+
+> Keep entries short. This is a coverage note, not a full design archive. Copy the packet per specialist assignment; do not share the whole checkpoint when only one section is relevant.
 | Area | Hypotheses already explored | Useful insight / rejected repetition | Remaining gap |
 |---|---|---|---|
 | Overall visual direction | | | |
@@ -59,6 +64,8 @@
 - The file is a private design preview, not production code.
 - Do not edit the repository, create a PR, deploy, contact anyone or make external changes.
 - Do not invent missing facts, proof, assets, permissions or working actions.
+- First-wave rule: do not receive other explorers' concepts before returning this independent hypothesis.
+- Send only this assignment's relevant context; do not require or reproduce the full project conversation.
 - Filename:
 - Status: NOT STARTED / REQUESTED / RETURNED / REVIEWED
 
