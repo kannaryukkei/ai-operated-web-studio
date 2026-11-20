@@ -1,5 +1,7 @@
 # AI Operated Web Studio
 
+**To start ADES in a completely new ChatGPT conversation, begin with [`ADES_START_HERE.md`](ADES_START_HERE.md).** It is the standalone one-file pilot kit; the rest of AWOS remains the broader website delivery and QA system.
+
 An AI-operated website delivery practice. Each website project is run from one dedicated ChatGPT conversation. The conversation is the working centre for context, scope, decisions, execution, QA and next actions; GitHub stores website source and useful deliverables.
 
 ## Operating model
