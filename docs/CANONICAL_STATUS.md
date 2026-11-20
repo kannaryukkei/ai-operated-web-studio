@@ -14,7 +14,7 @@ This is the short pointer to the current Studio rules. It is not a project track
 
 **ADES Golden Sample:** Laundry Ceria Test 03, [PR #14](https://github.com/kannaryukkei/laundry-ceria-website/pull/14), branch `experiment/test-03-ades-exploration`, exact reference commit `f1fa930cb491b1b0318564afc03bfa767366e952`. The owner prefers the integrated design. [Run #246](https://github.com/kannaryukkei/laundry-ceria-website/actions/runs/44647860683) succeeded with the shared gate at `PASS_WITH_MANUAL_REVIEW_REQUIRED` (zero reported typography, contrast and responsive failures; manual visual review remains required). PR #14 is still open/draft/unmerged, private and synthetic. Candidate pages remain under `public/ades/`; do not deploy this branch as-is.
 
-**ADES 2.0 expansion proposed:** use a model-agnostic specialist network while preserving one ChatGPT conversation as the only project gate. There is no fixed concept count: keep exploring while materially new design hypotheses are emerging, then stop at useful-diversity saturation. Each specialist returns one standalone HTML preview; the lead evaluates, synthesises, implements and reviews one final site. Universal handoff: `docs/ADES_PROMPT.md`; portable context/checkpoint: `docs/ADES_PACKET_TEMPLATE.md`. The detailed update is proposed as a focused follow-up; it does not add APIs, dashboards or a parallel workflow authority.
+**ADES 2.0 adopted through merged PR #61 on 2026-11-20.** It uses temporary model-agnostic specialist sessions while preserving one ChatGPT conversation as the only project gate. There is no fixed concept count: continue only while materially useful design diversity is emerging. Every specialist returns one self-contained HTML preview; the lead uses a lightweight triage funnel, synthesises, implements and reviews one final site. No APIs, dashboard or parallel workflow authority is added. Practical setup is documented in `docs/ADES_QUICK_START.md`, with the universal specialist prompt in `docs/ADES_PROMPT.md` and portable context in `docs/ADES_PACKET_TEMPLATE.md`.
 
 ## Operating modes
 
@@ -60,6 +60,7 @@ These are optional, task-specific aids, not a mandatory artifact package:
 - Improvement: `docs/MASTER_SKILL_CALIBRATION_PROTOCOL_v1.0.md`, `docs/EXPERIMENT_CALIBRATION_RECORD_TEMPLATE_v1.0.md`
 - Visual refinement: `docs/VISUAL_ENHANCEMENT_WORKFLOW_v1.1.md` (iterative critique/fix loop; no preset round limit)
 - ADES cross-model handoff: `docs/ADES_PROMPT.md` and `docs/ADES_PACKET_TEMPLATE.md` (only when temporary specialist models or cross-session continuity are useful)
+- ADES quick start: `docs/ADES_QUICK_START.md` (manual model handoff, review triage and optional new-model calibration)
 - Blueprint provenance and cross-pilot learning: `docs/BLUEPRINT_MIGRATION_DECISION.md`, `docs/EXPERIMENT_03_SYSTEM_LEARNINGS.md`, `blueprints/starter/KALA_PILOT_LEARNINGS.md`
 
 ## Architecture retirement

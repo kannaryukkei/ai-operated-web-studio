@@ -140,6 +140,19 @@ The synthesis is not a collage. Choose one dominant visual grammar and borrow on
 
 Do not let a confident model explanation substitute for actual visual quality. Do not select a design merely because it is bold, polished, unusual or easy to implement.
 
+## 5A. Lead review funnel — keep review cost low
+
+The lead must not give every candidate a full design audit. Use a staged funnel:
+
+1. **Metadata skim:** read the embedded `ADES_CONCEPT` block first. Capture only agent, concept ID, target/section, hypothesis and assumptions. Reject files that violate the packet or do not answer the assignment.
+2. **Fast visual triage:** render/open the candidate where the available environment supports it. Inspect the assigned section and overall composition at a useful scale. Do not read every line of implementation code unless a functional or safety question requires it.
+3. **Deduplicate by idea:** cluster candidates that share essentially the same composition, hierarchy, metaphor or visitor journey. Keep the stronger/clearer representative; do not count palette and copy swaps as new directions.
+4. **Deep-review useful outliers:** inspect the materially distinct candidates against the same business/visitor criteria. Keep only ideas that could change the synthesis.
+5. **Targeted second wave:** delegate only the unresolved design gaps or underexplored sections. Give the next explorer a precise assignment and a short list of already-rejected patterns.
+6. **Saturate and stop:** stop when another candidate is unlikely to add a new useful design principle, improve a material visitor outcome or resolve uncertainty. Record the stop reason briefly.
+
+No fixed candidate or finalist count is required. Review depth should be proportional to potential impact. If a candidate cannot be rendered/visually inspected, label the assessment accordingly; source-code inspection alone is not a visual verdict. The owner should not be asked to inspect a pile of raw alternatives.
+
 ## 6. Build one final website
 
 Only the lead model integrates and implements the selected synthesis in the real project:
