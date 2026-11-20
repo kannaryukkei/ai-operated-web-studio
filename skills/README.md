@@ -29,12 +29,6 @@ Master Skill v1.14 is the canonical operating method, adopted through merged PR 
 
 The four review dimensions are consolidated in `website-quality-review`: AESTHETIC, VISUAL_FIDELITY, INTERFACE and ACCEPTANCE. They remain distinct verdicts; one does not substitute for another.
 
-
-- `docs/ADES_PROMPT.md` — universal prompt for temporary specialist AI explorers.
-- `docs/ADES_PACKET_TEMPLATE.md` — compact portable project checkpoint for cross-model or cross-session work.
-- `docs/ADES_QUICK_START.md` — one-minute manual setup, review funnel and new-model calibration.
-- The lead project conversation remains the one authority; specialist sessions are disposable and return one standalone HTML file each. No API key or dashboard is required.
-
 ## Use
 
 1. Read the project conversation and Master Skill v1.14.
